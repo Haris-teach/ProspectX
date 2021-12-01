@@ -10,12 +10,17 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "^1.15.14",
     "@react-navigation/native": "^6.0.6",
     "@react-navigation/native-stack": "^6.2.5",
+    "link": "^0.1.5",
     "react": "17.0.2",
-    "react-native": "0.66.3",
+    "react-native": "^0.66.3",
+    "react-native-responsive-screen": "^1.4.2",
     "react-native-safe-area-context": "^3.3.2",
-    "react-native-screens": "^3.9.0"
+    "react-native-screens": "^3.9.0",
+    "react-native-svg": "^12.1.1",
+    "react-native-svg-transformer": "^0.14.3"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
