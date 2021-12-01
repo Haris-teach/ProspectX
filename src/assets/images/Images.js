@@ -1,6 +1,7 @@
 
 const images = {
-    splashBackground: require('./splashbackground.png')
+    splashBackground: require('./splashbackground.png'),
+    loginBackground: require ('./loginimage.png')
 }
 
 
