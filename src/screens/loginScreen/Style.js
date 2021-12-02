@@ -1,8 +1,9 @@
 import { StyleSheet } from "react-native";
 import { heightPercentageToDP  as hp , widthPercentageToDP as wp} from "react-native-responsive-screen";
 import colors from "../../assets/Colors/Colors";
+import fonts from "../../assets/Fonts/Fonts";
 
-const Styles = StyleSheet.create({
+const styles = StyleSheet.create({
 imageBackground:{
     flex:1
 },
@@ -26,6 +27,8 @@ labelStyle:{
     paddingHorizontal:wp(4),
     paddingVertical:hp(1.5),
     height:hp(3.9),
+    fontFamily:fonts.regular,
+    fontWeight:'400',
     color:colors.fieldtitleColor
 },
 inputRow:{
@@ -54,16 +57,20 @@ inputContainer:{
 forgotStyle:{
     color:colors.likeBlackColor,
     fontSize:wp(3),
+    fontFamily:fonts.regular,
     fontWeight:'600'
 },
 signinStyle:{
     color:colors.titleColor,
     fontSize:wp(7.7),
-
+    fontFamily:fonts.regular,
+    fontWeight:'400'
 },
 enterEmailStyle:{
     color:colors.subtitleColor,
     fontSize:wp(4),
+    fontFamily:fonts.regular,
+    fontWeight:'400'
 },
 gradientView:{
     justifyContent:'flex-end',
@@ -88,4 +95,4 @@ textFieldStyle:{
 }
 });
 
-export default Styles
+export default styles

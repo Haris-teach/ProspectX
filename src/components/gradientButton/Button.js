@@ -2,19 +2,26 @@
 import React from "react";
 import { heightPercentageToDP as hp , widthPercentageToDP as wp} from "react-native-responsive-screen";
 import LinearGradient from 'react-native-linear-gradient';
-import {Button, StyleSheet} from "react-native"
+import {StyleSheet, TouchableOpacity,Text} from "react-native"
 
 //=========================================== Local Import Files =============================================
 
+import fonts from "../../assets/Fonts/Fonts";
 import colors from "../../assets/Colors/Colors";
 
 const GradientButton = (props)=>{
 
-    return ( <LinearGradient colors={[    '#6FB3FF',    '#7F5AFF' ]}
-    style={Styles.gradientStyle} 
-    start={{ y: 0.0, x: 0.0 }} end={{ y: 0.0, x: 1.0 }}>
+    return ( 
+    <LinearGradient colors={[    '#6FB3FF',    '#7F5AFF' ]}
+      style={styles.gradientStyle} 
+      start={{ y: 0.0, x: 0.0 }} end={{ y: 0.0, x: 1.0 }}>
 
-    <Button  onPress={props.onPress} fontWeight={'bold'}  color={colors.whiteColor} style={Styles.buttonStyle}title={`${props.title}`}/>
+    <TouchableOpacity 
+      onPress={props.onPress}  
+      style={styles.buttonStyle}
+      >
+        <Text style={styles.textStyle}>{props.title}</Text>
+      </TouchableOpacity>
 
 </LinearGradient>)
 
@@ -24,18 +31,25 @@ export default GradientButton;
 
 
 
-const Styles = StyleSheet.create({
+const styles = StyleSheet.create({
   gradientStyle:{
     borderRadius: wp(7), 
     width: '95%',
     alignSelf:'center',
     height:hp(6),
+    fontFamily:fonts.regular,
     justifyContent:'center',
   },
   buttonStyle:{
-    borderRadius: wp(7), 
-    width: '90%',
-    textAlign: 'center',
-    fontWeight:'bold',
+    width: '100%',
+    height:hp(6),
+    justifyContent:'center',
+    alignItems:"center",
+  },
+  textStyle:{
+      fontSize:wp(4.5),
+      fontWeight:'800',
+      fontFamily:fonts.regular,
+      color:colors.whiteColor
   }
 })
