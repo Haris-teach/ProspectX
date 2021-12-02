@@ -5,8 +5,9 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator} from "@react-navigation/native-stack";
 
 //======================================= Local Import Files ===============================
-import LoginScreen from './screens/loginScreen/Login';
-import SplashScreen from './screens/splashScreen/Splash';
+import LoginScreen from './screens/loginScreen/Index';
+import SplashScreen from './screens/splashScreen/Index';
+import { LOGIN_SCREEN, SPLASH_SCREEN } from './constants/Navigator';
 
 
 
@@ -14,9 +15,9 @@ const RootStack = createNativeStackNavigator();
 const Stack = ()=>{
     return (
         <NavigationContainer>
-            <RootStack.Navigator initialRouteName={'SplashScreen'} screenOptions={{headerShown:false}}>
-            <RootStack.Screen name = {"SplashScreen"} component = {SplashScreen}/>
-            <RootStack.Screen name = {"LoginScreen"}  component = {LoginScreen}/>
+            <RootStack.Navigator initialRouteName={SPLASH_SCREEN} screenOptions={{headerShown:false}}>
+            <RootStack.Screen name={SPLASH_SCREEN} component={SplashScreen}/>
+            <RootStack.Screen name={LOGIN_SCREEN}  component={LoginScreen}/>
             </RootStack.Navigator>
         </NavigationContainer>
         );

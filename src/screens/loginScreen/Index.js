@@ -1,21 +1,20 @@
 //========================================== React Native Import Files ===========================
 
 import React, { useState } from "react";
-import { ImageBackground, View,Text, TouchableOpacity,ScrollView} from "react-native";
+import { ImageBackground, View,Text, TouchableOpacity,ScrollView, TextInput} from "react-native";
 
 //========================================== Local Import Files ===================================
-import images from "../../assets/images/Images";
+import images from "../../assets/Images/Images";
 import Styles from "./Style";
-import LoginImage from "../../assets/images/loginImage.svg"
-import User from "../../assets/images/user.svg";
-import Lock from "../../assets/images/lock.svg";
-import TextField from "../../components/textInput/TextInput";
-import colors from "../../assets/colors/Colors";
-import EyeOn from "../../assets/images/eye.svg";
-import EyeOff from "../../assets/images/eyeoff.svg"
-import GradientButton from "../../components/gradientButton/Button";
+import LoginImage from "../../assets/Images/loginImage.svg"
+import User from "../../assets/Images/user.svg";
+import Lock from "../../assets/Images/lock.svg";
+import colors from "../../assets/Colors/Colors";
+import EyeOn from "../../assets/Images/eye.svg";
+import EyeOff from "../../assets/Images/eyeoff.svg"
+import GradientButton from "../../components/GradientButton/Button";
 import KeyboardAvoidingView from "react-native/Libraries/Components/Keyboard/KeyboardAvoidingView";
-import { heightPercentageToDP } from "react-native-responsive-screen";
+import { EMAIL_LABEL, EMAIL_PLACEHOLDER, ENTER_EMAIL_PASSWORD, FORGOT_PASSWORD_LABEL, LOGIN_BUTTON_TITTLE, PASSWORD_LABEL, PASSWORD_PLACEHOLDER, SIGN_IN } from "../../constants/ConstStrings";
 const LoginScreen = ()=>{
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
@@ -31,60 +30,55 @@ return (
    </View>
    <View style={Styles.bottomContainer}>
        <View style={Styles.firstColumn}>
-            <Text style={Styles.signinStyle}>Sign in</Text>
-            <Text style={Styles.enterEmailStyle}>Enter your email address and password</Text>
+            <Text style={Styles.signinStyle}>{SIGN_IN}</Text>
+            <Text style={Styles.enterEmailStyle}>{ENTER_EMAIL_PASSWORD}</Text>
        </View>
        <View style={Styles.inputViewStyle}>
        <View style={Styles.inputContainer}>
-           <Text style={Styles.labelStyle}>Enter your email</Text>
-           <View style={Styles.inputRowView}>
+           <Text style={Styles.labelStyle}>{EMAIL_LABEL}</Text>
            <View style={Styles.inputRow}>
         <User/>
-       <TextField
-            placeholder={'Email'}
-            placeHolderColor={colors.fieldtitleColor}
+        <TextInput
+            placeholder={EMAIL_PLACEHOLDER}
+            placeholderTextColor={colors.fieldtitleColor}
             value = {email}
+            style={Styles.textFieldStyle}
             keyboardType = {'email-address'}
             secureTextEntry={false}
             onChangeText={(email) => setEmail(email)}
-       />
-               </View>
-          
+       />          
            </View>
        </View>
        <View style={Styles.inputContainer}>
-           <Text style={Styles.labelStyle}>Password</Text>
-           <View style={Styles.inputRowView}>
+           <Text style={Styles.labelStyle}>{PASSWORD_LABEL}</Text>
            <View style={Styles.inputRow}>
         <Lock/>
-        <TextField
-            placeholder={'Password'}
-            placeHolderColor={colors.fieldtitleColor}
+        <TextInput
+            placeholder={PASSWORD_PLACEHOLDER}
+            placeholderTextColor={colors.fieldtitleColor}
             value = {password}
+            style={Styles.textFieldStyle}
             secureTextEntry={securePass}
             onChangeText={(password) => setPassword(password)}
        />
-       <TouchableOpacity onPress = {()=> setSecurePass(!securePass)}>
+       <TouchableOpacity  onPress = {()=> setSecurePass(!securePass)}>
      {securePass === false ? <EyeOn/> : <EyeOff/>}
      
        </TouchableOpacity>
            </View>
-           </View>
-           
        </View>
        </View>
        <View style={Styles.gradientView}>
       <GradientButton
          onPress = {()=>alert('Login Pressed')}
-         title={'Login'}  
+         title={LOGIN_BUTTON_TITTLE}  
       />
 </View>
 <TouchableOpacity style={Styles.forgotView}>
-    <Text style={Styles.forgotStyle}>Forgot Password?</Text>
+    <Text style={Styles.forgotStyle}>{FORGOT_PASSWORD_LABEL}</Text>
 </TouchableOpacity>
 </View>
 </ScrollView>
-
 </ImageBackground>
 </KeyboardAvoidingView>
 )

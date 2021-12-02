@@ -5,14 +5,11 @@ import { ImageBackground, View, } from "react-native";
 
 //====================================== Local Import Files ===========================================
 import Styles from "./Styles";
-import SplashIcon from "../../assets/images/splashicon.svg";
-import images from "../../assets/images/Images";
-
-
-
+import SplashIcon from "../../assets/Images/splashicon.svg";
+import images from "../../assets/Images/Images";
+import { LOGIN_SCREEN } from "../../constants/Navigator";
 
 const SplashScreen = (props)=>{
-   
 
     useEffect(() => {
         checkUser();
@@ -21,7 +18,7 @@ const SplashScreen = (props)=>{
 
     const checkUser = () => {
         setTimeout(() => {
-            props.navigation.replace("LoginScreen")
+            props.navigation.replace(LOGIN_SCREEN)
         },2000)
     }
 

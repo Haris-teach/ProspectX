@@ -6,7 +6,7 @@ import {Button, StyleSheet} from "react-native"
 
 //=========================================== Local Import Files =============================================
 
-import colors from "../../assets/colors/Colors";
+import colors from "../../assets/Colors/Colors";
 
 const GradientButton = (props)=>{
 
@@ -17,8 +17,6 @@ const GradientButton = (props)=>{
     <Button  onPress={props.onPress} fontWeight={'bold'}  color={colors.whiteColor} style={Styles.buttonStyle}title={`${props.title}`}/>
 
 </LinearGradient>)
-
-
 
 
 }
