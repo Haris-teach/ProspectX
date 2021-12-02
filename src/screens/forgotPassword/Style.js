@@ -25,7 +25,6 @@ const styles = StyleSheet.create({
         width:wp(90),
         alignSelf:'center',
         justifyContent:'center',
-        // backgroundColor:'yellow'
     },
     resendCodeStyle:{
         alignSelf:'center',
