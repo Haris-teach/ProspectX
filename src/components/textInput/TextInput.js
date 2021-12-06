@@ -1,8 +1,7 @@
 //========================================= React Native Import Files =================================
 
 import React from "react";
-import { TextInput,StyleSheet,View ,Text} from "react-native";
-import { heightPercentageToDP as hp ,  } from "react-native-responsive-screen";
+import { TextInput,View ,Text} from "react-native";
 
 //========================================= Local Import Files =======================================
 
@@ -22,7 +21,6 @@ return (
             value = {props.value}
             style={AllStyles.textFieldStyle}
             keyboardType = {'email-address'}
-            secureTextEntry={false}
             onChangeText={props.onChange}
        />          
            </View>

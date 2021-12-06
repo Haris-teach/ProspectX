@@ -6,7 +6,8 @@ import SwipeButton from 'rn-swipe-button';
 import images from "../../assets/Images/Images"
 import AllStyles from "../../all_styles/All_Styles"
 import colors from "../../assets/Colors/Colors";
-import { INCOMING_NUMBER, INCOMING_STATUS } from "../../constants/ConstStrings";
+import { INCOMING_NUMBER, INCOMING_STATUS, SWIPEBTNTITLE } from "../../constants/ConstStrings";
+import fonts from "../../assets/Fonts/Fonts";
 const IncomingCalls = ()=>{
 return(<ImageBackground source={images.splashBackground} style={AllStyles.mainContainer}>
   <View style={AllStyles.incomingCallStartView}>
@@ -20,10 +21,10 @@ return(<ImageBackground source={images.splashBackground} style={AllStyles.mainCo
       <SwipeButton
             enableRightToLeftSwipe ={true}
             onSwipeSuccess={() => alert('success')}
-            railBackgroundColor={'rgba(255, 255, 255, 0.46)'}
+            railBackgroundColor={colors.railbackgroundColor}
             railBorderColor={colors.whiteColor}
-            railFillBackgroundColor={'rgba(255, 255, 255, 0.17)'}
-            thumbIconBackgroundColor={'#00AB08'}
+            railFillBackgroundColor={colors.railFillBackgroundColor}
+            thumbIconBackgroundColor={colors.thumbIconBackgroundColor}
             enableRightToLeftSwipe={30}
             thumbIconBorderColor={'transparent'}
             shouldResetAfterSuccess={true}            
@@ -31,8 +32,9 @@ return(<ImageBackground source={images.splashBackground} style={AllStyles.mainCo
             resetAfterSuccessAnimDuration={20}
             thumbIconImageSource= {images.incomingPng}
             height={68}
+            titleStyles={fonts.semiBold}
             width={300}
-            title="Slide to answer"
+            title={SWIPEBTNTITLE}
           />
       </View>
  </View>

@@ -78,13 +78,11 @@ const AllStyles = {
         color:colors.titleColor,
         fontSize:wp(7.7),
         fontFamily:fonts.regular,
-        fontWeight:'400'
     },
     enterEmailStyle:{
         color:colors.subtitleColor,
         fontSize:wp(4),
         fontFamily:fonts.regular,
-        fontWeight:'400'
     },
     gradientView:{
         justifyContent:'flex-end',
@@ -134,7 +132,8 @@ const AllStyles = {
     textFieldStyle:{
         fontSize:wp(4),
         flex:1,
-        marginLeft:wp(3)
+        marginLeft:wp(3),
+        fontFamily:fonts.medium
     },
     mainContainer:{
         flex:1,
@@ -215,6 +214,7 @@ const AllStyles = {
     textFieldStyle:{
         fontSize:wp(4),
         flex:1,
+        fontFamily:fonts.medium,
         marginLeft:wp(3)
     },
     incomingCallStartView:{
@@ -224,17 +224,19 @@ const AllStyles = {
         alignSelf:'center',justifyContent:'space-between',flex:0.45
     },
     incomingNumberStyle:{
-        fontSize:wp(8)
+        fontSize:wp(8),
+        fontFamily:fonts.regular
     },
     incomingRingingStyle:{
-        alignSelf:'center',fontSize:wp(6),fontFamily:fonts.regular,fontStyle:'normal'
+        alignSelf:'center',fontSize:wp(6),fontFamily:fonts.light
     },
     incomingBottomStyle:{
         flex:0.8,justifyContent:'flex-end'
     },
     incomingSwipeBtnStyle:{
         flex:0.25,justifyContent:'flex-start',alignSelf:'center'
-    }
+    },
+
 }
 export default AllStyles;
 

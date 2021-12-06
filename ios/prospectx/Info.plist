@@ -36,7 +36,7 @@
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -46,6 +46,10 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>SFProText-Regular.ttf</string>
+		<string>SFProDisplay-Heavy.ttf</string>
+		<string>SFProDisplay-Light.ttf</string>
+		<string>SFProDisplay-Medium.ttf</string>
+		<string>SFProDisplay-Semibold.ttf</string>
 	</array>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>

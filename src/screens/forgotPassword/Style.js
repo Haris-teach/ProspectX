@@ -29,8 +29,7 @@ const styles = StyleSheet.create({
     resendCodeStyle:{
         alignSelf:'center',
         paddingVertical:hp(3),
-        fontFamily:fonts.regular,
-        fontWeight:'600',
+        fontFamily:fonts.semiBold,
         fontSize:hp(1.5)
     },
     startView:{
@@ -45,14 +44,12 @@ const styles = StyleSheet.create({
         color:colors.titleColor,
         fontSize:wp(3.5),
         paddingVertical:hp(2),
-        fontWeight:'400',
         fontFamily:fonts.regular
     },
     titleTextStyle:{
         color:colors.titleColor,
         fontSize:wp(7),
         fontFamily:fonts.regular,
-        fontWeight:'400'
     },
     inputContainer:{
         backgroundColor:colors.whiteColor,

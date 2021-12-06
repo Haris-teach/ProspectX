@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
   textStyle:{
       fontSize:wp(4.5),
       fontWeight:'800',
-      fontFamily:fonts.regular,
+      fontFamily:fonts.heavy,
       color:colors.whiteColor
   }
 })

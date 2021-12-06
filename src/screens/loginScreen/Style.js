@@ -48,7 +48,7 @@ inputRowView:{
 forgotStyle:{
     color:colors.likeBlackColor,
     fontSize:wp(3),
-    fontFamily:fonts.regular,
+    fontFamily:fonts.semiBold,
     fontWeight:'600'
 },
 signinStyle:{
