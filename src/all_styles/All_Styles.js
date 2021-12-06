@@ -43,7 +43,7 @@ const AllStyles = {
     resetInputRow:{
         flexDirection:'row',
         paddingHorizontal:wp(5),
-        paddingVertical:hp(1.5),
+        paddingVertical:hp(1.1),
         alignItems:'center',
         justifyContent:'space-between',
         width:wp(90),
@@ -216,6 +216,24 @@ const AllStyles = {
         fontSize:wp(4),
         flex:1,
         marginLeft:wp(3)
+    },
+    incomingCallStartView:{
+        flex:0.25,justifyContent:'flex-end'
+    },
+    incomingCallInnerView:{
+        alignSelf:'center',justifyContent:'space-between',flex:0.45
+    },
+    incomingNumberStyle:{
+        fontSize:wp(8)
+    },
+    incomingRingingStyle:{
+        alignSelf:'center',fontSize:wp(6),fontFamily:fonts.regular,fontStyle:'normal'
+    },
+    incomingBottomStyle:{
+        flex:0.8,justifyContent:'flex-end'
+    },
+    incomingSwipeBtnStyle:{
+        flex:0.25,justifyContent:'flex-start',alignSelf:'center'
     }
 }
 export default AllStyles;

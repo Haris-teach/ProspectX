@@ -9,6 +9,8 @@ import {RESET_PASSWORD_TITLE,RESET_PASSWORD_SUBTEXT,ENTER_PASSWORD_LABEL,PASSWOR
 import PasswordField from "../../components/PasswordInput/PasswordInput";
 import Lock from "../../assets/Images/lock.svg";
 import GradientButton from "../../components/GradientButton/Button";
+import IncomingCalls from "../incomingCallScreen/Index";
+import { INCOMING_CALLS } from "../../constants/Navigator";
 const ResetPassword = (props)=>{
  
      const [newPassword,setNewPassword] = useState('')  
@@ -47,7 +49,7 @@ const ResetPassword = (props)=>{
        </View>
        <View style={AllStyles.resetGradientView}>
       <GradientButton
-         onPress = {()=>alert('Pressed')}
+         onPress = {()=>props.navigation.navigate(INCOMING_CALLS)}
          title={RESET_BUTTON_TEXT}  
       />
 </View>

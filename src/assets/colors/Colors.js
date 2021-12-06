@@ -6,5 +6,6 @@ const colors = {
    whiteColor:'#FFFFFF',
    buttonShadowColor:'rgba(14, 34, 71, 0.26)',
    viewShadowColor:'rgba(115, 98, 182, 0.08)',
+   purpleColor:'#7B6CFF'
 }
 export default colors;
