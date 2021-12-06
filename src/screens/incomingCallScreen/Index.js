@@ -8,7 +8,9 @@ import AllStyles from "../../all_styles/All_Styles"
 import colors from "../../assets/Colors/Colors";
 import { INCOMING_NUMBER, INCOMING_STATUS, SWIPEBTNTITLE } from "../../constants/ConstStrings";
 import fonts from "../../assets/Fonts/Fonts";
-const IncomingCalls = ()=>{
+import { useLinkProps } from "@react-navigation/native";
+import { CALL_START } from "../../constants/Navigator";
+const IncomingCalls = (props)=>{
 return(<ImageBackground source={images.splashBackground} style={AllStyles.mainContainer}>
   <View style={AllStyles.incomingCallStartView}>
       <View style={AllStyles.incomingCallInnerView}>
@@ -20,7 +22,8 @@ return(<ImageBackground source={images.splashBackground} style={AllStyles.mainCo
       <View style={AllStyles.incomingSwipeBtnStyle}>
       <SwipeButton
             enableRightToLeftSwipe ={true}
-            onSwipeSuccess={() => alert('success')}
+            onSwipeSuccess={() =>props.navigation.navigate(CALL_START)
+            }
             railBackgroundColor={colors.railbackgroundColor}
             railBorderColor={colors.whiteColor}
             railFillBackgroundColor={colors.railFillBackgroundColor}

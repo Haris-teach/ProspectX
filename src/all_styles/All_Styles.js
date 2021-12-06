@@ -233,10 +233,34 @@ const AllStyles = {
     incomingBottomStyle:{
         flex:0.8,justifyContent:'flex-end'
     },
-    incomingSwipeBtnStyle:{
-        flex:0.25,justifyContent:'flex-start',alignSelf:'center'
+    callStartBottomView:{
+    flex:0.45,
+    justifyContent:'flex-end'
     },
-
+    incomingSwipeBtnStyle:{
+        flex:0.25,justifyContent:'center',alignSelf:'center',alignItems:'center'
+    },
+    callStartButtonRow:{
+   
+        
+        width:wp(40),
+        flexDirection:'row',
+        justifyContent:'space-between',
+        
+        alignSelf:'center'
+    },
+    startCallMikeView:{
+        backgroundColor:colors.whiteColor,height:hp(7),width:wp(15),borderRadius:wp(20),justifyContent:'center',alignContent:'center',alignItems:'center'
+    },
+    startCallSpeakerView:{
+        backgroundColor:colors.whiteColor,height:hp(7),width:wp(15),borderRadius:wp(20),justifyContent:'center',alignContent:'center',alignItems:'center'
+    },
+    startCallBottomView:{
+        flex:0.3,justifyContent:'center',alignItems:'center'
+    },
+    startCallDeclineButton:{
+        backgroundColor:'red',height:hp(8),width:wp(17),justifyContent:'center',borderRadius:wp(20),alignItems:'center'
+    }
 }
 export default AllStyles;
 
