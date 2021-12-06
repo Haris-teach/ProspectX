@@ -11,6 +11,7 @@ import { DESC_TEXT, EMAIL_LABEL,EMAIL_PLACEHOLDER,FORGOT_PASSWORD_TITLE, RESEND_
 import User from "../../assets/Images/user.svg";
 import TextField from "../../components/TextInput/TextInput";
 import GradientButton from "../../components/GradientButton/Button";
+import { RESET_PASSWORD } from "../../constants/Navigator";
 const ForgotPassword = (props)=>{
 
     const [email,setEmail] = useState('')
@@ -42,7 +43,7 @@ const ForgotPassword = (props)=>{
         <View style={styles.bottomView}>
         <GradientButton 
             title={SUBMIT}
-            onPress={()=> alert('Submit Press')}
+            onPress={()=> props.navigation.navigate(RESET_PASSWORD)}
         />
         <Text style={styles.resendCodeStyle}>{RESEND_CODE}</Text>
         </View>

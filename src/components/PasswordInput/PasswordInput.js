@@ -17,7 +17,7 @@ const PasswordField = (props)=>{
 return (  
  <View style={AllStyles.inputContainer}>
            <Text style={AllStyles.labelStyle}>{props.title}</Text>
-           <View style={AllStyles.inputRow}>
+           <View style={AllStyles.resetInputRow}>
         {props.svg}
         <TextInput
             placeholder={props.placeholder}

@@ -31,7 +31,6 @@ const AllStyles ={
         paddingVertical:hp(3),
         height:hp(14)
     },
-    
     labelStyle:{
         alignSelf:'flex-start',
         paddingHorizontal:wp(4),
@@ -41,9 +40,9 @@ const AllStyles ={
         fontWeight:'400',
         color:colors.fieldtitleColor
     },
-    inputRow:{
+    resetInputRow:{
         flexDirection:'row',
-        paddingHorizontal:wp(4),
+        paddingHorizontal:wp(5),
         paddingVertical:hp(1.5),
         alignItems:'center',
         justifyContent:'space-between',
@@ -86,17 +85,23 @@ const AllStyles ={
         justifyContent:'flex-end',
         height:hp(18),
         shadowColor:colors.buttonShadowColor,
-        // shadowOpacity:100,
-        // shadowRadius:200,
+    },
+    resetGradientView:{
+        justifyContent:'flex-start',
+        height:hp(18),
+        width:wp(90),
+        alignSelf:'center',
+        shadowColor:colors.buttonShadowColor,
     },
     forgotView:{
         alignSelf:'center',
         justifyContent:'flex-end',
         height:hp(5)
     },
-    inputViewStyle:{
-        height:hp(20),
-        justifyContent:'space-between'
+    resetinputViewStyle:{
+        height:hp(23),
+        justifyContent:'space-between',
+        
     },
     textFieldStyle:{
         fontSize:wp(4),

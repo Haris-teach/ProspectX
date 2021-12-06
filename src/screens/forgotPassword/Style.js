@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
         fontSize:hp(1.5)
     },
     startView:{
-        height:hp(50),
+        height:hp(51.5),
         width:wp(90),
         alignSelf:'center',
     },

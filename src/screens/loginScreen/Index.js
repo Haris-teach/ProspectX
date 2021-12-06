@@ -44,28 +44,7 @@ return (
            placeholder={PASSWORD_PLACEHOLDER}
            value={password}
            svg = {<Lock/>}
-         
            />
-         
-
-       {/* <View style={styles.inputContainer}>
-           <Text style={styles.labelStyle}>{PASSWORD_LABEL}</Text>
-           <View style={styles.inputRow}>
-        <Lock/>
-        <TextInput
-            placeholder={PASSWORD_PLACEHOLDER}
-            placeholderTextColor={colors.fieldtitleColor}
-            value = {password}
-            style={styles.textFieldStyle}
-            secureTextEntry={securePass}
-            onChangeText={(password) => setPassword(password)}
-       />
-       <TouchableOpacity  onPress = {()=> setSecurePass(!securePass)}>
-     {securePass === false ? <EyeOn/> : <EyeOff/>}
-     
-       </TouchableOpacity>
-           </View>
-       </View> */}
        </View>
        <View style={styles.gradientView}>
       <GradientButton
