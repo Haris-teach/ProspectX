@@ -8,13 +8,12 @@ import styles from "./Style";
 import LoginImage from "../../assets/Images/loginImage.svg"
 import User from "../../assets/Images/user.svg";
 import Lock from "../../assets/Images/lock.svg";
-import colors from "../../assets/Colors/Colors";
-import EyeOn from "../../assets/Images/eye.svg";
-import EyeOff from "../../assets/Images/eyeoff.svg"
 import GradientButton from "../../components/GradientButton/Button";
 import KeyboardAvoidingView from "react-native/Libraries/Components/Keyboard/KeyboardAvoidingView";
 import { EMAIL_LABEL, EMAIL_PLACEHOLDER, ENTER_EMAIL_PASSWORD, FORGOT_PASSWORD_LABEL, LOGIN_BUTTON_TITTLE, PASSWORD_LABEL, PASSWORD_PLACEHOLDER, SIGN_IN } from "../../constants/ConstStrings";
 import { FORGOT_PASSWORD } from "../../constants/Navigator";
+import TextField from "../../components/TextInput/TextInput";
+import PasswordField from "../../components/PasswordInput/PasswordInput";
 const LoginScreen = (props)=>{
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
@@ -32,22 +31,24 @@ return (
             <Text style={styles.enterEmailStyle}>{ENTER_EMAIL_PASSWORD}</Text>
        </View>
        <View style={styles.inputViewStyle}>
-       <View style={styles.inputContainer}>
-           <Text style={styles.labelStyle}>{EMAIL_LABEL}</Text>
-           <View style={styles.inputRow}>
-        <User/>
-        <TextInput
-            placeholder={EMAIL_PLACEHOLDER}
-            placeholderTextColor={colors.fieldtitleColor}
-            value = {email}
-            style={styles.textFieldStyle}
-            keyboardType = {'email-address'}
-            secureTextEntry={false}
-            onChangeText={(email) => setEmail(email)}
-       />          
-           </View>
-       </View>
-       <View style={styles.inputContainer}>
+           <TextField
+           onChange={(email) => setEmail(email)}
+           title={EMAIL_LABEL}
+           placeholder={EMAIL_PLACEHOLDER}
+           value={email}
+           svg = {<User/>}
+           />
+            <PasswordField
+           onChange={(password) => setPassword(password)}
+           title={PASSWORD_LABEL}
+           placeholder={PASSWORD_PLACEHOLDER}
+           value={password}
+           svg = {<Lock/>}
+         
+           />
+         
+
+       {/* <View style={styles.inputContainer}>
            <Text style={styles.labelStyle}>{PASSWORD_LABEL}</Text>
            <View style={styles.inputRow}>
         <Lock/>
@@ -64,7 +65,7 @@ return (
      
        </TouchableOpacity>
            </View>
-       </View>
+       </View> */}
        </View>
        <View style={styles.gradientView}>
       <GradientButton

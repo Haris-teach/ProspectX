@@ -85,8 +85,9 @@ forgotView:{
     height:hp(5)
 },
 inputViewStyle:{
-    height:hp(20),
-    justifyContent:'space-between'
+    height:hp(22),
+    justifyContent:'space-between',
+    // backgroundColor:'red'
 },
 textFieldStyle:{
     fontSize:wp(4),

@@ -1,15 +1,15 @@
 //=========================================== React Native Import Files ========================
 import React from "react";
 import { useState } from "react";
-import { View,KeyboardAvoidingView, ImageBackground,ScrollView,Text, TouchableOpacity,TextInput } from "react-native";
+import { View,KeyboardAvoidingView, ImageBackground,ScrollView,Text, TouchableOpacity } from "react-native";
 import images from "../../assets/Images/Images";
 
 //=========================================== Local Import Files ================================
 import styles from "./Style";
 import BackArrow from "../../assets/Images/backarrow.svg";
-import colors from "../../assets/Colors/Colors";
 import { DESC_TEXT, EMAIL_LABEL,EMAIL_PLACEHOLDER,FORGOT_PASSWORD_TITLE, RESEND_CODE, SUBMIT} from "../../constants/ConstStrings";
 import User from "../../assets/Images/user.svg";
+import TextField from "../../components/TextInput/TextInput";
 import GradientButton from "../../components/GradientButton/Button";
 const ForgotPassword = (props)=>{
 
@@ -30,21 +30,13 @@ const ForgotPassword = (props)=>{
             <Text style={styles.descTextStyle}>{DESC_TEXT}</Text>
             </View>
             <View style={styles.inputViewStyle}>
-       <View style={styles.inputContainer}>
-           <Text style={styles.labelStyle}>{EMAIL_LABEL}</Text>
-           <View style={styles.inputRow}>
-        <User/>
-        <TextInput
-            placeholder={EMAIL_PLACEHOLDER}
-            placeholderTextColor={colors.fieldtitleColor}
-            value = {email}
-            style={styles.textFieldStyle}
-            keyboardType = {'email-address'}
-            secureTextEntry={false}
-            onChangeText={(email) => setEmail(email)}
-       />          
-           </View>
-           </View>
+                <TextField
+                title={EMAIL_LABEL}
+                placeholder={EMAIL_PLACEHOLDER}
+                value={email}
+                svg={<User/>}
+                onChange={(email)=> setEmail(email)}
+                />
        </View>
         </View>
         <View style={styles.bottomView}>
