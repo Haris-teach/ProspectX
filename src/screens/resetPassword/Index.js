@@ -13,8 +13,6 @@ const ResetPassword = (props)=>{
  
      const [newPassword,setNewPassword] = useState('')  
      const [confirmNewPassword,setConfirmNewpassword]= useState('')
-
-
     return(
         <KeyboardAvoidingView style={AllStyles.mainContainer} behavior={Platform.OS === "ios" ? 'padding' : null}>
     <ImageBackground source={images.splashBackground} style={AllStyles.mainContainer}>
@@ -49,7 +47,7 @@ const ResetPassword = (props)=>{
        </View>
        <View style={AllStyles.resetGradientView}>
       <GradientButton
-         onPress = {()=>alert('Login Pressed')}
+         onPress = {()=>alert('Pressed')}
          title={RESET_BUTTON_TEXT}  
       />
 </View>

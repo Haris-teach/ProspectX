@@ -12,7 +12,7 @@ import colors from "../../assets/Colors/Colors";
 const TextField = (props)=>{
  
 return (  
- <View style={AllStyles.inputContainer}>
+ <View style={AllStyles.loginInputContainer}>
            <Text style={AllStyles.labelStyle}>{props.title}</Text>
            <View style={AllStyles.inputRow}>
         {props.svg}

@@ -15,7 +15,7 @@ const PasswordField = (props)=>{
     const [securePass,setSecurePass] = useState(true);
  
 return (  
- <View style={AllStyles.inputContainer}>
+ <View style={AllStyles.loginInputContainer}>
            <Text style={AllStyles.labelStyle}>{props.title}</Text>
            <View style={AllStyles.resetInputRow}>
         {props.svg}

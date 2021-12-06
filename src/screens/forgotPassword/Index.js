@@ -12,6 +12,7 @@ import User from "../../assets/Images/user.svg";
 import TextField from "../../components/TextInput/TextInput";
 import GradientButton from "../../components/GradientButton/Button";
 import { RESET_PASSWORD } from "../../constants/Navigator";
+import AllStyles from "../../all_styles/All_Styles";
 const ForgotPassword = (props)=>{
 
     const [email,setEmail] = useState('')
@@ -41,11 +42,20 @@ const ForgotPassword = (props)=>{
        </View>
         </View>
         <View style={styles.bottomView}>
-        <GradientButton 
+          <View style={AllStyles.forgotGradientView}>
+          <GradientButton 
             title={SUBMIT}
             onPress={()=> props.navigation.navigate(RESET_PASSWORD)}
         />
-        <Text style={styles.resendCodeStyle}>{RESEND_CODE}</Text>
+          </View>
+       
+        <TouchableOpacity 
+        onPress={()=>alert('New Code has been sent to your given email')}
+        style={styles.resendCodeStyle}>
+            <Text>
+            {RESEND_CODE}
+            </Text>
+          </TouchableOpacity>
         </View>
         </ScrollView>
         </ImageBackground>  

@@ -44,15 +44,6 @@ inputRowView:{
     width:'100%',
     height:hp(5)
 },
-inputContainer:{
-    backgroundColor:colors.whiteColor,
-    shadowColor:colors.viewShadowColor,
-    // shadowOpacity:15,
-    // shadowRadius:20,
-    height:hp(9),
-    borderRadius:wp(5),
-    justifyContent:'center',
-},
 
 forgotStyle:{
     color:colors.likeBlackColor,
@@ -75,9 +66,15 @@ enterEmailStyle:{
 gradientView:{
     justifyContent:'flex-end',
     height:hp(18),
-    shadowColor:colors.buttonShadowColor,
-    // shadowOpacity:100,
-    // shadowRadius:200,
+    shadowColor:'#0E2247',
+        
+        shadowOffset: {
+            width: 0,
+            height: 5,
+        },
+        shadowOpacity:0.3,
+        shadowRadius: 8,
+        elevation: 10,
 },
 forgotView:{
     alignSelf:'center',

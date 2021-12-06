@@ -35,6 +35,15 @@ const styles = StyleSheet.create({
   gradientStyle:{
     borderRadius: wp(7), 
     width: '95%',
+    // shadowColor:'#7362B6',
+    shadowColor:'red',
+        shadowOffset: {
+            width: 0,
+            height: 5,
+        },
+        shadowOpacity:0.3,
+        shadowRadius: 8,
+        elevation: 10,
     alignSelf:'center',
     height:hp(6),
     fontFamily:fonts.regular,
@@ -43,6 +52,15 @@ const styles = StyleSheet.create({
   buttonStyle:{
     width: '100%',
     height:hp(6),
+    // shadowColor:'#7362B6',
+    shadowColor:'red',
+        shadowOffset: {
+            width: 0,
+            height: 5,
+        },
+        shadowOpacity:0.3,
+        shadowRadius: 8,
+        elevation: 10,
     justifyContent:'center',
     alignItems:"center",
   },

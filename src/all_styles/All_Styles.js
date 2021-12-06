@@ -5,7 +5,7 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-nat
 import colors from "../assets/Colors/Colors";
 import fonts from "../assets/Fonts/Fonts";
 
-const AllStyles ={
+const AllStyles = {
     splashBackgroundImage:{
         flex:1,
         justifyContent:'center'
@@ -53,11 +53,16 @@ const AllStyles ={
         width:'100%',
         height:hp(5)
     },
-    inputContainer:{
-        backgroundColor:colors.whiteColor,
-        shadowColor:colors.viewShadowColor,
-        // shadowOpacity:15,
-        // shadowRadius:20,
+    loginInputContainer:{
+        backgroundColor:'white',
+        shadowColor:'#7362B6',
+        shadowOffset: {
+            width: 0,
+            height: 5,
+        },
+        shadowOpacity:0.3,
+        shadowRadius: 8,
+        elevation: 10,
         height:hp(9),
         borderRadius:wp(5),
         justifyContent:'center',
@@ -91,7 +96,30 @@ const AllStyles ={
         height:hp(18),
         width:wp(90),
         alignSelf:'center',
-        shadowColor:colors.buttonShadowColor,
+        shadowColor:'#0E2247',
+        
+        shadowOffset: {
+            width: 0,
+            height: 5,
+        },
+        shadowOpacity:0.3,
+        shadowRadius: 8,
+        elevation: 10,
+       
+    },
+    forgotGradientView:{
+        justifyContent:'flex-end',
+        height:hp(9),
+        width:wp(90),
+        alignSelf:'center',
+        shadowColor:'#0E2247',
+        shadowOffset: {
+            width: 0,
+            height: 5,
+        },
+        shadowOpacity:0.3,
+        shadowRadius: 8,
+        elevation: 10,
     },
     forgotView:{
         alignSelf:'center',
@@ -99,7 +127,7 @@ const AllStyles ={
         height:hp(5)
     },
     resetinputViewStyle:{
-        height:hp(23),
+        height:hp(21),
         justifyContent:'space-between',
         
     },
