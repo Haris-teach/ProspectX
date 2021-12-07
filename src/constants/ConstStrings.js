@@ -29,3 +29,4 @@ export const CHANGE_PASS_DESC="Your new password must contain 8 letters."
 export const OLD_PASSWORD='Old Password'
 export const NEW_PASSWORD='New Password'
 export const CONFIRM_PASSWORD='Confirm Password'
+export const SETTINGS="Settings"

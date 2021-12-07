@@ -12,7 +12,7 @@ import colors from "../../assets/Colors/Colors";
 import ForwardArrow from "../../assets/Images/forwardarrow.svg"
 import ProfileComponent from "../../components/ProfileComponent/ProfileRow";
 import { PROFILE_CHANGE_PASS, PROFILE_LOGOUT, PROFILE_SETTINGS } from "../../constants/ConstStrings";
-import {CHANGE_PASSWORD} from "../../constants/Navigator"
+import {CHANGE_PASSWORD, LOGIN_SCREEN, SETTINGS_SCREEN} from "../../constants/Navigator"
 import Settings from "../../assets/Images/settings.svg"
 import ChangePassword from "../../assets/Images/unlock.svg"
 import Logout from "../../assets/Images/logout.svg"
@@ -34,7 +34,7 @@ const ProfileScreen = (props)=>{
        <View style={AllStyles.profileComponentInnerRow}
        >
          <ProfileComponent
-       onPress={()=> alert('pressed')}
+       onPress={()=> props.navigation.navigate(SETTINGS_SCREEN)}
        title={PROFILE_SETTINGS}
        backgroundColor={colors.profileSettingColor}
        svg={<Settings/>}
@@ -46,7 +46,7 @@ const ProfileScreen = (props)=>{
        svg={<ChangePassword/>}
        />
        <ProfileComponent
-       onPress={()=> alert('pressed')}
+       onPress={()=> props.navigation.replace(LOGIN_SCREEN)}
        title={PROFILE_LOGOUT}
        backgroundColor={colors.profileLogoutColor}
        svg={<Logout/>}
