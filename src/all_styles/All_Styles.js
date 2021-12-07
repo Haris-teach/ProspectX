@@ -23,6 +23,7 @@ const AllStyles = {
     bottomContainer: {
         height: hp(60),
         paddingHorizontal: wp(5),
+       
     },
     firstColumn: {
         justifyContent: 'space-between',
@@ -65,7 +66,24 @@ const AllStyles = {
         borderRadius: wp(5),
         justifyContent: 'center',
     },
-
+    changePasswordComponentMainView:{
+        backgroundColor: colors.profileRowBackgroundColor,
+        shadowColor: '#7362B6',
+        shadowOffset: {
+            width: 0,
+            height: 5,
+        },
+        width:wp(90),
+        alignSelf:'center',
+        shadowOpacity: 0.3,
+        shadowRadius: 8,
+        elevation: 10,
+        height: hp(7),
+        borderColor:colors.whiteColor,
+        borderWidth:1,
+        borderRadius: wp(8),
+        justifyContent: 'center',
+    },
     forgotStyle: {
         color: colors.likeBlackColor,
         fontSize: wp(3),
@@ -134,6 +152,7 @@ const AllStyles = {
     },
     mainContainer: {
         flex: 1,
+        
     },
     inputViewStyle: {
         height: hp(20),
@@ -291,18 +310,18 @@ const AllStyles = {
     },
     startCallMikeView: {
         backgroundColor: colors.whiteColor, 
-        height: 65, 
-        width: 65, 
-        borderRadius: wp(20), 
+        height: hp(8), 
+        width: hp(8), 
+        borderRadius: hp(8), 
         justifyContent: 'center', 
         alignContent: 'center', 
         alignItems: 'center'
     },
     startCallSpeakerView: {
         backgroundColor: colors.whiteColor, 
-        height: 65, 
-        width: 65, 
-        borderRadius: wp(20), 
+        height: hp(8), 
+        width: hp(8), 
+        borderRadius: hp(8), 
         justifyContent: 'center', 
         alignContent: 'center', 
         alignItems: 'center'
@@ -313,15 +332,115 @@ const AllStyles = {
         alignItems: 'center'
     },
     startCallDeclineButton: {
-        height: 60, 
-        width: 60, 
+        height: hp(7), 
+        width: hp(7), 
         justifyContent: 'center', 
-        borderRadius: wp(100), 
+        borderRadius: hp(7), 
         alignItems: 'center'
     },
     declineGradientButton:{
         borderRadius:wp(20)
-    }
+    },
+ profileFirstContainer:{
+    flex:0.2,
+    alignItems:'center',
+    justifyContent:'center'
+ },
+ profileImageView:{
+    backgroundColor:colors.whiteColor,
+    height:120,
+    width:120,
+    borderRadius:wp(30),
+    alignItems:'center',
+    justifyContent:'center'
+ },
+ profileImageStyle:{
+    height:95,
+    width:95
+ },
+ appHeaderMainView:{
+    height:hp(14),
+    flexDirection:'row',
+    paddingHorizontal:wp(5),
+    alignItems:'flex-end',
+    justifyContent:'space-between',
+ },
+ appHeaderRowView:{
+    height:hp(6),
+    width:wp(90),
+    flexDirection:'row',
+    alignItems:'center',
+    justifyContent:'space-between'
+ },
+ appHeaderTitleStyle:{
+    color:colors.titleColor,fontSize:wp(5.5),fontFamily:fonts.regular
+ },
+ profileBottomContainer:{
+    flex:0.7,
+   
+ },
+ profileOptionsContainer:{
+    flex:1,
+    width:wp(90)
+    ,alignSelf:'center',
+    
+    paddingVertical:hp(5),
+    justifyContent:'flex-start'
+ },
+ profileComponentMainView:{
+    backgroundColor:colors.profileRowBackgroundColor,
+    height:hp(6),
+    borderRadius:wp(10),
+    flexDirection:'row',
+    justifyContent:'space-between',
+    alignItems:'center',
+    paddingHorizontal:wp(5),
+    borderColor:colors.whiteColor,
+    borderWidth:1
+ },
+ profileComponenticonView:{
+    height:30,
+    width:30,
+    backgroundColor:'red',
+    alignSelf:'center',
+    borderRadius:wp(20)
+ },
+ profileComponentRowStyle:{
+    flexDirection:'row',
+    justifyContent:'space-between',
+    width:wp(60)
+ },
+ profileComponentInnerRow:{
+    flex:0.45,
+    justifyContent:'space-between',
+    alignContent:'center',
+    width:wp(85),
+    alignSelf:'center',
+   
+ },
+ profileComponentTitleStyle:{
+    color:colors.likeBlackColor,fontFamily:fonts.regular,fontSize:wp(3.5)
+ },
+ changepasswordMainView:{
+    height:hp(60),
+ },
+ changePasswordHeadingView:{
+    height:hp(14),alignItems:'center',justifyContent:'center',width:wp(90),
+ },
+ changePasswordDecStyle:{
+    fontSize:wp(4.3),color:colors.titleColor,textAlign:'center'
+ },
+ changePasswordComponentView:{
+    height:hp(28),justifyContent:'space-between',
+ },
+ changePasswordBottomView:{
+    height:hp(45),
+ },
+ changePasswordButtonView:{
+    height:hp(35),alignSelf:'center',width:wp(85),justifyContent:'flex-end',alignItems:'flex-end'
+ }
+
+  
 }
 export default AllStyles;
 

@@ -6,11 +6,13 @@ import { createNativeStackNavigator} from "@react-navigation/native-stack";
 //======================================= Local Import Files ===============================
 import LoginScreen from './screens/loginScreen/Index';
 import SplashScreen from './screens/splashScreen/Index';
-import { CALL_START, FORGOT_PASSWORD, INCOMING_CALLS, LOGIN_SCREEN, RESET_PASSWORD, SPLASH_SCREEN } from './constants/Navigator';
+import { CALL_START, CHANGE_PASSWORD, FORGOT_PASSWORD, INCOMING_CALLS, LOGIN_SCREEN, PROFILE_SCREEN, RESET_PASSWORD, SPLASH_SCREEN } from './constants/Navigator';
 import ForgotPassword from './screens/forgotPassword/Index';
 import ResetPassword from './screens/resetPassword/Index';
 import IncomingCalls from './screens/incomingCallScreen/Index';
 import CallStart from './screens/startCallScreen/Index';
+import ProfileScreen from './screens/profileScreen/Index';
+import ChangePassword from './screens/changePasswordscreen/Index';
 
 
 
@@ -25,6 +27,8 @@ const Stack = ()=>{
             <RootStack.Screen name={RESET_PASSWORD} component={ResetPassword}/>
             <RootStack.Screen name={INCOMING_CALLS} component={IncomingCalls}/>
             <RootStack.Screen name={CALL_START} component={CallStart}/>
+            <RootStack.Screen name={PROFILE_SCREEN} component={ProfileScreen}/>
+            <RootStack.Screen name={CHANGE_PASSWORD}component={ChangePassword}/>
             </RootStack.Navigator>
         </NavigationContainer>
         );

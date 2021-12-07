@@ -35,7 +35,6 @@ const styles = StyleSheet.create({
   gradientStyle:{
     borderRadius: wp(7), 
     width: '95%',
-    // shadowColor:'#7362B6',
     shadowColor:'red',
         shadowOffset: {
             width: 0,
