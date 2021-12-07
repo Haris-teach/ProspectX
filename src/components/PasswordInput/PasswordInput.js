@@ -2,7 +2,7 @@
 
 import React from "react";
 import { TextInput,StyleSheet,View ,Text,TouchableOpacity} from "react-native";
-import { heightPercentageToDP as hp ,  } from "react-native-responsive-screen";
+import { heightPercentageToDP as hp, widthPercentageToDP ,  } from "react-native-responsive-screen";
 import { useState } from "react";
 //========================================= Local Import Files =======================================
 
@@ -27,7 +27,7 @@ return (
             secureTextEntry={securePass}
             onChangeText={props.onChange}
        />          
-         <TouchableOpacity  onPress = {()=> setSecurePass(!securePass)}>
+         <TouchableOpacity style={{}}  onPress = {()=> setSecurePass(!securePass)}>
          {securePass === false ? <EyeOn/> : <EyeOff/>}
      
        </TouchableOpacity>

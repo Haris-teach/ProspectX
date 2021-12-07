@@ -8,8 +8,8 @@ import AllStyles from "../../all_styles/All_Styles"
 import colors from "../../assets/Colors/Colors";
 import { INCOMING_NUMBER, INCOMING_STATUS, SWIPEBTNTITLE } from "../../constants/ConstStrings";
 import fonts from "../../assets/Fonts/Fonts";
-import { useLinkProps } from "@react-navigation/native";
 import { CALL_START } from "../../constants/Navigator";
+import { widthPercentageToDP } from "react-native-responsive-screen";
 const IncomingCalls = (props)=>{
 return(<ImageBackground source={images.splashBackground} style={AllStyles.mainContainer}>
   <View style={AllStyles.incomingCallStartView}>
@@ -27,6 +27,7 @@ return(<ImageBackground source={images.splashBackground} style={AllStyles.mainCo
             railBackgroundColor={colors.railbackgroundColor}
             railBorderColor={colors.whiteColor}
             railFillBackgroundColor={colors.railFillBackgroundColor}
+            railFillBorderColor={colors.whiteColor}
             thumbIconBackgroundColor={colors.thumbIconBackgroundColor}
             enableRightToLeftSwipe={30}
             thumbIconBorderColor={'transparent'}
@@ -34,8 +35,8 @@ return(<ImageBackground source={images.splashBackground} style={AllStyles.mainCo
             titleColor={colors.purpleColor}
             resetAfterSuccessAnimDuration={20}
             thumbIconImageSource= {images.incomingPng}
-            height={68}
-            titleStyles={fonts.semiBold}
+            height={58}
+            titleStyles={AllStyles.swipeButtonTitleStyle}
             width={300}
             title={SWIPEBTNTITLE}
           />

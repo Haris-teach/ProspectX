@@ -9,6 +9,7 @@ const colors = {
    purpleColor:'#7B6CFF',
    railbackgroundColor:'rgba(255, 255, 255, 0.46)',
    railFillBackgroundColor: 'rgba(255, 255, 255, 0.17)',
-   thumbIconBackgroundColor: '#00AB08'
+   thumbIconBackgroundColor: '#00AB08',
+   lightGreyColor:'#767676'
 }
 export default colors;
