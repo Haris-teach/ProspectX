@@ -13,7 +13,7 @@ return (
         width:wp(7),
         alignItems:'center',
         alignSelf:'center',
-        borderRadius:wp(0.8),
+        borderRadius:wp(2),
         justifyContent:'center',
         shadowColor: '#0E2247',
         shadowOffset: {
@@ -26,9 +26,9 @@ return (
        {props.leftSvg}
        </TouchableOpacity>
        <Text style={AllStyles.appHeaderTitleStyle}>{props.title}</Text>
-       <TouchableOpacity onPress={props.rightIconPress} style={{backgroundColor:props.rightBackgroundColor, height:hp(3.2),
+       <TouchableOpacity onPress={props.rightIconPress} style={{backgroundColor:props.rightIconBackgrounColor, height:hp(3.2),
         width:wp(7),alignItems:'center',
-        alignSelf:'center',borderRadius:wp(1),
+        alignSelf:'center',borderRadius:wp(2),
         justifyContent:'center',
         shadowColor: '#0E2247',
         shadowOffset: {

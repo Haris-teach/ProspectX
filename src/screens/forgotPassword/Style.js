@@ -30,7 +30,8 @@ const styles = StyleSheet.create({
         alignSelf:'center',
         paddingVertical:hp(3),
         fontFamily:fonts.semiBold,
-        fontSize:hp(1.5)
+        fontSize:wp(3.3),
+        color:colors.likeBlackColor
     },
     startView:{
         height:hp(51.5),

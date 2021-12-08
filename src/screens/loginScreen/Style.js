@@ -47,7 +47,7 @@ inputRowView:{
 
 forgotStyle:{
     color:colors.likeBlackColor,
-    fontSize:wp(3),
+    fontSize:wp(3.3),
     fontFamily:fonts.semiBold,
     fontWeight:'600'
 },
@@ -67,7 +67,6 @@ gradientView:{
     justifyContent:'flex-end',
     height:hp(18),
     shadowColor:'#0E2247',
-        
         shadowOffset: {
             width: 0,
             height: 5,
@@ -84,7 +83,6 @@ forgotView:{
 inputViewStyle:{
     height:hp(22),
     justifyContent:'space-between',
-    // backgroundColor:'red'
 },
 textFieldStyle:{
     fontSize:wp(4),

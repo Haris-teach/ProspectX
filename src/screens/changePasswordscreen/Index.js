@@ -9,11 +9,11 @@ import images from "../../assets/Images/Images"
 import AppHeader from "../../components/AppHeadercomponent/Appheader";
 import colors from "../../assets/Colors/Colors";
 import BackArrow from "../../assets/Images/backarrow.svg"
-import { heightPercentageToDP, widthPercentageToDP } from "react-native-responsive-screen";
 import ChangePasswordComponent from "../../components/ChangePasswordComponent/ChangePassword";
 import GradientButton from "../../components/GradientButton/Button";
 import { CHANGE_PASS_TITLE, CONFIRM_PASSWORD, NEW_PASSWORD, OLD_PASSWORD,CHANGE_PASS_DESC } from "../../constants/ConstStrings";
-const ChangePassword  =(props)=>{
+import { heightPercentageToDP } from "react-native-responsive-screen";
+const ChangePassword =(props)=>{
     const [oldPassword,setOldPassword] = useState('')
     const [newPassword,setNewPassword] = useState('')
     const [confirmPassword,setConfirmPassword] = useState('')
@@ -22,13 +22,16 @@ return (
 
     <ImageBackground source={images.splashBackground} style={AllStyles.mainContainer}>
     <ScrollView style={AllStyles.mainContainer} showsVerticalScrollIndicator={false}>
+    <View style={{height:heightPercentageToDP(15)}}>
+    <AppHeader
+            leftIconBackgrounColor={colors.whiteColor}
+            leftSvg={<BackArrow height={15} width={15}/>}
+            title={CHANGE_PASS_TITLE}
+            leftIconPress={()=>props.navigation.goBack(null)}
+        />
+    </View>
+      
 
-       <AppHeader
-   leftIconBackgrounColor={colors.whiteColor}
-   leftSvg={<BackArrow height={15} width={15}/>}
-   title={CHANGE_PASS_TITLE}
-   leftIconPress={()=>props.navigation.goBack(null)}
-   />
    <View style={AllStyles.changepasswordMainView}>
        <View style={AllStyles.changePasswordHeadingView}
        >
@@ -42,7 +45,6 @@ return (
        onChange={(oldPassword)=> setOldPassword(oldPassword)}
        />
        <ChangePasswordComponent
-       
        placeholder={NEW_PASSWORD}
        value={newPassword}
        onChange={(newPassword)=>setNewPassword(newPassword)}

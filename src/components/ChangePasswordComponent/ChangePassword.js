@@ -22,11 +22,11 @@ return (
             placeholder={props.placeholder}
             placeholderTextColor={colors.fieldtitleColor}
             value = {props.value}
-            style={AllStyles.textFieldStyle}
+            style={AllStyles.changePassTextFieldStyle}
             secureTextEntry={securePass}
             onChangeText={props.onChange}
        />          
-         <TouchableOpacity style={{}}  onPress = {()=> setSecurePass(!securePass)}>
+         <TouchableOpacity  onPress = {()=> setSecurePass(!securePass)}>
          {securePass === false ? <EyeOn/> : <EyeOff/>}
      
        </TouchableOpacity>

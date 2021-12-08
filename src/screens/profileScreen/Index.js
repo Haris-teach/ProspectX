@@ -9,7 +9,7 @@ import AllStyles from "../../all_styles/All_Styles";
 import images from "../../assets/Images/Images";
 import AppHeader from "../../components/AppHeadercomponent/Appheader";
 import colors from "../../assets/Colors/Colors";
-import ForwardArrow from "../../assets/Images/forwardarrow.svg"
+import BackArrow from "../../assets/Images/backarrow.svg"
 import ProfileComponent from "../../components/ProfileComponent/ProfileRow";
 import { PROFILE_CHANGE_PASS, PROFILE_LOGOUT, PROFILE_SETTINGS } from "../../constants/ConstStrings";
 import {CHANGE_PASSWORD, LOGIN_SCREEN, SETTINGS_SCREEN} from "../../constants/Navigator"
@@ -21,8 +21,9 @@ const ProfileScreen = (props)=>{
  return (<ImageBackground style={AllStyles.mainContainer} source={images.splashBackground}>
 
    <AppHeader
-   rightBackgroundColor={colors.whiteColor}
-   rightSvg={<ForwardArrow height={15} width={15}/>}
+   leftIconBackgrounColor={colors.whiteColor}
+   leftSvg={<BackArrow height={15} width={15}/>}
+   leftIconPress={()=>props.navigation.goBack(null)}
    />
    <View style={AllStyles.profileFirstContainer}>
      <View style={AllStyles.profileImageView}>

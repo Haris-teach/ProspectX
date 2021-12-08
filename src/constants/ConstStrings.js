@@ -30,3 +30,5 @@ export const OLD_PASSWORD='Old Password'
 export const NEW_PASSWORD='New Password'
 export const CONFIRM_PASSWORD='Confirm Password'
 export const SETTINGS="Settings"
+export const ENABLE_NOTIFICATIONS="Enable Notifications"
+export const SAVE="Save"
