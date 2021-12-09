@@ -7,8 +7,13 @@ import {
   View,
   KeyboardAvoidingView,
   ScrollView,
+  TouchableOpacity,
 } from 'react-native';
 import AllStyles from '../../all_styles/All_Styles';
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from 'react-native-responsive-screen';
 
 //======================================== Local Import Files ====================================
 import images from '../../assets/images/Images';
@@ -34,55 +39,57 @@ const ChangePassword = props => {
     <SafeAreaView style={{flex: 1}}>
       <KeyboardAvoidingView
         style={AllStyles.mainContainer}
-        behavior={Platform.OS === 'ios' ? 'padding' : null}>
+        behavior={'padding'}>
         <ImageBackground
           source={images.splashBackground}
           style={AllStyles.mainContainer}>
-          <ScrollView
-            style={AllStyles.mainContainer}
-            showsVerticalScrollIndicator={false}>
-            <View style={{height: heightPercentageToDP(15)}}>
-              <AppHeader
-                leftIconBackgrounColor={colors.whiteColor}
-                leftSvg={<BackArrow height={15} width={15} />}
-                title={CHANGE_PASS_TITLE}
-                leftIconPress={() => props.navigation.goBack(null)}
-              />
-            </View>
+          <ScrollView style={{flex: 1}} showsVerticalScrollIndicator={false}>
+            {/* Header Code */}
 
-            <View style={AllStyles.changepasswordMainView}>
-              <View style={AllStyles.changePasswordHeadingView}>
-                <Text style={AllStyles.changePasswordDecStyle}>
-                  {CHANGE_PASS_DESC}
-                </Text>
-              </View>
-              <View style={AllStyles.changePasswordComponentView}>
-                <ChangePasswordComponent
-                  placeholder={OLD_PASSWORD}
-                  value={oldPassword}
-                  onChange={oldPassword => setOldPassword(oldPassword)}
-                />
-                <ChangePasswordComponent
-                  placeholder={NEW_PASSWORD}
-                  value={newPassword}
-                  onChange={newPassword => setNewPassword(newPassword)}
-                />
-                <ChangePasswordComponent
-                  placeholder={CONFIRM_PASSWORD}
-                  value={confirmPassword}
-                  onChange={confirmPassword =>
-                    setConfirmPassword(confirmPassword)
-                  }
-                />
-              </View>
-              <View style={AllStyles.changePasswordBottomView}>
-                <View style={AllStyles.changePasswordButtonView}>
-                  <GradientButton
-                    onPress={() => alert('Login Pressed')}
-                    title={'Save'}
-                  />
-                </View>
-              </View>
+            <View style={styles.headerContainer}>
+              <TouchableOpacity
+                onPress={() => props.navigation.goBack()}
+                style={styles.backButton}>
+                <BackArrow height={15} width={15} />
+              </TouchableOpacity>
+              <Text style={styles.headerText}>Change Password</Text>
+            </View>
+            {/* -------------------------------------------------------------------------- */}
+
+            <Text style={styles.textStyle}>{CHANGE_PASS_DESC}</Text>
+
+            <ChangePasswordComponent
+              placeholder={OLD_PASSWORD}
+              value={oldPassword}
+              onChange={oldPassword => setOldPassword(oldPassword)}
+            />
+
+            <ChangePasswordComponent
+              placeholder={NEW_PASSWORD}
+              value={newPassword}
+              onChange={oldPassword => setOldPassword(oldPassword)}
+              svg={true}
+            />
+
+            <ChangePasswordComponent
+              placeholder={CONFIRM_PASSWORD}
+              value={confirmPassword}
+              onChange={oldPassword => setOldPassword(oldPassword)}
+              svg={true}
+            />
+
+            <View
+              style={{
+                height: hp(25),
+                marginBottom: hp(10),
+                alignSelf: 'center',
+                width: wp(80),
+                justifyContent: 'flex-end',
+              }}>
+              <GradientButton
+                onPress={() => alert('Login Pressed')}
+                title={'Save'}
+              />
             </View>
           </ScrollView>
         </ImageBackground>
@@ -92,3 +99,44 @@ const ChangePassword = props => {
 };
 
 export default ChangePassword;
+
+const styles = {
+  headerContainer: {
+    height: hp(15),
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+
+  backButton: {
+    backgroundColor: colors.whiteColor,
+    height: hp(3.5),
+    width: wp(7.7),
+    marginLeft: wp(6),
+    borderRadius: wp(2),
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#0E2247',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    elevation: 8,
+  },
+  headerText: {
+    flex: 1,
+    color: colors.titleColor,
+    fontSize: wp(5.5),
+    fontFamily: 'SF Pro Text',
+    textAlign: 'center',
+    marginRight: wp(10),
+  },
+  textStyle: {
+    fontSize: wp(4.3),
+    color: colors.titleColor,
+    marginVertical: hp(6),
+    // backgroundColor: 'red',
+    marginHorizontal: wp(12),
+  },
+};

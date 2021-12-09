@@ -347,7 +347,7 @@ const AllStyles = {
     alignSelf: 'center',
   },
   appHeaderMainView: {
-    height: hp(10),
+    height: hp(15),
     flexDirection: 'row',
     marginHorizontal: wp(6),
     justifyContent: 'space-between',

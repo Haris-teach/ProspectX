@@ -76,7 +76,7 @@ const ResetPassword = props => {
         </View>
         <View style={AllStyles.resetGradientView}>
           <GradientButton
-            onPress={() => props.navigation.navigate(INCOMING_CALLS)}
+            onPress={() => props.navigation.navigate('LoginScreen')}
             title={RESET_BUTTON_TEXT}
           />
         </View>

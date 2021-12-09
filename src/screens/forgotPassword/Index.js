@@ -68,16 +68,16 @@ const ForgotPassword = props => {
               <View style={AllStyles.forgotGradientView}>
                 <GradientButton
                   title={SUBMIT}
-                  onPress={() => props.navigation.navigate(RESET_PASSWORD)}
+                  onPress={() => props.navigation.navigate('OtpScreen')}
                 />
               </View>
 
-              <TouchableOpacity
+              {/* <TouchableOpacity
                 onPress={() =>
                   alert('New Code has been sent to your given email')
                 }>
                 <Text style={styles.resendCodeStyle}>{RESEND_CODE}</Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
           </View>
           {/* </ScrollView> */}

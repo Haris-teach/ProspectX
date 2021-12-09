@@ -14,6 +14,8 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
+import {useDispatch, useSelector} from 'react-redux';
+
 //========================================== Local Import Files ===================================
 import images from '../../assets/images/Images';
 import styles from './Style';
@@ -21,7 +23,7 @@ import LoginImage from '../../assets/images/loginImage.svg';
 import User from '../../assets/images/user.svg';
 import Lock from '../../assets/images/lock.svg';
 import GradientButton from '../../components/gradientButton/Button';
-// import KeyboardAvoidingView from 'react-native/Libraries/Components/Keyboard/KeyboardAvoidingView';
+import {Login} from '../../redux/Actions/authActions';
 import {
   EMAIL_LABEL,
   EMAIL_PLACEHOLDER,
@@ -36,11 +38,10 @@ import {FORGOT_PASSWORD} from '../../constants/Navigator';
 import TextField from '../../components/textInput/TextInput';
 import PasswordField from '../../components/PasswordInput/PasswordInput';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {
-  heightPercentageToDP,
-  widthPercentageToDP,
-} from 'react-native-responsive-screen';
+
 const LoginScreen = props => {
+  const dispatch = useDispatch();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [securePass, setSecurePass] = useState(true);
@@ -68,7 +69,7 @@ const LoginScreen = props => {
                   title={EMAIL_LABEL}
                   placeholder={EMAIL_PLACEHOLDER}
                   value={email}
-                  svg={<User marginVertical={heightPercentageToDP(2)} />}
+                  svg={<User marginVertical={hp(2)} />}
                 />
               </View>
               <View style={{marginTop: hp(2)}}>
@@ -77,18 +78,18 @@ const LoginScreen = props => {
                   title={PASSWORD_LABEL}
                   placeholder={PASSWORD_PLACEHOLDER}
                   value={password}
-                  svg={<Lock marginVertical={heightPercentageToDP(2)} />}
+                  svg={<Lock marginVertical={hp(2)} />}
                 />
               </View>
 
               <View style={styles.gradientView}>
                 <GradientButton
-                  onPress={() => alert('Login Pressed')}
+                  onPress={() => dispatch(Login(null))}
                   title={LOGIN_BUTTON_TITTLE}
                 />
               </View>
               <TouchableOpacity
-                onPress={() => props.navigation.navigate(FORGOT_PASSWORD)}
+                onPress={() => props.navigation.navigate('ForgotScreen')}
                 style={styles.forgotView}>
                 <Text style={styles.forgotStyle}>{FORGOT_PASSWORD_LABEL}</Text>
               </TouchableOpacity>

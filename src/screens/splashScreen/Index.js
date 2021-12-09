@@ -13,7 +13,7 @@ const SplashScreen = props => {
   }, []);
   const checkUser = () => {
     setTimeout(() => {
-      props.navigation.replace(LOGIN_SCREEN);
+      props.navigation.replace('LoginScreen');
     }, 2000);
   };
   return (

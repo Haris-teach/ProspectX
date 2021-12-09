@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
   bottomView: {
     flex: 1,
     justifyContent: 'flex-end',
-    marginBottom: hp(5),
+    marginBottom: hp(10),
   },
   resendCodeStyle: {
     alignSelf: 'center',

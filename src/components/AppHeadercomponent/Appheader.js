@@ -15,8 +15,8 @@ const AppHeader = props => {
         onPress={props.leftIconPress}
         style={{
           backgroundColor: props.leftIconBackgrounColor,
-          height: hp(3.2),
-          width: wp(7),
+          height: hp(3.5),
+          width: wp(7.7),
           alignItems: 'center',
           alignSelf: 'center',
           borderRadius: wp(2),

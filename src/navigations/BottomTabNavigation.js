@@ -1,0 +1,111 @@
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import React from 'react';
+import {StyleSheet} from 'react-native';
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from 'react-native-responsive-screen';
+import LinearGradient from 'react-native-linear-gradient';
+
+// =======================local import=========================
+
+import IncomingCalls from '../screens/incomingCallScreen/Index';
+import CallStart from '../screens/startCallScreen/Index';
+import ProfileScreen from '../screens/profileScreen/Index';
+import ChangePassword from '../screens/changePasswordscreen/Index';
+import SettingsScreen from '../screens/settingsScreen/Index';
+import CallScreen from '../screens/callScreen/callScreen';
+
+//==============================================================
+
+// ===================SVGS====================
+
+import Phone from '../assets/svg/phone.svg';
+import Msg from '../assets/svg/msg.svg';
+import Mail from '../assets/svg/mail.svg';
+import PhoneFill from '../assets/svg/phonefill.svg';
+import MsgFill from '../assets/svg/msgfill.svg';
+import MailFill from '../assets/svg/mailfill.svg';
+
+//=================================================
+
+const Tab = createBottomTabNavigator();
+const customTabBarStyle = {
+  //tabBarActiveBackgroundColor: 'red',
+  tabBarShowLabel: false,
+  headerShown: false,
+  tabBarStyle: {
+    backgroundColor: 'rgba(127, 90, 255, 1)',
+    // borderTopLeftRadius: 25,
+    // borderTopRightRadius: 25,
+    borderRadius: wp(10),
+    marginHorizontal: wp(6),
+    position: 'absolute',
+    bottom: 0,
+    elevation: 20,
+    height: hp(6.5),
+    borderTopWidth: 0,
+    marginBottom: hp(2),
+  },
+};
+
+const TabScreen = () => (
+  <Tab.Navigator screenOptions={customTabBarStyle}>
+    {/* <LinearGradient colors={['#79e3fe', '#635df8', '#42385D']} style={{flex: 1}}> */}
+    <Tab.Screen
+      name="Call"
+      component={CallScreen}
+      options={{
+        tabBarIcon: ({focused}) => (!focused ? <Phone /> : <PhoneFill />),
+
+        tabBarItemStyle: {
+          borderRadius: 15,
+          height: hp('7%'),
+          alignSelf: 'center',
+          marginLeft: wp('3%'),
+          marginRight: wp('3%'),
+        },
+      }}
+    />
+    <Tab.Screen
+      name="Message"
+      component={ProfileScreen}
+      options={{
+        tabBarActiveTintColor: 'white',
+        tabBarIcon: ({focused}) => (!focused ? <Msg /> : <MsgFill />),
+
+        tabBarItemStyle: {
+          borderRadius: 15,
+          height: hp('7%'),
+          alignSelf: 'center',
+          marginLeft: wp('3%'),
+          marginRight: wp('3%'),
+        },
+      }}
+    />
+    <Tab.Screen
+      name="Mail"
+      component={CallStart}
+      options={{
+        tabBarIcon: ({focused}) => (!focused ? <Mail /> : <MailFill />),
+        tabBarItemStyle: {
+          borderRadius: 15,
+          height: hp('7%'),
+          alignSelf: 'center',
+          marginLeft: wp('3%'),
+          marginRight: wp('3%'),
+        },
+      }}
+    />
+    {/* </LinearGradient> */}
+  </Tab.Navigator>
+);
+
+export default TabScreen;
+
+const styles = StyleSheet.create({
+  iconStyle: {
+    width: wp('5%'),
+    height: hp('3%'),
+  },
+});

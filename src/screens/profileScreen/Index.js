@@ -1,6 +1,7 @@
 //============================= React Native Import Files =================================
 import React from 'react';
-import {ImageBackground, View, Image} from 'react-native';
+import {ImageBackground, View, Image, SafeAreaView} from 'react-native';
+import {useDispatch} from 'react-redux';
 
 //============================= Local Import Files ========================================
 import AllStyles from '../../all_styles/All_Styles';
@@ -22,8 +23,11 @@ import {
 import Settings from '../../assets/images/settings.svg';
 import ChangePassword from '../../assets/images/unlock.svg';
 import Logout from '../../assets/images/logout.svg';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import {logout} from '../../redux/Actions/authActions';
+
 const ProfileScreen = props => {
+  const dispatch = useDispatch();
+
   return (
     <SafeAreaView style={{flex: 1}}>
       <ImageBackground
@@ -41,19 +45,19 @@ const ProfileScreen = props => {
 
         <View style={AllStyles.profileComponentInnerRow}>
           <ProfileComponent
-            onPress={() => props.navigation.navigate(SETTINGS_SCREEN)}
+            onPress={() => props.navigation.navigate('Setting')}
             title={PROFILE_SETTINGS}
             backgroundColor={colors.profileSettingColor}
             svg={<Settings />}
           />
           <ProfileComponent
-            onPress={() => props.navigation.navigate(CHANGE_PASSWORD)}
+            onPress={() => props.navigation.navigate('ChangePass')}
             title={PROFILE_CHANGE_PASS}
             backgroundColor={colors.profileChangePassColor}
             svg={<ChangePassword />}
           />
           <ProfileComponent
-            onPress={() => props.navigation.replace(LOGIN_SCREEN)}
+            onPress={() => dispatch(logout())}
             title={PROFILE_LOGOUT}
             backgroundColor={colors.profileLogoutColor}
             svg={<Logout />}
