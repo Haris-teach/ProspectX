@@ -62,19 +62,20 @@ const ChangePassword = props => {
               placeholder={OLD_PASSWORD}
               value={oldPassword}
               onChange={oldPassword => setOldPassword(oldPassword)}
+              svg={true}
             />
 
             <ChangePasswordComponent
               placeholder={NEW_PASSWORD}
               value={newPassword}
-              onChange={oldPassword => setOldPassword(oldPassword)}
+              onChange={Password => setNewPassword(Password)}
               svg={true}
             />
 
             <ChangePasswordComponent
               placeholder={CONFIRM_PASSWORD}
               value={confirmPassword}
-              onChange={oldPassword => setOldPassword(oldPassword)}
+              onChange={Password => setConfirmPassword(Password)}
               svg={true}
             />
 

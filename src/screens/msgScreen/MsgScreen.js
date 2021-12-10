@@ -7,53 +7,55 @@ import {
   ImageBackground,
   SectionList,
   StatusBar,
+  FlatList,
 } from 'react-native';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 import {FloatingAction} from 'react-native-floating-action';
-import DropDownPicker from 'react-native-dropdown-picker';
 
 // ================local import=================
-import RNDropDown from '../../components/RNDropDown/RnDropDown';
+
 import RNSearch from '../../components/RNSearch/RNSearch';
 import images from '../../assets/images/Images';
 import colors from '../../assets/colors/Colors';
 import fonts from '../../assets/fonts/Fonts';
+import RNDropDown from '../../components/RNDropDown/RnDropDown';
 // =============================================
 
 // ============SVG Imports===================
 
 import Menu from '../../assets/svg/menu.svg';
 import Bell from '../../assets/svg/bell.svg';
-import INCall from '../../assets/svg/inCall.svg';
-import OutCall from '../../assets/svg/outCall.svg';
+import Pen from '../../assets/svg/pen.svg';
 import Dilar from '../../assets/svg/dilar';
-import Calendar from '../../assets/svg/calendar.svg';
 import Contact from '../../assets/svg/contact.svg';
+import Msg from '../../assets/svg/msgIcon.svg';
 // =========================================
 
 const DATA = [
   {
-    title: 'Main dishes',
-    data: ['Pizza', 'Burger', 'Risotto'],
+    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+    name: 'Haris',
+    msg: 'Thank oe. i’m pleased you to see the benifits.Thank you.',
+    time: '47 min ago',
   },
   {
-    title: 'Sides',
-    data: ['French Fries', 'Onion Rings', 'Fried Shrimps'],
+    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
+    name: 'Hassan',
+    msg: 'Thank oe. i’m pleased you to see the benifits.Thank you.',
+    time: '1  hours ago',
   },
   {
-    title: 'Drinks',
-    data: ['Water', 'Coke', 'Beer'],
-  },
-  {
-    title: 'Desserts',
-    data: ['Cheese Cake', 'Ice Cream'],
+    id: '58694a0f-3da1-471f-bd96-145571e29d72',
+    name: 'Arfat',
+    msg: 'Thank oe. i’m pleased you to see the benifits.Thank you.',
+    time: '3 Days ago',
   },
 ];
 
-const CallScreen = props => {
+const MsgScreen = props => {
   const [items, setItems] = useState([
     {
       id: 0,
@@ -79,47 +81,23 @@ const CallScreen = props => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('Set Time');
 
-  const Item = ({title, index, section}) => {
-    // console.log('FADFAFASF:   ', section.data.length, index);
+  const renderItem = ({item}) => {
     return (
-      <TouchableOpacity
-        style={{
-          backgroundColor: 'rgba(255, 255, 255, 0.67)',
-          marginHorizontal: wp(6),
-          borderTopRightRadius: index == 0 ? wp(10) : wp(0),
-          borderTopLeftRadius: index == 0 ? wp(10) : wp(0),
-          borderBottomRightRadius:
-            index == section.data.length - 1 ? wp(10) : wp(0),
-          borderBottomLeftRadius:
-            index == section.data.length - 1 ? wp(10) : wp(0),
-          borderColor:
-            index == 0 || index == section.data.length - 1
-              ? 'white'
-              : 'rgba(255, 255, 255, 0.67)',
-
-          //   borderTopWidth: index == 0 ? 1 : -10,
-          //   borderLeftWidth: 1,
-          //   borderRightWidth: 1,
-          //   borderBottomWidth: index === section.data.length - 1 ? 1 : 0,
-
-          //marginBottom: index == section.data.length - 1 ? hp(5) : hp(0),
-        }}>
-        <View style={styles.listStyle}>
-          <View style={styles.miniContainer}>
-            <INCall width={wp(4)} height={hp(4)} alignSelf="center" />
-
-            <Text style={styles.tileStyle}>{title}</Text>
+      <>
+        <TouchableOpacity style={styles.item}>
+          <View style={{flex: 1, flexDirection: 'row'}}>
+            <Msg height={hp(5)} width={wp(10)} />
+            <View style={{flex: 1}}>
+              <Text style={styles.nameStyle}>{item.name}</Text>
+              <Text style={styles.msgStyle} numberOfLines={2}>
+                {item.msg}
+              </Text>
+            </View>
           </View>
-
-          <Text style={styles.durationStyle}>few min ago</Text>
-        </View>
-
-        {index < section.data.length - 1 ? (
-          <View
-            style={{borderWidth: 0.4, marginHorizontal: wp(10), opacity: 0.1}}
-          />
-        ) : null}
-      </TouchableOpacity>
+          <Text style={styles.timeStyle}>{item.time}</Text>
+        </TouchableOpacity>
+        <View style={styles.viewStyle} />
+      </>
     );
   };
 
@@ -144,15 +122,11 @@ const CallScreen = props => {
 
           {/* ==================================== */}
 
-          {/* ================DropDown component============== */}
+          {/* =============RNDropDown===================== */}
 
-          {/* <RNSearch
-            placeholder="Select a number for calls"
-            onPress={() => console.log('Presssed')}
-          /> */}
           <RNDropDown
             open={open}
-            placeholder="Select number for call"
+            placeholder="Select a number for message"
             value={value}
             items={items}
             setOpen={setOpen}
@@ -162,41 +136,29 @@ const CallScreen = props => {
             svg={<Contact />}
           />
 
-          {/* ==================================================== */}
+          {/* =================================================== */}
 
-          {/* ===============LIST VIEW========================== */}
-
-          <SectionList
-            style={{
-              flex: 1,
-              marginBottom: hp(3.3),
-              //backgroundColor: 'red',
-            }}
-            sections={DATA}
-            keyExtractor={(item, index) => item + index}
-            renderItem={({item, section, index}) => (
-              <Item title={item} index={index} section={section} />
-            )}
-            renderSectionHeader={({section: {title}}) => (
-              <Text style={styles.header}>{title}</Text>
-            )}
-          />
-
-          {/* ======================================================== */}
-          <View style={{marginBottom: hp(5.5)}}>
-            <FloatingAction
-              backgroundColor="red"
-              floatingIcon={<Dilar />}
-              onPressMain={() => props.navigation.navigate('InComming')}
+          <View style={styles.flatListStyle}>
+            <FlatList
+              data={DATA}
+              renderItem={renderItem}
+              keyExtractor={item => item.id}
             />
           </View>
+        </View>
+        <View style={{marginBottom: hp(6)}}>
+          <FloatingAction
+            backgroundColor="red"
+            floatingIcon={<Pen />}
+            //onPressMain={() => props.navigation.navigate('InComming')}
+          />
         </View>
       </ImageBackground>
     </SafeAreaView>
   );
 };
 
-export default CallScreen;
+export default MsgScreen;
 
 const styles = {
   dropdownStyle: {
@@ -288,5 +250,52 @@ const styles = {
     marginLeft: wp(2),
     justifyContent: 'center',
     borderRadius: hp(6),
+  },
+  item: {
+    marginHorizontal: wp(2),
+    marginVertical: 8,
+    marginHorizontal: 16,
+    //backgroundColor: 'red',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginVertical: hp(3),
+  },
+  title: {
+    fontSize: wp(10),
+  },
+  flatListStyle: {
+    flex: 0.97,
+    backgroundColor: 'rgba(255, 255, 255, 0.67)',
+    marginHorizontal: wp(6.5),
+    borderRadius: wp(5),
+    marginTop: hp(2),
+    borderColor: '#FFFFFF',
+  },
+  nameStyle: {
+    fontFamily: 'SF Pro Text',
+    color: '#2E2E2E',
+    fontSize: wp(4.5),
+    marginHorizontal: wp(3),
+    marginTop: hp(-0.5),
+  },
+  msgStyle: {
+    fontFamily: 'SF Pro Text',
+    color: '#959595',
+    fontSize: wp(3.2),
+    marginHorizontal: wp(3),
+    marginTop: hp(0.5),
+  },
+  timeStyle: {
+    fontFamily: 'Barlow',
+    color: '#959595',
+    fontSize: wp(3),
+    marginHorizontal: wp(3),
+    marginTop: hp(-0.5),
+  },
+  viewStyle: {
+    borderWidth: 0.4,
+    marginHorizontal: wp(10),
+    opacity: 0.1,
+    marginTop: hp(-1),
   },
 };

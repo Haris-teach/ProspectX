@@ -9,12 +9,11 @@ import LinearGradient from 'react-native-linear-gradient';
 
 // =======================local import=========================
 
-import IncomingCalls from '../screens/incomingCallScreen/Index';
 import CallStart from '../screens/startCallScreen/Index';
 import ProfileScreen from '../screens/profileScreen/Index';
-import ChangePassword from '../screens/changePasswordscreen/Index';
-import SettingsScreen from '../screens/settingsScreen/Index';
 import CallScreen from '../screens/callScreen/callScreen';
+import MsgScreen from '../screens/msgScreen/MsgScreen';
+import MailScreen from '../screens/mailScreen/mailScreen';
 
 //==============================================================
 
@@ -69,7 +68,7 @@ const TabScreen = () => (
     />
     <Tab.Screen
       name="Message"
-      component={ProfileScreen}
+      component={MsgScreen}
       options={{
         tabBarActiveTintColor: 'white',
         tabBarIcon: ({focused}) => (!focused ? <Msg /> : <MsgFill />),
@@ -85,7 +84,7 @@ const TabScreen = () => (
     />
     <Tab.Screen
       name="Mail"
-      component={CallStart}
+      component={MailScreen}
       options={{
         tabBarIcon: ({focused}) => (!focused ? <Mail /> : <MailFill />),
         tabBarItemStyle: {

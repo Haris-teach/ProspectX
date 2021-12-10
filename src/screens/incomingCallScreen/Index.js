@@ -33,7 +33,7 @@ const IncomingCalls = props => {
           <View style={AllStyles.incomingSwipeBtnStyle}>
             <SwipeButton
               enableRightToLeftSwipe={true}
-              onSwipeSuccess={() => props.navigation.navigate(CALL_START)}
+              onSwipeSuccess={() => props.navigation.navigate('CallStart')}
               railBackgroundColor={colors.railbackgroundColor}
               railBorderColor={colors.whiteColor}
               railFillBackgroundColor={colors.railFillBackgroundColor}

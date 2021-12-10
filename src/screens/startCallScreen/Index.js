@@ -87,7 +87,7 @@ const CallStart = props => {
             start={{y: 0.0, x: 0.0}}
             end={{y: 1.0, x: 1.0}}>
             <TouchableOpacity
-              onPress={() => props.navigation.navigate(PROFILE_SCREEN)}
+              onPress={() => props.navigation.navigate('Home')}
               style={AllStyles.startCallDeclineButton}>
               <CallDecline />
             </TouchableOpacity>

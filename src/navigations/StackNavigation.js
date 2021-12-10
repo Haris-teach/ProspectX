@@ -26,6 +26,9 @@ import OtpScreen from '../screens/otpScreen/otpScreen';
 import ProfileScreen from '../screens/profileScreen/Index';
 import ChangePassword from '../screens/changePasswordscreen/Index';
 import SettingsScreen from '../screens/settingsScreen/Index';
+import CallStart from '../screens/startCallScreen/Index';
+import IncomingCalls from '../screens/incomingCallScreen/Index';
+import NotificationScreen from '../screens/notificationScreen/notificationScreen';
 
 const RootStack = createNativeStackNavigator();
 const Stack = () => {
@@ -43,6 +46,12 @@ const Stack = () => {
           <RootStack.Screen name={'Profile'} component={ProfileScreen} />
           <RootStack.Screen name={'ChangePass'} component={ChangePassword} />
           <RootStack.Screen name={'Setting'} component={SettingsScreen} />
+          <RootStack.Screen name={'CallStart'} component={CallStart} />
+          <RootStack.Screen name={'InComming'} component={IncomingCalls} />
+          <RootStack.Screen
+            name={'Notification'}
+            component={NotificationScreen}
+          />
         </RootStack.Navigator>
       </NavigationContainer>
     );
