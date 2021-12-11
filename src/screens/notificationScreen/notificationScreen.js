@@ -46,21 +46,114 @@ const DATA = [
 ];
 
 const NotificationScreen = props => {
-  const renderItem = ({item}) => {
+  const [select, setSelect] = useState(null);
+
+  const styles = {
+    headerContainer: {
+      height: hp(15),
+      alignItems: 'center',
+      flexDirection: 'row',
+    },
+
+    backButton: {
+      backgroundColor: colors.whiteColor,
+      height: hp(3.5),
+      width: wp(7.7),
+      marginLeft: wp(6),
+      borderRadius: wp(2),
+      justifyContent: 'center',
+      alignItems: 'center',
+      shadowColor: '#0E2247',
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.2,
+      shadowRadius: 5,
+      elevation: 8,
+    },
+    headerText: {
+      flex: 1,
+      color: colors.titleColor,
+      fontSize: wp(5.5),
+      fontFamily: 'SF Pro Text',
+      textAlign: 'center',
+      marginRight: wp(10),
+    },
+    viewContainer: {
+      width: hp(1),
+      height: hp(1),
+      borderRadius: hp(2),
+
+      alignSelf: 'center',
+    },
+    boldTextStyle: {
+      marginLeft: wp(4),
+      marginRight: wp(10),
+      color: '#293859',
+      fontWeight: 'bold',
+    },
+    msgStyle: {
+      alignSelf: 'center',
+      marginLeft: wp(5),
+      fontFamily: 'SF Pro Text',
+      fontSize: wp(3.3),
+      width: wp(60),
+      textAlign: 'left',
+    },
+    miniContainer: {
+      justifyContent: 'center',
+      flexDirection: 'row',
+      borderRadius: wp(5),
+      borderColor: 'white',
+    },
+    timeStyle: {
+      marginHorizontal: wp(1),
+      alignSelf: 'center',
+      color: 'rgba(118, 129, 255, 1)',
+      fontSize: wp(3.4),
+    },
+  };
+
+  const renderItem = ({item, index}) => {
     return (
-      <TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => setSelect(index)}
+        style={{
+          backgroundColor: select == index ? 'rgba(255, 255, 255, 0.62)' : null,
+          borderRadius: wp(5),
+          borderColor: 'white',
+          borderWidth: select == index ? 1 : -1,
+          padding: hp(2),
+        }}>
         <View style={{flexDirection: 'row', marginVertical: hp(2)}}>
-          <View style={styles.viewContainer} />
-          <Text style={styles.boldTextStyle} numberOfLines={1}>
+          <View
+            style={[
+              styles.viewContainer,
+              {backgroundColor: select == index ? null : '#7681FF'},
+            ]}
+          />
+          <Text
+            style={select == index ? styles.msgStyle : styles.boldTextStyle}
+            numberOfLines={select == index ? 4 : 1}>
             {item.name}
-            <Text style={styles.msgStyle} numberOfLines={1}>
+            <Text style={styles.msgStyle} numberOfLines={4}>
               {'  '}
               {item.msg}
             </Text>
           </Text>
         </View>
         <View style={{flexDirection: 'row'}}>
-          <View style={[styles.miniContainer, {marginHorizontal: wp(6)}]}>
+          <View
+            style={[
+              styles.miniContainer,
+              {
+                marginHorizontal: wp(6),
+                backgroundColor:
+                  select == index ? '#E9EAFF' : 'rgba(255, 255, 255, 0.67)',
+                borderWidth: select == index ? -1 : 1,
+              },
+            ]}>
             <Clock
               alignSelf="center"
               marginHorizontal={wp(1)}
@@ -69,8 +162,16 @@ const NotificationScreen = props => {
             />
             <Text style={styles.timeStyle}>11:00</Text>
           </View>
-          <View style={styles.miniContainer}>
-            <Clock
+          <View
+            style={[
+              styles.miniContainer,
+              {
+                backgroundColor:
+                  select == index ? '#E9EAFF' : 'rgba(255, 255, 255, 0.67)',
+                borderWidth: select == index ? -1 : 1,
+              },
+            ]}>
+            <Calander
               alignSelf="center"
               marginHorizontal={wp(1)}
               width={wp(3)}
@@ -122,71 +223,3 @@ const NotificationScreen = props => {
 };
 
 export default NotificationScreen;
-
-const styles = {
-  headerContainer: {
-    height: hp(15),
-    alignItems: 'center',
-    flexDirection: 'row',
-  },
-
-  backButton: {
-    backgroundColor: colors.whiteColor,
-    height: hp(3.5),
-    width: wp(7.7),
-    marginLeft: wp(6),
-    borderRadius: wp(2),
-    justifyContent: 'center',
-    alignItems: 'center',
-    shadowColor: '#0E2247',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.2,
-    shadowRadius: 5,
-    elevation: 8,
-  },
-  headerText: {
-    flex: 1,
-    color: colors.titleColor,
-    fontSize: wp(5.5),
-    fontFamily: 'SF Pro Text',
-    textAlign: 'center',
-    marginRight: wp(10),
-  },
-  viewContainer: {
-    width: hp(1),
-    height: hp(1),
-    borderRadius: hp(2),
-    backgroundColor: '#7681FF',
-    alignSelf: 'center',
-  },
-  boldTextStyle: {
-    marginLeft: wp(4),
-    marginRight: wp(10),
-    color: '#293859',
-    fontWeight: 'bold',
-  },
-  msgStyle: {
-    alignSelf: 'center',
-    marginLeft: wp(2),
-    fontFamily: 'SF Pro Text',
-    fontSize: wp(3.3),
-  },
-  miniContainer: {
-    backgroundColor: 'rgba(255, 255, 255, 0.67)',
-
-    justifyContent: 'center',
-    flexDirection: 'row',
-    borderRadius: wp(5),
-    borderColor: 'white',
-    borderWidth: 1,
-  },
-  timeStyle: {
-    marginHorizontal: wp(1),
-    alignSelf: 'center',
-    color: 'rgba(118, 129, 255, 1)',
-    fontSize: wp(3.4),
-  },
-};

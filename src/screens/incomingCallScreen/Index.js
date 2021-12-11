@@ -1,7 +1,11 @@
 //================================ React Native Import Files ============================
-import React from 'react';
-import {ImageBackground, Text, View} from 'react-native';
+import React, {useEffect} from 'react';
+import {ImageBackground, Text, View, Vibration} from 'react-native';
 import SwipeButton from 'rn-swipe-button';
+import NotificationSounds, {
+  playSampleSound,
+  stopSampleSound,
+} from 'react-native-notification-sounds';
 //================================ Local Import Files ==================================
 import images from '../../assets/images/Images';
 import AllStyles from '../../all_styles/All_Styles';
@@ -15,7 +19,61 @@ import fonts from '../../assets/fonts/Fonts';
 import {CALL_START} from '../../constants/Navigator';
 import {widthPercentageToDP} from 'react-native-responsive-screen';
 import {SafeAreaView} from 'react-native-safe-area-context';
+
+var timer = null;
 const IncomingCalls = props => {
+  const ONE_SECOND_IN_MS = 500;
+
+  const PATTERN = [
+    1 * ONE_SECOND_IN_MS,
+    2 * ONE_SECOND_IN_MS,
+    3 * ONE_SECOND_IN_MS,
+  ];
+
+  useEffect(() => {
+    CallFunction();
+  }, []);
+
+  const CallFunction = () => {
+    NotificationSounds.getNotifications('ringtone').then(soundsList => {
+      // console.log('SOUNDS=?', soundsList);
+
+      Vibration.vibrate(PATTERN, true);
+      /*
+        Play the notification sound.
+        pass the complete sound object.
+        This function can be used for playing the sample sound
+        */
+
+      playSampleSound(soundsList[2]);
+
+      setTimeout(() => {
+        stopSampleSound();
+
+        Vibration.cancel();
+        props.navigation.goBack();
+      }, 25000);
+
+      // if you want to stop any playing sound just call:
+      // stopSampleSound();
+    });
+  };
+
+  // const closeAll = () => {
+  //   Vibration.cancel();
+  //   stopSampleSound();
+  //   clearInterval(timer);
+  // };
+
+  const onSwipeSuccess = () => {
+    props.navigation.navigate('CallStart', {
+      name: props.route.params.name,
+    });
+    Vibration.cancel();
+    stopSampleSound();
+    clearInterval(timer);
+  };
+
   return (
     <SafeAreaView style={{flex: 1}}>
       <ImageBackground
@@ -23,7 +81,9 @@ const IncomingCalls = props => {
         style={AllStyles.mainContainer}>
         <View style={AllStyles.incomingCallStartView}>
           <View style={AllStyles.incomingCallInnerView}>
-            <Text style={AllStyles.incomingNumberStyle}>{INCOMING_NUMBER}</Text>
+            <Text style={AllStyles.incomingNumberStyle}>
+              {props.route.params.name}
+            </Text>
             <Text style={AllStyles.incomingRingingStyle}>
               {INCOMING_STATUS}
             </Text>
@@ -33,7 +93,7 @@ const IncomingCalls = props => {
           <View style={AllStyles.incomingSwipeBtnStyle}>
             <SwipeButton
               enableRightToLeftSwipe={true}
-              onSwipeSuccess={() => props.navigation.navigate('CallStart')}
+              onSwipeSuccess={() => onSwipeSuccess()}
               railBackgroundColor={colors.railbackgroundColor}
               railBorderColor={colors.whiteColor}
               railFillBackgroundColor={colors.railFillBackgroundColor}

@@ -83,6 +83,7 @@ const CallScreen = props => {
     // console.log('FADFAFASF:   ', section.data.length, index);
     return (
       <TouchableOpacity
+        onPress={() => props.navigation.navigate('InComming', {name: title})}
         style={{
           backgroundColor: 'rgba(255, 255, 255, 0.67)',
           marginHorizontal: wp(6),
@@ -187,7 +188,7 @@ const CallScreen = props => {
             <FloatingAction
               backgroundColor="red"
               floatingIcon={<Dilar />}
-              onPressMain={() => props.navigation.navigate('InComming')}
+              //onPressMain={() => props.navigation.navigate('InComming')}
             />
           </View>
         </View>

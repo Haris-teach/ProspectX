@@ -22,6 +22,7 @@ import {
   SPEAKER_TEXT,
 } from '../../constants/ConstStrings';
 import {PROFILE_SCREEN} from '../../constants/Navigator';
+
 const CallStart = props => {
   const [mute, setMute] = useState(false);
   var [timerState, setTimerState] = useState(0);
@@ -45,7 +46,9 @@ const CallStart = props => {
         style={AllStyles.mainContainer}>
         <View style={AllStyles.incomingCallStartView}>
           <View style={AllStyles.incomingCallInnerView}>
-            <Text style={AllStyles.incomingNumberStyle}>{INCOMING_NUMBER}</Text>
+            <Text style={AllStyles.incomingNumberStyle}>
+              {props.route.params.name}
+            </Text>
             <Text style={AllStyles.incomingRingingStyle}>
               {' '}
               {minutes > 59 ? (hours < 10 ? `0${hours}` : hours) : null}{' '}

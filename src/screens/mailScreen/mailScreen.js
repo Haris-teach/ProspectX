@@ -31,6 +31,7 @@ import Bell from '../../assets/svg/bell.svg';
 import Pen from '../../assets/svg/pen.svg';
 import Dilar from '../../assets/svg/dilar';
 import Contact from '../../assets/svg/contact.svg';
+import Email from '../../assets/svg/email.svg';
 // =========================================
 
 const DATA = [
@@ -85,7 +86,7 @@ const MailScreen = props => {
       <>
         <TouchableOpacity style={styles.item}>
           <View style={{flex: 1, flexDirection: 'row'}}>
-            <Contact height={hp(5)} width={wp(10)} />
+            <Email height={hp(5)} width={wp(10)} />
             <View style={{flex: 1}}>
               <Text style={styles.nameStyle}>{item.name}</Text>
               <Text style={styles.msgStyle} numberOfLines={2}>

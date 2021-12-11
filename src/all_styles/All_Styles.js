@@ -465,9 +465,9 @@ const AllStyles = {
     flex: 0.8,
   },
   settingsButtonView: {
-    flex: 0.9,
+    flex: 0.87,
     justifyContent: 'flex-end',
-    width: wp(90),
+    width: wp(80),
     alignSelf: 'center',
   },
 };

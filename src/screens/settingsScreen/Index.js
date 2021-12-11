@@ -33,12 +33,6 @@ const SettingsScreen = props => {
       <ImageBackground
         source={images.splashBackground}
         style={AllStyles.mainContainer}>
-        {/* <AppHeader
-        leftIconBackgrounColor={colors.whiteColor}
-        leftSvg={<BackArrow height={15} width={15} />}
-        title={SETTINGS}
-        leftIconPress={() => props.navigation.goBack(null)}
-      /> */}
         {/* Header Code */}
 
         <View style={styles.headerContainer}>
@@ -52,28 +46,28 @@ const SettingsScreen = props => {
 
         {/* =============================================== */}
 
-        <View style={AllStyles.settingsFirstView}>
-          <View style={AllStyles.settingsRowView}>
-            <Text style={AllStyles.settingsNotificationStyle}>
-              {ENABLE_NOTIFICATIONS}
-            </Text>
-            <Switch
-              style={AllStyles.settingsSwitchButtonStyle}
-              trackColor={{false: 'green', true: colors.purpleColor}}
-              thumbColor={isEnabled ? colors.whiteColor : colors.purpleColor}
-              ios_backgroundColor={colors.whiteColor}
-              onValueChange={() => setIsEnabled(!isEnabled)}
-              value={isEnabled}
-            />
-          </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            marginHorizontal: wp(12),
+            marginTop: hp(10),
+          }}>
+          <Text style={AllStyles.settingsNotificationStyle}>
+            {ENABLE_NOTIFICATIONS}
+          </Text>
+          <Switch
+            style={AllStyles.settingsSwitchButtonStyle}
+            trackColor={{false: 'green', true: colors.purpleColor}}
+            thumbColor={isEnabled ? colors.whiteColor : colors.purpleColor}
+            ios_backgroundColor={colors.whiteColor}
+            onValueChange={() => setIsEnabled(!isEnabled)}
+            value={isEnabled}
+          />
         </View>
-        <View style={AllStyles.settingsBottomContainer}>
-          <View style={AllStyles.settingsButtonView}>
-            <GradientButton
-              onPress={() => alert('Login Pressed')}
-              title={SAVE}
-            />
-          </View>
+
+        <View style={AllStyles.settingsButtonView}>
+          <GradientButton onPress={() => alert('Login Pressed')} title={SAVE} />
         </View>
       </ImageBackground>
     </SafeAreaView>
