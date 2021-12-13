@@ -35,6 +35,7 @@ const PasswordField = props => {
           style={AllStyles.textFieldStyle}
           secureTextEntry={securePass}
           onChangeText={props.onChange}
+          onBlur={props.onBlur}
         />
         <TouchableOpacity
           style={{marginTop: hp(1)}}

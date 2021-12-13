@@ -40,18 +40,21 @@ const DATA = [
     name: 'Haris',
     msg: 'Thank oe. i’m pleased you to see the benifits.Thank you.',
     time: '47 min ago',
+    email: 'Test1@gmail.com',
   },
   {
     id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
     name: 'Hassan',
     msg: 'Thank oe. i’m pleased you to see the benifits.Thank you.',
     time: '1  hours ago',
+    email: 'Test2@gmail.com',
   },
   {
     id: '58694a0f-3da1-471f-bd96-145571e29d72',
     name: 'Arfat',
     msg: 'Thank oe. i’m pleased you to see the benifits.Thank you.',
     time: '3 Days ago',
+    email: 'Test3@gmail.com',
   },
 ];
 
@@ -84,7 +87,15 @@ const MailScreen = props => {
   const renderItem = ({item}) => {
     return (
       <>
-        <TouchableOpacity style={styles.item}>
+        <TouchableOpacity
+          style={styles.item}
+          onPress={() =>
+            props.navigation.navigate('MailIndox', {
+              email: item.email,
+              name: item.name,
+              msg: item.msg,
+            })
+          }>
           <View style={{flex: 1, flexDirection: 'row'}}>
             <Email height={hp(5)} width={wp(10)} />
             <View style={{flex: 1}}>
@@ -102,59 +113,57 @@ const MailScreen = props => {
   };
 
   return (
-    <SafeAreaView style={styles.mainContainer}>
-      <ImageBackground
-        style={styles.mainContainer}
-        source={images.splashBackground}>
-        <View style={styles.mainContainer}>
-          {/* ===========Header PArt=========== */}
+    <ImageBackground
+      style={styles.mainContainer}
+      source={images.splashBackground}>
+      <View style={styles.mainContainer}>
+        {/* ===========Header PArt=========== */}
 
-          <View style={styles.headerContainer}>
-            <TouchableOpacity
-              onPress={() => props.navigation.navigate('Profile')}>
-              <Menu />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => props.navigation.navigate('Notification')}>
-              <Bell />
-            </TouchableOpacity>
-          </View>
-
-          {/* ==================================== */}
-
-          {/* =============RNDropDown===================== */}
-
-          <RNDropDown
-            open={open}
-            placeholder="Select a number for message"
-            value={value}
-            items={items}
-            setOpen={setOpen}
-            setValue={setValue}
-            setItems={setItems}
-            onPress={() => console.log('Pressed')}
-            svg={<Contact />}
-          />
-
-          {/* =================================================== */}
-
-          <View style={styles.flatListStyle}>
-            <FlatList
-              data={DATA}
-              renderItem={renderItem}
-              keyExtractor={item => item.id}
-            />
-          </View>
+        <View style={styles.headerContainer}>
+          <TouchableOpacity
+            onPress={() => props.navigation.navigate('Profile')}>
+            <Menu />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => props.navigation.navigate('Notification')}>
+            <Bell />
+          </TouchableOpacity>
         </View>
-        <View style={{marginBottom: hp(6)}}>
-          <FloatingAction
-            backgroundColor="red"
-            floatingIcon={<Pen />}
-            //onPressMain={() => props.navigation.navigate('InComming')}
+
+        {/* ==================================== */}
+
+        {/* =============RNDropDown===================== */}
+
+        <RNDropDown
+          open={open}
+          placeholder="Select a number for message"
+          value={value}
+          items={items}
+          setOpen={setOpen}
+          setValue={setValue}
+          setItems={setItems}
+          onPress={() => console.log('Pressed')}
+          svg={<Contact />}
+        />
+
+        {/* =================================================== */}
+
+        <View style={styles.flatListStyle}>
+          <FlatList
+            data={DATA}
+            renderItem={renderItem}
+            keyExtractor={item => item.id}
           />
         </View>
-      </ImageBackground>
-    </SafeAreaView>
+      </View>
+      <View style={{marginBottom: hp(6)}}>
+        <FloatingAction
+          backgroundColor="red"
+          floatingIcon={<Pen />}
+          onPressMain={() => props.navigation.navigate('NewMailScreen')}
+        />
+      </View>
+    </ImageBackground>
   );
 };
 
@@ -265,6 +274,7 @@ const styles = {
   },
   flatListStyle: {
     flex: 0.97,
+    zIndex: 0,
     backgroundColor: 'rgba(255, 255, 255, 0.67)',
     marginHorizontal: wp(6.5),
     borderRadius: wp(5),
@@ -286,7 +296,7 @@ const styles = {
     marginTop: hp(0.5),
   },
   timeStyle: {
-    fontFamily: 'Barlow',
+    fontFamily: 'Barlow-Light',
     color: '#959595',
     fontSize: wp(3),
     marginHorizontal: wp(3),

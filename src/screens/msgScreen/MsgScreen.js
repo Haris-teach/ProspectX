@@ -102,59 +102,57 @@ const MsgScreen = props => {
   };
 
   return (
-    <SafeAreaView style={styles.mainContainer}>
-      <ImageBackground
-        style={styles.mainContainer}
-        source={images.splashBackground}>
-        <View style={styles.mainContainer}>
-          {/* ===========Header PArt=========== */}
+    <ImageBackground
+      style={styles.mainContainer}
+      source={images.splashBackground}>
+      <View style={styles.mainContainer}>
+        {/* ===========Header PArt=========== */}
 
-          <View style={styles.headerContainer}>
-            <TouchableOpacity
-              onPress={() => props.navigation.navigate('Profile')}>
-              <Menu />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => props.navigation.navigate('Notification')}>
-              <Bell />
-            </TouchableOpacity>
-          </View>
-
-          {/* ==================================== */}
-
-          {/* =============RNDropDown===================== */}
-
-          <RNDropDown
-            open={open}
-            placeholder="Select a number for message"
-            value={value}
-            items={items}
-            setOpen={setOpen}
-            setValue={setValue}
-            setItems={setItems}
-            onPress={() => console.log('Pressed')}
-            svg={<Contact />}
-          />
-
-          {/* =================================================== */}
-
-          <View style={styles.flatListStyle}>
-            <FlatList
-              data={DATA}
-              renderItem={renderItem}
-              keyExtractor={item => item.id}
-            />
-          </View>
+        <View style={styles.headerContainer}>
+          <TouchableOpacity
+            onPress={() => props.navigation.navigate('Profile')}>
+            <Menu />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => props.navigation.navigate('Notification')}>
+            <Bell />
+          </TouchableOpacity>
         </View>
-        <View style={{marginBottom: hp(6)}}>
-          <FloatingAction
-            backgroundColor="red"
-            floatingIcon={<Pen />}
-            //onPressMain={() => props.navigation.navigate('InComming')}
+
+        {/* ==================================== */}
+
+        {/* =============RNDropDown===================== */}
+
+        <RNDropDown
+          open={open}
+          placeholder="Select a number for message"
+          value={value}
+          items={items}
+          setOpen={setOpen}
+          setValue={setValue}
+          setItems={setItems}
+          onPress={() => console.log('Pressed')}
+          svg={<Contact />}
+        />
+
+        {/* =================================================== */}
+
+        <View style={styles.flatListStyle}>
+          <FlatList
+            data={DATA}
+            renderItem={renderItem}
+            keyExtractor={item => item.id}
           />
         </View>
-      </ImageBackground>
-    </SafeAreaView>
+      </View>
+      <View style={{marginBottom: hp(6)}}>
+        <FloatingAction
+          backgroundColor="red"
+          floatingIcon={<Pen />}
+          onPressMain={() => props.navigation.navigate('Chat')}
+        />
+      </View>
+    </ImageBackground>
   );
 };
 
@@ -265,6 +263,7 @@ const styles = {
   },
   flatListStyle: {
     flex: 0.97,
+    zIndex: 0,
     backgroundColor: 'rgba(255, 255, 255, 0.67)',
     marginHorizontal: wp(6.5),
     borderRadius: wp(5),
@@ -286,7 +285,7 @@ const styles = {
     marginTop: hp(0.5),
   },
   timeStyle: {
-    fontFamily: 'Barlow',
+    fontFamily: 'Barlow-Light',
     color: '#959595',
     fontSize: wp(3),
     marginHorizontal: wp(3),

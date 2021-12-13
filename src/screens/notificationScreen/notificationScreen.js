@@ -185,40 +185,36 @@ const NotificationScreen = props => {
   };
 
   return (
-    <SafeAreaView style={{flex: 1}}>
-      <KeyboardAvoidingView
-        style={AllStyles.mainContainer}
-        behavior={'padding'}>
-        <ImageBackground
-          source={images.splashBackground}
-          style={AllStyles.mainContainer}>
-          {/* Header Code */}
+    <KeyboardAvoidingView style={AllStyles.mainContainer} behavior={'padding'}>
+      <ImageBackground
+        source={images.splashBackground}
+        style={AllStyles.mainContainer}>
+        {/* Header Code */}
 
-          <View style={styles.headerContainer}>
-            <TouchableOpacity
-              onPress={() => props.navigation.goBack()}
-              style={styles.backButton}>
-              <BackArrow height={15} width={15} />
-            </TouchableOpacity>
-            <Text style={styles.headerText}>Notifications</Text>
-          </View>
-          {/* -------------------------------------------------------------------------- */}
+        <View style={styles.headerContainer}>
+          <TouchableOpacity
+            onPress={() => props.navigation.goBack()}
+            style={styles.backButton}>
+            <BackArrow height={15} width={15} />
+          </TouchableOpacity>
+          <Text style={styles.headerText}>Notifications</Text>
+        </View>
+        {/* -------------------------------------------------------------------------- */}
 
-          <View
-            style={{
-              flex: 1,
-              marginTop: hp(4),
-              marginHorizontal: wp(6),
-            }}>
-            <FlatList
-              data={DATA}
-              renderItem={renderItem}
-              keyExtractor={item => item.id}
-            />
-          </View>
-        </ImageBackground>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+        <View
+          style={{
+            flex: 1,
+            marginTop: hp(4),
+            marginHorizontal: wp(6),
+          }}>
+          <FlatList
+            data={DATA}
+            renderItem={renderItem}
+            keyExtractor={item => item.id}
+          />
+        </View>
+      </ImageBackground>
+    </KeyboardAvoidingView>
   );
 };
 

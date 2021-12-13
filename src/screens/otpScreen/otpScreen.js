@@ -42,86 +42,82 @@ const OtpScreen = props => {
   const [timer, setTimer] = useState(true);
 
   return (
-    <SafeAreaView style={{flex: 1}}>
-      <KeyboardAvoidingView
-        style={AllStyles.imageBackground}
-        behavior={Platform.OS === 'ios' ? 'padding' : null}>
-        <ImageBackground
-          style={AllStyles.mainContainer}
-          source={images.splashBackground}>
-          <View style={AllStyles.headerView}>
-            <TouchableOpacity
-              onPress={() => props.navigation.goBack()}
-              style={AllStyles.backArrowWidth}>
-              <BackArrow />
-            </TouchableOpacity>
-          </View>
+    <KeyboardAvoidingView
+      style={AllStyles.imageBackground}
+      behavior={Platform.OS === 'ios' ? 'padding' : null}>
+      <ImageBackground
+        style={AllStyles.mainContainer}
+        source={images.splashBackground}>
+        <View style={AllStyles.headerView}>
+          <TouchableOpacity
+            onPress={() => props.navigation.goBack()}
+            style={AllStyles.backArrowWidth}>
+            <BackArrow />
+          </TouchableOpacity>
+        </View>
 
-          <View style={styles.otpMainView}>
-            <Text style={styles.otpTitleTextStyle}>
-              Enter Verification Code
-            </Text>
-            <Text style={styles.otpDescTextStyle}>
-              Please enter the 4 Digit Verification Code Below
-            </Text>
-          </View>
+        <View style={styles.otpMainView}>
+          <Text style={styles.otpTitleTextStyle}>Enter Verification Code</Text>
+          <Text style={styles.otpDescTextStyle}>
+            Please enter the 4 Digit Verification Code Below
+          </Text>
+        </View>
 
-          <View style={styles.otpCodeFullView}>
-            <OTPInputView
-              ref={OTPRef}
-              style={styles.otpInsideStyle}
-              pinCount={4}
-              clearInputs={clearOTP}
-              autoFocusOnLoad
-              codeInputFieldStyle={styles.otpCodeFieldStyle}
-              onCodeFilled={code => {
-                setClearOTP(false);
-                console.log(`Code is ${code}, you are good to go!`);
-                setCode(code);
-              }}
+        <View style={styles.otpCodeFullView}>
+          <OTPInputView
+            ref={OTPRef}
+            style={styles.otpInsideStyle}
+            pinCount={4}
+            clearInputs={clearOTP}
+            autoFocusOnLoad
+            codeInputFieldStyle={styles.otpCodeFieldStyle}
+            onCodeFilled={code => {
+              setClearOTP(false);
+              console.log(`Code is ${code}, you are good to go!`);
+              setCode(code);
+            }}
+          />
+        </View>
+        <View style={styles.otpResendViewStyle}>
+          {!timer ? (
+            <View style={styles.otpResendRowView}>
+              <Text style={styles.otpCodeTextStyle}>
+                Did not receive the code yet?
+              </Text>
+              <TouchableOpacity onPress={() => setTimer(!timer)}>
+                <Text style={styles.otpResendTextStyle}>Resend</Text>
+              </TouchableOpacity>
+            </View>
+          ) : (
+            <CountDown
+              until={30}
+              digitStyle={styles.otpDigitStyle}
+              digitTxtStyle={styles.otpDigitalTextStyle}
+              separatorStyle={styles.otpDigitalTextStyle}
+              timeToShow={['M', 'S']}
+              timeLabels={{}}
+              onFinish={() => setTimer(!timer)}
+              size={15}
+              showSeparator
             />
-          </View>
-          <View style={styles.otpResendViewStyle}>
-            {!timer ? (
-              <View style={styles.otpResendRowView}>
-                <Text style={styles.otpCodeTextStyle}>
-                  Did not receive the code yet?
-                </Text>
-                <TouchableOpacity onPress={() => setTimer(!timer)}>
-                  <Text style={styles.otpResendTextStyle}>Resend</Text>
-                </TouchableOpacity>
-              </View>
-            ) : (
-              <CountDown
-                until={30}
-                digitStyle={styles.otpDigitStyle}
-                digitTxtStyle={styles.otpDigitalTextStyle}
-                separatorStyle={styles.otpDigitalTextStyle}
-                timeToShow={['M', 'S']}
-                timeLabels={{}}
-                onFinish={() => setTimer(!timer)}
-                size={15}
-                showSeparator
-              />
-            )}
-          </View>
+          )}
+        </View>
 
-          <View
-            style={{
-              flex: 1,
-              justifyContent: 'center',
-              marginTop: hp(15),
-              width: wp(80),
-              alignSelf: 'center',
-            }}>
-            <GradientButton
-              title={SUBMIT}
-              onPress={() => props.navigation.navigate('ResetScreen')}
-            />
-          </View>
-        </ImageBackground>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            marginTop: hp(15),
+            width: wp(80),
+            alignSelf: 'center',
+          }}>
+          <GradientButton
+            title={SUBMIT}
+            onPress={() => props.navigation.navigate('ResetScreen')}
+          />
+        </View>
+      </ImageBackground>
+    </KeyboardAvoidingView>
   );
 };
 export default OtpScreen;

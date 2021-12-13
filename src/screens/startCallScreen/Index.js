@@ -31,7 +31,7 @@ const CallStart = props => {
   }, []);
   const timer = () => {
     let count = timerState;
-    messageTime = setInterval(() => {
+    setInterval(() => {
       count = count + 1;
       setTimerState(count);
     }, 1000);

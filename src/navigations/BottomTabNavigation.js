@@ -1,6 +1,6 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import React from 'react';
-import {StyleSheet} from 'react-native';
+import {Platform, StyleSheet} from 'react-native';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
@@ -59,8 +59,8 @@ const TabScreen = () => (
 
         tabBarItemStyle: {
           borderRadius: 15,
-          height: hp('7%'),
           alignSelf: 'center',
+          height: hp('7%'),
           marginLeft: wp('3%'),
           marginRight: wp('3%'),
         },

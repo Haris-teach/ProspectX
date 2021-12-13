@@ -39,6 +39,7 @@ const TextField = props => {
           style={AllStyles.textFieldStyle}
           keyboardType={'email-address'}
           onChangeText={props.onChange}
+          onBlur={props.onBlur}
         />
       </View>
     </View>

@@ -29,6 +29,9 @@ import SettingsScreen from '../screens/settingsScreen/Index';
 import CallStart from '../screens/startCallScreen/Index';
 import IncomingCalls from '../screens/incomingCallScreen/Index';
 import NotificationScreen from '../screens/notificationScreen/notificationScreen';
+import ChatScreen from '../screens/chatScreen/chatScreen';
+import MailInbox from '../screens/mailMsgScreen/mailMsgScreen';
+import NewMailScreen from '../screens/newMailScreen/newMailScreen';
 
 const RootStack = createNativeStackNavigator();
 const Stack = () => {
@@ -48,6 +51,9 @@ const Stack = () => {
           <RootStack.Screen name={'Setting'} component={SettingsScreen} />
           <RootStack.Screen name={'CallStart'} component={CallStart} />
           <RootStack.Screen name={'InComming'} component={IncomingCalls} />
+          <RootStack.Screen name={'Chat'} component={ChatScreen} />
+          <RootStack.Screen name={'MailIndox'} component={MailInbox} />
+          <RootStack.Screen name={'NewMailScreen'} component={NewMailScreen} />
           <RootStack.Screen
             name={'Notification'}
             component={NotificationScreen}

@@ -15,6 +15,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   headerView: {
+    paddingTop: Platform.OS == 'ios' ? hp(5) : null,
     height: hp(10),
     justifyContent: 'center',
     marginHorizontal: wp(6),
@@ -43,7 +44,7 @@ const styles = StyleSheet.create({
   descTextStyle: {
     color: 'rgba(129, 132, 162, 1)',
     fontSize: wp(3.5),
-    marginHorizontal: wp(10),
+    marginHorizontal: wp(12),
     fontFamily: fonts.regular,
     marginVertical: hp(2),
   },
@@ -52,7 +53,7 @@ const styles = StyleSheet.create({
     color: colors.titleColor,
     fontSize: wp(7),
     fontFamily: fonts.regular,
-    marginHorizontal: wp(10),
+    marginHorizontal: wp(12),
   },
   inputContainer: {
     backgroundColor: colors.whiteColor,

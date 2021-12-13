@@ -29,42 +29,40 @@ const ProfileScreen = props => {
   const dispatch = useDispatch();
 
   return (
-    <SafeAreaView style={{flex: 1}}>
-      <ImageBackground
-        style={AllStyles.mainContainer}
-        source={images.splashBackground}>
-        <AppHeader
-          leftIconBackgrounColor={colors.whiteColor}
-          leftSvg={<BackArrow height={15} width={15} />}
-          leftIconPress={() => props.navigation.goBack(null)}
+    <ImageBackground
+      style={AllStyles.mainContainer}
+      source={images.splashBackground}>
+      <AppHeader
+        leftIconBackgrounColor={colors.whiteColor}
+        leftSvg={<BackArrow height={15} width={15} />}
+        leftIconPress={() => props.navigation.goBack(null)}
+      />
+
+      <View style={AllStyles.profileImageView}>
+        <Image source={images.profile} style={AllStyles.profileImageStyle} />
+      </View>
+
+      <View style={AllStyles.profileComponentInnerRow}>
+        <ProfileComponent
+          onPress={() => props.navigation.navigate('Setting')}
+          title={PROFILE_SETTINGS}
+          backgroundColor={colors.profileSettingColor}
+          svg={<Settings />}
         />
-
-        <View style={AllStyles.profileImageView}>
-          <Image source={images.profile} style={AllStyles.profileImageStyle} />
-        </View>
-
-        <View style={AllStyles.profileComponentInnerRow}>
-          <ProfileComponent
-            onPress={() => props.navigation.navigate('Setting')}
-            title={PROFILE_SETTINGS}
-            backgroundColor={colors.profileSettingColor}
-            svg={<Settings />}
-          />
-          <ProfileComponent
-            onPress={() => props.navigation.navigate('ChangePass')}
-            title={PROFILE_CHANGE_PASS}
-            backgroundColor={colors.profileChangePassColor}
-            svg={<ChangePassword />}
-          />
-          <ProfileComponent
-            onPress={() => dispatch(logout())}
-            title={PROFILE_LOGOUT}
-            backgroundColor={colors.profileLogoutColor}
-            svg={<Logout />}
-          />
-        </View>
-      </ImageBackground>
-    </SafeAreaView>
+        <ProfileComponent
+          onPress={() => props.navigation.navigate('ChangePass')}
+          title={PROFILE_CHANGE_PASS}
+          backgroundColor={colors.profileChangePassColor}
+          svg={<ChangePassword />}
+        />
+        <ProfileComponent
+          onPress={() => dispatch(logout())}
+          title={PROFILE_LOGOUT}
+          backgroundColor={colors.profileLogoutColor}
+          svg={<Logout />}
+        />
+      </View>
+    </ImageBackground>
   );
 };
 export default ProfileScreen;

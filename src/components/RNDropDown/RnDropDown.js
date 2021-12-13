@@ -73,12 +73,13 @@ const styles = {
     borderWidth: 0.5,
     borderColor: 'rgba(255, 255, 255, 1)',
     justifyContent: 'center',
+    zIndex: 1,
   },
   dropDownContainerStyle: {
     backgroundColor: 'white',
     borderColor: 'white',
     height: hp(20),
-
+    zIndex: 1,
     borderRadius: wp(5),
   },
 
@@ -86,16 +87,19 @@ const styles = {
     tintColor: colors.purpleColor,
     height: 25,
     width: 25,
+    zIndex: 1,
   },
   containerStyle: {
     alignSelf: 'center',
     //backgroundColor: 'red',
     width: wp(74),
+    zIndex: 1,
   },
   mainContainer: {
     marginHorizontal: wp(6),
     flexDirection: 'row',
     justifyContent: 'space-between',
+    zIndex: 1,
   },
   iconStyle: {
     alignSelf: 'center',

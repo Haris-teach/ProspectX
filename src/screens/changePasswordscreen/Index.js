@@ -36,66 +36,62 @@ const ChangePassword = props => {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   return (
-    <SafeAreaView style={{flex: 1}}>
-      <KeyboardAvoidingView
-        style={AllStyles.mainContainer}
-        behavior={'padding'}>
-        <ImageBackground
-          source={images.splashBackground}
-          style={AllStyles.mainContainer}>
-          <ScrollView style={{flex: 1}} showsVerticalScrollIndicator={false}>
-            {/* Header Code */}
+    <KeyboardAvoidingView style={AllStyles.mainContainer} behavior={'padding'}>
+      <ImageBackground
+        source={images.splashBackground}
+        style={AllStyles.mainContainer}>
+        <ScrollView style={{flex: 1}} showsVerticalScrollIndicator={false}>
+          {/* Header Code */}
 
-            <View style={styles.headerContainer}>
-              <TouchableOpacity
-                onPress={() => props.navigation.goBack()}
-                style={styles.backButton}>
-                <BackArrow height={15} width={15} />
-              </TouchableOpacity>
-              <Text style={styles.headerText}>Change Password</Text>
-            </View>
-            {/* -------------------------------------------------------------------------- */}
+          <View style={styles.headerContainer}>
+            <TouchableOpacity
+              onPress={() => props.navigation.goBack()}
+              style={styles.backButton}>
+              <BackArrow height={15} width={15} />
+            </TouchableOpacity>
+            <Text style={styles.headerText}>Change Password</Text>
+          </View>
+          {/* -------------------------------------------------------------------------- */}
 
-            <Text style={styles.textStyle}>{CHANGE_PASS_DESC}</Text>
+          <Text style={styles.textStyle}>{CHANGE_PASS_DESC}</Text>
 
-            <ChangePasswordComponent
-              placeholder={OLD_PASSWORD}
-              value={oldPassword}
-              onChange={oldPassword => setOldPassword(oldPassword)}
-              svg={true}
+          <ChangePasswordComponent
+            placeholder={OLD_PASSWORD}
+            value={oldPassword}
+            onChange={oldPassword => setOldPassword(oldPassword)}
+            svg={true}
+          />
+
+          <ChangePasswordComponent
+            placeholder={NEW_PASSWORD}
+            value={newPassword}
+            onChange={Password => setNewPassword(Password)}
+            svg={true}
+          />
+
+          <ChangePasswordComponent
+            placeholder={CONFIRM_PASSWORD}
+            value={confirmPassword}
+            onChange={Password => setConfirmPassword(Password)}
+            svg={true}
+          />
+
+          <View
+            style={{
+              height: hp(25),
+              marginBottom: hp(10),
+              alignSelf: 'center',
+              width: wp(80),
+              justifyContent: 'flex-end',
+            }}>
+            <GradientButton
+              onPress={() => alert('Login Pressed')}
+              title={'Save'}
             />
-
-            <ChangePasswordComponent
-              placeholder={NEW_PASSWORD}
-              value={newPassword}
-              onChange={Password => setNewPassword(Password)}
-              svg={true}
-            />
-
-            <ChangePasswordComponent
-              placeholder={CONFIRM_PASSWORD}
-              value={confirmPassword}
-              onChange={Password => setConfirmPassword(Password)}
-              svg={true}
-            />
-
-            <View
-              style={{
-                height: hp(25),
-                marginBottom: hp(10),
-                alignSelf: 'center',
-                width: wp(80),
-                justifyContent: 'flex-end',
-              }}>
-              <GradientButton
-                onPress={() => alert('Login Pressed')}
-                title={'Save'}
-              />
-            </View>
-          </ScrollView>
-        </ImageBackground>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+          </View>
+        </ScrollView>
+      </ImageBackground>
+    </KeyboardAvoidingView>
   );
 };
 

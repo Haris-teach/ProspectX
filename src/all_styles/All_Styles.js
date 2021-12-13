@@ -40,8 +40,9 @@ const AllStyles = {
   },
   resetInputRow: {
     flexDirection: 'row',
-    marginHorizontal: wp(3),
+    justifyContent: 'space-between',
     marginTop: hp(-1),
+    marginHorizontal: wp(3),
   },
   inputRowView: {
     justifyContent: 'center',
@@ -91,7 +92,7 @@ const AllStyles = {
     fontSize: wp(7.7),
     fontFamily: fonts.regular,
     marginTop: hp(7),
-    marginHorizontal: wp(10),
+    marginHorizontal: wp(12),
   },
   enterEmailStyle: {
     color: colors.subtitleColor,
@@ -99,7 +100,7 @@ const AllStyles = {
     fontFamily: fonts.regular,
     marginVertical: hp(1),
 
-    marginHorizontal: wp(10),
+    marginHorizontal: wp(12),
   },
   gradientView: {
     justifyContent: 'flex-end',
@@ -108,8 +109,8 @@ const AllStyles = {
   },
   resetGradientView: {
     justifyContent: 'flex-end',
-    height: hp(18),
-    width: wp(90),
+    height: hp(40),
+    width: wp(80),
     alignSelf: 'center',
     shadowColor: '#0E2247',
     shadowOffset: {
@@ -124,7 +125,7 @@ const AllStyles = {
   forgotGradientView: {
     justifyContent: 'flex-end',
     height: hp(9),
-    width: wp(90),
+    width: wp(80),
     alignSelf: 'center',
     shadowColor: '#0E2247',
     shadowOffset: {
@@ -159,6 +160,7 @@ const AllStyles = {
     justifyContent: 'space-between',
   },
   headerView: {
+    paddingTop: Platform.OS == 'ios' ? hp(5) : null,
     height: hp(10),
     justifyContent: 'center',
     marginHorizontal: wp(6),
@@ -220,7 +222,7 @@ const AllStyles = {
     fontFamily: 'SF Pro Text',
     fontWeight: '900',
     //backgroundColor: 'red',
-    width: wp(65),
+    width: wp(62),
     color: 'black',
     marginHorizontal: wp(2),
   },

@@ -125,75 +125,73 @@ const CallScreen = props => {
   };
 
   return (
-    <SafeAreaView style={styles.mainContainer}>
-      <ImageBackground
-        style={styles.mainContainer}
-        source={images.splashBackground}>
-        <View style={styles.mainContainer}>
-          {/* ===========Header PArt=========== */}
+    <ImageBackground
+      style={styles.mainContainer}
+      source={images.splashBackground}>
+      <View style={styles.mainContainer}>
+        {/* ===========Header PArt=========== */}
 
-          <View style={styles.headerContainer}>
-            <TouchableOpacity
-              onPress={() => props.navigation.navigate('Profile')}>
-              <Menu />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => props.navigation.navigate('Notification')}>
-              <Bell />
-            </TouchableOpacity>
-          </View>
+        <View style={styles.headerContainer}>
+          <TouchableOpacity
+            onPress={() => props.navigation.navigate('Profile')}>
+            <Menu />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => props.navigation.navigate('Notification')}>
+            <Bell />
+          </TouchableOpacity>
+        </View>
 
-          {/* ==================================== */}
+        {/* ==================================== */}
 
-          {/* ================DropDown component============== */}
+        {/* ================DropDown component============== */}
 
-          {/* <RNSearch
+        {/* <RNSearch
             placeholder="Select a number for calls"
             onPress={() => console.log('Presssed')}
           /> */}
-          <RNDropDown
-            open={open}
-            placeholder="Select number for call"
-            value={value}
-            items={items}
-            setOpen={setOpen}
-            setValue={setValue}
-            setItems={setItems}
-            onPress={() => console.log('Pressed')}
-            svg={<Contact />}
+        <RNDropDown
+          open={open}
+          placeholder="Select number for call"
+          value={value}
+          items={items}
+          setOpen={setOpen}
+          setValue={setValue}
+          setItems={setItems}
+          onPress={() => console.log('Pressed')}
+          svg={<Contact />}
+        />
+
+        {/* ==================================================== */}
+
+        {/* ===============LIST VIEW========================== */}
+
+        <SectionList
+          style={{
+            marginBottom: hp(3.3),
+            zIndex: 0,
+            //backgroundColor: 'red',
+          }}
+          sections={DATA}
+          keyExtractor={(item, index) => item + index}
+          renderItem={({item, section, index}) => (
+            <Item title={item} index={index} section={section} />
+          )}
+          renderSectionHeader={({section: {title}}) => (
+            <Text style={styles.header}>{title}</Text>
+          )}
+        />
+
+        {/* ======================================================== */}
+        <View style={{marginBottom: hp(5.5)}}>
+          <FloatingAction
+            backgroundColor="red"
+            floatingIcon={<Dilar />}
+            //onPressMain={() => props.navigation.navigate('InComming')}
           />
-
-          {/* ==================================================== */}
-
-          {/* ===============LIST VIEW========================== */}
-
-          <SectionList
-            style={{
-              flex: 1,
-              marginBottom: hp(3.3),
-              //backgroundColor: 'red',
-            }}
-            sections={DATA}
-            keyExtractor={(item, index) => item + index}
-            renderItem={({item, section, index}) => (
-              <Item title={item} index={index} section={section} />
-            )}
-            renderSectionHeader={({section: {title}}) => (
-              <Text style={styles.header}>{title}</Text>
-            )}
-          />
-
-          {/* ======================================================== */}
-          <View style={{marginBottom: hp(5.5)}}>
-            <FloatingAction
-              backgroundColor="red"
-              floatingIcon={<Dilar />}
-              //onPressMain={() => props.navigation.navigate('InComming')}
-            />
-          </View>
         </View>
-      </ImageBackground>
-    </SafeAreaView>
+      </View>
+    </ImageBackground>
   );
 };
 

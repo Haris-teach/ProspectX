@@ -29,48 +29,46 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 const SettingsScreen = props => {
   const [isEnabled, setIsEnabled] = useState(false);
   return (
-    <SafeAreaView style={{flex: 1}}>
-      <ImageBackground
-        source={images.splashBackground}
-        style={AllStyles.mainContainer}>
-        {/* Header Code */}
+    <ImageBackground
+      source={images.splashBackground}
+      style={AllStyles.mainContainer}>
+      {/* Header Code */}
 
-        <View style={styles.headerContainer}>
-          <TouchableOpacity
-            onPress={() => props.navigation.goBack()}
-            style={styles.backButton}>
-            <BackArrow height={15} width={15} />
-          </TouchableOpacity>
-          <Text style={styles.headerText}>Setting</Text>
-        </View>
+      <View style={styles.headerContainer}>
+        <TouchableOpacity
+          onPress={() => props.navigation.goBack()}
+          style={styles.backButton}>
+          <BackArrow height={15} width={15} />
+        </TouchableOpacity>
+        <Text style={styles.headerText}>Setting</Text>
+      </View>
 
-        {/* =============================================== */}
+      {/* =============================================== */}
 
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginHorizontal: wp(12),
-            marginTop: hp(10),
-          }}>
-          <Text style={AllStyles.settingsNotificationStyle}>
-            {ENABLE_NOTIFICATIONS}
-          </Text>
-          <Switch
-            style={AllStyles.settingsSwitchButtonStyle}
-            trackColor={{false: 'green', true: colors.purpleColor}}
-            thumbColor={isEnabled ? colors.whiteColor : colors.purpleColor}
-            ios_backgroundColor={colors.whiteColor}
-            onValueChange={() => setIsEnabled(!isEnabled)}
-            value={isEnabled}
-          />
-        </View>
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          marginHorizontal: wp(12),
+          marginTop: hp(10),
+        }}>
+        <Text style={AllStyles.settingsNotificationStyle}>
+          {ENABLE_NOTIFICATIONS}
+        </Text>
+        <Switch
+          style={AllStyles.settingsSwitchButtonStyle}
+          trackColor={{false: 'green', true: colors.purpleColor}}
+          thumbColor={isEnabled ? colors.whiteColor : colors.purpleColor}
+          ios_backgroundColor={colors.whiteColor}
+          onValueChange={() => setIsEnabled(!isEnabled)}
+          value={isEnabled}
+        />
+      </View>
 
-        <View style={AllStyles.settingsButtonView}>
-          <GradientButton onPress={() => alert('Login Pressed')} title={SAVE} />
-        </View>
-      </ImageBackground>
-    </SafeAreaView>
+      <View style={AllStyles.settingsButtonView}>
+        <GradientButton onPress={() => alert('Login Pressed')} title={SAVE} />
+      </View>
+    </ImageBackground>
   );
 };
 export default SettingsScreen;
