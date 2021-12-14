@@ -9,6 +9,8 @@ import {
   ScrollView,
   TextInput,
   KeyboardAvoidingView,
+  Platform,
+  ActivityIndicator,
 } from 'react-native';
 import {
   heightPercentageToDP as hp,
@@ -41,12 +43,39 @@ import TextField from '../../components/textInput/TextInput';
 import PasswordField from '../../components/PasswordInput/PasswordInput';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
+import HitApi from '../../HitApis/APIHandler';
+import {LOGIN} from '../../HitApis/Urls';
+
 const LoginScreen = props => {
   const dispatch = useDispatch();
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [securePass, setSecurePass] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const Login_User = v => {
+    setLoading(true);
+    let params = {
+      email: v.email,
+      password: v.password,
+    };
+
+    HitApi(LOGIN, 'POST', params).then(res => {
+      if (res.status == 1) {
+        setError(null);
+        setLoading(false);
+        console.log('Rensopnse:    ', res.data.user.firstname);
+        let token = res.data.auth.access_token;
+        let firstName = res.data.user.firstname;
+        let lastName = res.data.user.lastname;
+        let id = res.data.user.id;
+        let email = res.data.user.email;
+        dispatch(Login(token, '', firstName, lastName, id, email));
+      } else {
+        setError(res.errors);
+        setLoading(false);
+      }
+    });
+  };
 
   const userInfo = {
     email: '',
@@ -67,7 +96,9 @@ const LoginScreen = props => {
   });
 
   return (
-    <KeyboardAvoidingView style={{flex: 1}} behavior="padding">
+    <KeyboardAvoidingView
+      style={{flex: 1}}
+      behavior={Platform.OS == 'ios' ? 'padding' : null}>
       <ImageBackground
         style={styles.imageBackground}
         source={images.splashBackground}>
@@ -76,7 +107,7 @@ const LoginScreen = props => {
             initialValues={userInfo}
             validationSchema={validationSchema}
             onSubmit={values => {
-              dispatch(Login(null));
+              Login_User(values);
             }}>
             {({
               handleChange,
@@ -125,12 +156,16 @@ const LoginScreen = props => {
                           {errors.password}
                         </Text>
                       )}
+                      {error != null ? (
+                        <Text style={Styles.warningStyle}>{error}</Text>
+                      ) : null}
                     </View>
 
                     <View style={styles.gradientView}>
                       <GradientButton
                         onPress={handleSubmit}
                         title={LOGIN_BUTTON_TITTLE}
+                        condition={loading}
                       />
                     </View>
                     <TouchableOpacity

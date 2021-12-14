@@ -100,6 +100,7 @@ const NotificationScreen = props => {
       fontSize: wp(3.3),
       width: wp(60),
       textAlign: 'left',
+      color: '#505372',
     },
     miniContainer: {
       justifyContent: 'center',
@@ -151,7 +152,7 @@ const NotificationScreen = props => {
                 marginHorizontal: wp(6),
                 backgroundColor:
                   select == index ? '#E9EAFF' : 'rgba(255, 255, 255, 0.67)',
-                borderWidth: select == index ? -1 : 1,
+                borderWidth: select == index ? 1 : -1,
               },
             ]}>
             <Clock
@@ -168,7 +169,7 @@ const NotificationScreen = props => {
               {
                 backgroundColor:
                   select == index ? '#E9EAFF' : 'rgba(255, 255, 255, 0.67)',
-                borderWidth: select == index ? -1 : 1,
+                borderWidth: select == index ? 1 : -1,
               },
             ]}>
             <Calander
@@ -185,36 +186,34 @@ const NotificationScreen = props => {
   };
 
   return (
-    <KeyboardAvoidingView style={AllStyles.mainContainer} behavior={'padding'}>
-      <ImageBackground
-        source={images.splashBackground}
-        style={AllStyles.mainContainer}>
-        {/* Header Code */}
+    <ImageBackground
+      source={images.splashBackground}
+      style={AllStyles.mainContainer}>
+      {/* Header Code */}
 
-        <View style={styles.headerContainer}>
-          <TouchableOpacity
-            onPress={() => props.navigation.goBack()}
-            style={styles.backButton}>
-            <BackArrow height={15} width={15} />
-          </TouchableOpacity>
-          <Text style={styles.headerText}>Notifications</Text>
-        </View>
-        {/* -------------------------------------------------------------------------- */}
+      <View style={styles.headerContainer}>
+        <TouchableOpacity
+          onPress={() => props.navigation.goBack()}
+          style={styles.backButton}>
+          <BackArrow height={15} width={15} />
+        </TouchableOpacity>
+        <Text style={styles.headerText}>Notifications</Text>
+      </View>
+      {/* -------------------------------------------------------------------------- */}
 
-        <View
-          style={{
-            flex: 1,
-            marginTop: hp(4),
-            marginHorizontal: wp(6),
-          }}>
-          <FlatList
-            data={DATA}
-            renderItem={renderItem}
-            keyExtractor={item => item.id}
-          />
-        </View>
-      </ImageBackground>
-    </KeyboardAvoidingView>
+      <View
+        style={{
+          flex: 1,
+          marginTop: hp(4),
+          marginHorizontal: wp(6),
+        }}>
+        <FlatList
+          data={DATA}
+          renderItem={renderItem}
+          keyExtractor={item => item.id}
+        />
+      </View>
+    </ImageBackground>
   );
 };
 

@@ -8,6 +8,7 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   TouchableOpacity,
+  Platform,
 } from 'react-native';
 import AllStyles from '../../all_styles/All_Styles';
 import {
@@ -36,23 +37,24 @@ const ChangePassword = props => {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   return (
-    <KeyboardAvoidingView style={AllStyles.mainContainer} behavior={'padding'}>
+    <KeyboardAvoidingView
+      style={AllStyles.mainContainer}
+      behavior={Platform.OS == 'ios' ? 'padding' : null}>
       <ImageBackground
         source={images.splashBackground}
         style={AllStyles.mainContainer}>
+        {/* Header Code */}
+
+        <View style={styles.headerContainer}>
+          <TouchableOpacity
+            onPress={() => props.navigation.goBack()}
+            style={styles.backButton}>
+            <BackArrow height={15} width={15} />
+          </TouchableOpacity>
+          <Text style={styles.headerText}>Change Password</Text>
+        </View>
+        {/* -------------------------------------------------------------------------- */}
         <ScrollView style={{flex: 1}} showsVerticalScrollIndicator={false}>
-          {/* Header Code */}
-
-          <View style={styles.headerContainer}>
-            <TouchableOpacity
-              onPress={() => props.navigation.goBack()}
-              style={styles.backButton}>
-              <BackArrow height={15} width={15} />
-            </TouchableOpacity>
-            <Text style={styles.headerText}>Change Password</Text>
-          </View>
-          {/* -------------------------------------------------------------------------- */}
-
           <Text style={styles.textStyle}>{CHANGE_PASS_DESC}</Text>
 
           <ChangePasswordComponent

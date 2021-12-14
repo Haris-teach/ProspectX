@@ -49,7 +49,9 @@ const ForgotPassword = props => {
   });
 
   return (
-    <KeyboardAvoidingView style={styles.mainContainer}>
+    <KeyboardAvoidingView
+      style={styles.mainContainer}
+      behavior={Platform.OS == 'ios' ? 'padding' : null}>
       <ImageBackground
         source={images.splashBackground}
         style={styles.mainContainer}>

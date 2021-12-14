@@ -9,16 +9,20 @@ import {
   ScrollView,
   TouchableOpacity,
   TextInput,
+  Platform,
 } from 'react-native';
+import {FloatingAction} from 'react-native-floating-action';
 import AllStyles from '../../all_styles/All_Styles';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 import DropDownPicker from 'react-native-dropdown-picker';
-import GradientButton from '../../components/gradientButton/Button';
+import DocumentPicker from 'react-native-document-picker';
 
+import GradientButton from '../../components/gradientButton/Button';
 import BackArrow from '../../assets/images/backarrow.svg';
+import Pen from '../../assets/svg/pen.svg';
 import images from '../../assets/images/Images';
 import colors from '../../assets/colors/Colors';
 import fonts from '../../assets/fonts/Fonts';
@@ -47,20 +51,36 @@ const NewMailScreen = props => {
       label: 'test4@gmail.com',
       value: 'test4@gmail.com',
     },
-    {
-      id: 4,
-      label: 'test4@gmail.com',
-      value: 'test4@gmail.com',
-    },
-    {
-      id: 5,
-      label: 'test4@gmail.com',
-      value: 'test4@gmail.com',
-    },
   ]);
+  const [fileUri, setFileURI] = useState(null);
+
+  const Documentpicker = async () => {
+    try {
+      const res = await DocumentPicker.pick({
+        type: [DocumentPicker.types.pdf],
+      });
+      console.log(
+        // res.uri,
+        // res.type, // mime type
+        // res.name,
+        // res.size,
+        res.map(i => i.uri),
+      );
+      let uri = res.map(i => i.name);
+      setFileURI(uri.toString());
+    } catch (err) {
+      if (DocumentPicker.isCancel(err)) {
+        // User cancelled the picker, exit any dialogs or menus and move on
+      } else {
+        throw err;
+      }
+    }
+  };
 
   return (
-    <KeyboardAvoidingView style={AllStyles.mainContainer} behavior={'padding'}>
+    <KeyboardAvoidingView
+      style={AllStyles.mainContainer}
+      behavior={Platform.OS == 'ios' ? 'padding' : null}>
       <ImageBackground source={images.splashBackground} style={{flex: 1}}>
         <ScrollView style={{flex: 1}}>
           {/* Header Code */}
@@ -73,32 +93,33 @@ const NewMailScreen = props => {
             {/* <Text style={styles.headerText}>Change Password</Text> */}
           </View>
           {/* -------------------------------------------------------------------------- */}
-
-          <DropDownPicker
-            style={styles.dropdownStyle}
-            open={open}
-            zIndex={1}
-            placeholder="Select email for mail"
-            placeholderStyle={{
-              color: colors.blackWithOpacityColor,
-              fontFamily: fonts.regular,
-              fontSize: wp(3.6),
-              marginHorizontal: wp(3),
-            }}
-            value={value}
-            items={items}
-            setOpen={setOpen}
-            showArrowIcon={true}
-            showTickIcon={false}
-            dropDownContainerStyle={styles.dropDownContainerStyle}
-            arrowIconStyle={styles.arrowIconStyle}
-            listItemLabelStyle={{color: colors.blackolor}}
-            containerStyle={styles.containerStyle}
-            textStyle={{color: colors.blackolor, marginHorizontal: wp(3)}}
-            labelStyle={{color: colors.blackolor}}
-            setValue={setValue}
-            setItems={setItems}
-          />
+          <>
+            <DropDownPicker
+              style={styles.dropdownStyle}
+              open={open}
+              placeholder="Select email for mail"
+              searchPlaceholderTextColor="#AAB1BC"
+              placeholderStyle={{
+                color: '#AAB1BC',
+                fontFamily: fonts.regular,
+                fontSize: wp(3.6),
+                marginHorizontal: wp(3),
+              }}
+              value={value}
+              items={items}
+              setOpen={setOpen}
+              showArrowIcon={true}
+              showTickIcon={false}
+              dropDownContainerStyle={styles.dropDownContainerStyle}
+              arrowIconStyle={styles.arrowIconStyle}
+              listItemLabelStyle={{color: 'black'}}
+              containerStyle={styles.containerStyle}
+              textStyle={{color: 'black', marginHorizontal: wp(3)}}
+              labelStyle={{color: 'black'}}
+              setValue={setValue}
+              setItems={setItems}
+            />
+          </>
 
           <View style={styles.toContainer}>
             <Text style={styles.toStyle}>To :</Text>
@@ -152,8 +173,16 @@ const NewMailScreen = props => {
                 marginHorizontal: wp(5),
                 height: hp(25),
                 textAlignVertical: 'top',
+                //backgroundColor: 'red',
               }}
               numberOfLines={10}
+            />
+          </View>
+          <View style={{marginRight: wp(4), marginTop: hp(3)}}>
+            <FloatingAction
+              backgroundColor="red"
+              floatingIcon={<Pen />}
+              onPressMain={() => Documentpicker()}
             />
           </View>
 
@@ -162,7 +191,6 @@ const NewMailScreen = props => {
               alignSelf: 'center',
               width: wp(83),
               marginBottom: hp(3),
-              marginTop: hp(4),
             }}>
             <GradientButton
               onPress={() => alert('Flow is pending')}
@@ -211,7 +239,7 @@ const styles = {
   },
   dropdownStyle: {
     height: hp(6),
-    zIndex: 1,
+
     backgroundColor: 'rgba(255, 255, 255, 0.67)',
     borderRadius: wp(10),
     color: 'black',
@@ -232,7 +260,6 @@ const styles = {
     borderColor: 'white',
     height: hp(20),
     borderRadius: wp(5),
-    zIndex: 1,
   },
 
   arrowIconStyle: {
@@ -244,7 +271,6 @@ const styles = {
     alignSelf: 'center',
     //backgroundColor: 'yellow',
     width: wp(80),
-    zIndex: 1,
   },
   mainContainer: {
     zIndex: 1,

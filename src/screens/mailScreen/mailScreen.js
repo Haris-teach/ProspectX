@@ -273,8 +273,8 @@ const styles = {
     fontSize: wp(10),
   },
   flatListStyle: {
-    flex: 0.97,
-    zIndex: 0,
+    flex: 0.963,
+    zIndex: Platform.OS == 'ios' ? -1 : 0,
     backgroundColor: 'rgba(255, 255, 255, 0.67)',
     marginHorizontal: wp(6.5),
     borderRadius: wp(5),

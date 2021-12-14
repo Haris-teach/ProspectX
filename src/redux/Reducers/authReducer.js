@@ -1,8 +1,11 @@
+import {MaskedViewBase} from 'react-native';
 import {LOGIN_REQUEST, LOGOUT_REQUEST} from '../Actions/actionType';
 
 const INITIAL_STATE = {
-  id: '',
-  user_name: 'M.Haris',
+  id: 1,
+  userName: 'M.Haris',
+  firstName: 'Muhammad',
+  lastName: 'Haris',
   email: 'muhammadharis4999@gmail.com',
   password: '123456',
   token: null,
@@ -17,13 +20,23 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         isLogin: true,
         token: action.payload.token,
-        user_name: action.payload.name,
+        userName: action.payload.userName,
+        firstName: action.payload.firstName,
+        lastName: action.payload.lastName,
+        id: action.payload.id,
+        email: action.payload.email,
       };
       break;
     case LOGOUT_REQUEST:
       return {
         ...state,
         isLogin: false,
+        token: null,
+        userName: 'M.Haris',
+        firstName: 'Muhammad',
+        lastName: 'Haris',
+        id: 1,
+        email: 'muhammadharis4999@gmail.com',
       };
       break;
 

@@ -5,7 +5,12 @@ import {
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 import LinearGradient from 'react-native-linear-gradient';
-import {StyleSheet, TouchableOpacity, Text} from 'react-native';
+import {
+  StyleSheet,
+  TouchableOpacity,
+  Text,
+  ActivityIndicator,
+} from 'react-native';
 
 //=========================================== Local Import Files =============================================
 
@@ -20,7 +25,11 @@ const GradientButton = props => {
       start={{y: 0.0, x: 0.0}}
       end={{y: 0.0, x: 1.0}}>
       <TouchableOpacity onPress={props.onPress} style={styles.buttonStyle}>
-        <Text style={styles.textStyle}>{props.title}</Text>
+        {props.condition == true ? (
+          <ActivityIndicator color="white" />
+        ) : (
+          <Text style={styles.textStyle}>{props.title}</Text>
+        )}
       </TouchableOpacity>
     </LinearGradient>
   );

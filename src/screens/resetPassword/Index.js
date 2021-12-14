@@ -53,85 +53,91 @@ const ResetPassword = props => {
   });
 
   return (
-    <ImageBackground
-      source={images.splashBackground}
-      style={AllStyles.mainContainer}>
-      <ScrollView style={{flex: 1}}>
-        <Formik
-          initialValues={userInfo}
-          validationSchema={validationSchema}
-          onSubmit={values => {
-            props.navigation.navigate('LoginScreen');
-          }}>
-          {({
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            values,
-            touched,
-            errors,
-          }) => {
-            const {email, password} = values;
-            return (
-              <>
-                <View style={{flex: 1}}>
-                  <View style={AllStyles.headerView}>
-                    <TouchableOpacity
-                      onPress={() => props.navigation.goBack(null)}
-                      style={AllStyles.backArrowWidth}>
-                      <BackArrow />
-                    </TouchableOpacity>
+    <KeyboardAvoidingView
+      style={{flex: 1}}
+      behavior={Platform.OS == 'ios' ? 'padding' : null}>
+      <ImageBackground
+        source={images.splashBackground}
+        style={AllStyles.mainContainer}>
+        <ScrollView style={{flex: 1}}>
+          <Formik
+            initialValues={userInfo}
+            validationSchema={validationSchema}
+            onSubmit={values => {
+              props.navigation.navigate('LoginScreen');
+            }}>
+            {({
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              values,
+              touched,
+              errors,
+            }) => {
+              const {email, password} = values;
+              return (
+                <>
+                  <View style={{flex: 1}}>
+                    <View style={AllStyles.headerView}>
+                      <TouchableOpacity
+                        onPress={() => props.navigation.goBack(null)}
+                        style={AllStyles.backArrowWidth}>
+                        <BackArrow />
+                      </TouchableOpacity>
+                    </View>
+
+                    <Text style={AllStyles.signinStyle}>
+                      {RESET_PASSWORD_TITLE}
+                    </Text>
+                    <Text style={AllStyles.enterEmailStyle}>
+                      {RESET_PASSWORD_SUBTEXT}
+                    </Text>
+
+                    <View style={{marginHorizontal: wp(6), marginTop: hp(3)}}>
+                      <PasswordField
+                        onChange={handleChange('password')}
+                        onBlur={handleBlur('password')}
+                        title={ENTER_PASSWORD_LABEL}
+                        placeholder={PASSWORD_PLACEHOLDER}
+                        svg={<Lock marginVertical={hp(2)} />}
+                      />
+                      {touched.password && errors.password && (
+                        <Text style={Styles.warningStyle}>
+                          {errors.password}
+                        </Text>
+                      )}
+                    </View>
+
+                    <View
+                      style={{marginHorizontal: wp(6), marginVertical: hp(2)}}>
+                      <PasswordField
+                        onChange={handleChange('confirmPassword')}
+                        onBlur={handleBlur('confirmPassword')}
+                        title={ENTER_CONFIRM_PASSWORD_LABEL}
+                        placeholder={PASSWORD_PLACEHOLDER}
+                        svg={<Lock marginVertical={hp(2)} />}
+                      />
+                      {touched.confirmPassword && errors.confirmPassword && (
+                        <Text style={Styles.warningStyle}>
+                          {errors.confirmPassword}
+                        </Text>
+                      )}
+                    </View>
                   </View>
-
-                  <Text style={AllStyles.signinStyle}>
-                    {RESET_PASSWORD_TITLE}
-                  </Text>
-                  <Text style={AllStyles.enterEmailStyle}>
-                    {RESET_PASSWORD_SUBTEXT}
-                  </Text>
-
-                  <View style={{marginHorizontal: wp(6), marginTop: hp(3)}}>
-                    <PasswordField
-                      onChange={handleChange('password')}
-                      onBlur={handleBlur('password')}
-                      title={ENTER_PASSWORD_LABEL}
-                      placeholder={PASSWORD_PLACEHOLDER}
-                      svg={<Lock marginVertical={hp(2)} />}
+                  <View style={AllStyles.resetGradientView}>
+                    <GradientButton
+                      //onPress={() => props.navigation.navigate('LoginScreen')}
+                      onPress={handleSubmit}
+                      title={RESET_BUTTON_TEXT}
                     />
-                    {touched.password && errors.password && (
-                      <Text style={Styles.warningStyle}>{errors.password}</Text>
-                    )}
                   </View>
-
-                  <View
-                    style={{marginHorizontal: wp(6), marginVertical: hp(2)}}>
-                    <PasswordField
-                      onChange={handleChange('confirmPassword')}
-                      onBlur={handleBlur('confirmPassword')}
-                      title={ENTER_CONFIRM_PASSWORD_LABEL}
-                      placeholder={PASSWORD_PLACEHOLDER}
-                      svg={<Lock marginVertical={hp(2)} />}
-                    />
-                    {touched.confirmPassword && errors.confirmPassword && (
-                      <Text style={Styles.warningStyle}>
-                        {errors.confirmPassword}
-                      </Text>
-                    )}
-                  </View>
-                </View>
-                <View style={AllStyles.resetGradientView}>
-                  <GradientButton
-                    //onPress={() => props.navigation.navigate('LoginScreen')}
-                    onPress={handleSubmit}
-                    title={RESET_BUTTON_TEXT}
-                  />
-                </View>
-              </>
-            );
-          }}
-        </Formik>
-      </ScrollView>
-    </ImageBackground>
+                </>
+              );
+            }}
+          </Formik>
+        </ScrollView>
+      </ImageBackground>
+    </KeyboardAvoidingView>
   );
 };
 export default ResetPassword;

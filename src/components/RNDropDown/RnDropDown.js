@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, TouchableOpacity, Text} from 'react-native';
+import {View, TouchableOpacity, Text, ScrollView} from 'react-native';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
@@ -13,16 +13,28 @@ import fonts from '../../assets/fonts/Fonts';
 
 const RNDropDown = props => {
   return (
-    <View style={styles.mainContainer}>
+    <View
+      style={{
+        marginHorizontal: wp(6),
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+      }}>
       <DropDownPicker
+        listMode="SCROLLVIEW"
+        scrollViewProps={{
+          decelerationRate: 'fast',
+        }}
         style={styles.dropdownStyle}
         open={props.open}
         placeholder={props.placeholder}
+        searchPlaceholderTextColor="black"
         placeholderStyle={{
-          color: colors.blackWithOpacityColor,
+          color: '#AAB1BC',
           fontFamily: fonts.regular,
           fontSize: wp(3.6),
+          //backgroundColor: 'red',
         }}
+        zIndex={999}
         value={props.value}
         items={props.items}
         setOpen={props.setOpen}
@@ -30,10 +42,7 @@ const RNDropDown = props => {
         showTickIcon={false}
         dropDownContainerStyle={styles.dropDownContainerStyle}
         arrowIconStyle={styles.arrowIconStyle}
-        //listItemLabelStyle={{color: colors.blackolor}}
         containerStyle={styles.containerStyle}
-        // textStyle={{color: colors.blackolor}}
-        //labelStyle={{color: colors.blackolor}}
         setValue={props.setValue}
         setItems={props.setItems}
         renderListItem={item => {
@@ -47,9 +56,12 @@ const RNDropDown = props => {
                 flexDirection: 'row',
                 marginVertical: hp(1),
                 marginHorizontal: wp(3),
+                //backgroundColor: 'red',
               }}>
               {props.svg}
-              <Text style={{marginHorizontal: wp(3)}}>{item.value}</Text>
+              <Text style={{marginHorizontal: wp(3), color: 'black'}}>
+                {item.value}
+              </Text>
             </TouchableOpacity>
           );
         }}
@@ -73,33 +85,31 @@ const styles = {
     borderWidth: 0.5,
     borderColor: 'rgba(255, 255, 255, 1)',
     justifyContent: 'center',
-    zIndex: 1,
   },
   dropDownContainerStyle: {
     backgroundColor: 'white',
     borderColor: 'white',
     height: hp(20),
-    zIndex: 1,
+    //color: 'red',
     borderRadius: wp(5),
+    zIndex: 1000,
   },
 
   arrowIconStyle: {
     tintColor: colors.purpleColor,
     height: 25,
     width: 25,
-    zIndex: 1,
   },
   containerStyle: {
     alignSelf: 'center',
-    //backgroundColor: 'red',
+    // backgroundColor: 'red',
     width: wp(74),
-    zIndex: 1,
   },
   mainContainer: {
+    zIndex: 1,
     marginHorizontal: wp(6),
     flexDirection: 'row',
     justifyContent: 'space-between',
-    zIndex: 1,
   },
   iconStyle: {
     alignSelf: 'center',

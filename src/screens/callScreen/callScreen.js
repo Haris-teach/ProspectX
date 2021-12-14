@@ -7,13 +7,14 @@ import {
   ImageBackground,
   SectionList,
   StatusBar,
+  Platform,
 } from 'react-native';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 import {FloatingAction} from 'react-native-floating-action';
-import DropDownPicker from 'react-native-dropdown-picker';
+import {useSelector, useDispatch} from 'react-redux';
 
 // ================local import=================
 import RNDropDown from '../../components/RNDropDown/RnDropDown';
@@ -54,6 +55,10 @@ const DATA = [
 ];
 
 const CallScreen = props => {
+  const dispatch = useDispatch();
+
+  const token = useSelector(state => state.authReducer.token);
+
   const [items, setItems] = useState([
     {
       id: 0,
@@ -80,19 +85,25 @@ const CallScreen = props => {
   const [value, setValue] = useState('Set Time');
 
   const Item = ({title, index, section}) => {
-    // console.log('FADFAFASF:   ', section.data.length, index);
+    // console.log(
+    //   'FADFAFASF:   ',
+    //   section.data.length,
+    //   index,
+    //   DATA.length,
+    //   title,
+    // );
     return (
       <TouchableOpacity
         onPress={() => props.navigation.navigate('InComming', {name: title})}
         style={{
           backgroundColor: 'rgba(255, 255, 255, 0.67)',
           marginHorizontal: wp(6),
-          borderTopRightRadius: index == 0 ? wp(10) : wp(0),
-          borderTopLeftRadius: index == 0 ? wp(10) : wp(0),
+          borderTopRightRadius: index == 0 ? wp(7) : wp(0),
+          borderTopLeftRadius: index == 0 ? wp(7) : wp(0),
           borderBottomRightRadius:
-            index == section.data.length - 1 ? wp(10) : wp(0),
+            index == section.data.length - 1 ? wp(7) : wp(0),
           borderBottomLeftRadius:
-            index == section.data.length - 1 ? wp(10) : wp(0),
+            index == section.data.length - 1 ? wp(7) : wp(0),
           borderColor:
             index == 0 || index == section.data.length - 1
               ? 'white'
@@ -169,7 +180,7 @@ const CallScreen = props => {
         <SectionList
           style={{
             marginBottom: hp(3.3),
-            zIndex: 0,
+            zIndex: Platform.OS == 'ios' ? -1 : 0,
             //backgroundColor: 'red',
           }}
           sections={DATA}

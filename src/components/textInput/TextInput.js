@@ -33,6 +33,7 @@ const TextField = props => {
       <View style={AllStyles.inputRow}>
         {props.svg}
         <TextInput
+          autoCapitalize="none"
           placeholder={props.placeholder}
           placeholderTextColor={colors.fieldtitleColor}
           value={props.value}
