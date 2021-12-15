@@ -8,6 +8,7 @@ import {
   Text,
   TouchableOpacity,
   SafeAreaView,
+  BackHandler,
 } from 'react-native';
 //======================================== Local Import Files ====================================
 import AllStyles from '../../all_styles/All_Styles';
@@ -39,6 +40,21 @@ const CallStart = props => {
   let hours = Math.floor(timerState / 3600);
   let minutes = Math.floor((timerState / 60) % 60);
   let seconds = Math.floor(timerState % 60);
+
+  useEffect(() => {
+    const backAction = () => {
+      props.navigation.navigate('Call');
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+
+    return () => backHandler.remove();
+  }, []);
+
   return (
     <SafeAreaView style={{flex: 1}}>
       <ImageBackground

@@ -105,13 +105,13 @@ const NotificationScreen = props => {
     miniContainer: {
       justifyContent: 'center',
       flexDirection: 'row',
-      borderRadius: wp(5),
+      borderRadius: wp(1.8),
       borderColor: 'white',
     },
     timeStyle: {
       marginHorizontal: wp(1),
       alignSelf: 'center',
-      color: 'rgba(118, 129, 255, 1)',
+      color: '#7681FF',
       fontSize: wp(3.4),
     },
   };
@@ -149,7 +149,8 @@ const NotificationScreen = props => {
             style={[
               styles.miniContainer,
               {
-                marginHorizontal: wp(6),
+                marginLeft: wp(6),
+
                 backgroundColor:
                   select == index ? '#E9EAFF' : 'rgba(255, 255, 255, 0.67)',
                 borderWidth: select == index ? 1 : -1,
@@ -167,6 +168,7 @@ const NotificationScreen = props => {
             style={[
               styles.miniContainer,
               {
+                marginLeft: wp(2),
                 backgroundColor:
                   select == index ? '#E9EAFF' : 'rgba(255, 255, 255, 0.67)',
                 borderWidth: select == index ? 1 : -1,

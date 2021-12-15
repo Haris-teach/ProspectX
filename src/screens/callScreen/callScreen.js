@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import {
   View,
   Text,
@@ -8,6 +8,7 @@ import {
   SectionList,
   StatusBar,
   Platform,
+  TextInput,
 } from 'react-native';
 import {
   heightPercentageToDP as hp,
@@ -15,6 +16,7 @@ import {
 } from 'react-native-responsive-screen';
 import {FloatingAction} from 'react-native-floating-action';
 import {useSelector, useDispatch} from 'react-redux';
+import RBSheet from 'react-native-raw-bottom-sheet';
 
 // ================local import=================
 import RNDropDown from '../../components/RNDropDown/RnDropDown';
@@ -22,6 +24,10 @@ import RNSearch from '../../components/RNSearch/RNSearch';
 import images from '../../assets/images/Images';
 import colors from '../../assets/colors/Colors';
 import fonts from '../../assets/fonts/Fonts';
+import Cross from '../../assets/svg/cross.svg';
+import PhoneBtn from '../../assets/svg/phoneBtn.svg';
+import BlueIcon from '../../assets/svg/blueicon.svg';
+import One from '../../assets/svg/one.svg';
 // =============================================
 
 // ============SVG Imports===================
@@ -56,6 +62,7 @@ const DATA = [
 
 const CallScreen = props => {
   const dispatch = useDispatch();
+  const sizeSheet = useRef();
 
   const token = useSelector(state => state.authReducer.token);
 
@@ -135,6 +142,22 @@ const CallScreen = props => {
     );
   };
 
+  // ================ Concatinate string function ================
+
+  const [isString, setisString] = useState('');
+  const concatinate = v => {
+    let word = isString;
+
+    if (v == 'del') {
+      word = word.slice(0, -1);
+      setisString(word);
+      return;
+    } else {
+      word = word + v;
+    }
+    setisString(word);
+  };
+  // ==================================================
   return (
     <ImageBackground
       style={styles.mainContainer}
@@ -198,10 +221,147 @@ const CallScreen = props => {
           <FloatingAction
             backgroundColor="red"
             floatingIcon={<Dilar />}
-            //onPressMain={() => props.navigation.navigate('InComming')}
+            onPressMain={() => sizeSheet.current.open()}
           />
         </View>
       </View>
+
+      {/* ======================= Dailer Component =========================== */}
+
+      <RBSheet
+        ref={sizeSheet}
+        closeOnDragDown={false}
+        closeOnPressMask={true}
+        height={hp(65)}
+        customStyles={{
+          container: {
+            borderTopLeftRadius: wp(10),
+            borderTopRightRadius: wp(10),
+            backgroundColor: 'white',
+            borderColor: 'white',
+            borderWidth: 1,
+            //zIndex: -1,
+          },
+        }}>
+        <View
+          style={{
+            flex: 1,
+            marginHorizontal: wp(10),
+            marginTop: hp(5),
+          }}>
+          <Text style={styles.dailerTextStyle} numberOfLines={1}>
+            {isString}
+          </Text>
+
+          <View style={styles.keyRowStyle}>
+            <TouchableOpacity
+              style={styles.KeyStyle}
+              onPress={() => concatinate('1')}>
+              <Text style={styles.numStyle}>1</Text>
+              <One alignSelf="center" />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.KeyStyle}
+              onPress={() => concatinate('2')}>
+              <Text style={styles.numStyle}>2</Text>
+              <Text style={styles.alpaStyle}>ABC</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.KeyStyle}
+              onPress={() => concatinate('3')}>
+              <Text style={styles.numStyle}>3</Text>
+              <Text style={styles.alpaStyle}>DEF</Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.keyRowStyle}>
+            <TouchableOpacity
+              style={styles.KeyStyle}
+              onPress={() => concatinate('4')}>
+              <Text style={styles.numStyle}>4</Text>
+              <Text style={styles.alpaStyle}>GHI</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.KeyStyle}
+              onPress={() => concatinate('5')}>
+              <Text style={styles.numStyle}>5</Text>
+              <Text style={styles.alpaStyle}>JKL</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.KeyStyle}
+              onPress={() => concatinate('6')}>
+              <Text style={styles.numStyle}>6</Text>
+              <Text style={styles.alpaStyle}>MNO</Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.keyRowStyle}>
+            <TouchableOpacity
+              style={styles.KeyStyle}
+              onPress={() => concatinate('7')}>
+              <Text style={styles.numStyle}>7</Text>
+              <Text style={styles.alpaStyle}>PQRS</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.KeyStyle}
+              onPress={() => concatinate('8')}>
+              <Text style={styles.numStyle}>8</Text>
+              <Text style={styles.alpaStyle}>YUV</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.KeyStyle}
+              onPress={() => concatinate('9')}>
+              <Text style={styles.numStyle}>9</Text>
+              <Text style={styles.alpaStyle}>WXYZ</Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.keyRowStyle}>
+            <TouchableOpacity
+              style={styles.KeyStyle}
+              onPress={() => concatinate('*')}>
+              <Text style={styles.numStyle}>*</Text>
+              <Text style={styles.alpaStyle}></Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.KeyStyle}
+              onPress={() => concatinate('0')}
+              onLongPress={() => concatinate('+')}>
+              <Text style={styles.numStyle}>0</Text>
+              <Text style={styles.alpaStyle}>+</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.KeyStyle}
+              onPress={() => concatinate('#')}>
+              <Text style={styles.numStyle}>#</Text>
+              <Text style={styles.alpaStyle}></Text>
+            </TouchableOpacity>
+          </View>
+
+          <View
+            style={{
+              //backgroundColor: 'red',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginHorizontal: wp(7),
+            }}>
+            <TouchableOpacity>
+              <BlueIcon />
+            </TouchableOpacity>
+
+            <TouchableOpacity style={{marginLeft: wp(4)}}>
+              <PhoneBtn />
+            </TouchableOpacity>
+
+            <TouchableOpacity>
+              <Cross />
+            </TouchableOpacity>
+          </View>
+        </View>
+      </RBSheet>
+
+      {/* ==================================================================== */}
     </ImageBackground>
   );
 };
@@ -298,5 +458,37 @@ const styles = {
     marginLeft: wp(2),
     justifyContent: 'center',
     borderRadius: hp(6),
+  },
+  dailerTextStyle: {
+    height: hp(8),
+    textAlign: 'right',
+    color: 'black',
+    fontFamily: 'SF Pro Text',
+    fontSize: wp(10),
+    fontWeight: '400',
+    marginHorizontal: wp(6),
+  },
+  KeyStyle: {
+    height: hp(8),
+  },
+  numStyle: {
+    color: 'black',
+    fontFamily: 'SF Pro Text',
+    fontSize: wp(10),
+    fontWeight: '400',
+    textAlign: 'center',
+    width: wp(20),
+  },
+  alpaStyle: {
+    color: '#8C8C8C',
+    fontFamily: 'SF Pro Text',
+    fontSize: wp(3),
+    marginTop: hp(-1),
+    textAlign: 'center',
+  },
+  keyRowStyle: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginVertical: hp(1),
   },
 };

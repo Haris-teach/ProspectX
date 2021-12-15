@@ -1,5 +1,5 @@
 //================================ React Native Import Files ============================
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {ImageBackground, Text, View, Vibration} from 'react-native';
 import SwipeButton from 'rn-swipe-button';
 import NotificationSounds, {
@@ -21,43 +21,43 @@ import {widthPercentageToDP} from 'react-native-responsive-screen';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
 var timer = null;
+var setTime = null;
 const IncomingCalls = props => {
-  // const ONE_SECOND_IN_MS = 500;
+  const ONE_SECOND_IN_MS = 500;
 
-  // const PATTERN = [
-  //   1 * ONE_SECOND_IN_MS,
-  //   2 * ONE_SECOND_IN_MS,
-  //   3 * ONE_SECOND_IN_MS,
-  // ];
+  const PATTERN = [
+    1 * ONE_SECOND_IN_MS,
+    2 * ONE_SECOND_IN_MS,
+    3 * ONE_SECOND_IN_MS,
+  ];
 
-  // useEffect(() => {
-  //   CallFunction();
-  // }, []);
+  useEffect(() => {
+    CallFunction();
+  }, []);
 
-  // const CallFunction = () => {
-  //   NotificationSounds.getNotifications('ringtone').then(soundsList => {
-  //     // console.log('SOUNDS=?', soundsList);
+  const CallFunction = () => {
+    NotificationSounds.getNotifications('ringtone').then(soundsList => {
+      // console.log('SOUNDS=?', soundsList);
 
-  //     Vibration.vibrate(PATTERN, true);
-  //     /*
-  //       Play the notification sound.
-  //       pass the complete sound object.
-  //       This function can be used for playing the sample sound
-  //       */
+      Vibration.vibrate(PATTERN, true);
+      /*
+        Play the notification sound.
+        pass the complete sound object.
+        This function can be used for playing the sample sound
+        */
 
-  //     playSampleSound(soundsList[2]);
+      playSampleSound(soundsList[2]);
 
-  //     setTimeout(() => {
-  //       stopSampleSound();
+      setTime = setTimeout(() => {
+        stopSampleSound();
+        Vibration.cancel();
+        props.navigation.goBack();
+      }, 25000);
 
-  //       Vibration.cancel();
-  //       props.navigation.goBack();
-  //     }, 25000);
-
-  //     // if you want to stop any playing sound just call:
-  //     // stopSampleSound();
-  //   });
-  // };
+      // if you want to stop any playing sound just call:
+      // stopSampleSound();
+    });
+  };
 
   // const closeAll = () => {
   //   Vibration.cancel();
@@ -65,14 +65,15 @@ const IncomingCalls = props => {
   //   clearInterval(timer);
   // };
 
-  // const onSwipeSuccess = () => {
-  //   props.navigation.navigate('CallStart', {
-  //     name: props.route.params.name,
-  //   });
-  //   Vibration.cancel();
-  //   stopSampleSound();
-  //   clearInterval(timer);
-  // };
+  const SwipeSuccess = () => {
+    Vibration.cancel();
+    stopSampleSound();
+    clearInterval(timer);
+    clearTimeout(setTime);
+    props.navigation.navigate('CallStart', {
+      name: props.route.params.name,
+    });
+  };
 
   return (
     <ImageBackground
@@ -90,11 +91,7 @@ const IncomingCalls = props => {
         <View style={AllStyles.incomingSwipeBtnStyle}>
           <SwipeButton
             enableRightToLeftSwipe={true}
-            onSwipeSuccess={() =>
-              props.navigation.navigate('CallStart', {
-                name: props.route.params.name,
-              })
-            }
+            onSwipeSuccess={() => SwipeSuccess()}
             railBackgroundColor={colors.railbackgroundColor}
             railBorderColor={colors.whiteColor}
             railFillBackgroundColor={colors.railFillBackgroundColor}

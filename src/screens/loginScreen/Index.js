@@ -38,10 +38,9 @@ import {
   PASSWORD_PLACEHOLDER,
   SIGN_IN,
 } from '../../constants/ConstStrings';
-import {FORGOT_PASSWORD} from '../../constants/Navigator';
+
 import TextField from '../../components/textInput/TextInput';
 import PasswordField from '../../components/PasswordInput/PasswordInput';
-import {SafeAreaView} from 'react-native-safe-area-context';
 
 import HitApi from '../../HitApis/APIHandler';
 import {LOGIN} from '../../HitApis/Urls';
@@ -51,6 +50,8 @@ const LoginScreen = props => {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  //============= Funtion for Login USer ======================
 
   const Login_User = v => {
     setLoading(true);
@@ -77,6 +78,9 @@ const LoginScreen = props => {
     });
   };
 
+  //===================== END ====================
+
+  // ================= Validation funtion with formik ==========================
   const userInfo = {
     email: '',
     password: '',
@@ -95,6 +99,8 @@ const LoginScreen = props => {
       .required('Your password field is empty'),
   });
 
+  // ================= END ===================================
+
   return (
     <KeyboardAvoidingView
       style={{flex: 1}}
@@ -107,7 +113,8 @@ const LoginScreen = props => {
             initialValues={userInfo}
             validationSchema={validationSchema}
             onSubmit={values => {
-              Login_User(values);
+              //Login_User(values);
+              dispatch(Login('', '', '', '', '', ''));
             }}>
             {({
               handleChange,

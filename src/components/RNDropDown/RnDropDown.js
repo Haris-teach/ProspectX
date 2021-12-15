@@ -32,8 +32,10 @@ const RNDropDown = props => {
           color: '#AAB1BC',
           fontFamily: fonts.regular,
           fontSize: wp(3.6),
+          marginLeft: wp(4),
           //backgroundColor: 'red',
         }}
+        textStyle={{marginLeft: wp(4)}}
         zIndex={999}
         value={props.value}
         items={props.items}

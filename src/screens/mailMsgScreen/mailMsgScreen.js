@@ -59,10 +59,12 @@ const MailInbox = props => {
 
       <View style={styles.footerStyle}>
         <TouchableOpacity style={[styles.buttonStyle, {width: wp(48)}]}>
-          <Text style={styles.textStyle}>Farwad this mail...</Text>
+          <Text style={styles.textStyle}>Forwad this mail...</Text>
         </TouchableOpacity>
         <TouchableOpacity style={[styles.buttonStyle, {width: wp(28)}]}>
-          <Text style={styles.textStyle}>Follow up</Text>
+          <Text style={[styles.textStyle, {textAlign: 'center'}]}>
+            Follow up
+          </Text>
         </TouchableOpacity>
       </View>
     </ImageBackground>
