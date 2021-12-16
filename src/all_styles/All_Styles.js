@@ -302,7 +302,6 @@ const AllStyles = {
     height: hp(11.5),
   },
   startCallMikeView: {
-    backgroundColor: colors.whiteColor,
     height: hp(8),
     width: hp(8),
     borderRadius: hp(8),
@@ -311,7 +310,6 @@ const AllStyles = {
     alignItems: 'center',
   },
   startCallSpeakerView: {
-    backgroundColor: colors.whiteColor,
     height: hp(8),
     width: hp(8),
     borderRadius: hp(8),

@@ -1,6 +1,6 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import React from 'react';
-import {Platform, StyleSheet} from 'react-native';
+import {Platform, StyleSheet, Dimensions} from 'react-native';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
@@ -44,9 +44,11 @@ const customTabBarStyle = {
     elevation: 20,
     height: hp(6.5),
     borderTopWidth: 0,
-    marginBottom: hp(2),
+    marginBottom: hp(1),
   },
 };
+
+const height_screen = Dimensions.get('window').height;
 
 const TabScreen = () => (
   <Tab.Navigator screenOptions={customTabBarStyle}>
@@ -56,13 +58,18 @@ const TabScreen = () => (
       component={CallScreen}
       options={{
         tabBarIcon: ({focused}) => (!focused ? <Phone /> : <PhoneFill />),
-
         tabBarItemStyle: {
           borderRadius: 15,
           alignSelf: 'center',
           height: hp('7%'),
           marginLeft: wp('3%'),
           marginRight: wp('3%'),
+          marginBottom:
+            Platform.OS === 'ios'
+              ? height_screen < 675
+                ? hp(1)
+                : -hp(3)
+              : hp(1),
         },
       }}
     />
@@ -79,6 +86,12 @@ const TabScreen = () => (
           alignSelf: 'center',
           marginLeft: wp('3%'),
           marginRight: wp('3%'),
+          marginBottom:
+            Platform.OS === 'ios'
+              ? height_screen < 675
+                ? hp(1)
+                : -hp(3)
+              : hp(1),
         },
       }}
     />
@@ -93,6 +106,12 @@ const TabScreen = () => (
           alignSelf: 'center',
           marginLeft: wp('3%'),
           marginRight: wp('3%'),
+          marginBottom:
+            Platform.OS === 'ios'
+              ? height_screen < 675
+                ? hp(1)
+                : -hp(3)
+              : hp(1),
         },
       }}
     />

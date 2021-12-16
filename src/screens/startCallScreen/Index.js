@@ -26,6 +26,7 @@ import {PROFILE_SCREEN} from '../../constants/Navigator';
 
 const CallStart = props => {
   const [mute, setMute] = useState(false);
+  const [isSpeaker, setIsSpeaker] = useState(false);
   var [timerState, setTimerState] = useState(0);
   useEffect(() => {
     timer();
@@ -79,7 +80,10 @@ const CallStart = props => {
             <View style={AllStyles.startCallfirstColumn}>
               <TouchableOpacity
                 onPress={() => setMute(!mute)}
-                style={AllStyles.startCallMikeView}>
+                style={[
+                  AllStyles.startCallMikeView,
+                  {backgroundColor: 'white'},
+                ]}>
                 {mute === true ? (
                   <MuteMike height={20} width={20} />
                 ) : (
@@ -90,7 +94,15 @@ const CallStart = props => {
             </View>
 
             <View style={AllStyles.startCallfirstColumn}>
-              <TouchableOpacity style={AllStyles.startCallSpeakerView}>
+              <TouchableOpacity
+                onPress={() => setIsSpeaker(!isSpeaker)}
+                style={[
+                  AllStyles.startCallSpeakerView,
+                  {
+                    backgroundColor:
+                      isSpeaker == false ? 'white' : 'rgba(255,255,255,0.4)',
+                  },
+                ]}>
                 <Speaker height={20} width={20} />
               </TouchableOpacity>
               <Text style={AllStyles.callStartSpeakerStyle}>

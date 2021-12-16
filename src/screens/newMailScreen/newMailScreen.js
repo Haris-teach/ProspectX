@@ -23,6 +23,7 @@ import DocumentPicker from 'react-native-document-picker';
 import GradientButton from '../../components/gradientButton/Button';
 import BackArrow from '../../assets/images/backarrow.svg';
 import Pen from '../../assets/svg/pen.svg';
+import PaperClip from '../../assets/svg/paperClip.svg';
 import images from '../../assets/images/Images';
 import colors from '../../assets/colors/Colors';
 import fonts from '../../assets/fonts/Fonts';
@@ -95,6 +96,7 @@ const NewMailScreen = props => {
           {/* -------------------------------------------------------------------------- */}
           <>
             <DropDownPicker
+              props={{activeOpacity: 1}}
               style={styles.dropdownStyle}
               open={open}
               placeholder="Select email for mail"
@@ -175,13 +177,14 @@ const NewMailScreen = props => {
                 textAlignVertical: 'top',
                 //backgroundColor: 'red',
               }}
-              numberOfLines={10}
+              multiline={true}
+              //numberOfLines={10}
             />
           </View>
-          <View style={{marginRight: wp(4), marginTop: hp(3)}}>
+          <View style={{marginRight: wp(4), marginTop: hp(2)}}>
             <FloatingAction
               backgroundColor="red"
-              floatingIcon={<Pen />}
+              floatingIcon={<PaperClip />}
               onPressMain={() => Documentpicker()}
             />
           </View>
@@ -191,10 +194,11 @@ const NewMailScreen = props => {
               alignSelf: 'center',
               width: wp(83),
               marginBottom: hp(3),
+              marginTop: hp(-1),
             }}>
             <GradientButton
-              onPress={() => alert('Flow is pending')}
-              title={'Save'}
+              //onPress={() => alert('Flow is pending')}
+              title={'Send'}
             />
           </View>
         </ScrollView>
@@ -214,8 +218,8 @@ const styles = {
 
   backButton: {
     backgroundColor: colors.whiteColor,
-    height: hp(3.5),
-    width: wp(7.7),
+    height: hp(4),
+    width: wp(7),
     marginLeft: wp(6),
     borderRadius: wp(2),
     justifyContent: 'center',
@@ -241,7 +245,7 @@ const styles = {
     height: hp(6),
 
     backgroundColor: 'rgba(255, 255, 255, 0.67)',
-    borderRadius: wp(10),
+    borderRadius: wp(5),
     color: 'black',
     borderWidth: 0.5,
     borderColor: 'rgba(255, 255, 255, 1)',

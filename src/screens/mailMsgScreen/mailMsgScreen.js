@@ -59,7 +59,9 @@ const MailInbox = props => {
 
       <View style={styles.footerStyle}>
         <TouchableOpacity style={[styles.buttonStyle, {width: wp(48)}]}>
-          <Text style={styles.textStyle}>Forwad this mail...</Text>
+          <Text style={[styles.textStyle, {alignSelf: 'center'}]}>
+            Forward this mail...
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity style={[styles.buttonStyle, {width: wp(28)}]}>
           <Text style={[styles.textStyle, {textAlign: 'center'}]}>
@@ -81,8 +83,8 @@ const styles = StyleSheet.create({
 
   backButton: {
     backgroundColor: colors.whiteColor,
-    height: hp(3.5),
-    width: wp(7.7),
+    height: hp(4),
+    width: wp(7),
     marginLeft: wp(6),
     borderRadius: wp(2),
     justifyContent: 'center',

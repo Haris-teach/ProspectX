@@ -44,12 +44,12 @@ const ResetPassword = props => {
     password: yup
       .string()
       .label('password')
-      .required('Your password field is empty'),
+      .required('New password is required'),
 
     confirmPassword: yup
       .string()
       .label('confirmPassword')
-      .required('Your password field is empty'),
+      .required('Confirm password is required'),
   });
 
   return (
@@ -146,7 +146,7 @@ const Styles = {
   warningStyle: {
     marginHorizontal: wp(5),
     marginTop: hp('0.5%'),
-    fontSize: wp('2.5%'),
+    fontSize: wp('3.4%'),
     color: 'red',
   },
 };

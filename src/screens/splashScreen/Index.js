@@ -20,7 +20,11 @@ const SplashScreen = props => {
     <ImageBackground
       source={images.splashBackground}
       style={Styles.backgroundImage}>
-      <Image source={images.splashLoader} style={Styles.iconViewStyle} />
+      <Image
+        source={require('../../assets/svg/LOGO.gif')}
+        style={Styles.iconViewStyle}
+        resizeMode="contain"
+      />
     </ImageBackground>
   );
 };

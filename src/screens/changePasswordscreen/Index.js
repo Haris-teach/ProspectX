@@ -61,7 +61,7 @@ const ChangePassword = props => {
             placeholder={OLD_PASSWORD}
             value={oldPassword}
             onChange={oldPassword => setOldPassword(oldPassword)}
-            svg={true}
+            //svg={true}
           />
 
           <ChangePasswordComponent
@@ -108,8 +108,8 @@ const styles = {
 
   backButton: {
     backgroundColor: colors.whiteColor,
-    height: hp(3.5),
-    width: wp(7.7),
+    height: hp(4),
+    width: wp(7),
     marginLeft: wp(6),
     borderRadius: wp(2),
     justifyContent: 'center',

@@ -112,7 +112,7 @@ const SettingsScreen = props => {
           Email Notification
         </Text>
         <Switch
-          style={AllStyles.settingsSwitchButtonStyle}
+          // style={AllStyles.settingsSwitchButtonStyle}
           trackColor={{false: 'green', true: colors.purpleColor}}
           thumbColor={isEmail ? colors.whiteColor : colors.purpleColor}
           ios_backgroundColor={colors.whiteColor}
@@ -132,7 +132,7 @@ const SettingsScreen = props => {
           SMS Notification
         </Text>
         <Switch
-          style={AllStyles.settingsSwitchButtonStyle}
+          //style={AllStyles.settingsSwitchButtonStyle}
           trackColor={{false: 'green', true: colors.purpleColor}}
           thumbColor={isSms ? colors.whiteColor : colors.purpleColor}
           ios_backgroundColor={colors.whiteColor}
@@ -158,8 +158,8 @@ const styles = {
 
   backButton: {
     backgroundColor: colors.whiteColor,
-    height: hp(3.5),
-    width: wp(7.7),
+    height: hp(4),
+    width: wp(7),
     marginLeft: wp(6),
     borderRadius: wp(2),
     justifyContent: 'center',

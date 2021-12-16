@@ -87,16 +87,12 @@ const LoginScreen = props => {
   };
 
   const validationSchema = yup.object({
+    // email: yup.string().label('email').required('Email is required').email(),
     email: yup
       .string()
-      .label('email')
-      .required('Your email field is empty')
-      .email(),
-
-    password: yup
-      .string()
-      .label('password')
-      .required('Your password field is empty'),
+      .email('Email must be a valid email address')
+      .required('Email is required'),
+    password: yup.string().label('password').required('Password is required'),
   });
 
   // ================= END ===================================
@@ -198,7 +194,7 @@ const Styles = {
   warningStyle: {
     marginHorizontal: wp(5),
     marginTop: hp('0.5%'),
-    fontSize: wp('2.5%'),
+    fontSize: wp('3.4%'),
     color: 'red',
   },
 };

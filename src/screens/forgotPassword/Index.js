@@ -41,11 +41,7 @@ const ForgotPassword = props => {
   };
 
   const validationSchema = yup.object({
-    email: yup
-      .string()
-      .label('email')
-      .required('Your email field is empty')
-      .email(),
+    email: yup.string().label('email').required('Email is required').email(),
   });
 
   return (
@@ -134,7 +130,7 @@ const Styles = {
   warningStyle: {
     marginHorizontal: wp(5),
     marginTop: hp('0.5%'),
-    fontSize: wp('2.5%'),
+    fontSize: wp('3.4%'),
     color: 'red',
   },
 };

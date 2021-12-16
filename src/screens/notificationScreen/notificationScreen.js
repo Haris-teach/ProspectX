@@ -51,14 +51,15 @@ const NotificationScreen = props => {
   const styles = {
     headerContainer: {
       height: hp(15),
+
       alignItems: 'center',
       flexDirection: 'row',
     },
 
     backButton: {
       backgroundColor: colors.whiteColor,
-      height: hp(3.5),
-      width: wp(7.7),
+      height: hp(4),
+      width: wp(7),
       marginLeft: wp(6),
       borderRadius: wp(2),
       justifyContent: 'center',
@@ -84,7 +85,6 @@ const NotificationScreen = props => {
       width: hp(1),
       height: hp(1),
       borderRadius: hp(2),
-
       alignSelf: 'center',
     },
     boldTextStyle: {
@@ -92,12 +92,13 @@ const NotificationScreen = props => {
       marginRight: wp(10),
       color: '#293859',
       fontWeight: 'bold',
+      fontSize: wp(4),
     },
     msgStyle: {
       alignSelf: 'center',
       marginLeft: wp(5),
       fontFamily: 'SF Pro Text',
-      fontSize: wp(3.3),
+      fontSize: wp(4),
       width: wp(60),
       textAlign: 'left',
       color: '#505372',
@@ -105,7 +106,7 @@ const NotificationScreen = props => {
     miniContainer: {
       justifyContent: 'center',
       flexDirection: 'row',
-      borderRadius: wp(1.8),
+      borderRadius: wp(3),
       borderColor: 'white',
     },
     timeStyle: {
@@ -113,6 +114,7 @@ const NotificationScreen = props => {
       alignSelf: 'center',
       color: '#7681FF',
       fontSize: wp(3.4),
+      marginVertical: hp(0.3),
     },
   };
 
@@ -158,7 +160,7 @@ const NotificationScreen = props => {
             ]}>
             <Clock
               alignSelf="center"
-              marginHorizontal={wp(1)}
+              marginHorizontal={wp(0.5)}
               width={wp(3)}
               height={hp(2)}
             />
@@ -176,13 +178,23 @@ const NotificationScreen = props => {
             ]}>
             <Calander
               alignSelf="center"
-              marginHorizontal={wp(1)}
+              marginHorizontal={wp(0.5)}
               width={wp(3)}
               height={hp(2)}
             />
             <Text style={styles.timeStyle}>10/12/2021</Text>
           </View>
         </View>
+        {select != index ? (
+          <View
+            style={{
+              borderColor: '#6499FF',
+              borderWidth: 0.5,
+              marginTop: hp(3),
+              opacity: 0.3,
+            }}
+          />
+        ) : null}
       </TouchableOpacity>
     );
   };

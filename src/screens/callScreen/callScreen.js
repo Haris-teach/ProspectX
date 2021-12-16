@@ -17,6 +17,7 @@ import {
 import {FloatingAction} from 'react-native-floating-action';
 import {useSelector, useDispatch} from 'react-redux';
 import RBSheet from 'react-native-raw-bottom-sheet';
+import LinearGradient from 'react-native-linear-gradient';
 
 // ================local import=================
 import RNDropDown from '../../components/RNDropDown/RnDropDown';
@@ -43,20 +44,20 @@ import Contact from '../../assets/svg/contact.svg';
 
 const DATA = [
   {
-    title: 'Main dishes',
-    data: ['Pizza', 'Burger', 'Risotto'],
+    title: 'Today',
+    data: ['John Wick', 'Lesnar', 'Adam'],
   },
   {
-    title: 'Sides',
-    data: ['French Fries', 'Onion Rings', 'Fried Shrimps'],
+    title: 'Yesterday',
+    data: ['Rock', 'Glod barg', 'Kane'],
   },
   {
-    title: 'Drinks',
-    data: ['Water', 'Coke', 'Beer'],
+    title: '14 December 2021',
+    data: ['Roman', 'Ven Disal', 'Shawn Mical'],
   },
   {
-    title: 'Desserts',
-    data: ['Cheese Cake', 'Ice Cream'],
+    title: '13 December 2021',
+    data: ['Coke', 'Anna White'],
   },
 ];
 
@@ -76,6 +77,7 @@ const CallScreen = props => {
       id: 1,
       label: '+1 111 565 359',
       value: '+1 111 565 359',
+      svg: <Contact />,
     },
     {
       id: 2,
@@ -125,7 +127,11 @@ const CallScreen = props => {
         }}>
         <View style={styles.listStyle}>
           <View style={styles.miniContainer}>
-            <INCall width={wp(4)} height={hp(4)} alignSelf="center" />
+            {index % 2 == 0 ? (
+              <INCall width={wp(4)} height={hp(4)} alignSelf="center" />
+            ) : (
+              <OutCall width={wp(4)} height={hp(4)} alignSelf="center" />
+            )}
 
             <Text style={styles.tileStyle}>{title}</Text>
           </View>
@@ -201,9 +207,10 @@ const CallScreen = props => {
         {/* ===============LIST VIEW========================== */}
 
         <SectionList
+          stickySectionHeadersEnabled={false}
           style={{
-            marginBottom: hp(3.3),
-            zIndex: Platform.OS == 'ios' ? -1 : 0,
+            marginBottom: -hp(0.2),
+            // zIndex: Platform.OS == 'ios' ? -1 : 0,
             //backgroundColor: 'red',
           }}
           sections={DATA}
@@ -217,14 +224,41 @@ const CallScreen = props => {
         />
 
         {/* ======================================================== */}
-        <View style={{marginBottom: hp(5.5)}}>
+        {/* <View style={{marginBottom: hp(5.5)}}>
           <FloatingAction
             backgroundColor="red"
             floatingIcon={<Dilar />}
-            onPressMain={() => sizeSheet.current.open()}
+            //onPressMain={() => sizeSheet.current.open()}
           />
-        </View>
+        </View> */}
       </View>
+
+      <TouchableOpacity
+        activeOpacity={1}
+        onPress={() => console.log('Done')}
+        style={{
+          height: hp(8),
+          width: wp(100),
+          podition: 'absolute',
+          justifyContent: 'center',
+          alignItems: 'flex-end',
+          bottom: hp(8),
+          right: wp(10),
+        }}>
+        <LinearGradient
+          colors={['#6FB3FF', '#7F5AFF']}
+          start={{y: 0.0, x: 0.0}}
+          style={{
+            borderRadius: hp(7),
+            height: hp(7),
+            width: hp(7),
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+          end={{y: 0.0, x: 1.0}}>
+          <Dilar />
+        </LinearGradient>
+      </TouchableOpacity>
 
       {/* ======================= Dailer Component =========================== */}
 

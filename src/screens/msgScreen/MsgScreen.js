@@ -145,11 +145,11 @@ const MsgScreen = props => {
           />
         </View>
       </View>
-      <View style={{marginBottom: hp(6)}}>
+      <View style={{marginBottom: hp(7)}}>
         <FloatingAction
-          backgroundColor="red"
           floatingIcon={<Pen />}
-          onPressMain={() => props.navigation.navigate('Chat')}
+          //onPressMain={() => props.navigation.navigate('Chat')}
+          overlayColor="red"
         />
       </View>
     </ImageBackground>
@@ -262,7 +262,7 @@ const styles = {
     fontSize: wp(10),
   },
   flatListStyle: {
-    flex: 0.963,
+    flex: 0.97,
     zIndex: Platform.OS == 'ios' ? -1 : 0,
     backgroundColor: 'rgba(255, 255, 255, 0.67)',
     //backgroundColor: 'red',

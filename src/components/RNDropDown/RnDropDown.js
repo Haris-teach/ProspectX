@@ -20,20 +20,16 @@ const RNDropDown = props => {
         justifyContent: 'space-between',
       }}>
       <DropDownPicker
-        listMode="SCROLLVIEW"
-        scrollViewProps={{
-          decelerationRate: 'fast',
-        }}
         style={styles.dropdownStyle}
         open={props.open}
+        props={{activeOpacity: 1}}
         placeholder={props.placeholder}
         searchPlaceholderTextColor="black"
         placeholderStyle={{
           color: '#AAB1BC',
           fontFamily: fonts.regular,
           fontSize: wp(3.6),
-          marginLeft: wp(4),
-          //backgroundColor: 'red',
+          //textAlign: 'center',
         }}
         textStyle={{marginLeft: wp(4)}}
         zIndex={999}
@@ -80,9 +76,9 @@ export default RNDropDown;
 const styles = {
   dropdownStyle: {
     width: wp(74),
-    height: hp(6),
+    height: hp(7),
     backgroundColor: 'rgba(255, 255, 255, 0.67)',
-    borderRadius: wp(10),
+    borderRadius: wp(7),
     color: 'black',
     borderWidth: 0.5,
     borderColor: 'rgba(255, 255, 255, 1)',
@@ -90,10 +86,12 @@ const styles = {
   },
   dropDownContainerStyle: {
     backgroundColor: 'white',
+    marginTop: hp(0.5),
     borderColor: 'white',
     height: hp(20),
     //color: 'red',
-    borderRadius: wp(5),
+    // width: wp(90),
+    borderRadius: wp(7),
     zIndex: 1000,
   },
 
@@ -116,10 +114,10 @@ const styles = {
   iconStyle: {
     alignSelf: 'center',
     backgroundColor: 'rgba(255, 255, 255, 0.6)',
-    width: hp(6),
-    height: hp(6),
+    width: hp(6.5),
+    height: hp(6.5),
     marginLeft: wp(2),
     justifyContent: 'center',
-    borderRadius: hp(6),
+    borderRadius: hp(6.5),
   },
 };

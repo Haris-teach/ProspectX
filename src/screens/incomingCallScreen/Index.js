@@ -31,9 +31,9 @@ const IncomingCalls = props => {
     3 * ONE_SECOND_IN_MS,
   ];
 
-  useEffect(() => {
-    CallFunction();
-  }, []);
+  // useEffect(() => {
+  //   CallFunction();
+  // }, []);
 
   const CallFunction = () => {
     NotificationSounds.getNotifications('ringtone').then(soundsList => {
@@ -65,15 +65,15 @@ const IncomingCalls = props => {
   //   clearInterval(timer);
   // };
 
-  const SwipeSuccess = () => {
-    Vibration.cancel();
-    stopSampleSound();
-    clearInterval(timer);
-    clearTimeout(setTime);
-    props.navigation.navigate('CallStart', {
-      name: props.route.params.name,
-    });
-  };
+  // const SwipeSuccess = () => {
+  //   Vibration.cancel();
+  //   stopSampleSound();
+  //   clearInterval(timer);
+  //   clearTimeout(setTime);
+  //   props.navigation.replace('CallStart', {
+  //     name: props.route.params.name,
+  //   });
+  // };
 
   return (
     <ImageBackground
@@ -91,7 +91,11 @@ const IncomingCalls = props => {
         <View style={AllStyles.incomingSwipeBtnStyle}>
           <SwipeButton
             enableRightToLeftSwipe={true}
-            onSwipeSuccess={() => SwipeSuccess()}
+            onSwipeSuccess={() =>
+              props.navigation.replace('CallStart', {
+                name: props.route.params.name,
+              })
+            }
             railBackgroundColor={colors.railbackgroundColor}
             railBorderColor={colors.whiteColor}
             railFillBackgroundColor={colors.railFillBackgroundColor}
