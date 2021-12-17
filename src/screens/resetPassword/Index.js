@@ -8,11 +8,14 @@ import {
   TouchableOpacity,
   Text,
   SafeAreaView,
+  Alert,
 } from 'react-native';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
+import * as yup from 'yup';
+import {Formik} from 'formik';
 //=================================== Local Import Files
 import AllStyles from '../../all_styles/All_Styles';
 import BackArrow from '../../assets/images/backarrow.svg';
@@ -28,8 +31,6 @@ import {
 import PasswordField from '../../components/PasswordInput/PasswordInput';
 import Lock from '../../assets/images/lock.svg';
 import GradientButton from '../../components/gradientButton/Button';
-import * as yup from 'yup';
-import {Formik} from 'formik';
 
 const ResetPassword = props => {
   const [newPassword, setNewPassword] = useState('');
@@ -44,12 +45,17 @@ const ResetPassword = props => {
     password: yup
       .string()
       .label('password')
-      .required('New password is required'),
+      .required('New password is required')
+      .min(8, 'Password must be at least 8 characters')
+      .matches(/^[^-\s]+$/, '* This field cannot contain only blankspaces'),
 
     confirmPassword: yup
       .string()
       .label('confirmPassword')
-      .required('Confirm password is required'),
+      .required('Confirm password is required')
+      .oneOf([yup.ref('password')], 'Passwords do not match')
+      .min(8, 'Password must be at least 8 characters')
+      .matches(/^[^-\s]+$/, '* This field cannot contain only blankspaces'),
   });
 
   return (

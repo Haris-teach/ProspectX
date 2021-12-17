@@ -90,6 +90,7 @@ const LoginScreen = props => {
     // email: yup.string().label('email').required('Email is required').email(),
     email: yup
       .string()
+      .label('email')
       .email('Email must be a valid email address')
       .required('Email is required'),
     password: yup.string().label('password').required('Password is required'),
@@ -109,8 +110,8 @@ const LoginScreen = props => {
             initialValues={userInfo}
             validationSchema={validationSchema}
             onSubmit={values => {
-              //Login_User(values);
-              dispatch(Login('', '', '', '', '', ''));
+              Login_User(values);
+              //dispatch(Login('', '', '', '', '', ''));
             }}>
             {({
               handleChange,

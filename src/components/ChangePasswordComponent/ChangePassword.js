@@ -49,9 +49,12 @@ const ChangePassword = props => {
       <TextInput
         style={styles.changePassTextFieldStyle}
         placeholder={props.placeholder}
+        placeholderTextColor={colors.fieldtitleColor}
         maxLength={20}
         secureTextEntry={securePass}
         onChangeText={props.onChange}
+        onBlur={props.onBlur}
+        value={props.value}
       />
       <TouchableOpacity
         onPress={() => setSecurePass(!securePass)}
@@ -87,6 +90,7 @@ const styles = {
     width: wp(68),
     height: hp(6),
     marginLeft: wp(4),
+    color: 'black',
   },
   iconStyle: {
     //backgroundColor: 'red',

@@ -15,6 +15,9 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
+import * as yup from 'yup';
+import {Formik} from 'formik';
+import {useSelector} from 'react-redux';
 
 //======================================== Local Import Files ====================================
 import images from '../../assets/images/Images';
@@ -30,12 +33,62 @@ import {
   OLD_PASSWORD,
   CHANGE_PASS_DESC,
 } from '../../constants/ConstStrings';
-import {heightPercentageToDP} from 'react-native-responsive-screen';
-import {SafeAreaView} from 'react-native-safe-area-context';
+
+import HitApi from '../../HitApis/APIHandler';
+import {CHANGEPASS} from '../../HitApis/Urls';
+
 const ChangePassword = props => {
-  const [oldPassword, setOldPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const token = useSelector(state => state.authReducer.token);
+
+  //============= Funtion for Change PAssword  ======================
+
+  const PasswordChange = v => {
+    //setLoading(true);
+
+    let params = {
+      password: v.oldPassword,
+      newPassword: v.password,
+    };
+
+    HitApi(CHANGEPASS, 'POST', params, token).then(res => {});
+  };
+
+  //===================== END ====================
+
+  // ================= formik validations ============
+
+  const userInfo = {
+    oldPassword: '',
+    password: '',
+    confirmPassword: '',
+  };
+
+  const validationSchema = yup.object({
+    oldPassword: yup
+      .string()
+      .label('oldPassword')
+      .required('Old password is required')
+      .min(8, 'Password must be at least 8 characters')
+      .matches(/^[^-\s]+$/, '* This field cannot contain only blankspaces'),
+
+    password: yup
+      .string()
+      .label('password')
+      .required('New password is required')
+      .min(8, 'Password must be at least 8 characters')
+      .matches(/^[^-\s]+$/, '* This field cannot contain only blankspaces'),
+
+    confirmPassword: yup
+      .string()
+      .label('confirmPassword')
+      .required('Confirm password is required')
+      .oneOf([yup.ref('password')], 'Passwords do not match')
+      .min(8, 'Password must be at least 8 characters')
+      .matches(/^[^-\s]+$/, '* This field cannot contain only blankspaces'),
+  });
+
+  //================= END ==========================
+
   return (
     <KeyboardAvoidingView
       style={AllStyles.mainContainer}
@@ -55,42 +108,84 @@ const ChangePassword = props => {
         </View>
         {/* -------------------------------------------------------------------------- */}
         <ScrollView style={{flex: 1}} showsVerticalScrollIndicator={false}>
-          <Text style={styles.textStyle}>{CHANGE_PASS_DESC}</Text>
-
-          <ChangePasswordComponent
-            placeholder={OLD_PASSWORD}
-            value={oldPassword}
-            onChange={oldPassword => setOldPassword(oldPassword)}
-            //svg={true}
-          />
-
-          <ChangePasswordComponent
-            placeholder={NEW_PASSWORD}
-            value={newPassword}
-            onChange={Password => setNewPassword(Password)}
-            svg={true}
-          />
-
-          <ChangePasswordComponent
-            placeholder={CONFIRM_PASSWORD}
-            value={confirmPassword}
-            onChange={Password => setConfirmPassword(Password)}
-            svg={true}
-          />
-
-          <View
-            style={{
-              height: hp(25),
-              marginBottom: hp(10),
-              alignSelf: 'center',
-              width: wp(80),
-              justifyContent: 'flex-end',
+          <Formik
+            initialValues={userInfo}
+            validationSchema={validationSchema}
+            onSubmit={(values, {resetForm}) => {
+              //props.navigation.navigate('LoginScreen');
+              PasswordChange(values);
+              resetForm();
             }}>
-            <GradientButton
-              onPress={() => alert('Login Pressed')}
-              title={'Save'}
-            />
-          </View>
+            {({
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              values,
+              touched,
+              errors,
+            }) => {
+              const {password, oldPassword, confirmPassword} = values;
+              return (
+                <>
+                  <Text style={styles.textStyle}>{CHANGE_PASS_DESC}</Text>
+
+                  <ChangePasswordComponent
+                    placeholder={OLD_PASSWORD}
+                    value={oldPassword}
+                    onChange={handleChange('oldPassword')}
+                    onBlur={handleBlur('oldPassword')}
+                    //svg={true}
+                  />
+                  {touched.oldPassword && errors.oldPassword && (
+                    <Text style={styles.warningStyle}>
+                      {errors.oldPassword}
+                    </Text>
+                  )}
+
+                  <ChangePasswordComponent
+                    placeholder={NEW_PASSWORD}
+                    value={password}
+                    onChange={handleChange('password')}
+                    onBlur={handleBlur('password')}
+                    svg={true}
+                  />
+                  {touched.password && errors.password && (
+                    <Text style={styles.warningStyle}>{errors.password}</Text>
+                  )}
+
+                  <ChangePasswordComponent
+                    placeholder={CONFIRM_PASSWORD}
+                    value={confirmPassword}
+                    onChange={handleChange('confirmPassword')}
+                    onBlur={handleBlur('confirmPassword')}
+                    svg={true}
+                  />
+                  {touched.confirmPassword && errors.confirmPassword && (
+                    <Text style={styles.warningStyle}>
+                      {errors.confirmPassword}
+                    </Text>
+                  )}
+
+                  <View
+                    style={{
+                      height: hp(25),
+                      marginBottom: hp(10),
+                      alignSelf: 'center',
+                      width: wp(80),
+                      justifyContent: 'flex-end',
+                    }}>
+                    <GradientButton
+                      // onPress={() => alert('Login Pressed')}
+                      onPress={() => {
+                        handleSubmit();
+                      }}
+                      title={'Save'}
+                    />
+                  </View>
+                </>
+              );
+            }}
+          </Formik>
         </ScrollView>
       </ImageBackground>
     </KeyboardAvoidingView>
@@ -137,5 +232,11 @@ const styles = {
     marginVertical: hp(6),
     // backgroundColor: 'red',
     marginHorizontal: wp(12),
+  },
+  warningStyle: {
+    marginHorizontal: wp(12),
+    marginTop: hp('-1.4%'),
+    fontSize: wp('3.4%'),
+    color: 'red',
   },
 };

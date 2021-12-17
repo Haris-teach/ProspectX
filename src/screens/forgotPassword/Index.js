@@ -41,7 +41,11 @@ const ForgotPassword = props => {
   };
 
   const validationSchema = yup.object({
-    email: yup.string().label('email').required('Email is required').email(),
+    email: yup
+      .string()
+      .label('email')
+      .email('Email must be a valid email address')
+      .required('Email is required'),
   });
 
   return (

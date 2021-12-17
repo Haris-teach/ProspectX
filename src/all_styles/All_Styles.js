@@ -109,7 +109,7 @@ const AllStyles = {
   },
   resetGradientView: {
     justifyContent: 'flex-end',
-    height: hp(40),
+    height: hp(35),
     width: wp(80),
     alignSelf: 'center',
     shadowColor: '#0E2247',

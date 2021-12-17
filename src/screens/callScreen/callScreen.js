@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {
   View,
   Text,
@@ -14,7 +14,6 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
-import {FloatingAction} from 'react-native-floating-action';
 import {useSelector, useDispatch} from 'react-redux';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import LinearGradient from 'react-native-linear-gradient';
@@ -25,14 +24,16 @@ import RNSearch from '../../components/RNSearch/RNSearch';
 import images from '../../assets/images/Images';
 import colors from '../../assets/colors/Colors';
 import fonts from '../../assets/fonts/Fonts';
+import HitApi from '../../HitApis/APIHandler';
+import {GETPHONENUM} from '../../HitApis/Urls';
+
+// =============================================
+
+// ============SVG Imports===================
 import Cross from '../../assets/svg/cross.svg';
 import PhoneBtn from '../../assets/svg/phoneBtn.svg';
 import BlueIcon from '../../assets/svg/blueicon.svg';
 import One from '../../assets/svg/one.svg';
-// =============================================
-
-// ============SVG Imports===================
-
 import Menu from '../../assets/svg/menu.svg';
 import Bell from '../../assets/svg/bell.svg';
 import INCall from '../../assets/svg/inCall.svg';
@@ -148,6 +149,22 @@ const CallScreen = props => {
     );
   };
 
+  // ============== GET all phone  numbers function ================
+
+  //============= Funtion for Change PAssword  ======================
+
+  // const GetAllNumbers = () => {
+  //   HitApi(GETPHONENUM, 'GET', '', token).then(res => {
+  //     setItems(res.data);
+  //   });
+  // };
+
+  // useEffect(() => {
+  //   GetAllNumbers();
+  // }, []);
+
+  // ===============================================================
+
   // ================ Concatinate string function ================
 
   const [isString, setisString] = useState('');
@@ -210,7 +227,7 @@ const CallScreen = props => {
           stickySectionHeadersEnabled={false}
           style={{
             marginBottom: -hp(0.2),
-            // zIndex: Platform.OS == 'ios' ? -1 : 0,
+            zIndex: Platform.OS == 'ios' ? -1 : 0,
             //backgroundColor: 'red',
           }}
           sections={DATA}
@@ -243,7 +260,7 @@ const CallScreen = props => {
           justifyContent: 'center',
           alignItems: 'flex-end',
           bottom: hp(8),
-          right: wp(10),
+          right: wp(8),
         }}>
         <LinearGradient
           colors={['#6FB3FF', '#7F5AFF']}

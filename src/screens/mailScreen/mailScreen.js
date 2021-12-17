@@ -14,6 +14,7 @@ import {
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 import {FloatingAction} from 'react-native-floating-action';
+import LinearGradient from 'react-native-linear-gradient';
 
 // ================local import=================
 
@@ -156,13 +157,39 @@ const MailScreen = props => {
           />
         </View>
       </View>
-      <View style={{marginBottom: hp(7)}}>
+      {/* <View style={{marginBottom: hp(7)}}>
         <FloatingAction
           backgroundColor="red"
           floatingIcon={<Pen />}
           onPressMain={() => props.navigation.navigate('NewMailScreen')}
         />
-      </View>
+      </View> */}
+      <TouchableOpacity
+        activeOpacity={1}
+        onPress={() => props.navigation.navigate('NewMailScreen')}
+        style={{
+          height: hp(8),
+          width: wp(100),
+          podition: 'absolute',
+          justifyContent: 'center',
+          alignItems: 'flex-end',
+          bottom: hp(8),
+          right: wp(8),
+        }}>
+        <LinearGradient
+          colors={['#6FB3FF', '#7F5AFF']}
+          start={{y: 0.0, x: 0.0}}
+          style={{
+            borderRadius: hp(7),
+            height: hp(7),
+            width: hp(7),
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+          end={{y: 0.0, x: 1.0}}>
+          <Pen />
+        </LinearGradient>
+      </TouchableOpacity>
     </ImageBackground>
   );
 };
@@ -273,7 +300,7 @@ const styles = {
     fontSize: wp(10),
   },
   flatListStyle: {
-    flex: 0.97,
+    flex: 1,
     zIndex: Platform.OS == 'ios' ? -1 : 0,
     backgroundColor: 'rgba(255, 255, 255, 0.67)',
     marginHorizontal: wp(6.5),

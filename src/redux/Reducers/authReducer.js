@@ -1,4 +1,3 @@
-import {MaskedViewBase} from 'react-native';
 import {LOGIN_REQUEST, LOGOUT_REQUEST} from '../Actions/actionType';
 
 const INITIAL_STATE = {

@@ -86,7 +86,7 @@ const styles = {
   },
   dropDownContainerStyle: {
     backgroundColor: 'white',
-    marginTop: hp(0.5),
+    // marginTop: hp(0.5),
     borderColor: 'white',
     height: hp(20),
     //color: 'red',

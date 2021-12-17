@@ -7,7 +7,7 @@ import rootReducer from './Reducers/index';
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: ['authReducer'],
+  whitelist: ['authReducer', 'commonReducer'],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
