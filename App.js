@@ -1,5 +1,5 @@
 import React from 'react';
-import {LogBox} from 'react-native';
+import {LogBox, View, Text} from 'react-native';
 import {Provider} from 'react-redux';
 import StackNavigation from './src/navigations/StackNavigation';
 import {PersistGate} from 'redux-persist/integration/react';
@@ -15,4 +15,5 @@ const App = () => {
     </Provider>
   );
 };
+
 export default App;

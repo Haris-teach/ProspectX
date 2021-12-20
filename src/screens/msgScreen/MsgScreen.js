@@ -13,8 +13,8 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
-import {FloatingAction} from 'react-native-floating-action';
 import LinearGradient from 'react-native-linear-gradient';
+import {useSelector, useDispatch} from 'react-redux';
 
 // ================local import=================
 
@@ -33,6 +33,7 @@ import Pen from '../../assets/svg/pen.svg';
 import Dilar from '../../assets/svg/dilar';
 import Contact from '../../assets/svg/contact.svg';
 import Msg from '../../assets/svg/msgIcon.svg';
+import Contact2 from '../../assets/svg/c1.svg';
 // =========================================
 
 const DATA = [
@@ -57,30 +58,11 @@ const DATA = [
 ];
 
 const MsgScreen = props => {
-  const [items, setItems] = useState([
-    {
-      id: 0,
-      label: '+1 111 565 259',
-      value: '+1 111 565 259',
-    },
-    {
-      id: 1,
-      label: '+1 111 565 359',
-      value: '+1 111 565 359',
-    },
-    {
-      id: 2,
-      label: '+1 111 565 459',
-      value: '+1 111 565 459',
-    },
-    {
-      id: 3,
-      label: '+1 111 565 559',
-      value: '+1 111 565 559',
-    },
-  ]);
+  const [items, setItems] = useState([]);
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('Set Time');
+
+  const PhoneNumbers = useSelector(state => state.commonReducer.Numbers);
 
   const renderItem = ({item}) => {
     return (
@@ -126,14 +108,15 @@ const MsgScreen = props => {
 
         <RNDropDown
           open={open}
-          placeholder="Select a number for message"
+          placeholder="Select number for call"
           value={value}
-          items={items}
+          items={PhoneNumbers}
           setOpen={setOpen}
           setValue={setValue}
           setItems={setItems}
           onPress={() => console.log('Pressed')}
           svg={<Contact />}
+          svg2={<Contact2 />}
         />
 
         {/* =================================================== */}
@@ -154,8 +137,8 @@ const MsgScreen = props => {
         />
       </View> */}
       <TouchableOpacity
-        activeOpacity={1}
-        onPress={() => console.log('Done')}
+        activeOpacity={0.5}
+        onPress={() => props.navigation.navigate('Chat')}
         style={{
           height: hp(8),
           width: wp(100),

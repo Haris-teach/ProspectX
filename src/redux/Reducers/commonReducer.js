@@ -1,18 +1,16 @@
-import {GETALLPHONENUM} from '../Actions/actionType';
+import {GET_ALL_NUMBERS} from '../Actions/actionType';
 
 const INITIAL_STATE = {
-  cellNumbers: '',
+  Numbers: 'Hello',
 };
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case GETALLPHONENUM:
+    case GET_ALL_NUMBERS:
       return {
         ...state,
-        cellNumbers: action.payload,
+        Numbers: action.payload,
       };
-      break;
-
     default:
       return state;
   }

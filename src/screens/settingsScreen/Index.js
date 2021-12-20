@@ -75,6 +75,7 @@ const SettingsScreen = props => {
       if (res.status == 1) {
         setError(null);
         setLoading(false);
+        props.navigation.goBack();
       } else {
         setError(res.errors);
         setLoading(false);

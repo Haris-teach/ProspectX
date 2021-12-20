@@ -19,6 +19,7 @@ import {
 } from 'react-native-responsive-screen';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {GiftedChat, InputToolbar, Send, Bubble} from 'react-native-gifted-chat';
+import {useSelector, useDispatch} from 'react-redux';
 
 //======================================== Local Import Files ====================================
 import GradientButton from '../../components/gradientButton/Button';
@@ -29,7 +30,8 @@ import colors from '../../assets/colors/Colors';
 import fonts from '../../assets/fonts/Fonts';
 
 const ChatScreen = props => {
-  const [text, setText] = useState('');
+  const PhoneNumbers = useSelector(state => state.commonReducer.Numbers);
+
   const [messages, setMessages] = useState([]);
   const [value, setValue] = useState('Set Time');
   const [open, setOpen] = useState(false);
@@ -63,26 +65,6 @@ const ChatScreen = props => {
         createdAt: new Date(),
         user: {
           _id: 2,
-          name: 'React Native',
-          avatar: 'https://placeimg.com/140/140/any',
-        },
-      },
-      {
-        _id: 2,
-        text: 'Hello developer',
-        createdAt: new Date(),
-        user: {
-          _id: 3,
-          name: 'React Native',
-          avatar: 'https://placeimg.com/140/140/any',
-        },
-      },
-      {
-        _id: 3,
-        text: 'Hello developer',
-        createdAt: new Date(),
-        user: {
-          _id: 4,
           name: 'React Native',
           avatar: 'https://placeimg.com/140/140/any',
         },
@@ -141,7 +123,7 @@ const ChatScreen = props => {
           marginHorizontal: wp(3),
         }}
         value={value}
-        items={items}
+        items={PhoneNumbers}
         setOpen={setOpen}
         showArrowIcon={true}
         showTickIcon={false}
@@ -171,8 +153,8 @@ const ChatScreen = props => {
                 marginHorizontal: wp(8),
                 marginBottom: hp(5),
                 borderRadius: wp(10),
-                //borderColor: 'white',
-                //borderWidth: 1,
+                // borderColor: 'white',
+                // borderWidth: 1,
               }}
               renderSend={props => {
                 return (
@@ -194,7 +176,9 @@ const ChatScreen = props => {
                   </LinearGradient>
                 );
               }}
-              textInputStyle={{color: 'black'}}
+              textInputStyle={{
+                color: 'black',
+              }}
             />
           );
         }}
@@ -235,9 +219,9 @@ const ChatScreen = props => {
                 right: {
                   paddingHorizontal: 10,
                   backgroundColor: colors.purpleColor,
-                  borderTopRightRadius: wp(5),
-                  borderTopLeftRadius: wp(8),
-                  borderBottomRightRadius: wp(8),
+                  borderTopRightRadius: wp(8),
+                  borderTopLeftRadius: wp(5),
+                  borderBottomLeftRadius: wp(8),
                   borderBottomRightRadius: 0,
                 },
               }}
@@ -246,12 +230,13 @@ const ChatScreen = props => {
         }}
         // inverted={true}
         // alignTop
+        isTyping={true}
         infiniteScroll
         alwaysShowSend={true}
         showUserAvatar={false}
         showAvatarForEveryMessage={false}
         scrollToBottom
-        isanimated={true}
+        //isanimated={true}
         isKeyboardInternallyHandled={true}
         scrollToBottomOffset={50}
       />

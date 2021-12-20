@@ -26,6 +26,7 @@ import colors from '../../assets/colors/Colors';
 import fonts from '../../assets/fonts/Fonts';
 import HitApi from '../../HitApis/APIHandler';
 import {GETPHONENUM} from '../../HitApis/Urls';
+import {GetNumbers} from '../../redux/Actions/commonAction';
 
 // =============================================
 
@@ -41,6 +42,8 @@ import OutCall from '../../assets/svg/outCall.svg';
 import Dilar from '../../assets/svg/dilar';
 import Calendar from '../../assets/svg/calendar.svg';
 import Contact from '../../assets/svg/contact.svg';
+import Contact2 from '../../assets/svg/c1.svg';
+
 // =========================================
 
 const DATA = [
@@ -67,30 +70,9 @@ const CallScreen = props => {
   const sizeSheet = useRef();
 
   const token = useSelector(state => state.authReducer.token);
+  const PhoneNumbers = useSelector(state => state.commonReducer.Numbers);
 
-  const [items, setItems] = useState([
-    {
-      id: 0,
-      label: '+1 111 565 259',
-      value: '+1 111 565 259',
-    },
-    {
-      id: 1,
-      label: '+1 111 565 359',
-      value: '+1 111 565 359',
-      svg: <Contact />,
-    },
-    {
-      id: 2,
-      label: '+1 111 565 459',
-      value: '+1 111 565 459',
-    },
-    {
-      id: 3,
-      label: '+1 111 565 559',
-      value: '+1 111 565 559',
-    },
-  ]);
+  const [items, setItems] = useState([]);
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('Set Time');
 
@@ -151,17 +133,22 @@ const CallScreen = props => {
 
   // ============== GET all phone  numbers function ================
 
-  //============= Funtion for Change PAssword  ======================
+  const GetAllNumbers = () => {
+    HitApi(GETPHONENUM, 'GET', '', token).then(res => {
+      setItems(res.data);
+      dispatch(GetNumbers(res.data));
+    });
+  };
 
-  // const GetAllNumbers = () => {
-  //   HitApi(GETPHONENUM, 'GET', '', token).then(res => {
-  //     setItems(res.data);
-  //   });
-  // };
-
-  // useEffect(() => {
-  //   GetAllNumbers();
-  // }, []);
+  useEffect(() => {
+    let mounted = true;
+    if (mounted) {
+      GetAllNumbers();
+    }
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   // ===============================================================
 
@@ -176,7 +163,9 @@ const CallScreen = props => {
       setisString(word);
       return;
     } else {
-      word = word + v;
+      if (word.length < 13) {
+        word = word + v;
+      }
     }
     setisString(word);
   };
@@ -211,12 +200,13 @@ const CallScreen = props => {
           open={open}
           placeholder="Select number for call"
           value={value}
-          items={items}
+          items={PhoneNumbers}
           setOpen={setOpen}
           setValue={setValue}
           setItems={setItems}
           onPress={() => console.log('Pressed')}
           svg={<Contact />}
+          svg2={<Contact2 />}
         />
 
         {/* ==================================================== */}
@@ -251,8 +241,8 @@ const CallScreen = props => {
       </View>
 
       <TouchableOpacity
-        activeOpacity={1}
-        onPress={() => console.log('Done')}
+        activeOpacity={0.5}
+        onPress={() => sizeSheet.current.open()}
         style={{
           height: hp(8),
           width: wp(100),
@@ -300,9 +290,14 @@ const CallScreen = props => {
             marginHorizontal: wp(10),
             marginTop: hp(5),
           }}>
-          <Text style={styles.dailerTextStyle} numberOfLines={1}>
-            {isString}
-          </Text>
+          <TextInput
+            style={styles.dailerTextStyle}
+            value={isString}
+            editable={false}
+            maxLength={13}
+          />
+          {/* {isString}
+          </Text> */}
 
           <View style={styles.keyRowStyle}>
             <TouchableOpacity
@@ -405,7 +400,9 @@ const CallScreen = props => {
               <PhoneBtn />
             </TouchableOpacity>
 
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => concatinate('del')}
+              onLongPress={() => setisString('')}>
               <Cross />
             </TouchableOpacity>
           </View>
@@ -515,7 +512,7 @@ const styles = {
     textAlign: 'right',
     color: 'black',
     fontFamily: 'SF Pro Text',
-    fontSize: wp(10),
+    fontSize: wp(9),
     fontWeight: '400',
     marginHorizontal: wp(6),
   },

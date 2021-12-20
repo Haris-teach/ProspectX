@@ -7,6 +7,7 @@ import {
 import DropDownPicker from 'react-native-dropdown-picker';
 
 import Calendar from '../../assets/svg/calendar.svg';
+import Contact2 from '../../assets/svg/c2';
 import images from '../../assets/images/Images';
 import colors from '../../assets/colors/Colors';
 import fonts from '../../assets/fonts/Fonts';
@@ -43,7 +44,7 @@ const RNDropDown = props => {
         containerStyle={styles.containerStyle}
         setValue={props.setValue}
         setItems={props.setItems}
-        renderListItem={item => {
+        renderListItem={(item, index) => {
           return (
             <TouchableOpacity
               onPress={() => {
@@ -56,7 +57,13 @@ const RNDropDown = props => {
                 marginHorizontal: wp(3),
                 //backgroundColor: 'red',
               }}>
-              {props.svg}
+              {item.item.id == 0 ? (
+                <Contact2 />
+              ) : item.item.id % 2 == 0 ? (
+                props.svg
+              ) : (
+                props.svg2
+              )}
               <Text style={{marginHorizontal: wp(3), color: 'black'}}>
                 {item.value}
               </Text>

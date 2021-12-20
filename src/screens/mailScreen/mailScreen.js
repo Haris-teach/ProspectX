@@ -66,21 +66,6 @@ const MailScreen = props => {
       label: 'Test1@gmail.com',
       value: 'Test1@gmail.com',
     },
-    {
-      id: 1,
-      label: 'Test2@gmail.com',
-      value: 'Test2@gmail.com',
-    },
-    {
-      id: 2,
-      label: 'Test3@gmail.com',
-      value: 'Test3@gmail.com',
-    },
-    {
-      id: 3,
-      label: 'Test4@gmail.com',
-      value: 'Test4@gmail.com',
-    },
   ]);
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('Set Time');
