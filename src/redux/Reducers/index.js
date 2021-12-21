@@ -3,8 +3,8 @@ import authReducer from './authReducer';
 import commonReducer from './commonReducer';
 
 const rootReducer = combineReducers({
-  commonReducer,
   authReducer,
+  commonReducer,
 });
 
 export default rootReducer;

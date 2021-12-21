@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -8,6 +8,7 @@ import {
   SectionList,
   StatusBar,
   FlatList,
+  ActivityIndicator,
 } from 'react-native';
 import {
   heightPercentageToDP as hp,
@@ -15,14 +16,14 @@ import {
 } from 'react-native-responsive-screen';
 import LinearGradient from 'react-native-linear-gradient';
 import {useSelector, useDispatch} from 'react-redux';
+import moment from 'moment';
 
 // ================local import=================
-
-import RNSearch from '../../components/RNSearch/RNSearch';
 import images from '../../assets/images/Images';
 import colors from '../../assets/colors/Colors';
-import fonts from '../../assets/fonts/Fonts';
 import RNDropDown from '../../components/RNDropDown/RnDropDown';
+import HitApi from '../../HitApis/APIHandler';
+import {MSGTHREADS} from '../../HitApis/Urls';
 // =============================================
 
 // ============SVG Imports===================
@@ -34,6 +35,7 @@ import Dilar from '../../assets/svg/dilar';
 import Contact from '../../assets/svg/contact.svg';
 import Msg from '../../assets/svg/msgIcon.svg';
 import Contact2 from '../../assets/svg/c1.svg';
+import axios from 'axios';
 // =========================================
 
 const DATA = [
@@ -60,24 +62,63 @@ const DATA = [
 const MsgScreen = props => {
   const [items, setItems] = useState([]);
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState('Set Time');
+  const [value, setValue] = useState('');
+  const [msgData, setMsgData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const PhoneNumbers = useSelector(state => state.commonReducer.Numbers);
+  const token = useSelector(state => state.authReducer.token);
+
+  // ============== GET all msgs threads function ================
+
+  const MsgsThreads = () => {
+    let params = {
+      filters: {
+        numbers: ['+923346584452'],
+      },
+    };
+
+    HitApi(MSGTHREADS, 'POST', params, token).then(res => {
+      if (res.status == 1) {
+        setMsgData(res.data);
+        setIsLoading(false);
+      } else {
+        setIsLoading(false);
+      }
+    });
+  };
+
+  useEffect(() => {
+    let mounted = true;
+    if (mounted) {
+      MsgsThreads();
+    }
+    return () => {
+      mounted = false;
+    };
+  }, []);
+  // ============= END ========================
 
   const renderItem = ({item}) => {
     return (
       <>
-        <TouchableOpacity style={styles.item}>
+        <TouchableOpacity
+          style={styles.item}
+          onPress={() =>
+            props.navigation.navigate('Chat', {Thread: item.thread})
+          }>
           <View style={{flex: 1, flexDirection: 'row'}}>
             <Msg height={hp(5)} width={wp(10)} />
             <View style={{flex: 1}}>
-              <Text style={styles.nameStyle}>{item.name}</Text>
+              <Text style={styles.nameStyle}>{item.Phone}</Text>
               <Text style={styles.msgStyle} numberOfLines={2}>
-                {item.msg}
+                {item.LastMessage}
               </Text>
             </View>
           </View>
-          <Text style={styles.timeStyle}>{item.time}</Text>
+          <Text style={styles.timeStyle}>
+            {moment(item.lastMessageTimeStamp).format('HH:mm:ss')}
+          </Text>
         </TouchableOpacity>
         <View style={styles.viewStyle} />
       </>
@@ -122,11 +163,17 @@ const MsgScreen = props => {
         {/* =================================================== */}
 
         <View style={styles.flatListStyle}>
-          <FlatList
-            data={DATA}
-            renderItem={renderItem}
-            keyExtractor={item => item.id}
-          />
+          {isLoading ? (
+            <View style={{flex: 1, justifyContent: 'center'}}>
+              <ActivityIndicator color="blue" />
+            </View>
+          ) : (
+            <FlatList
+              data={msgData}
+              renderItem={renderItem}
+              keyExtractor={item => item.lastMessageTimeStamp}
+            />
+          )}
         </View>
       </View>
       {/* <View style={{marginBottom: hp(7)}}>

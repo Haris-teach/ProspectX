@@ -218,8 +218,8 @@ const styles = {
 
   backButton: {
     backgroundColor: colors.whiteColor,
-    height: hp(4),
-    width: wp(7),
+    height: 27,
+    width: 28,
     marginLeft: wp(6),
     borderRadius: wp(2),
     justifyContent: 'center',

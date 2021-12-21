@@ -6,10 +6,10 @@ const HitApi = (url, apiMethod, params, token) => {
     method: apiMethod,
     headers: {
       Accept: 'application/json',
-      'Content-Type': 'application/json',
+      'Content-Type': params == '' ? null : 'application/json',
       Authorization: `Bearer ${token}`,
     },
-    data: params ? params : '',
+    data: params,
   };
   try {
     return axios(options)

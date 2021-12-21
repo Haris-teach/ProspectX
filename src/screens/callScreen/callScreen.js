@@ -72,7 +72,13 @@ const CallScreen = props => {
   const token = useSelector(state => state.authReducer.token);
   const PhoneNumbers = useSelector(state => state.commonReducer.Numbers);
 
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState([
+    {
+      id: 0,
+      label: '+9212412124',
+      value: '+9212412124',
+    },
+  ]);
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('Set Time');
 
@@ -134,7 +140,7 @@ const CallScreen = props => {
   // ============== GET all phone  numbers function ================
 
   const GetAllNumbers = () => {
-    HitApi(GETPHONENUM, 'GET', '', token).then(res => {
+    HitApi(GETPHONENUM, 'get', '', token).then(res => {
       setItems(res.data);
       dispatch(GetNumbers(res.data));
     });
@@ -200,7 +206,7 @@ const CallScreen = props => {
           open={open}
           placeholder="Select number for call"
           value={value}
-          items={PhoneNumbers}
+          items={items}
           setOpen={setOpen}
           setValue={setValue}
           setItems={setItems}

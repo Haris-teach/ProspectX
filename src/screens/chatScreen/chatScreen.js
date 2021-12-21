@@ -1,16 +1,7 @@
 //========================================= React Native Import Files ============================
 
 import React, {useState, useEffect, useCallback} from 'react';
-import {
-  ImageBackground,
-  View,
-  KeyboardAvoidingView,
-  SafeAreaView,
-  Text,
-  TouchableOpacity,
-  Platform,
-  TextInput,
-} from 'react-native';
+import {ImageBackground, View, TouchableOpacity} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import AllStyles from '../../all_styles/All_Styles';
 import {
@@ -20,6 +11,7 @@ import {
 import DropDownPicker from 'react-native-dropdown-picker';
 import {GiftedChat, InputToolbar, Send, Bubble} from 'react-native-gifted-chat';
 import {useSelector, useDispatch} from 'react-redux';
+import moment from 'moment';
 
 //======================================== Local Import Files ====================================
 import GradientButton from '../../components/gradientButton/Button';
@@ -31,9 +23,11 @@ import fonts from '../../assets/fonts/Fonts';
 
 const ChatScreen = props => {
   const PhoneNumbers = useSelector(state => state.commonReducer.Numbers);
+  const Threads = props.route.params.Thread;
 
   const [messages, setMessages] = useState([]);
-  const [value, setValue] = useState('Set Time');
+
+  const [value, setValue] = useState('');
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState([
     {
@@ -57,19 +51,28 @@ const ChatScreen = props => {
       value: 'test4@gmail.com',
     },
   ]);
+
   useEffect(() => {
-    setMessages([
-      {
-        _id: 1,
-        text: 'Hello developer',
-        createdAt: new Date(),
-        user: {
-          _id: 2,
-          name: 'React Native',
-          avatar: 'https://placeimg.com/140/140/any',
-        },
-      },
-    ]);
+    let msgs = [];
+    Threads.forEach((msg, index) => {
+      if (msg) {
+        const {message, timestamp, second} = msg;
+        // console.log(message, timestamp, second, index);
+        let data = {
+          _id: index,
+          text: message,
+          createdAt: moment(timestamp),
+          user: {name: second, _id: index, avatar: ''},
+        };
+        msgs.push(data);
+      }
+    });
+    let Data = msgs.sort(function compare(a, b) {
+      var dateA = new Date(a.createdAt);
+      var dateB = new Date(b.createdAt);
+      return dateB - dateA;
+    });
+    setMessages(Data);
   }, []);
 
   const messageSend = useCallback((messages = []) => {
@@ -255,8 +258,8 @@ const styles = {
 
   backButton: {
     backgroundColor: colors.whiteColor,
-    height: hp(4),
-    width: wp(7),
+    height: 27,
+    width: 28,
     marginLeft: wp(6),
     borderRadius: wp(2),
     justifyContent: 'center',
@@ -289,7 +292,7 @@ const styles = {
     height: hp(6),
 
     backgroundColor: 'rgba(255, 255, 255, 0.67)',
-    borderRadius: wp(10),
+    borderRadius: wp(5),
     color: 'black',
     borderWidth: 0.5,
     borderColor: 'rgba(255, 255, 255, 1)',

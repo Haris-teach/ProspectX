@@ -37,6 +37,8 @@ const RootStack = createNativeStackNavigator();
 const Stack = () => {
   const isLogin = useSelector(state => state.authReducer.isLogin);
 
+  //console.log('isLOgin:  ', isLogin);
+
   const AfterLoginAppContainer = () => {
     return (
       <NavigationContainer>
