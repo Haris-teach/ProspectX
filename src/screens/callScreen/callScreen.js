@@ -244,34 +244,36 @@ const CallScreen = props => {
             //onPressMain={() => sizeSheet.current.open()}
           />
         </View> */}
-      </View>
 
-      <TouchableOpacity
-        activeOpacity={0.5}
-        onPress={() => sizeSheet.current.open()}
-        style={{
-          height: hp(8),
-          width: wp(100),
-          podition: 'absolute',
-          justifyContent: 'center',
-          alignItems: 'flex-end',
-          bottom: hp(8),
-          right: wp(8),
-        }}>
-        <LinearGradient
-          colors={['#6FB3FF', '#7F5AFF']}
-          start={{y: 0.0, x: 0.0}}
+        <TouchableOpacity
+          activeOpacity={0.5}
+          onPress={() => sizeSheet.current.open()}
           style={{
-            borderRadius: hp(7),
-            height: hp(7),
-            width: hp(7),
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-          end={{y: 0.0, x: 1.0}}>
-          <Dilar />
-        </LinearGradient>
-      </TouchableOpacity>
+            height: hp(8),
+            width: wp(20),
+            alignSelf: 'flex-end',
+            bottom: hp(8),
+            marginRight: wp(5),
+            //justifyContent: 'flex-end',
+            //alignItems: 'flex-end',
+            //backgroundColor: 'red',
+          }}>
+          <LinearGradient
+            colors={['#6FB3FF', '#7F5AFF']}
+            start={{y: 0.0, x: 0.0}}
+            style={{
+              borderRadius: hp(7),
+              height: hp(7),
+              width: hp(7),
+              justifyContent: 'center',
+              alignItems: 'center',
+              alignSelf: 'center',
+            }}
+            end={{y: 0.0, x: 1.0}}>
+            <Dilar />
+          </LinearGradient>
+        </TouchableOpacity>
+      </View>
 
       {/* ======================= Dailer Component =========================== */}
 

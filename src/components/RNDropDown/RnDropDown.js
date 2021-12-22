@@ -32,7 +32,7 @@ const RNDropDown = props => {
           fontSize: wp(3.6),
           //textAlign: 'center',
         }}
-        textStyle={{marginLeft: wp(4)}}
+        textStyle={{color: 'black', marginHorizontal: wp(4), fontSize: wp(4)}}
         zIndex={999}
         value={props.value}
         items={props.items}
@@ -64,7 +64,12 @@ const RNDropDown = props => {
               ) : (
                 props.svg2
               )}
-              <Text style={{marginHorizontal: wp(3), color: 'black'}}>
+              <Text
+                style={{
+                  marginHorizontal: wp(3),
+                  color: 'black',
+                  fontSize: wp(4),
+                }}>
                 {item.value}
               </Text>
             </TouchableOpacity>

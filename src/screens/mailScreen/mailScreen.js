@@ -154,12 +154,10 @@ const MailScreen = props => {
         onPress={() => props.navigation.navigate('NewMailScreen')}
         style={{
           height: hp(8),
-          width: wp(100),
-          podition: 'absolute',
-          justifyContent: 'center',
-          alignItems: 'flex-end',
+          width: wp(20),
+          alignSelf: 'flex-end',
           bottom: hp(8),
-          right: wp(8),
+          marginRight: wp(5),
         }}>
         <LinearGradient
           colors={['#6FB3FF', '#7F5AFF']}
@@ -170,6 +168,7 @@ const MailScreen = props => {
             width: hp(7),
             justifyContent: 'center',
             alignItems: 'center',
+            alignSelf: 'center',
           }}
           end={{y: 0.0, x: 1.0}}>
           <Pen />

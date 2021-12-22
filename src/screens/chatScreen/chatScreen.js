@@ -116,6 +116,7 @@ const ChatScreen = props => {
 
       <DropDownPicker
         style={styles.dropdownStyle}
+        props={{activeOpacity: 1}}
         open={open}
         placeholder="Select number for message"
         searchPlaceholderTextColor="#AAB1BC"
@@ -132,9 +133,9 @@ const ChatScreen = props => {
         showTickIcon={false}
         dropDownContainerStyle={styles.dropDownContainerStyle}
         arrowIconStyle={styles.arrowIconStyle}
-        listItemLabelStyle={{color: 'black'}}
+        listItemLabelStyle={{color: 'black', fontSize: wp(4)}}
         containerStyle={styles.containerStyle}
-        textStyle={{color: 'black', marginHorizontal: wp(3)}}
+        textStyle={{color: 'black', marginHorizontal: wp(3), fontSize: wp(4)}}
         labelStyle={{color: 'black'}}
         setValue={setValue}
         setItems={setItems}
@@ -146,6 +147,7 @@ const ChatScreen = props => {
         user={{
           _id: 1,
         }}
+        placeholder="Write Message"
         renderInputToolbar={props => {
           return (
             <InputToolbar
@@ -154,7 +156,7 @@ const ChatScreen = props => {
                 //backgroundColor: 'red',
                 backgroundColor: 'rgba(255, 255, 255, 0.46)',
                 marginHorizontal: wp(8),
-                marginBottom: hp(5),
+                marginBottom: hp(3),
                 borderRadius: wp(10),
                 // borderColor: 'white',
                 // borderWidth: 1,
@@ -163,7 +165,7 @@ const ChatScreen = props => {
                 return (
                   <LinearGradient
                     colors={['#6FB3FF', '#7F5AFF']}
-                    style={styles.gradientStyle}
+                    style={{borderRadius: hp(7)}}
                     start={{y: 0.0, x: 0.0}}
                     end={{y: 0.0, x: 1.0}}>
                     <Send
@@ -172,15 +174,21 @@ const ChatScreen = props => {
                         width: hp(7),
                         height: hp(7),
                         borderRadius: hp(7),
-                        //backgroundColor: 'yellow',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        alignSelf: 'center',
                       }}>
-                      <Fly alignSelf="center" />
+                      <Fly alignSelf="center" width={wp(8)} height={hp(3)} />
                     </Send>
                   </LinearGradient>
                 );
               }}
               textInputStyle={{
                 color: 'black',
+                //backgroundColor: 'red',
+                marginLeft: wp(8),
+                alignSelf: 'center',
+                fontSize: wp(4.5),
               }}
             />
           );
@@ -215,16 +223,16 @@ const ChatScreen = props => {
                   borderColor: 'white',
                   borderWidth: 1,
                   borderTopRightRadius: wp(5),
-                  borderTopLeftRadius: wp(8),
-                  borderBottomRightRadius: wp(8),
+                  borderTopLeftRadius: wp(6),
+                  borderBottomRightRadius: wp(5),
                   borderBottomLeftRadius: 0,
                 },
                 right: {
                   paddingHorizontal: 10,
                   backgroundColor: colors.purpleColor,
-                  borderTopRightRadius: wp(8),
+                  borderTopRightRadius: wp(6),
                   borderTopLeftRadius: wp(5),
-                  borderBottomLeftRadius: wp(8),
+                  borderBottomLeftRadius: wp(5),
                   borderBottomRightRadius: 0,
                 },
               }}
@@ -318,7 +326,9 @@ const styles = {
     marginBottom: hp(10),
   },
   gradientStyle: {
-    borderRadius: hp(7.5),
+    borderRadius: hp(7),
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   chatContainerStyle: {
     backgroundColor: 'rgba(255, 255, 255, 0.46)',

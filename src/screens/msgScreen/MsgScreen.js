@@ -74,13 +74,30 @@ const MsgScreen = props => {
   const MsgsThreads = () => {
     let params = {
       filters: {
-        numbers: ['+923346584452'],
+        numbers: [],
       },
     };
 
     HitApi(MSGTHREADS, 'POST', params, token).then(res => {
       if (res.status == 1) {
-        setMsgData(res.data);
+        // setMsgData(res.data);
+        let result = [];
+        //let messages = res.data;
+        let threads = res.data;
+        for (let threadId in threads) {
+          let index = threads[threadId].length - 1;
+          let threadObj = {
+            lastMessageTimeStamp: threads[threadId][index].timestamp,
+            LastMessage: threads[threadId][index].message,
+            Phone: threads[threadId][index].second,
+            Name: 'Dummy Name',
+            thread: threads[threadId],
+          };
+
+          result.push(threadObj);
+        }
+        setMsgData(result);
+
         setIsLoading(false);
       } else {
         setIsLoading(false);
@@ -185,15 +202,13 @@ const MsgScreen = props => {
       </View> */}
       <TouchableOpacity
         activeOpacity={0.5}
-        onPress={() => props.navigation.navigate('Chat')}
+        onPress={() => props.navigation.navigate('Chat', {Thread: []})}
         style={{
           height: hp(8),
-          width: wp(100),
-          podition: 'absolute',
-          justifyContent: 'center',
-          alignItems: 'flex-end',
+          width: wp(20),
+          alignSelf: 'flex-end',
           bottom: hp(8),
-          right: wp(8),
+          marginRight: wp(5),
         }}>
         <LinearGradient
           colors={['#6FB3FF', '#7F5AFF']}
@@ -204,6 +219,7 @@ const MsgScreen = props => {
             width: hp(7),
             justifyContent: 'center',
             alignItems: 'center',
+            alignSelf: 'center',
           }}
           end={{y: 0.0, x: 1.0}}>
           <Pen />
