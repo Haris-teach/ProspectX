@@ -91,7 +91,8 @@ const MsgScreen = props => {
             LastMessage: threads[threadId][index].message,
             Phone: threads[threadId][index].second,
             Name: 'Dummy Name',
-            thread: threads[threadId],
+            Thread: threads[threadId],
+            ThreadId: threads[threadId][index].thread_id,
           };
 
           result.push(threadObj);
@@ -122,7 +123,11 @@ const MsgScreen = props => {
         <TouchableOpacity
           style={styles.item}
           onPress={() =>
-            props.navigation.navigate('Chat', {Thread: item.thread})
+            props.navigation.navigate('Chat', {
+              Thread: item.Thread,
+              Number: item.Phone,
+              ThreadId: item.ThreadId,
+            })
           }>
           <View style={{flex: 1, flexDirection: 'row'}}>
             <Msg height={hp(5)} width={wp(10)} />

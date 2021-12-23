@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
   Platform,
 } from 'react-native';
-import AllStyles from '../../all_styles/All_Styles';
+
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
@@ -18,6 +18,7 @@ import {
 import * as yup from 'yup';
 import {Formik} from 'formik';
 import {useSelector} from 'react-redux';
+import Toast from 'react-native-simple-toast';
 
 //======================================== Local Import Files ====================================
 import images from '../../assets/images/Images';
@@ -33,12 +34,13 @@ import {
   OLD_PASSWORD,
   CHANGE_PASS_DESC,
 } from '../../constants/ConstStrings';
-
+import AllStyles from '../../all_styles/All_Styles';
 import HitApi from '../../HitApis/APIHandler';
 import {CHANGEPASS} from '../../HitApis/Urls';
 
 const ChangePassword = props => {
   const token = useSelector(state => state.authReducer.token);
+  const [isMessage, setIsMessage] = useState('');
 
   //============= Funtion for Change PAssword  ======================
 
@@ -46,11 +48,26 @@ const ChangePassword = props => {
     //setLoading(true);
 
     let params = {
-      password: v.oldPassword,
-      newPassword: v.password,
+      old_password: v.oldPassword,
+      password: v.password,
+      password_confirmation: v.confirmPassword,
     };
 
-    HitApi(CHANGEPASS, 'POST', params, token).then(res => {});
+    HitApi(CHANGEPASS, 'PUT', params, token).then(res => {
+      if (res.status == 1) {
+        Toast.showWithGravity(
+          JSON.stringify(res.message),
+          Toast.SHORT,
+          Toast.BOTTOM,
+        );
+      } else {
+        Toast.showWithGravity(
+          JSON.stringify(res.errors),
+          Toast.SHORT,
+          Toast.BOTTOM,
+        );
+      }
+    });
   };
 
   //===================== END ====================
@@ -114,6 +131,7 @@ const ChangePassword = props => {
             onSubmit={(values, {resetForm}) => {
               //props.navigation.navigate('LoginScreen');
               PasswordChange(values);
+              // setIsMessage('');
               resetForm();
             }}>
             {({

@@ -12,6 +12,8 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import {GiftedChat, InputToolbar, Send, Bubble} from 'react-native-gifted-chat';
 import {useSelector, useDispatch} from 'react-redux';
 import moment from 'moment';
+import Toast from 'react-native-simple-toast';
+import io from 'socket.io-client';
 
 //======================================== Local Import Files ====================================
 import GradientButton from '../../components/gradientButton/Button';
@@ -20,12 +22,19 @@ import Fly from '../../assets/svg/fly.svg';
 import images from '../../assets/images/Images';
 import colors from '../../assets/colors/Colors';
 import fonts from '../../assets/fonts/Fonts';
+import HitApi from '../../HitApis/APIHandler';
+import {SENDMESSAGE} from '../../HitApis/Urls';
 
+var socket = null;
 const ChatScreen = props => {
   const PhoneNumbers = useSelector(state => state.commonReducer.Numbers);
+  const token = useSelector(state => state.authReducer.token);
   const Threads = props.route.params.Thread;
+  const Number = props.route.params.Number;
+  const ThreadId = props.route.params.ThreadId;
 
   const [messages, setMessages] = useState([]);
+  const [msgText, setMsgText] = useState('');
 
   const [value, setValue] = useState('');
   const [open, setOpen] = useState(false);
@@ -53,6 +62,32 @@ const ChatScreen = props => {
   ]);
 
   useEffect(() => {
+    setValue(Number);
+
+    socket = io('https://a6c5-182-185-215-252.ngrok.io', {
+      transportOptions: {
+        polling: {
+          extraHeaders: {
+            authorization: `Bearer ${token}`,
+          },
+        },
+      },
+    });
+
+    // make connection with server from user side
+    socket.on('connect', function () {
+      console.log('Connected to Server');
+      socket.emit('subscribe', 'Creating the socket setting to user');
+    });
+
+    socket.on('connect_error', err => {
+      console.log(err); // prints the message associated with the error
+      if (err.message.indexOf('Authentication error') !== false) {
+        console.log(err.message); // prints the message associated with the error
+        socket.disconnect();
+      }
+    });
+
     let msgs = [];
     Threads.forEach((msg, index) => {
       if (msg) {
@@ -76,9 +111,30 @@ const ChatScreen = props => {
   }, []);
 
   const messageSend = useCallback((messages = []) => {
-    setMessages(previousMessages =>
-      GiftedChat.append(previousMessages, messages),
-    );
+    let params = {
+      from: '+16027556798',
+      to: '+923044041082',
+      message: JSON.stringify(msgText),
+    };
+
+    HitApi(SENDMESSAGE, 'POST', params, token).then(res => {
+      if (res.status == 1) {
+        setMessages(previousMessages =>
+          GiftedChat.append(previousMessages, messages),
+        );
+        // Toast.showWithGravity(
+        //   JSON.stringify(res.message),
+        //   Toast.SHORT,
+        //   Toast.BOTTOM,
+        // );
+      } else {
+        Toast.showWithGravity(
+          JSON.stringify(res.errors),
+          Toast.SHORT,
+          Toast.BOTTOM,
+        );
+      }
+    });
   }, []);
 
   const renderInputToolbar = props => {
@@ -144,6 +200,7 @@ const ChatScreen = props => {
       <GiftedChat
         messages={messages}
         onSend={messages => messageSend(messages)}
+        onInputTextChanged={text => setMsgText(text)}
         user={{
           _id: 1,
         }}

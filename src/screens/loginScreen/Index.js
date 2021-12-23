@@ -1,6 +1,6 @@
 //========================================== React Native Import Files ===========================
 
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   ImageBackground,
   View,
@@ -10,6 +10,7 @@ import {
   TextInput,
   KeyboardAvoidingView,
   Platform,
+  Keyboard,
   ActivityIndicator,
 } from 'react-native';
 import {
@@ -50,6 +51,29 @@ const LoginScreen = props => {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      () => {
+        setKeyboardVisible(true); // or some other action
+      },
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      () => {
+        setKeyboardVisible(false); // or some other action
+      },
+    );
+
+    return () => {
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    };
+  }, []);
+
+  console.log(isKeyboardVisible);
 
   //============= Funtion for Login USer ======================
 
@@ -105,86 +129,91 @@ const LoginScreen = props => {
       <ImageBackground
         style={styles.imageBackground}
         source={images.splashBackground}>
-        <ScrollView style={styles.imageBackground}>
-          <Formik
-            initialValues={userInfo}
-            validationSchema={validationSchema}
-            onSubmit={values => {
-              Login_User(values);
-              //dispatch(Login('', '', '', '', '', ''));
-            }}>
-            {({
-              handleChange,
-              handleBlur,
-              handleSubmit,
-              values,
-              touched,
-              errors,
-            }) => {
-              const {email, password} = values;
-              return (
-                <>
-                  <View style={styles.logoStyle}>
-                    <LoginImage />
+        <Formik
+          initialValues={userInfo}
+          validationSchema={validationSchema}
+          onSubmit={values => {
+            Login_User(values);
+            //dispatch(Login('', '', '', '', '', ''));
+          }}>
+          {({
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            values,
+            touched,
+            errors,
+          }) => {
+            const {email, password} = values;
+            return (
+              <>
+                <View
+                  style={[
+                    Styles.logoStyle,
+                    {marginTop: !isKeyboardVisible ? hp(10) : hp(4)},
+                  ]}>
+                  <LoginImage />
+                </View>
+                <View style={styles.bottomContainer}>
+                  <View
+                    style={
+                      !isKeyboardVisible
+                        ? Styles.firstColumn
+                        : Styles.firstColumn1
+                    }>
+                    <Text style={styles.signinStyle}>{SIGN_IN}</Text>
+                    <Text style={styles.enterEmailStyle}>
+                      {ENTER_EMAIL_PASSWORD}
+                    </Text>
                   </View>
-                  <View style={styles.bottomContainer}>
-                    <View style={styles.firstColumn}>
-                      <Text style={styles.signinStyle}>{SIGN_IN}</Text>
-                      <Text style={styles.enterEmailStyle}>
-                        {ENTER_EMAIL_PASSWORD}
-                      </Text>
-                    </View>
 
-                    <View style={{marginTop: hp(-2)}}>
-                      <TextField
-                        onChange={handleChange('email')}
-                        onBlur={handleBlur('email')}
-                        title={EMAIL_LABEL}
-                        placeholder={EMAIL_PLACEHOLDER}
-                        svg={<User marginVertical={hp(2)} />}
-                      />
-                      {touched.email && errors.email && (
-                        <Text style={Styles.warningStyle}>{errors.email}</Text>
-                      )}
-                    </View>
-                    <View style={{marginTop: hp(2)}}>
-                      <PasswordField
-                        onChange={handleChange('password')}
-                        onBlur={handleBlur('password')}
-                        title={PASSWORD_LABEL}
-                        placeholder={PASSWORD_PLACEHOLDER}
-                        svg={<Lock marginVertical={hp(2)} />}
-                      />
-                      {touched.password && errors.password && (
-                        <Text style={Styles.warningStyle}>
-                          {errors.password}
-                        </Text>
-                      )}
-                      {error != null ? (
-                        <Text style={Styles.warningStyle}>{error}</Text>
-                      ) : null}
-                    </View>
-
-                    <View style={styles.gradientView}>
-                      <GradientButton
-                        onPress={handleSubmit}
-                        title={LOGIN_BUTTON_TITTLE}
-                        condition={loading}
-                      />
-                    </View>
-                    <TouchableOpacity
-                      onPress={() => props.navigation.navigate('ForgotScreen')}
-                      style={styles.forgotView}>
-                      <Text style={styles.forgotStyle}>
-                        {FORGOT_PASSWORD_LABEL}
-                      </Text>
-                    </TouchableOpacity>
+                  <View style={{marginTop: hp(-2)}}>
+                    <TextField
+                      onChange={handleChange('email')}
+                      onBlur={handleBlur('email')}
+                      title={EMAIL_LABEL}
+                      placeholder={EMAIL_PLACEHOLDER}
+                      svg={<User marginVertical={hp(2)} />}
+                    />
+                    {touched.email && errors.email && (
+                      <Text style={Styles.warningStyle}>{errors.email}</Text>
+                    )}
                   </View>
-                </>
-              );
-            }}
-          </Formik>
-        </ScrollView>
+                  <View style={{marginTop: hp(2)}}>
+                    <PasswordField
+                      onChange={handleChange('password')}
+                      onBlur={handleBlur('password')}
+                      title={PASSWORD_LABEL}
+                      placeholder={PASSWORD_PLACEHOLDER}
+                      svg={<Lock marginVertical={hp(2)} />}
+                    />
+                    {touched.password && errors.password && (
+                      <Text style={Styles.warningStyle}>{errors.password}</Text>
+                    )}
+                    {error != null ? (
+                      <Text style={Styles.warningStyle}>{error}</Text>
+                    ) : null}
+                  </View>
+
+                  <View style={styles.gradientView}>
+                    <GradientButton
+                      onPress={handleSubmit}
+                      title={LOGIN_BUTTON_TITTLE}
+                      condition={loading}
+                    />
+                  </View>
+                  <TouchableOpacity
+                    onPress={() => props.navigation.navigate('ForgotScreen')}
+                    style={styles.forgotView}>
+                    <Text style={styles.forgotStyle}>
+                      {FORGOT_PASSWORD_LABEL}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </>
+            );
+          }}
+        </Formik>
       </ImageBackground>
     </KeyboardAvoidingView>
   );
@@ -197,5 +226,20 @@ const Styles = {
     marginTop: hp('0.5%'),
     fontSize: wp('3.4%'),
     color: 'red',
+  },
+  logoStyle: {
+    marginTop: hp(10),
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  firstColumn: {
+    marginTop: hp(10),
+    marginHorizontal: wp(6),
+    marginBottom: hp(4),
+  },
+  firstColumn1: {
+    marginTop: hp(6),
+    marginHorizontal: wp(6),
+    marginBottom: hp(4),
   },
 };

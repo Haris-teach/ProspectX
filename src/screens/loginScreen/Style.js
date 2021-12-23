@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
   },
   gradientView: {
     justifyContent: 'flex-end',
-    height: hp(18),
+    marginTop: hp(5),
     shadowColor: '#0E2247',
     shadowOffset: {
       width: 0,
