@@ -62,7 +62,7 @@ const DATA = [
 const MsgScreen = props => {
   const [items, setItems] = useState([]);
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState([]);
   const [msgData, setMsgData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -74,7 +74,7 @@ const MsgScreen = props => {
   const MsgsThreads = () => {
     let params = {
       filters: {
-        numbers: [],
+        numbers: value,
       },
     };
 
@@ -114,10 +114,13 @@ const MsgScreen = props => {
     return () => {
       mounted = false;
     };
-  }, []);
+  }, [value]);
   // ============= END ========================
 
   const renderItem = ({item}) => {
+    let Split = moment(item.lastMessageTimeStamp).format('HH:mm:ss');
+    //console.log(Split.split(':').length);
+    let time = Split.split(':');
     return (
       <>
         <TouchableOpacity
@@ -138,9 +141,7 @@ const MsgScreen = props => {
               </Text>
             </View>
           </View>
-          <Text style={styles.timeStyle}>
-            {moment(item.lastMessageTimeStamp).format('HH:mm:ss')}
-          </Text>
+          <Text style={styles.timeStyle}>{Split}</Text>
         </TouchableOpacity>
         <View style={styles.viewStyle} />
       </>
@@ -206,6 +207,7 @@ const MsgScreen = props => {
         />
       </View> */}
       <TouchableOpacity
+        disabled
         activeOpacity={0.5}
         onPress={() => props.navigation.navigate('Chat', {Thread: []})}
         style={{
@@ -215,7 +217,7 @@ const MsgScreen = props => {
           bottom: hp(8),
           marginRight: wp(5),
         }}>
-        <LinearGradient
+        {/* <LinearGradient
           colors={['#6FB3FF', '#7F5AFF']}
           start={{y: 0.0, x: 0.0}}
           style={{
@@ -228,7 +230,7 @@ const MsgScreen = props => {
           }}
           end={{y: 0.0, x: 1.0}}>
           <Pen />
-        </LinearGradient>
+        </LinearGradient> */}
       </TouchableOpacity>
     </ImageBackground>
   );
@@ -371,9 +373,9 @@ const styles = {
     marginTop: hp(-0.5),
   },
   viewStyle: {
-    borderWidth: 0.4,
+    borderWidth: 0.5,
     marginHorizontal: wp(10),
-    opacity: 0.1,
+    opacity: 0.05,
     marginTop: hp(-1),
   },
 };

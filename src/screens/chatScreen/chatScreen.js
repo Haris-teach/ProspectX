@@ -61,32 +61,60 @@ const ChatScreen = props => {
     },
   ]);
 
-  useEffect(() => {
-    setValue(Number);
-
-    socket = io('https://a6c5-182-185-215-252.ngrok.io', {
-      transportOptions: {
-        polling: {
-          extraHeaders: {
-            authorization: `Bearer ${token}`,
-          },
+  socket = io('https://a6c5-182-185-215-252.ngrok.io', {
+    transportOptions: {
+      polling: {
+        extraHeaders: {
+          authorization: `Bearer ${token}`,
         },
       },
-    });
+    },
+  });
 
-    // make connection with server from user side
-    socket.on('connect', function () {
-      console.log('Connected to Server');
-      socket.emit('subscribe', 'Creating the socket setting to user');
-    });
+  // make connection with server from user side
+  socket.on('connect', function () {
+    console.log('Connected to Server');
+    socket.emit('subscribe', 'Creating the socket setting to user');
+  });
 
-    socket.on('connect_error', err => {
-      console.log(err); // prints the message associated with the error
-      if (err.message.indexOf('Authentication error') !== false) {
-        console.log(err.message); // prints the message associated with the error
-        socket.disconnect();
-      }
-    });
+  socket.on('disconnect', () => {
+    console.log('disConnected to Server');
+    //console.log(socket.id); // undefined
+  });
+
+  socket.on('receiveMessage', event => {
+    console.log('Printing in Receive Message', event.chatMessage.message);
+    // let msgs = [];
+    // Threads.forEach((msg, index) => {
+    //   if (msg) {
+    //     const {message, timestamp, second} = msg;
+    //     // console.log(message, timestamp, second, index);
+    //     let data = {
+    //       _id: index,
+    //       text: message,
+    //       createdAt: moment(timestamp),
+    //       user: {name: second, _id: index, avatar: ''},
+    //     };
+    //     msgs.push(data);
+    //   }
+    // });
+    // let Data = msgs.sort(function compare(a, b) {
+    //   var dateA = new Date(a.createdAt);
+    //   var dateB = new Date(b.createdAt);
+    //   return dateB - dateA;
+    // });
+    // setMessages(Data);
+
+    // setMessages(previousMessages =>
+    //   GiftedChat.append(previousMessages, event.chatMessage.message),
+    // );
+    // setMessages(previousMessages =>
+    //   GiftedChat.append(previousMessages,  event.chatMessage.message)),
+    // );
+  });
+
+  useEffect(() => {
+    //setValue(Number);
 
     let msgs = [];
     Threads.forEach((msg, index) => {
@@ -112,8 +140,8 @@ const ChatScreen = props => {
 
   const messageSend = useCallback((messages = []) => {
     let params = {
-      from: '+16027556798',
-      to: '+923044041082',
+      from: JSON.stringify(value),
+      to: JSON.stringify(Number),
       message: JSON.stringify(msgText),
     };
 
@@ -122,11 +150,6 @@ const ChatScreen = props => {
         setMessages(previousMessages =>
           GiftedChat.append(previousMessages, messages),
         );
-        // Toast.showWithGravity(
-        //   JSON.stringify(res.message),
-        //   Toast.SHORT,
-        //   Toast.BOTTOM,
-        // );
       } else {
         Toast.showWithGravity(
           JSON.stringify(res.errors),
@@ -137,22 +160,7 @@ const ChatScreen = props => {
     });
   }, []);
 
-  const renderInputToolbar = props => {
-    console.log('PROPS:  ', props);
-    return (
-      <InputToolbar
-        {...props}
-        containerStyle={{
-          backgroundColor: 'rgba(255, 255, 255, 0.46)',
-          alignSelf: 'center',
-          marginHorizontal: wp(8),
-          borderRadius: wp(8),
-          borderWidth: 1,
-          borderColor: 'white',
-        }}
-      />
-    );
-  };
+  // console.log('params:   ', value);
 
   return (
     <ImageBackground
@@ -202,7 +210,7 @@ const ChatScreen = props => {
         onSend={messages => messageSend(messages)}
         onInputTextChanged={text => setMsgText(text)}
         user={{
-          _id: 1,
+          _id: ThreadId,
         }}
         placeholder="Write Message"
         renderInputToolbar={props => {
@@ -244,7 +252,7 @@ const ChatScreen = props => {
                 color: 'black',
                 //backgroundColor: 'red',
                 marginLeft: wp(8),
-                alignSelf: 'center',
+                // alignSelf: 'center',
                 fontSize: wp(4.5),
               }}
             />
@@ -303,8 +311,8 @@ const ChatScreen = props => {
         alwaysShowSend={true}
         showUserAvatar={false}
         showAvatarForEveryMessage={false}
-        scrollToBottom
-        //isanimated={true}
+        //scrollToBottom
+        isanimated={true}
         isKeyboardInternallyHandled={true}
         scrollToBottomOffset={50}
       />

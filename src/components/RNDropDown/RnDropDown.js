@@ -69,6 +69,8 @@ const RNDropDown = props => {
                   marginHorizontal: wp(3),
                   color: 'black',
                   fontSize: wp(4),
+                  //textAlign: 'center',
+                  alignSelf: 'center',
                 }}>
                 {item.value}
               </Text>
