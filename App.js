@@ -7,6 +7,7 @@ import {persistor, store} from './src/redux/index';
 
 const App = () => {
   LogBox.ignoreLogs(['Require cycle:', 'VirtualizedLists']);
+  LogBox.ignoreLogs(['EventEmitter.removeListener']);
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>

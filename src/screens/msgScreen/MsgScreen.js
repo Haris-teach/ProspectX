@@ -14,7 +14,7 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
-import LinearGradient from 'react-native-linear-gradient';
+import {useIsFocused} from '@react-navigation/native';
 import {useSelector, useDispatch} from 'react-redux';
 import moment from 'moment';
 
@@ -60,15 +60,20 @@ const DATA = [
 ];
 
 const MsgScreen = props => {
+  const isFocused = useIsFocused();
+
   const [items, setItems] = useState([]);
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState([]);
   const [msgData, setMsgData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
 
   const PhoneNumbers = useSelector(state => state.commonReducer.Numbers);
   const token = useSelector(state => state.authReducer.token);
 
+  //['+923346844455'],
   // ============== GET all msgs threads function ================
 
   const MsgsThreads = () => {
@@ -76,28 +81,36 @@ const MsgScreen = props => {
       filters: {
         numbers: value,
       },
+      pagination: {
+        pageNumber: page,
+        pageSize: pageSize,
+      },
     };
 
     HitApi(MSGTHREADS, 'POST', params, token).then(res => {
       if (res.status == 1) {
         // setMsgData(res.data);
-        let result = [];
-        //let messages = res.data;
-        let threads = res.data;
-        for (let threadId in threads) {
-          let index = threads[threadId].length - 1;
-          let threadObj = {
-            lastMessageTimeStamp: threads[threadId][index].timestamp,
-            LastMessage: threads[threadId][index].message,
-            Phone: threads[threadId][index].second,
-            Name: 'Dummy Name',
-            Thread: threads[threadId],
-            ThreadId: threads[threadId][index].thread_id,
-          };
+        // let result = [];
+        // //let messages = res.data;
+        // let threads = res.data;
+        // for (let threadId in threads) {
+        //   let index = threads[threadId].length - 1;
+        //   let threadObj = {
+        //     lastMessageTimeStamp: threads[threadId][index].timestamp,
+        //     LastMessage: threads[threadId][index].message,
+        //     Phone: threads[threadId][index].second,
+        //     Name: 'Dummy Name',
+        //     Thread: threads[threadId],
+        //     ThreadId: threads[threadId][index].thread_id,
+        //   };
 
-          result.push(threadObj);
+        //   result.push(threadObj);
+        // }
+        if (page == 1) {
+          setMsgData(res.data);
+        } else {
+          setMsgData([...msgData, ...res.data]);
         }
-        setMsgData(result);
 
         setIsLoading(false);
       } else {
@@ -114,11 +127,17 @@ const MsgScreen = props => {
     return () => {
       mounted = false;
     };
-  }, [value]);
+  }, [page, value, isFocused]);
+
+  const LoadMoreData = () => {
+    setPage(page + 1);
+    console.log('PAGE:   ', page);
+    setPageSize(5);
+  };
   // ============= END ========================
 
   const renderItem = ({item}) => {
-    let Split = moment(item.lastMessageTimeStamp).format('HH:mm:ss');
+    let Split = moment(item.latesttime).format('HH:mm:ss');
     //console.log(Split.split(':').length);
     let time = Split.split(':');
     return (
@@ -127,17 +146,18 @@ const MsgScreen = props => {
           style={styles.item}
           onPress={() =>
             props.navigation.navigate('Chat', {
-              Thread: item.Thread,
-              Number: item.Phone,
-              ThreadId: item.ThreadId,
+              // Thread: item.Thread,
+              Number1: item.sender_number,
+              Number2: item.first,
+              ThreadId: item.thread_id,
             })
           }>
           <View style={{flex: 1, flexDirection: 'row'}}>
             <Msg height={hp(5)} width={wp(10)} />
             <View style={{flex: 1}}>
-              <Text style={styles.nameStyle}>{item.Phone}</Text>
+              <Text style={styles.nameStyle}>{item.sender_number}</Text>
               <Text style={styles.msgStyle} numberOfLines={2}>
-                {item.LastMessage}
+                {item.message}
               </Text>
             </View>
           </View>
@@ -194,7 +214,9 @@ const MsgScreen = props => {
             <FlatList
               data={msgData}
               renderItem={renderItem}
-              keyExtractor={item => item.lastMessageTimeStamp}
+              keyExtractor={item => item.latesttime}
+              onEndReachedThreshold={0}
+              onEndReached={LoadMoreData}
             />
           )}
         </View>

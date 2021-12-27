@@ -92,7 +92,7 @@ const LoginScreen = props => {
         let token = res.data.auth.access_token;
         let firstName = res.data.user.firstname;
         let lastName = res.data.user.lastname;
-        let id = res.data.user.id;
+        let id = res.data.user.external_user_id;
         let email = res.data.user.email;
         dispatch(Login(token, '', firstName, lastName, id, email));
       } else {

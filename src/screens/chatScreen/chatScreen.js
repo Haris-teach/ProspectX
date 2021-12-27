@@ -23,18 +23,20 @@ import images from '../../assets/images/Images';
 import colors from '../../assets/colors/Colors';
 import fonts from '../../assets/fonts/Fonts';
 import HitApi from '../../HitApis/APIHandler';
-import {SENDMESSAGE} from '../../HitApis/Urls';
+import {SENDMESSAGE, GETMSGS} from '../../HitApis/Urls';
 
 var socket = null;
 const ChatScreen = props => {
   const PhoneNumbers = useSelector(state => state.commonReducer.Numbers);
   const token = useSelector(state => state.authReducer.token);
-  const Threads = props.route.params.Thread;
-  const Number = props.route.params.Number;
+  const CurrentUserId = useSelector(state => state.authReducer.id);
+
+  const Number1 = props.route.params.Number1;
+  const Number2 = props.route.params.Number2;
   const ThreadId = props.route.params.ThreadId;
 
   const [messages, setMessages] = useState([]);
-  const [msgText, setMsgText] = useState('');
+  const [textMsg, setTextMsg] = useState(null);
 
   const [value, setValue] = useState('');
   const [open, setOpen] = useState(false);
@@ -79,70 +81,43 @@ const ChatScreen = props => {
 
   socket.on('disconnect', () => {
     console.log('disConnected to Server');
-    //console.log(socket.id); // undefined
   });
 
   socket.on('receiveMessage', event => {
-    console.log('Printing in Receive Message', event.chatMessage.message);
-    // let msgs = [];
-    // Threads.forEach((msg, index) => {
-    //   if (msg) {
-    //     const {message, timestamp, second} = msg;
-    //     // console.log(message, timestamp, second, index);
-    //     let data = {
-    //       _id: index,
-    //       text: message,
-    //       createdAt: moment(timestamp),
-    //       user: {name: second, _id: index, avatar: ''},
-    //     };
-    //     msgs.push(data);
-    //   }
-    // });
-    // let Data = msgs.sort(function compare(a, b) {
-    //   var dateA = new Date(a.createdAt);
-    //   var dateB = new Date(b.createdAt);
-    //   return dateB - dateA;
-    // });
-    // setMessages(Data);
-
-    // setMessages(previousMessages =>
-    //   GiftedChat.append(previousMessages, event.chatMessage.message),
-    // );
-    // setMessages(previousMessages =>
-    //   GiftedChat.append(previousMessages,  event.chatMessage.message)),
-    // );
+    console.log('Printing in Receive Message:  ', event);
   });
 
   useEffect(() => {
-    //setValue(Number);
-
-    let msgs = [];
-    Threads.forEach((msg, index) => {
-      if (msg) {
-        const {message, timestamp, second} = msg;
-        // console.log(message, timestamp, second, index);
-        let data = {
-          _id: index,
-          text: message,
-          createdAt: moment(timestamp),
-          user: {name: second, _id: index, avatar: ''},
-        };
-        msgs.push(data);
-      }
+    HitApi(`${GETMSGS}/${ThreadId}`, 'GET', '', token).then(res => {
+      let msgs = [];
+      res.data.forEach((msg, index) => {
+        if (msg) {
+          const {message, timestamp, second, sender_id} = msg;
+          //console.log(message, timestamp, second, sender_id);
+          let data = {
+            _id: index,
+            text: message,
+            createdAt: moment(timestamp),
+            user: {name: second, _id: sender_id, avatar: null},
+          };
+          msgs.push(data);
+        }
+      });
+      let Data = msgs.sort(function compare(a, b) {
+        var dateA = new Date(a.createdAt);
+        var dateB = new Date(b.createdAt);
+        return dateB - dateA;
+      });
+      setMessages(Data);
     });
-    let Data = msgs.sort(function compare(a, b) {
-      var dateA = new Date(a.createdAt);
-      var dateB = new Date(b.createdAt);
-      return dateB - dateA;
-    });
-    setMessages(Data);
   }, []);
 
   const messageSend = useCallback((messages = []) => {
+    console.log('MEssages:  ', messages[0].text);
     let params = {
-      from: JSON.stringify(value),
-      to: JSON.stringify(Number),
-      message: JSON.stringify(msgText),
+      from: '+923346844455',
+      to: '+923346584469',
+      message: messages[0].text,
     };
 
     HitApi(SENDMESSAGE, 'POST', params, token).then(res => {
@@ -208,9 +183,9 @@ const ChatScreen = props => {
       <GiftedChat
         messages={messages}
         onSend={messages => messageSend(messages)}
-        onInputTextChanged={text => setMsgText(text)}
+        onInputTextChanged={text => setTextMsg(text)}
         user={{
-          _id: ThreadId,
+          _id: CurrentUserId,
         }}
         placeholder="Write Message"
         renderInputToolbar={props => {
@@ -223,27 +198,27 @@ const ChatScreen = props => {
                 marginHorizontal: wp(8),
                 marginBottom: hp(3),
                 borderRadius: wp(10),
-                // borderColor: 'white',
-                // borderWidth: 1,
+                borderColor: 'white',
+                borderWidth: 1,
               }}
               renderSend={props => {
                 return (
                   <LinearGradient
                     colors={['#6FB3FF', '#7F5AFF']}
-                    style={{borderRadius: hp(7)}}
+                    style={{borderRadius: hp(7), marginRight: wp(-2)}}
                     start={{y: 0.0, x: 0.0}}
                     end={{y: 0.0, x: 1.0}}>
                     <Send
                       {...props}
                       containerStyle={{
-                        width: hp(7),
-                        height: hp(7),
-                        borderRadius: hp(7),
+                        width: 60,
+                        height: 60,
+                        borderRadius: 60,
                         justifyContent: 'center',
                         alignItems: 'center',
                         alignSelf: 'center',
                       }}>
-                      <Fly alignSelf="center" width={wp(8)} height={hp(3)} />
+                      <Fly alignSelf="center" width={30} height={30} />
                     </Send>
                   </LinearGradient>
                 );
@@ -252,8 +227,12 @@ const ChatScreen = props => {
                 color: 'black',
                 //backgroundColor: 'red',
                 marginLeft: wp(8),
-                // alignSelf: 'center',
+                alignSelf: 'center',
                 fontSize: wp(4.5),
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginTop: hp(2),
+                //textAlign: 'center',
               }}
             />
           );
@@ -273,12 +252,12 @@ const ChatScreen = props => {
               textStyle={{
                 right: {
                   color: 'white',
-                  fontSize: 12,
+                  fontSize: wp(3.5),
                   fontFamily: fonts.regular,
                 },
                 left: {
                   color: '#293859',
-                  fontSize: 12,
+                  fontSize: wp(3.5),
                   fontFamily: fonts.regular,
                 },
               }}
@@ -291,6 +270,7 @@ const ChatScreen = props => {
                   borderTopLeftRadius: wp(6),
                   borderBottomRightRadius: wp(5),
                   borderBottomLeftRadius: 0,
+                  marginTop: hp(1),
                 },
                 right: {
                   paddingHorizontal: 10,
@@ -299,6 +279,7 @@ const ChatScreen = props => {
                   borderTopLeftRadius: wp(5),
                   borderBottomLeftRadius: wp(5),
                   borderBottomRightRadius: 0,
+                  marginTop: hp(1),
                 },
               }}
             />
