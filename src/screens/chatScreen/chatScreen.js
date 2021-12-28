@@ -25,7 +25,7 @@ import fonts from '../../assets/fonts/Fonts';
 import HitApi from '../../HitApis/APIHandler';
 import {SENDMESSAGE, GETMSGS} from '../../HitApis/Urls';
 
-var socket = null;
+var count = 0;
 const ChatScreen = props => {
   const PhoneNumbers = useSelector(state => state.commonReducer.Numbers);
   const token = useSelector(state => state.authReducer.token);
@@ -64,38 +64,57 @@ const ChatScreen = props => {
     },
   ]);
 
-  socket = io('https://a6c5-182-185-215-252.ngrok.io', {
-    transportOptions: {
-      polling: {
-        extraHeaders: {
-          authorization: `Bearer ${token}`,
+  // make connection with server from user side
+
+  useEffect(() => {
+    var socket = io('https://a6c5-182-185-215-252.ngrok.io', {
+      transportOptions: {
+        polling: {
+          extraHeaders: {
+            authorization: `Bearer ${token}`,
+          },
         },
       },
-    },
-  });
+    });
 
-  // make connection with server from user side
-  socket.on('connect', function () {
-    console.log('Connected to Server');
-    socket.emit('subscribe', 'Creating the socket setting to user');
-  });
+    socket.on('connect', function () {
+      console.log('Connected to Server');
+      socket.emit('subscribe', 'Creating the socket setting to user');
+    });
+    socket.on('disconnect', () => {
+      console.log('disConnected to Server');
+    });
 
-  socket.on('disconnect', () => {
-    console.log('disConnected to Server');
-  });
+    socket.on('receiveMessage', event => {
+      console.log('Printing in Receive Message:  ', event.chatMessage);
 
-  socket.on('receiveMessage', event => {
-    console.log('Printing in Receive Message:  ', event);
-  });
+      let temp = [];
+      const {message, timestamp, sender_number, out, id} = event.chatMessage;
+
+      let data = {
+        _id: 1,
+        text: message,
+        createdAt: moment(timestamp),
+        user: {
+          _id: out == true ? CurrentUserId : 2,
+          name: sender_number,
+          avatar: null,
+        },
+      };
+      temp.push(data);
+
+      setMessages(previousMessages =>
+        GiftedChat.append(previousMessages, temp),
+      );
+    });
+  }, []);
 
   useEffect(() => {
     HitApi(`${GETMSGS}/${ThreadId}`, 'GET', '', token).then(res => {
       let msgs = [];
-
       res.data.forEach((msg, index) => {
         if (msg) {
           const {message, timestamp, second, sender_id, out} = msg;
-
           let data = {
             _id: index,
             text: message,
@@ -107,7 +126,6 @@ const ChatScreen = props => {
             },
           };
           msgs.push(data);
-          //console.log(message, timestamp, second, sender_id, out);
         }
       });
       let Data = msgs.sort(function compare(a, b) {
@@ -115,24 +133,16 @@ const ChatScreen = props => {
         var dateB = new Date(b.createdAt);
         return dateB - dateA;
       });
-
       setMessages(Data);
     });
   }, []);
 
-  // const messageSend = useCallback((messages = []) => {
-  //   setMessages(previousMessages =>
-  //     GiftedChat.append(previousMessages, messages),
-  //   );
-  // }, []);
-
   const messageSend = (message = []) => {
     let params = {
-      from: '+923346844455',
-      to: '+923346584451',
+      from: '+16232923707',
+      to: '+923351475782',
       message: message[0].text,
     };
-
     HitApi(SENDMESSAGE, 'POST', params, token).then(res => {
       if (res.status == 1) {
         setMessages(previousMessages =>
@@ -147,9 +157,6 @@ const ChatScreen = props => {
       }
     });
   };
-
-  // console.log('params:   ', value);
-
   return (
     <ImageBackground
       source={images.splashBackground}
@@ -300,15 +307,15 @@ const ChatScreen = props => {
         }}
         // inverted={true}
         // alignTop
-        isTyping={true}
-        infiniteScroll
+        // isTyping={true}
+        // infiniteScroll
         alwaysShowSend={true}
         showUserAvatar={false}
         showAvatarForEveryMessage={false}
         //scrollToBottom
-        isanimated={true}
+        // isanimated={true}
         isKeyboardInternallyHandled={true}
-        scrollToBottomOffset={50}
+        //scrollToBottomOffset={1}
       />
     </ImageBackground>
   );

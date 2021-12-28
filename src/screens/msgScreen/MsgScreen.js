@@ -73,6 +73,8 @@ const MsgScreen = props => {
   const PhoneNumbers = useSelector(state => state.commonReducer.Numbers);
   const token = useSelector(state => state.authReducer.token);
 
+  console.log('PHONE NUMBERS:   ', PhoneNumbers);
+
   //['+923346844455'],
   // ============== GET all msgs threads function ================
 
@@ -86,7 +88,7 @@ const MsgScreen = props => {
         pageSize: pageSize,
       },
     };
-
+    // setIsLoading(true);
     HitApi(MSGTHREADS, 'POST', params, token).then(res => {
       if (res.status == 1) {
         // setMsgData(res.data);
@@ -140,6 +142,16 @@ const MsgScreen = props => {
     let Split = moment(item.latesttime).format('HH:mm:ss');
     //console.log(Split.split(':').length);
     let time = Split.split(':');
+    // console.log('ya loo', PhoneNumbers.includes(item.first))
+    let number = '';
+    PhoneNumbers.forEach((i, index) => {
+      if (i.value == item.first) {
+        number = item.second;
+      } else {
+        number = item.first;
+      }
+    });
+    //console.log('NUMBERS:   ', number);
     return (
       <>
         <TouchableOpacity
@@ -155,7 +167,7 @@ const MsgScreen = props => {
           <View style={{flex: 1, flexDirection: 'row'}}>
             <Msg height={hp(5)} width={wp(10)} />
             <View style={{flex: 1}}>
-              <Text style={styles.nameStyle}>{item.sender_number}</Text>
+              <Text style={styles.nameStyle}>{number}</Text>
               <Text style={styles.msgStyle} numberOfLines={2}>
                 {item.message}
               </Text>
@@ -275,7 +287,6 @@ const styles = {
     backgroundColor: 'white',
     borderColor: 'white',
     height: hp(20),
-
     borderRadius: wp(5),
   },
 
