@@ -11,7 +11,7 @@ import {
 import DropDownPicker from 'react-native-dropdown-picker';
 import {GiftedChat, InputToolbar, Send, Bubble} from 'react-native-gifted-chat';
 import {useSelector, useDispatch} from 'react-redux';
-import moment from 'moment';
+import moment, {now} from 'moment';
 import Toast from 'react-native-simple-toast';
 import io from 'socket.io-client';
 
@@ -29,7 +29,7 @@ var socket = null;
 const ChatScreen = props => {
   const PhoneNumbers = useSelector(state => state.commonReducer.Numbers);
   const token = useSelector(state => state.authReducer.token);
-  const CurrentUserId = useSelector(state => state.authReducer.id);
+  const CurrentUserId = useSelector(state => parseInt(state.authReducer.id));
 
   const Number1 = props.route.params.Number1;
   const Number2 = props.route.params.Number2;
@@ -37,6 +37,7 @@ const ChatScreen = props => {
 
   const [messages, setMessages] = useState([]);
   const [textMsg, setTextMsg] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [value, setValue] = useState('');
   const [open, setOpen] = useState(false);
@@ -90,17 +91,23 @@ const ChatScreen = props => {
   useEffect(() => {
     HitApi(`${GETMSGS}/${ThreadId}`, 'GET', '', token).then(res => {
       let msgs = [];
+
       res.data.forEach((msg, index) => {
         if (msg) {
-          const {message, timestamp, second, sender_id} = msg;
-          //console.log(message, timestamp, second, sender_id);
+          const {message, timestamp, second, sender_id, out} = msg;
+
           let data = {
             _id: index,
             text: message,
             createdAt: moment(timestamp),
-            user: {name: second, _id: sender_id, avatar: null},
+            user: {
+              _id: out == true ? CurrentUserId : 2,
+              name: second,
+              avatar: null,
+            },
           };
           msgs.push(data);
+          //console.log(message, timestamp, second, sender_id, out);
         }
       });
       let Data = msgs.sort(function compare(a, b) {
@@ -108,22 +115,28 @@ const ChatScreen = props => {
         var dateB = new Date(b.createdAt);
         return dateB - dateA;
       });
+
       setMessages(Data);
     });
   }, []);
 
-  const messageSend = useCallback((messages = []) => {
-    console.log('MEssages:  ', messages[0].text);
+  // const messageSend = useCallback((messages = []) => {
+  //   setMessages(previousMessages =>
+  //     GiftedChat.append(previousMessages, messages),
+  //   );
+  // }, []);
+
+  const messageSend = (message = []) => {
     let params = {
       from: '+923346844455',
-      to: '+923346584469',
-      message: messages[0].text,
+      to: '+923346584451',
+      message: message[0].text,
     };
 
     HitApi(SENDMESSAGE, 'POST', params, token).then(res => {
       if (res.status == 1) {
         setMessages(previousMessages =>
-          GiftedChat.append(previousMessages, messages),
+          GiftedChat.append(previousMessages, message),
         );
       } else {
         Toast.showWithGravity(
@@ -133,7 +146,7 @@ const ChatScreen = props => {
         );
       }
     });
-  }, []);
+  };
 
   // console.log('params:   ', value);
 
