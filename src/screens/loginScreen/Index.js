@@ -73,8 +73,6 @@ const LoginScreen = props => {
     };
   }, []);
 
-  console.log(isKeyboardVisible);
-
   //============= Funtion for Login USer ======================
 
   const Login_User = v => {
@@ -88,7 +86,7 @@ const LoginScreen = props => {
       if (res.status == 1) {
         setError(null);
         setLoading(false);
-        console.log('Rensopnse:    ', res.data.user.firstname);
+
         let token = res.data.auth.access_token;
         let firstName = res.data.user.firstname;
         let lastName = res.data.user.lastname;

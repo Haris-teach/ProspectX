@@ -48,6 +48,7 @@ const RNDropDown = props => {
           return (
             <TouchableOpacity
               onPress={() => {
+                props.onPress(item.item);
                 props.setOpen(false);
                 props.setValue(item.value);
               }}
@@ -57,13 +58,11 @@ const RNDropDown = props => {
                 marginHorizontal: wp(3),
                 //backgroundColor: 'red',
               }}>
-              {item.item.id == 0 ? (
-                <Contact2 />
-              ) : item.item.id % 2 == 0 ? (
-                props.svg
-              ) : (
-                props.svg2
-              )}
+              {item.item.id == 0
+                ? null
+                : item.item.id % 2 == 0
+                ? props.svg
+                : props.svg2}
               <Text
                 style={{
                   marginHorizontal: wp(3),
@@ -78,7 +77,7 @@ const RNDropDown = props => {
           );
         }}
       />
-      <TouchableOpacity onPress={props.onPress} style={styles.iconStyle}>
+      <TouchableOpacity onPress={props.onPress2} style={styles.iconStyle}>
         <Calendar alignSelf="center" />
       </TouchableOpacity>
     </View>

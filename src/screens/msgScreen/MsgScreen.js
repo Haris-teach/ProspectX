@@ -65,7 +65,7 @@ const MsgScreen = props => {
   const [items, setItems] = useState([]);
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState([]);
-  const [msgData, setMsgData] = useState(null);
+  const [msgData, setMsgData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
@@ -73,47 +73,30 @@ const MsgScreen = props => {
   const PhoneNumbers = useSelector(state => state.commonReducer.Numbers);
   const token = useSelector(state => state.authReducer.token);
 
-  console.log('PHONE NUMBERS:   ', PhoneNumbers);
+  // console.log('PHONE NUMBERS:   ', PhoneNumbers);
 
   //['+923346844455'],
   // ============== GET all msgs threads function ================
 
-  const MsgsThreads = () => {
+  const MsgsThreads = pageVAl => {
+    console.log('PAGES:   ', page);
     let params = {
       filters: {
-        numbers: value,
+        numbers: pageVAl === 'All' ? [] : [pageVAl],
       },
       pagination: {
         pageNumber: page,
-        pageSize: pageSize,
+        pageSize: 10,
       },
     };
     // setIsLoading(true);
     HitApi(MSGTHREADS, 'POST', params, token).then(res => {
       if (res.status == 1) {
-        // setMsgData(res.data);
-        // let result = [];
-        // //let messages = res.data;
-        // let threads = res.data;
-        // for (let threadId in threads) {
-        //   let index = threads[threadId].length - 1;
-        //   let threadObj = {
-        //     lastMessageTimeStamp: threads[threadId][index].timestamp,
-        //     LastMessage: threads[threadId][index].message,
-        //     Phone: threads[threadId][index].second,
-        //     Name: 'Dummy Name',
-        //     Thread: threads[threadId],
-        //     ThreadId: threads[threadId][index].thread_id,
-        //   };
-
-        //   result.push(threadObj);
-        // }
         if (page == 1) {
           setMsgData(res.data);
         } else {
-          setMsgData([...msgData, ...res.data]);
+          setMsgData(...msgData, ...res.data);
         }
-
         setIsLoading(false);
       } else {
         setIsLoading(false);
@@ -122,19 +105,18 @@ const MsgScreen = props => {
   };
 
   useEffect(() => {
-    let mounted = true;
-    if (mounted) {
-      MsgsThreads();
-    }
-    return () => {
-      mounted = false;
-    };
-  }, [page, value, isFocused]);
+    setPage(1);
+    setValue('All');
+    MsgsThreads('All');
+  }, [isFocused]);
 
   const LoadMoreData = () => {
-    setPage(page + 1);
-    console.log('PAGE:   ', page);
-    setPageSize(5);
+    if (msgData.length > 10) {
+      console.log('Trigger ho reha ha');
+      setPage(page + 1);
+    }
+    // setPageSize(5);
+    // MsgsThreads('All');
   };
   // ============= END ========================
 
@@ -158,9 +140,7 @@ const MsgScreen = props => {
           style={styles.item}
           onPress={() =>
             props.navigation.navigate('Chat', {
-              // Thread: item.Thread,
-              Number1: item.sender_number,
-              Number2: item.first,
+              Number: number,
               ThreadId: item.thread_id,
             })
           }>
@@ -210,7 +190,11 @@ const MsgScreen = props => {
           setOpen={setOpen}
           setValue={setValue}
           setItems={setItems}
-          onPress={() => console.log('Pressed')}
+          onPress={value => {
+            setPage(1);
+            MsgsThreads(value.value);
+          }}
+          onPress2={() => console.log('Pressed')}
           svg={<Contact />}
           svg2={<Contact2 />}
         />
@@ -228,7 +212,7 @@ const MsgScreen = props => {
               renderItem={renderItem}
               keyExtractor={item => item.latesttime}
               onEndReachedThreshold={0}
-              onEndReached={LoadMoreData}
+              onEndReached={() => LoadMoreData()}
             />
           )}
         </View>

@@ -31,8 +31,10 @@ const ChatScreen = props => {
   const token = useSelector(state => state.authReducer.token);
   const CurrentUserId = useSelector(state => parseInt(state.authReducer.id));
 
-  const Number1 = props.route.params.Number1;
-  const Number2 = props.route.params.Number2;
+  const Number = props.route.params.Number;
+
+  // const Number2 = props.route.params.Number2;
+
   const ThreadId = props.route.params.ThreadId;
 
   const [messages, setMessages] = useState([]);
@@ -41,32 +43,27 @@ const ChatScreen = props => {
 
   const [value, setValue] = useState('');
   const [open, setOpen] = useState(false);
-  const [items, setItems] = useState([
-    {
-      id: 0,
-      label: 'test1@gmail.com',
-      value: 'test1@gmail.com',
-    },
-    {
-      id: 1,
-      label: 'test2@gmail.com',
-      value: 'test2@gmail.com',
-    },
-    {
-      id: 2,
-      label: 'test3@gmail.com',
-      value: 'test3@gmail.com',
-    },
-    {
-      id: 3,
-      label: 'test4@gmail.com',
-      value: 'test4@gmail.com',
-    },
-  ]);
+  const [items, setItems] = useState([]);
 
   // make connection with server from user side
 
   useEffect(() => {
+    PhoneNumbers.forEach(i => {
+      if (i.value == 'All') {
+        setItems([]);
+      } else {
+        items.push({
+          id: i.id,
+          label: i.label,
+          value: i.value,
+        });
+      }
+      setItems(items);
+    });
+
+    setValue(PhoneNumbers[0].value);
+
+    //console.log('first Phone number:   ', value, Number);
     var socket = io('https://a6c5-182-185-215-252.ngrok.io', {
       transportOptions: {
         polling: {
@@ -86,13 +83,13 @@ const ChatScreen = props => {
     });
 
     socket.on('receiveMessage', event => {
-      console.log('Printing in Receive Message:  ', event.chatMessage);
+      //console.log('Printing in Receive Message:  ', event.chatMessage);
 
       let temp = [];
       const {message, timestamp, sender_number, out, id} = event.chatMessage;
 
       let data = {
-        _id: 1,
+        _id: now(),
         text: message,
         createdAt: moment(timestamp),
         user: {
@@ -114,7 +111,7 @@ const ChatScreen = props => {
       let msgs = [];
       res.data.forEach((msg, index) => {
         if (msg) {
-          const {message, timestamp, second, sender_id, out} = msg;
+          const {message, timestamp, second, out} = msg;
           let data = {
             _id: index,
             text: message,
@@ -139,8 +136,8 @@ const ChatScreen = props => {
 
   const messageSend = (message = []) => {
     let params = {
-      from: '+16232923707',
-      to: '+923351475782',
+      from: value,
+      to: Number,
       message: message[0].text,
     };
     HitApi(SENDMESSAGE, 'POST', params, token).then(res => {
@@ -186,7 +183,7 @@ const ChatScreen = props => {
           marginHorizontal: wp(3),
         }}
         value={value}
-        items={PhoneNumbers}
+        items={items}
         setOpen={setOpen}
         showArrowIcon={true}
         showTickIcon={false}

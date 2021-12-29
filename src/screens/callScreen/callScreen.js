@@ -76,8 +76,8 @@ const CallScreen = props => {
   const [items, setItems] = useState([
     {
       id: 0,
-      label: '+9212412124',
-      value: '+9212412124',
+      label: 'All',
+      value: 'All',
     },
   ]);
   const [open, setOpen] = useState(false);
@@ -142,8 +142,15 @@ const CallScreen = props => {
 
   const GetAllNumbers = () => {
     HitApi(GETPHONENUM, 'get', '', token).then(res => {
-      setItems(res.data);
-      dispatch(GetNumbers(res.data));
+      res.data.forEach(i => {
+        items.push({
+          id: i.id + 1,
+          label: i.label,
+          value: i.value,
+        });
+        setItems(items);
+      });
+      dispatch(GetNumbers(items));
     });
   };
 
