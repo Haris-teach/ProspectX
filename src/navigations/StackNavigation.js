@@ -1,10 +1,12 @@
 //=================================== React Native Import Files =====================
 
-import * as React from 'react';
-import {StatusBar} from 'react-native';
+import React, {useRef, useEffect, useState} from 'react';
+import {StatusBar, AppState} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
+import io from 'socket.io-client';
+import BackgroundTimer from 'react-native-background-timer';
 //======================================= Local Import Files ===============================
 import LoginScreen from '../screens/loginScreen/Index';
 import SplashScreen from '../screens/splashScreen/Index';
@@ -35,9 +37,9 @@ import NewMailScreen from '../screens/newMailScreen/newMailScreen';
 
 const RootStack = createNativeStackNavigator();
 const Stack = () => {
+  const dispatch = useDispatch();
   const isLogin = useSelector(state => state.authReducer.isLogin);
-
-  //console.log('isLOgin:  ', isLogin);
+  const token = useSelector(state => state.authReducer.token);
 
   const AfterLoginAppContainer = () => {
     return (

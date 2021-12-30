@@ -1,6 +1,6 @@
 //========================================= React Native Import Files ============================
 
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   ImageBackground,
   Text,
@@ -16,6 +16,7 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
+import moment from 'moment';
 
 //======================================== Local Import Files ====================================
 import images from '../../assets/images/Images';
@@ -23,6 +24,9 @@ import Clock from '../../assets/svg/clock.svg';
 import Calander from '../../assets/svg/calan.svg';
 import colors from '../../assets/colors/Colors';
 import BackArrow from '../../assets/images/backarrow.svg';
+import HitApi from '../../HitApis/APIHandler';
+import {GETALLNOTIFICATION} from '../../HitApis/Urls';
+import {useSelector} from 'react-redux';
 
 const DATA = [
   {
@@ -47,6 +51,7 @@ const DATA = [
 
 const NotificationScreen = props => {
   const [select, setSelect] = useState(null);
+  const [data, setData] = useState([]);
 
   const styles = {
     headerContainer: {
@@ -119,6 +124,8 @@ const NotificationScreen = props => {
   };
 
   const renderItem = ({item, index}) => {
+    let number = item.message.split(' ');
+
     return (
       <TouchableOpacity
         onPress={() => setSelect(index)}
@@ -139,10 +146,10 @@ const NotificationScreen = props => {
           <Text
             style={select == index ? styles.msgStyle : styles.boldTextStyle}
             numberOfLines={select == index ? 4 : 1}>
-            {item.name}
+            {number[2]}
             <Text style={styles.msgStyle} numberOfLines={4}>
               {'  '}
-              {item.msg}
+              {item.message}
             </Text>
           </Text>
         </View>
@@ -164,7 +171,9 @@ const NotificationScreen = props => {
               width={wp(3)}
               height={hp(2)}
             />
-            <Text style={styles.timeStyle}>11:00</Text>
+            <Text style={styles.timeStyle}>
+              {moment(item.created_at).format('HH:mm')}
+            </Text>
           </View>
           <View
             style={[
@@ -182,7 +191,9 @@ const NotificationScreen = props => {
               width={wp(3)}
               height={hp(2)}
             />
-            <Text style={styles.timeStyle}>10/12/2021</Text>
+            <Text style={styles.timeStyle}>
+              {moment(item.created_at).format('DD/MM/YYYY')}
+            </Text>
           </View>
         </View>
         {select != index ? (
@@ -198,6 +209,16 @@ const NotificationScreen = props => {
       </TouchableOpacity>
     );
   };
+
+  const token = useSelector(state => state.authReducer.token);
+
+  useEffect(() => {
+    HitApi(GETALLNOTIFICATION, 'POST', '', token).then(res => {
+      if (res.status == 1) {
+        setData(res.data);
+      }
+    });
+  }, []);
 
   return (
     <ImageBackground
@@ -219,10 +240,12 @@ const NotificationScreen = props => {
         style={{
           flex: 1,
           marginTop: hp(4),
+          marginBottom: hp(2),
           marginHorizontal: wp(6),
         }}>
         <FlatList
-          data={DATA}
+          showsVerticalScrollIndicator={false}
+          data={data}
           renderItem={renderItem}
           keyExtractor={item => item.id}
         />

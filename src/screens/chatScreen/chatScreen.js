@@ -61,7 +61,7 @@ const ChatScreen = props => {
       setItems(items);
     });
 
-    setValue(PhoneNumbers[0].value);
+    setValue(PhoneNumbers[1].value);
 
     //console.log('first Phone number:   ', value, Number);
     var socket = io('https://a6c5-182-185-215-252.ngrok.io', {
@@ -78,12 +78,9 @@ const ChatScreen = props => {
       console.log('Connected to Server');
       socket.emit('subscribe', 'Creating the socket setting to user');
     });
-    socket.on('disconnect', () => {
-      console.log('disConnected to Server');
-    });
 
     socket.on('receiveMessage', event => {
-      //console.log('Printing in Receive Message:  ', event.chatMessage);
+      console.log('Printing in Receive Message:  ', event.chatMessage);
 
       let temp = [];
       const {message, timestamp, sender_number, out, id} = event.chatMessage;
@@ -135,6 +132,9 @@ const ChatScreen = props => {
   }, []);
 
   const messageSend = (message = []) => {
+    setMessages(previousMessages =>
+      GiftedChat.append(previousMessages, message),
+    );
     let params = {
       from: value,
       to: Number,
@@ -142,9 +142,7 @@ const ChatScreen = props => {
     };
     HitApi(SENDMESSAGE, 'POST', params, token).then(res => {
       if (res.status == 1) {
-        setMessages(previousMessages =>
-          GiftedChat.append(previousMessages, message),
-        );
+        return;
       } else {
         Toast.showWithGravity(
           JSON.stringify(res.errors),
@@ -215,8 +213,8 @@ const ChatScreen = props => {
                 marginHorizontal: wp(8),
                 marginBottom: hp(3),
                 borderRadius: wp(10),
-                borderColor: 'white',
-                borderWidth: 1,
+                // borderColor: 'white',
+                // borderWidth: 1,
               }}
               renderSend={props => {
                 return (
