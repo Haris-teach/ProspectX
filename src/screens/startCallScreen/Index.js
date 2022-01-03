@@ -57,75 +57,69 @@ const CallStart = props => {
   }, []);
 
   return (
-    <SafeAreaView style={{flex: 1}}>
-      <ImageBackground
-        source={images.splashBackground}
-        style={AllStyles.mainContainer}>
-        <View style={AllStyles.incomingCallStartView}>
-          <View style={AllStyles.incomingCallInnerView}>
-            <Text style={AllStyles.incomingNumberStyle}>
-              {props.route.params.name}
-            </Text>
-            <Text style={AllStyles.incomingRingingStyle}>
-              {' '}
-              {minutes > 59 ? (hours < 10 ? `0${hours}` : hours) : null}{' '}
-              {hours === 1 ? `:` : null}{' '}
-              {minutes < 10 ? `0${minutes}` : minutes} :{' '}
-              {seconds < 10 ? `0${seconds}` : seconds}
-            </Text>
-          </View>
+    //<SafeAreaView style={{flex: 1}}>
+    <ImageBackground
+      source={images.splashBackground}
+      style={AllStyles.mainContainer}>
+      <View style={AllStyles.incomingCallStartView}>
+        <View style={AllStyles.incomingCallInnerView}>
+          <Text style={AllStyles.incomingNumberStyle}>
+            {props.route.params.name}
+          </Text>
+          <Text style={AllStyles.incomingRingingStyle}>
+            {' '}
+            {minutes > 59 ? (hours < 10 ? `0${hours}` : hours) : null}{' '}
+            {hours === 1 ? `:` : null} {minutes < 10 ? `0${minutes}` : minutes}{' '}
+            : {seconds < 10 ? `0${seconds}` : seconds}
+          </Text>
         </View>
-        <View style={AllStyles.callStartBottomView}>
-          <View style={AllStyles.callStartButtonRow}>
-            <View style={AllStyles.startCallfirstColumn}>
-              <TouchableOpacity
-                onPress={() => setMute(!mute)}
-                style={[
-                  AllStyles.startCallMikeView,
-                  {backgroundColor: 'white'},
-                ]}>
-                {mute === true ? (
-                  <MuteMike height={20} width={20} />
-                ) : (
-                  <Mike height={20} width={20} />
-                )}
-              </TouchableOpacity>
-              <Text style={AllStyles.callStartMuteStyle}>{MUTE_TEXT}</Text>
-            </View>
-
-            <View style={AllStyles.startCallfirstColumn}>
-              <TouchableOpacity
-                onPress={() => setIsSpeaker(!isSpeaker)}
-                style={[
-                  AllStyles.startCallSpeakerView,
-                  {
-                    backgroundColor:
-                      isSpeaker == false ? 'white' : 'rgba(255,255,255,0.4)',
-                  },
-                ]}>
-                <Speaker height={20} width={20} />
-              </TouchableOpacity>
-              <Text style={AllStyles.callStartSpeakerStyle}>
-                {SPEAKER_TEXT}
-              </Text>
-            </View>
-          </View>
-        </View>
-        <View style={AllStyles.startCallBottomView}>
-          <LinearGradient
-            colors={['#F66E66', '#E23434']}
-            style={AllStyles.declineGradientButton}
-            start={{y: 0.0, x: 0.0}}
-            end={{y: 1.0, x: 1.0}}>
+      </View>
+      <View style={AllStyles.callStartBottomView}>
+        <View style={AllStyles.callStartButtonRow}>
+          <View style={AllStyles.startCallfirstColumn}>
             <TouchableOpacity
-              onPress={() => props.navigation.navigate('Home')}
-              style={AllStyles.startCallDeclineButton}>
-              <CallDecline />
+              onPress={() => setMute(!mute)}
+              style={[AllStyles.startCallMikeView, {backgroundColor: 'white'}]}>
+              {mute === true ? (
+                <MuteMike height={20} width={20} />
+              ) : (
+                <Mike height={20} width={20} />
+              )}
             </TouchableOpacity>
-          </LinearGradient>
+            <Text style={AllStyles.callStartMuteStyle}>{MUTE_TEXT}</Text>
+          </View>
+
+          <View style={AllStyles.startCallfirstColumn}>
+            <TouchableOpacity
+              onPress={() => setIsSpeaker(!isSpeaker)}
+              style={[
+                AllStyles.startCallSpeakerView,
+                {
+                  backgroundColor:
+                    isSpeaker == false ? 'white' : 'rgba(255,255,255,0.4)',
+                },
+              ]}>
+              <Speaker height={20} width={20} />
+            </TouchableOpacity>
+            <Text style={AllStyles.callStartSpeakerStyle}>{SPEAKER_TEXT}</Text>
+          </View>
         </View>
-      </ImageBackground>
-    </SafeAreaView>
+      </View>
+      <View style={AllStyles.startCallBottomView}>
+        <LinearGradient
+          colors={['#F66E66', '#E23434']}
+          style={AllStyles.declineGradientButton}
+          start={{y: 0.0, x: 0.0}}
+          end={{y: 1.0, x: 1.0}}>
+          <TouchableOpacity
+            onPress={() => props.navigation.navigate('Home')}
+            style={AllStyles.startCallDeclineButton}>
+            <CallDecline />
+          </TouchableOpacity>
+        </LinearGradient>
+      </View>
+    </ImageBackground>
+    // </SafeAreaView>
   );
 };
 export default CallStart;

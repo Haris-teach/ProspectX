@@ -1,7 +1,12 @@
 //========================================= React Native Import Files ============================
 
 import React, {useState, useEffect, useCallback} from 'react';
-import {ImageBackground, View, TouchableOpacity} from 'react-native';
+import {
+  ImageBackground,
+  View,
+  TouchableOpacity,
+  ActivityIndicator,
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import AllStyles from '../../all_styles/All_Styles';
 import {
@@ -23,7 +28,7 @@ import images from '../../assets/images/Images';
 import colors from '../../assets/colors/Colors';
 import fonts from '../../assets/fonts/Fonts';
 import HitApi from '../../HitApis/APIHandler';
-import {SENDMESSAGE, GETMSGS} from '../../HitApis/Urls';
+import {SENDMESSAGE, GETMSGS, GETMSGSBYNUMBER} from '../../HitApis/Urls';
 
 var count = 0;
 const ChatScreen = props => {
@@ -61,10 +66,10 @@ const ChatScreen = props => {
       setItems(items);
     });
 
-    setValue(PhoneNumbers[1].value);
+    //setValue(PhoneNumbers[1].value);
 
     //console.log('first Phone number:   ', value, Number);
-    var socket = io('https://a6c5-182-185-215-252.ngrok.io', {
+    var socket = io('https://c3d8-182-185-190-89.ngrok.io', {
       transportOptions: {
         polling: {
           extraHeaders: {
@@ -131,10 +136,49 @@ const ChatScreen = props => {
     });
   }, []);
 
+  const MSGFliterByNumber = value => {
+    let params = {
+      to: Number,
+      from: value,
+    };
+    HitApi(GETMSGSBYNUMBER, 'POST', params, token).then(res => {
+      if (res.status == 1) {
+        let msgs = [];
+        res.data.forEach((msg, index) => {
+          if (msg) {
+            const {message, timestamp, second, out} = msg;
+            let data = {
+              _id: index,
+              text: message,
+              createdAt: moment(timestamp),
+              user: {
+                _id: out == true ? CurrentUserId : 2,
+                name: second,
+                avatar: null,
+              },
+            };
+            msgs.push(data);
+          }
+        });
+        let Data = msgs.sort(function compare(a, b) {
+          var dateA = new Date(a.createdAt);
+          var dateB = new Date(b.createdAt);
+          return dateB - dateA;
+        });
+        setMessages(Data);
+      } else {
+        Toast.showWithGravity(
+          JSON.stringify(res.errors),
+          Toast.SHORT,
+          Toast.BOTTOM,
+          setMessages([]),
+        );
+      }
+    });
+  };
+
   const messageSend = (message = []) => {
-    setMessages(previousMessages =>
-      GiftedChat.append(previousMessages, message),
-    );
+    setIsLoading(true);
     let params = {
       from: value,
       to: Number,
@@ -142,8 +186,12 @@ const ChatScreen = props => {
     };
     HitApi(SENDMESSAGE, 'POST', params, token).then(res => {
       if (res.status == 1) {
-        return;
+        setMessages(previousMessages =>
+          GiftedChat.append(previousMessages, message),
+        );
+        setIsLoading(false);
       } else {
+        setIsLoading(false);
         Toast.showWithGravity(
           JSON.stringify(res.errors),
           Toast.SHORT,
@@ -157,7 +205,6 @@ const ChatScreen = props => {
       source={images.splashBackground}
       style={AllStyles.mainContainer}>
       {/* Header Code */}
-
       <View style={styles.headerContainer}>
         <TouchableOpacity
           onPress={() => props.navigation.goBack()}
@@ -192,6 +239,7 @@ const ChatScreen = props => {
         textStyle={{color: 'black', marginHorizontal: wp(3), fontSize: wp(4)}}
         labelStyle={{color: 'black'}}
         setValue={setValue}
+        onChangeValue={value => MSGFliterByNumber(value)}
         setItems={setItems}
       />
 
@@ -211,7 +259,7 @@ const ChatScreen = props => {
                 //backgroundColor: 'red',
                 backgroundColor: 'rgba(255, 255, 255, 0.46)',
                 marginHorizontal: wp(8),
-                marginBottom: hp(3),
+                // marginBottom: hp(3),
                 borderRadius: wp(10),
                 // borderColor: 'white',
                 // borderWidth: 1,
@@ -233,7 +281,11 @@ const ChatScreen = props => {
                         alignItems: 'center',
                         alignSelf: 'center',
                       }}>
-                      <Fly alignSelf="center" width={30} height={30} />
+                      {isLoading == false ? (
+                        <Fly alignSelf="center" width={30} height={30} />
+                      ) : (
+                        <ActivityIndicator color="white" />
+                      )}
                     </Send>
                   </LinearGradient>
                 );
@@ -254,7 +306,7 @@ const ChatScreen = props => {
         }}
         messagesContainerStyle={{
           marginHorizontal: wp(3),
-          marginTop: hp(-5.5),
+          marginTop: hp(-2.5),
           //backgroundColor: 'red',
         }}
         renderAvatar={() => {
@@ -302,7 +354,7 @@ const ChatScreen = props => {
         }}
         // inverted={true}
         // alignTop
-        // isTyping={true}
+        isTyping={true}
         // infiniteScroll
         alwaysShowSend={true}
         showUserAvatar={false}

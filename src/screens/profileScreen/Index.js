@@ -1,7 +1,8 @@
 //============================= React Native Import Files =================================
-import React from 'react';
-import {ImageBackground, View, Image, SafeAreaView} from 'react-native';
+import React, {useState} from 'react';
+import {ImageBackground, View, Image, TouchableOpacity} from 'react-native';
 import {useDispatch} from 'react-redux';
+//import DocumentPicker from 'react-native-document-picker';
 
 //============================= Local Import Files ========================================
 import AllStyles from '../../all_styles/All_Styles';
@@ -27,6 +28,30 @@ import {logout} from '../../redux/Actions/authActions';
 
 const ProfileScreen = props => {
   const dispatch = useDispatch();
+  const [fileUri, setFileURI] = useState(null);
+
+  // const Documentpicker = async () => {
+  //   try {
+  //     const res = await DocumentPicker.pick({
+  //       type: [DocumentPicker.types.images],
+  //     });
+  //     console.log(
+  //       // res.uri,
+  //       // res.type, // mime type
+  //       // res.name,
+  //       // res.size,
+  //       res.map(i => i.uri),
+  //     );
+  //     let uri = res.map(i => i.name);
+  //     setFileURI(uri.toString());
+  //   } catch (err) {
+  //     if (DocumentPicker.isCancel(err)) {
+  //       // User cancelled the picker, exit any dialogs or menus and move on
+  //     } else {
+  //       throw err;
+  //     }
+  //   }
+  // };
 
   return (
     <ImageBackground
@@ -38,9 +63,17 @@ const ProfileScreen = props => {
         leftIconPress={() => props.navigation.goBack(null)}
       />
 
-      <View style={AllStyles.profileImageView}>
-        <Image source={images.profile} style={AllStyles.profileImageStyle} />
-      </View>
+      <TouchableOpacity
+        disabled={true}
+        style={AllStyles.profileImageView}
+        // onPress={() => Documentpicker()}
+      >
+        <Image
+          source={images.profile}
+          style={AllStyles.profileImageStyle}
+          resizeMode="contain"
+        />
+      </TouchableOpacity>
 
       <View style={AllStyles.profileComponentInnerRow}>
         <ProfileComponent

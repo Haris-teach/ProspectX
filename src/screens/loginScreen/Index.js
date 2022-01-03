@@ -1,5 +1,5 @@
 //========================================== React Native Import Files ===========================
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useState, useEffect} from 'react';
 import {
   ImageBackground,
@@ -75,7 +75,7 @@ const LoginScreen = props => {
 
   //============= Funtion for Login USer ======================
 
-  const Login_User = v => {
+  const Login_User = async v => {
     setLoading(true);
     let params = {
       email: v.email,
@@ -86,13 +86,13 @@ const LoginScreen = props => {
       if (res.status == 1) {
         setError(null);
         setLoading(false);
-
         let token = res.data.auth.access_token;
         let firstName = res.data.user.firstname;
         let lastName = res.data.user.lastname;
-        let id = res.data.user.external_user_id;
+        let id = res.data.user.id;
         let email = res.data.user.email;
         dispatch(Login(token, '', firstName, lastName, id, email));
+        AsyncStorage.setItem('Token', token);
       } else {
         setError(res.errors);
         setLoading(false);

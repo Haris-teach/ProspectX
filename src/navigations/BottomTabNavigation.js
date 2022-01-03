@@ -49,6 +49,7 @@ const customTabBarStyle = {
 };
 
 const height_screen = Dimensions.get('window').height;
+console.log('HEIGHT:   ', height_screen);
 
 const TabScreen = () => (
   <Tab.Navigator screenOptions={customTabBarStyle}>
@@ -68,6 +69,8 @@ const TabScreen = () => (
             Platform.OS === 'ios'
               ? height_screen < 675
                 ? hp(1)
+                : height_screen == 736
+                ? hp(0)
                 : -hp(3)
               : hp(1),
         },
@@ -86,10 +89,14 @@ const TabScreen = () => (
           alignSelf: 'center',
           marginLeft: wp('3%'),
           marginRight: wp('3%'),
+          alignItems: 'center',
+          alignContent: 'center',
           marginBottom:
             Platform.OS === 'ios'
               ? height_screen < 675
                 ? hp(1)
+                : height_screen == 736
+                ? hp(0)
                 : -hp(3)
               : hp(1),
         },
@@ -110,6 +117,8 @@ const TabScreen = () => (
             Platform.OS === 'ios'
               ? height_screen < 675
                 ? hp(1)
+                : height_screen == 736
+                ? hp(0)
                 : -hp(3)
               : hp(1),
         },

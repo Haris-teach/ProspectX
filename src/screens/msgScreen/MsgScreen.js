@@ -68,6 +68,7 @@ const MsgScreen = props => {
   const [msgData, setMsgData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(1);
+  const [count, setCount] = useState(0);
   const [pageSize, setPageSize] = useState(10);
 
   const PhoneNumbers = useSelector(state => state.commonReducer.Numbers);
@@ -79,7 +80,7 @@ const MsgScreen = props => {
   // ============== GET all msgs threads function ================
 
   const MsgsThreads = pageVAl => {
-    console.log('PAGES:   ', page);
+    setIsLoading(true);
     let params = {
       filters: {
         numbers: pageVAl === 'All' ? [] : [pageVAl],
@@ -111,9 +112,10 @@ const MsgScreen = props => {
   }, [isFocused]);
 
   const LoadMoreData = () => {
-    if (msgData.length > 10) {
+    if (msgData.length > 9) {
       console.log('Trigger ho reha ha');
       setPage(page + 1);
+      MsgsThreads(page + 1);
     }
     // setPageSize(5);
     // MsgsThreads('All');
