@@ -6,7 +6,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {useSelector, useDispatch} from 'react-redux';
 import io from 'socket.io-client';
-import BackgroundTimer from 'react-native-background-timer';
+
 //======================================= Local Import Files ===============================
 import LoginScreen from '../screens/loginScreen/Index';
 import SplashScreen from '../screens/splashScreen/Index';

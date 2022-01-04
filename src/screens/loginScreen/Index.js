@@ -75,14 +75,14 @@ const LoginScreen = props => {
 
   //============= Funtion for Login USer ======================
 
-  const Login_User = async v => {
+  const Login_User = v => {
     setLoading(true);
     let params = {
       email: v.email,
       password: v.password,
     };
 
-    HitApi(LOGIN, 'POST', params).then(res => {
+    HitApi(LOGIN, 'POST', params).then(async res => {
       if (res.status == 1) {
         setError(null);
         setLoading(false);
@@ -92,7 +92,7 @@ const LoginScreen = props => {
         let id = res.data.user.id;
         let email = res.data.user.email;
         dispatch(Login(token, '', firstName, lastName, id, email));
-        AsyncStorage.setItem('Token', token);
+        await AsyncStorage.setItem('Token', token);
       } else {
         setError(res.errors);
         setLoading(false);

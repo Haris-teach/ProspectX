@@ -17,6 +17,7 @@ import {
 import {useIsFocused} from '@react-navigation/native';
 import {useSelector, useDispatch} from 'react-redux';
 import moment from 'moment';
+import io from 'socket.io-client';
 
 // ================local import=================
 import images from '../../assets/images/Images';
@@ -80,7 +81,6 @@ const MsgScreen = props => {
   // ============== GET all msgs threads function ================
 
   const MsgsThreads = pageVAl => {
-    setIsLoading(true);
     let params = {
       filters: {
         numbers: pageVAl === 'All' ? [] : [pageVAl],
@@ -96,7 +96,7 @@ const MsgScreen = props => {
         if (page == 1) {
           setMsgData(res.data);
         } else {
-          setMsgData(...msgData, ...res.data);
+          setMsgData([...msgData, ...res.data]);
         }
         setIsLoading(false);
       } else {
@@ -113,9 +113,9 @@ const MsgScreen = props => {
 
   const LoadMoreData = () => {
     if (msgData.length > 9) {
-      console.log('Trigger ho reha ha');
       setPage(page + 1);
-      MsgsThreads(page + 1);
+      console.log('Trigger ho reha ha:', page, value);
+      MsgsThreads(value);
     }
     // setPageSize(5);
     // MsgsThreads('All');
@@ -194,6 +194,7 @@ const MsgScreen = props => {
           setItems={setItems}
           onPress={value => {
             setPage(1);
+            setIsLoading(true);
             MsgsThreads(value.value);
           }}
           onPress2={() => console.log('Pressed')}
@@ -219,13 +220,7 @@ const MsgScreen = props => {
           )}
         </View>
       </View>
-      {/* <View style={{marginBottom: hp(7)}}>
-        <FloatingAction
-          floatingIcon={<Pen />}
-          //onPressMain={() => props.navigation.navigate('Chat')}
-          overlayColor="red"
-        />
-      </View> */}
+
       <TouchableOpacity
         disabled
         activeOpacity={0.5}

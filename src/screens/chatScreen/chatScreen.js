@@ -28,9 +28,13 @@ import images from '../../assets/images/Images';
 import colors from '../../assets/colors/Colors';
 import fonts from '../../assets/fonts/Fonts';
 import HitApi from '../../HitApis/APIHandler';
-import {SENDMESSAGE, GETMSGS, GETMSGSBYNUMBER} from '../../HitApis/Urls';
+import {
+  SENDMESSAGE,
+  GETMSGS,
+  GETMSGSBYNUMBER,
+  BASE_URL,
+} from '../../HitApis/Urls';
 
-var count = 0;
 const ChatScreen = props => {
   const PhoneNumbers = useSelector(state => state.commonReducer.Numbers);
   const token = useSelector(state => state.authReducer.token);
@@ -66,10 +70,10 @@ const ChatScreen = props => {
       setItems(items);
     });
 
-    //setValue(PhoneNumbers[1].value);
+    setValue(PhoneNumbers[2].value);
 
     //console.log('first Phone number:   ', value, Number);
-    var socket = io('https://c3d8-182-185-190-89.ngrok.io', {
+    var socket = io(BASE_URL, {
       transportOptions: {
         polling: {
           extraHeaders: {
