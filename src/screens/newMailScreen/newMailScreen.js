@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   TextInput,
   Platform,
+  Alert,
 } from 'react-native';
 import {FloatingAction} from 'react-native-floating-action';
 import AllStyles from '../../all_styles/All_Styles';
@@ -58,20 +59,17 @@ const NewMailScreen = props => {
   const Documentpicker = async () => {
     try {
       const res = await DocumentPicker.pick({
-        type: [DocumentPicker.types.pdf],
+        type: [DocumentPicker.types.allFiles],
+        allowMultiSelection: true,
+        presentationStyle: 'fullScreen',
       });
-      console.log(
-        // res.uri,
-        // res.type, // mime type
-        // res.name,
-        // res.size,
-        res.map(i => i.uri),
-      );
-      let uri = res.map(i => i.name);
-      setFileURI(uri.toString());
+
+      console.log('Document picker response:    ', res);
+      // let uri = res.map(i => i.name);
+      // setFileURI(uri.toString());
     } catch (err) {
       if (DocumentPicker.isCancel(err)) {
-        // User cancelled the picker, exit any dialogs or menus and move on
+        // User cancelled the picker, exit any dialogs or menus and mo
       } else {
         throw err;
       }
@@ -83,125 +81,127 @@ const NewMailScreen = props => {
       style={AllStyles.mainContainer}
       behavior={Platform.OS == 'ios' ? 'padding' : null}>
       <ImageBackground source={images.splashBackground} style={{flex: 1}}>
-        <ScrollView style={{flex: 1}}>
-          {/* Header Code */}
-          <View style={styles.headerContainer}>
-            <TouchableOpacity
-              onPress={() => props.navigation.goBack()}
-              style={styles.backButton}>
-              <BackArrow height={15} width={15} />
-            </TouchableOpacity>
-            {/* <Text style={styles.headerText}>Change Password</Text> */}
-          </View>
-          {/* -------------------------------------------------------------------------- */}
-          <>
-            <DropDownPicker
-              props={{activeOpacity: 1}}
-              style={styles.dropdownStyle}
-              open={open}
-              placeholder="Select email for mail"
-              searchPlaceholderTextColor="#AAB1BC"
-              placeholderStyle={{
-                color: '#AAB1BC',
-                fontFamily: fonts.regular,
-                fontSize: wp(3.6),
-                marginHorizontal: wp(3),
-              }}
-              value={value}
-              items={items}
-              setOpen={setOpen}
-              showArrowIcon={true}
-              showTickIcon={false}
-              dropDownContainerStyle={styles.dropDownContainerStyle}
-              arrowIconStyle={styles.arrowIconStyle}
-              listItemLabelStyle={{color: 'black'}}
-              containerStyle={styles.containerStyle}
-              textStyle={{color: 'black', marginHorizontal: wp(3)}}
-              labelStyle={{color: 'black'}}
-              setValue={setValue}
-              setItems={setItems}
-            />
-          </>
+        {/* Header Code */}
+        <View style={styles.headerContainer}>
+          <TouchableOpacity
+            onPress={() => props.navigation.goBack()}
+            style={styles.backButton}>
+            <BackArrow height={15} width={15} />
+          </TouchableOpacity>
+          {/* <Text style={styles.headerText}>Change Password</Text> */}
+        </View>
+        {/* -------------------------------------------------------------------------- */}
+        <>
+          <DropDownPicker
+            props={{activeOpacity: 1}}
+            style={styles.dropdownStyle}
+            open={open}
+            placeholder="Select email for mail"
+            searchPlaceholderTextColor="#AAB1BC"
+            placeholderStyle={{
+              color: '#AAB1BC',
+              fontFamily: fonts.regular,
+              fontSize: wp(3.6),
+              marginHorizontal: wp(3),
+            }}
+            value={value}
+            items={items}
+            setOpen={setOpen}
+            showArrowIcon={true}
+            showTickIcon={false}
+            dropDownContainerStyle={styles.dropDownContainerStyle}
+            arrowIconStyle={styles.arrowIconStyle}
+            listItemLabelStyle={{color: 'black'}}
+            containerStyle={styles.containerStyle}
+            textStyle={{color: 'black', marginHorizontal: wp(3)}}
+            labelStyle={{color: 'black'}}
+            setValue={setValue}
+            setItems={setItems}
+          />
+        </>
 
-          <View style={styles.toContainer}>
-            <Text style={styles.toStyle}>To :</Text>
-            <TextInput
-              //placeholder="Type"
-              numberOfLines={1}
-              style={{width: wp(60)}}
-            />
-          </View>
+        <View style={styles.toContainer}>
+          <Text style={styles.toStyle}>To :</Text>
+          <TextInput
+            //placeholder="Type"
+            numberOfLines={1}
+            style={{width: wp(60)}}
+          />
+        </View>
 
-          <View
+        <View
+          style={{
+            marginHorizontal: wp(10),
+            borderRadius: wp(4),
+            backgroundColor: 'rgba(255, 255, 255, 0.72)',
+            height: hp(55),
+            //backgroundColor: 'red',
+          }}>
+          <Text
             style={{
-              marginHorizontal: wp(10),
-              borderRadius: wp(4),
-              backgroundColor: 'rgba(255, 255, 255, 0.72)',
-              height: hp(55),
+              fontSize: wp(3.4),
+              marginHorizontal: wp(5),
+              marginVertical: hp(2),
+              color: 'black',
+              fontFamily: 'Sf Pro Text',
+              opacity: 0.6,
+            }}>
+            Email Subject
+          </Text>
+          <TextInput
+            placeholder="Write your subject"
+            placeholderTextColor="gray"
+            style={{
+              marginHorizontal: wp(5),
+              // backgroundColor: 'red',
+              marginTop: hp(-2.5),
+              height: hp(5),
+              color: 'black',
+            }}
+          />
+          <Text
+            style={{
+              fontSize: wp(3.4),
+              marginHorizontal: wp(5),
+              color: 'black',
+              fontFamily: 'Sf Pro Text',
+            }}>
+            Email Content
+          </Text>
+          <TextInput
+            placeholder="Write your content"
+            placeholderTextColor="gray"
+            style={{
+              marginHorizontal: wp(5),
+              height: hp(20),
+              textAlignVertical: 'top',
               //backgroundColor: 'red',
-            }}>
-            <Text
-              style={{
-                fontSize: wp(3.4),
-                marginHorizontal: wp(5),
-                marginVertical: hp(2),
-                color: 'black',
-                fontFamily: 'Sf Pro Text',
-                opacity: 0.6,
-              }}>
-              Email Subject
-            </Text>
-            <TextInput
-              // placeholder="tyoe"
-              style={{
-                marginHorizontal: wp(5),
-                marginTop: hp(-1),
+              color: 'black',
+            }}
+            multiline={true}
+            //numberOfLines={10}
+          />
+        </View>
+        <View style={{marginRight: wp(4), marginTop: hp(2)}}>
+          <FloatingAction
+            backgroundColor="red"
+            floatingIcon={<PaperClip />}
+            onPressMain={() => Documentpicker()}
+          />
+        </View>
 
-                height: hp(5),
-              }}
-            />
-            <Text
-              style={{
-                fontSize: wp(3.4),
-                marginHorizontal: wp(5),
-                color: 'black',
-                fontFamily: 'Sf Pro Text',
-              }}>
-              Email Content
-            </Text>
-            <TextInput
-              // placeholder="tyoe"
-              style={{
-                marginHorizontal: wp(5),
-                height: hp(25),
-                textAlignVertical: 'top',
-                //backgroundColor: 'red',
-              }}
-              multiline={true}
-              //numberOfLines={10}
-            />
-          </View>
-          <View style={{marginRight: wp(4), marginTop: hp(2)}}>
-            <FloatingAction
-              backgroundColor="red"
-              floatingIcon={<PaperClip />}
-              onPressMain={() => Documentpicker()}
-            />
-          </View>
-
-          <View
-            style={{
-              alignSelf: 'center',
-              width: wp(83),
-              marginBottom: hp(3),
-              marginTop: hp(-1),
-            }}>
-            <GradientButton
-              //onPress={() => alert('Flow is pending')}
-              title={'Send'}
-            />
-          </View>
-        </ScrollView>
+        <View
+          style={{
+            alignSelf: 'center',
+            width: wp(83),
+            marginBottom: hp(3),
+            marginTop: hp(-1),
+          }}>
+          <GradientButton
+            //onPress={() => alert('Flow is pending')}
+            title={'Send'}
+          />
+        </View>
       </ImageBackground>
     </KeyboardAvoidingView>
   );

@@ -216,6 +216,7 @@ const MsgScreen = props => {
               keyExtractor={item => item.latesttime}
               onEndReachedThreshold={0}
               onEndReached={() => LoadMoreData()}
+              showsVerticalScrollIndicator={false}
             />
           )}
         </View>

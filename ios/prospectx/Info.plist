@@ -36,7 +36,7 @@
 		</dict>
 	</dict>
 	<key>NSDocumentsFolderUsageDescription</key>
-	<string>Prospectx use ios document</string>
+	<string>Prospectx want to access your document</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>ProspectX want to access your location for getting user current location</string>
 	<key>UIAppFonts</key>

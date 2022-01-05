@@ -229,6 +229,7 @@ const CallScreen = props => {
 
         <SectionList
           stickySectionHeadersEnabled={false}
+          showsVerticalScrollIndicator={false}
           style={{
             marginBottom: -hp(0.2),
             zIndex: Platform.OS == 'ios' ? -1 : 0,

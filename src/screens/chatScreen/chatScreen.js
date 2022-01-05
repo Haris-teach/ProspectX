@@ -6,6 +6,7 @@ import {
   View,
   TouchableOpacity,
   ActivityIndicator,
+  Keyboard,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import AllStyles from '../../all_styles/All_Styles';
@@ -49,6 +50,7 @@ const ChatScreen = props => {
   const [messages, setMessages] = useState([]);
   const [textMsg, setTextMsg] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
 
   const [value, setValue] = useState('');
   const [open, setOpen] = useState(false);
@@ -204,6 +206,26 @@ const ChatScreen = props => {
       }
     });
   };
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      () => {
+        setKeyboardVisible(true); // or some other action
+      },
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      () => {
+        setKeyboardVisible(false); // or some other action
+      },
+    );
+
+    return () => {
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    };
+  }, []);
   return (
     <ImageBackground
       source={images.splashBackground}
@@ -310,7 +332,9 @@ const ChatScreen = props => {
         }}
         messagesContainerStyle={{
           marginHorizontal: wp(3),
-          marginTop: hp(-2.5),
+          marginTop: hp(-7.8),
+          height: isKeyboardVisible ? hp(25) : hp(65),
+
           //backgroundColor: 'red',
         }}
         renderAvatar={() => {
@@ -365,7 +389,7 @@ const ChatScreen = props => {
         showAvatarForEveryMessage={false}
         //scrollToBottom
         // isanimated={true}
-        isKeyboardInternallyHandled={true}
+        //isKeyboardInternallyHandled={false}
         //scrollToBottomOffset={1}
       />
     </ImageBackground>
