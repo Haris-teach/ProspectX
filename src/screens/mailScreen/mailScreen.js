@@ -152,24 +152,11 @@ const MailScreen = props => {
       <TouchableOpacity
         activeOpacity={1}
         onPress={() => props.navigation.navigate('NewMailScreen')}
-        style={{
-          height: hp(8),
-          width: wp(20),
-          alignSelf: 'flex-end',
-          bottom: hp(8),
-          marginRight: wp(5),
-        }}>
+        style={styles.floatingActionStyle}>
         <LinearGradient
           colors={['#6FB3FF', '#7F5AFF']}
           start={{y: 0.0, x: 0.0}}
-          style={{
-            borderRadius: hp(7),
-            height: hp(7),
-            width: hp(7),
-            justifyContent: 'center',
-            alignItems: 'center',
-            alignSelf: 'center',
-          }}
+          style={styles.floatingBtnStyle}
           end={{y: 0.0, x: 1.0}}>
           <Pen />
         </LinearGradient>
@@ -318,5 +305,20 @@ const styles = {
     marginHorizontal: wp(10),
     opacity: 0.1,
     marginTop: hp(-1),
+  },
+  floatingActionStyle: {
+    height: hp(8),
+    width: wp(20),
+    alignSelf: 'flex-end',
+    bottom: hp(8),
+    marginRight: wp(5),
+  },
+  floatingBtnStyle: {
+    borderRadius: hp(7),
+    height: hp(7),
+    width: hp(7),
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
   },
 };

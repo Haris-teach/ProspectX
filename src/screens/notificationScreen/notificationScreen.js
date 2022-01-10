@@ -121,6 +121,13 @@ const NotificationScreen = props => {
       fontSize: wp(3.4),
       marginVertical: hp(0.3),
     },
+
+    flatListStyle: {
+      flex: 1,
+      marginTop: hp(4),
+      marginBottom: hp(2),
+      marginHorizontal: wp(6),
+    },
   };
 
   const renderItem = ({item, index}) => {
@@ -236,13 +243,7 @@ const NotificationScreen = props => {
       </View>
       {/* -------------------------------------------------------------------------- */}
 
-      <View
-        style={{
-          flex: 1,
-          marginTop: hp(4),
-          marginBottom: hp(2),
-          marginHorizontal: wp(6),
-        }}>
+      <View style={styles.flatListStyle}>
         <FlatList
           showsVerticalScrollIndicator={false}
           data={data}

@@ -257,27 +257,11 @@ const CallScreen = props => {
         <TouchableOpacity
           activeOpacity={0.5}
           onPress={() => sizeSheet.current.open()}
-          style={{
-            height: hp(8),
-            width: wp(20),
-            alignSelf: 'flex-end',
-            bottom: hp(8),
-            marginRight: wp(5),
-            //justifyContent: 'flex-end',
-            //alignItems: 'flex-end',
-            //backgroundColor: 'red',
-          }}>
+          style={styles.actionStyle}>
           <LinearGradient
             colors={['#6FB3FF', '#7F5AFF']}
             start={{y: 0.0, x: 0.0}}
-            style={{
-              borderRadius: hp(7),
-              height: hp(7),
-              width: hp(7),
-              justifyContent: 'center',
-              alignItems: 'center',
-              alignSelf: 'center',
-            }}
+            style={styles.actionBtnStyle}
             end={{y: 0.0, x: 1.0}}>
             <Dilar />
           </LinearGradient>
@@ -555,5 +539,20 @@ const styles = {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginVertical: hp(1),
+  },
+  actionStyle: {
+    height: hp(8),
+    width: wp(20),
+    alignSelf: 'flex-end',
+    bottom: hp(8),
+    marginRight: wp(5),
+  },
+  actionBtnStyle: {
+    borderRadius: hp(7),
+    height: hp(7),
+    width: hp(7),
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
   },
 };

@@ -1,6 +1,6 @@
 //========================================= React Native Import Files ============================
 
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   ImageBackground,
   Text,
@@ -12,6 +12,10 @@ import {
   Platform,
   Alert,
 } from 'react-native';
+var axios = require('axios');
+var FormData = require('form-data');
+import {useSelector} from 'react-redux';
+var data = new FormData();
 import {FloatingAction} from 'react-native-floating-action';
 import AllStyles from '../../all_styles/All_Styles';
 import {
@@ -28,15 +32,21 @@ import PaperClip from '../../assets/svg/paperClip.svg';
 import images from '../../assets/images/Images';
 import colors from '../../assets/colors/Colors';
 import fonts from '../../assets/fonts/Fonts';
+import {SENDEMAIL} from '../../HitApis/Urls';
 
 const NewMailScreen = props => {
+  const token = useSelector(state => state.authReducer.token);
+
   const [value, setValue] = useState('Set Time');
+  const [toMail, setToMail] = useState('');
+  const [subj, setSubj] = useState('');
+  const [content, setcontent] = useState('');
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState([
     {
       id: 0,
-      label: 'test1@gmail.com',
-      value: 'test1@gmail.com',
+      label: 'muhammadharis4999@gmail.com',
+      value: 'muhammadharis4999@gmail.com',
     },
     {
       id: 1,
@@ -55,6 +65,7 @@ const NewMailScreen = props => {
     },
   ]);
   const [fileUri, setFileURI] = useState(null);
+  const [filePath, setFilePath] = useState(null);
 
   const Documentpicker = async () => {
     try {
@@ -64,9 +75,20 @@ const NewMailScreen = props => {
         presentationStyle: 'fullScreen',
       });
 
-      console.log('Document picker response:    ', res);
-      // let uri = res.map(i => i.name);
-      // setFileURI(uri.toString());
+      // console.log('Document picker response:    ', res);
+      let name = res.map(i => i.name);
+      let path = res.map(i => i.uri);
+
+      console.log('Response:  ', res);
+      res.forEach(element => {
+        data.append('file[]', {
+          uri: element.uri,
+          name: element.name,
+          type: element.type,
+        });
+      });
+
+      setFileURI(name.toString());
     } catch (err) {
       if (DocumentPicker.isCancel(err)) {
         // User cancelled the picker, exit any dialogs or menus and mo
@@ -76,132 +98,136 @@ const NewMailScreen = props => {
     }
   };
 
+  const SendEmail = () => {
+    data.append('from', value.toString());
+    data.append('to', toMail);
+    data.append('text', content);
+    data.append('subject', subj);
+
+    console.log('DATA:   ', data);
+    var config = {
+      method: 'post',
+      url: SENDEMAIL,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      data: data,
+    };
+
+    axios(config)
+      .then(function (response) {
+        console.log('Response:    ', JSON.stringify(response.data));
+      })
+      .catch(function (error) {
+        console.log(error.response);
+      });
+
+    setcontent('');
+    setSubj('');
+    setToMail('');
+    data = new FormData();
+    setFileURI(null);
+  };
+
   return (
     <KeyboardAvoidingView
       style={AllStyles.mainContainer}
       behavior={Platform.OS == 'ios' ? 'padding' : null}>
       <ImageBackground source={images.splashBackground} style={{flex: 1}}>
-        {/* Header Code */}
-        <View style={styles.headerContainer}>
-          <TouchableOpacity
-            onPress={() => props.navigation.goBack()}
-            style={styles.backButton}>
-            <BackArrow height={15} width={15} />
-          </TouchableOpacity>
-          {/* <Text style={styles.headerText}>Change Password</Text> */}
-        </View>
-        {/* -------------------------------------------------------------------------- */}
-        <>
-          <DropDownPicker
-            props={{activeOpacity: 1}}
-            style={styles.dropdownStyle}
-            open={open}
-            placeholder="Select email for mail"
-            searchPlaceholderTextColor="#AAB1BC"
-            placeholderStyle={{
-              color: '#AAB1BC',
-              fontFamily: fonts.regular,
-              fontSize: wp(3.6),
-              marginHorizontal: wp(3),
-            }}
-            value={value}
-            items={items}
-            setOpen={setOpen}
-            showArrowIcon={true}
-            showTickIcon={false}
-            dropDownContainerStyle={styles.dropDownContainerStyle}
-            arrowIconStyle={styles.arrowIconStyle}
-            listItemLabelStyle={{color: 'black'}}
-            containerStyle={styles.containerStyle}
-            textStyle={{color: 'black', marginHorizontal: wp(3)}}
-            labelStyle={{color: 'black'}}
-            setValue={setValue}
-            setItems={setItems}
-          />
-        </>
+        <ScrollView>
+          {/* Header Code */}
+          <View style={styles.headerContainer}>
+            <TouchableOpacity
+              onPress={() => props.navigation.goBack()}
+              style={styles.backButton}>
+              <BackArrow height={15} width={15} />
+            </TouchableOpacity>
+            {/* <Text style={styles.headerText}>Change Password</Text> */}
+          </View>
+          {/* -------------------------------------------------------------------------- */}
+          <>
+            <DropDownPicker
+              props={{activeOpacity: 1}}
+              style={styles.dropdownStyle}
+              open={open}
+              placeholder="Select email for mail"
+              searchPlaceholderTextColor="#AAB1BC"
+              placeholderStyle={{
+                color: '#AAB1BC',
+                fontFamily: fonts.regular,
+                fontSize: wp(3.6),
+                marginHorizontal: wp(3),
+              }}
+              value={value}
+              items={items}
+              setOpen={setOpen}
+              showArrowIcon={true}
+              showTickIcon={false}
+              dropDownContainerStyle={styles.dropDownContainerStyle}
+              arrowIconStyle={styles.arrowIconStyle}
+              listItemLabelStyle={{color: 'black'}}
+              containerStyle={styles.containerStyle}
+              textStyle={{color: 'black', marginHorizontal: wp(3)}}
+              labelStyle={{color: 'black'}}
+              setValue={setValue}
+              setItems={setItems}
+            />
+          </>
 
-        <View style={styles.toContainer}>
-          <Text style={styles.toStyle}>To :</Text>
-          <TextInput
-            //placeholder="Type"
-            numberOfLines={1}
-            style={{width: wp(60)}}
-          />
-        </View>
+          <View style={styles.toContainer}>
+            <Text style={styles.toStyle}>To :</Text>
+            <TextInput
+              //placeholder="Type"
+              numberOfLines={1}
+              style={{width: wp(60)}}
+              onChangeText={text => setToMail(text)}
+              value={toMail}
+            />
+          </View>
 
-        <View
-          style={{
-            marginHorizontal: wp(10),
-            borderRadius: wp(4),
-            backgroundColor: 'rgba(255, 255, 255, 0.72)',
-            height: hp(55),
-            //backgroundColor: 'red',
-          }}>
-          <Text
+          <View style={styles.subjectStyle}>
+            <Text style={styles.subjectTextStyle}>Email Subject</Text>
+            <TextInput
+              placeholder="Write your subject"
+              placeholderTextColor="gray"
+              onChangeText={text => setSubj(text)}
+              value={subj}
+              style={styles.subjectInputStyle}
+            />
+            <Text style={styles.contentTextStyle}>Email Content</Text>
+            <TextInput
+              placeholder="Write your content"
+              placeholderTextColor="gray"
+              onChangeText={text => setcontent(text)}
+              value={content}
+              style={styles.contentInputStyle}
+              multiline={true}
+              //numberOfLines={10}
+            />
+            {fileUri != null ? (
+              <View style={styles.uriBoxStyle}>
+                <Text style={{alignSelf: 'center'}}>{fileUri}</Text>
+              </View>
+            ) : null}
+          </View>
+          <View style={{marginRight: wp(4), marginTop: hp(2)}}>
+            <FloatingAction
+              backgroundColor="red"
+              floatingIcon={<PaperClip />}
+              onPressMain={() => Documentpicker()}
+            />
+          </View>
+
+          <View
             style={{
-              fontSize: wp(3.4),
-              marginHorizontal: wp(5),
-              marginVertical: hp(2),
-              color: 'black',
-              fontFamily: 'Sf Pro Text',
-              opacity: 0.6,
+              alignSelf: 'center',
+              width: wp(83),
+              marginBottom: hp(3),
+              marginTop: hp(-1),
             }}>
-            Email Subject
-          </Text>
-          <TextInput
-            placeholder="Write your subject"
-            placeholderTextColor="gray"
-            style={{
-              marginHorizontal: wp(5),
-              // backgroundColor: 'red',
-              marginTop: hp(-2.5),
-              height: hp(5),
-              color: 'black',
-            }}
-          />
-          <Text
-            style={{
-              fontSize: wp(3.4),
-              marginHorizontal: wp(5),
-              color: 'black',
-              fontFamily: 'Sf Pro Text',
-            }}>
-            Email Content
-          </Text>
-          <TextInput
-            placeholder="Write your content"
-            placeholderTextColor="gray"
-            style={{
-              marginHorizontal: wp(5),
-              height: hp(20),
-              textAlignVertical: 'top',
-              //backgroundColor: 'red',
-              color: 'black',
-            }}
-            multiline={true}
-            //numberOfLines={10}
-          />
-        </View>
-        <View style={{marginRight: wp(4), marginTop: hp(2)}}>
-          <FloatingAction
-            backgroundColor="red"
-            floatingIcon={<PaperClip />}
-            onPressMain={() => Documentpicker()}
-          />
-        </View>
-
-        <View
-          style={{
-            alignSelf: 'center',
-            width: wp(83),
-            marginBottom: hp(3),
-            marginTop: hp(-1),
-          }}>
-          <GradientButton
-            //onPress={() => alert('Flow is pending')}
-            title={'Send'}
-          />
-        </View>
+            <GradientButton onPress={SendEmail} title={'Send'} />
+          </View>
+        </ScrollView>
       </ImageBackground>
     </KeyboardAvoidingView>
   );
@@ -273,7 +299,8 @@ const styles = {
   },
   containerStyle: {
     alignSelf: 'center',
-    //backgroundColor: 'yellow',
+    // backgroundColor: 'yellow',
+
     width: wp(80),
   },
   mainContainer: {
@@ -308,6 +335,52 @@ const styles = {
     color: 'black',
     borderWidth: 0.5,
     borderColor: 'rgba(255, 255, 255, 1)',
+  },
+  subjectStyle: {
+    marginHorizontal: wp(10),
+    borderRadius: wp(4),
+    backgroundColor: 'rgba(255, 255, 255, 0.72)',
+    height: hp(55),
+    //backgroundColor: 'red',
+  },
+  subjectTextStyle: {
+    fontSize: wp(3.4),
+    marginHorizontal: wp(5),
+    marginVertical: hp(2),
+    color: 'black',
+    fontFamily: 'Sf Pro Text',
+    opacity: 0.6,
+  },
+  subjectInputStyle: {
+    marginHorizontal: wp(5),
+    // backgroundColor: 'red',
+    marginTop: hp(-2.5),
+
+    height: hp(5),
+    color: 'black',
+  },
+  contentTextStyle: {
+    fontSize: wp(3.4),
+    marginHorizontal: wp(5),
+    color: 'black',
+    fontFamily: 'Sf Pro Text',
+  },
+  contentInputStyle: {
+    marginHorizontal: wp(5),
+    height: hp(20),
+    textAlignVertical: 'top',
+    //backgroundColor: 'red',
+    color: 'black',
+  },
+  uriBoxStyle: {
+    //backgroundColor: 'yellow',
+    width: wp(70),
+    height: 100,
+    marginHorizontal: wp(5),
+    marginTop: hp(3),
+    justifyContent: 'center',
+    borderStyle: 'dashed',
+    borderWidth: 0.5,
   },
 };
 

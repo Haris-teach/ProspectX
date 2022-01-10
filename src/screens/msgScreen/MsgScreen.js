@@ -86,8 +86,8 @@ const MsgScreen = props => {
         numbers: pageVAl === 'All' ? [] : [pageVAl],
       },
       pagination: {
-        pageNumber: page,
-        pageSize: 10,
+        page_number: page,
+        page_size: 10,
       },
     };
     // setIsLoading(true);

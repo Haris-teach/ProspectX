@@ -184,14 +184,7 @@ const ChangePassword = props => {
                     </Text>
                   )}
 
-                  <View
-                    style={{
-                      height: hp(25),
-                      marginBottom: hp(10),
-                      alignSelf: 'center',
-                      width: wp(80),
-                      justifyContent: 'flex-end',
-                    }}>
+                  <View style={styles.btnStyle}>
                     <GradientButton
                       // onPress={() => alert('Login Pressed')}
                       onPress={() => {
@@ -256,5 +249,12 @@ const styles = {
     marginTop: hp('-1.4%'),
     fontSize: wp('3.4%'),
     color: 'red',
+  },
+  btnStyle: {
+    height: hp(25),
+    marginBottom: hp(10),
+    alignSelf: 'center',
+    width: wp(80),
+    justifyContent: 'flex-end',
   },
 };

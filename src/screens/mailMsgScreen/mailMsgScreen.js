@@ -43,7 +43,7 @@ const MailInbox = props => {
 
       <View style={styles.msgBox}>
         <View style={styles.iconStyle}>
-          <View style={{flex: 1, flexDirection: 'row', alignSelf: 'center'}}>
+          <View style={styles.subHeaderStyle}>
             <MailSvg marginHorizontal={wp(2)} />
             <Text style={styles.nameStyle}>{props.route.params.name}</Text>
           </View>
@@ -169,4 +169,5 @@ const styles = StyleSheet.create({
     marginHorizontal: wp(10),
     justifyContent: 'space-between',
   },
+  subHeaderStyle: {flex: 1, flexDirection: 'row', alignSelf: 'center'},
 });
