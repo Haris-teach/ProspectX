@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   ImageBackground,
   SectionList,
+  ActivityIndicator,
   StatusBar,
   FlatList,
 } from 'react-native';
@@ -13,8 +14,13 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
+import moment from 'moment';
 import {FloatingAction} from 'react-native-floating-action';
 import LinearGradient from 'react-native-linear-gradient';
+import {GETEMAIL, GETEMAILTHREADS} from '../../HitApis/Urls';
+import HitApi from '../../HitApis/APIHandler';
+import {useSelector, useDispatch} from 'react-redux';
+import {useIsFocused} from '@react-navigation/native';
 
 // ================local import=================
 
@@ -23,6 +29,7 @@ import images from '../../assets/images/Images';
 import colors from '../../assets/colors/Colors';
 import fonts from '../../assets/fonts/Fonts';
 import RNDropDown from '../../components/RNDropDown/RnDropDown';
+import {GetEmails} from '../../redux/Actions/commonAction';
 // =============================================
 
 // ============SVG Imports===================
@@ -35,67 +42,89 @@ import Contact from '../../assets/svg/contact.svg';
 import Email from '../../assets/svg/email.svg';
 // =========================================
 
-const DATA = [
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    name: 'Haris',
-    msg: 'Thank oe. i’m pleased you to see the benifits.Thank you.',
-    time: '47 min ago',
-    email: 'Test1@gmail.com',
-  },
-  {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-    name: 'Hassan',
-    msg: 'Thank oe. i’m pleased you to see the benifits.Thank you.',
-    time: '1  hours ago',
-    email: 'Test2@gmail.com',
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d72',
-    name: 'Arfat',
-    msg: 'Thank oe. i’m pleased you to see the benifits.Thank you.',
-    time: '3 Days ago',
-    email: 'Test3@gmail.com',
-  },
-];
-
 const MailScreen = props => {
-  const [items, setItems] = useState([
-    {
-      id: 0,
-      label: 'Test1@gmail.com',
-      value: 'Test1@gmail.com',
-    },
-  ]);
+  const dispatch = useDispatch();
+  const token = useSelector(state => state.authReducer.token);
+  const [items, setItems] = useState([]);
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('Set Time');
+  const [page, setPage] = useState(1);
+  const [emailData, setEmailData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const renderItem = ({item}) => {
+    let Split = moment(item.latesttime).format('HH/mm/ss');
+    let time = Split.split(':');
+    let name = item.second.split('.');
     return (
       <>
         <TouchableOpacity
           style={styles.item}
           onPress={() =>
             props.navigation.navigate('MailIndox', {
-              email: item.email,
-              name: item.name,
-              msg: item.msg,
+              email: item.first,
+              name: name[0],
+              msg: item.email_body,
+              first: item.first,
+              second: item.second,
             })
           }>
           <View style={{flex: 1, flexDirection: 'row'}}>
             <Email height={hp(5)} width={wp(10)} />
             <View style={{flex: 1}}>
-              <Text style={styles.nameStyle}>{item.name}</Text>
+              <Text style={styles.nameStyle}>{name[0]}</Text>
               <Text style={styles.msgStyle} numberOfLines={2}>
-                {item.msg}
+                {item.email_body}
               </Text>
             </View>
           </View>
-          <Text style={styles.timeStyle}>{item.time}</Text>
+          <Text style={styles.timeStyle}>{time}</Text>
         </TouchableOpacity>
         <View style={styles.viewStyle} />
       </>
     );
+  };
+
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    HitApi(GETEMAIL, 'get', '', token).then(res => {
+      if (res.status == 1) {
+        res.data.forEach((element, index) => {
+          const obj = {id: index + 1, label: element, value: element};
+          items.push(obj);
+          setItems(items);
+        });
+        setItems(items);
+        dispatch(GetEmails(items));
+      } else {
+        setItems([]);
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    setIsLoading(true);
+    GetEmailThreads('All');
+  }, [isFocused]);
+
+  const GetEmailThreads = pageVAl => {
+    let params = {
+      filters: {
+        emails: pageVAl === 'All' ? [] : [pageVAl],
+      },
+      pagination: {
+        page_number: page,
+        page_size: 10,
+      },
+    };
+
+    HitApi(GETEMAILTHREADS, 'post', params, token).then(res => {
+      if (res.status == 1) {
+        setEmailData(res.data);
+        setIsLoading(false);
+      }
+    });
   };
 
   return (
@@ -128,18 +157,29 @@ const MailScreen = props => {
           setOpen={setOpen}
           setValue={setValue}
           setItems={setItems}
-          onPress={() => console.log('Pressed')}
-          svg={<Contact />}
+          onPress={value => {
+            setPage(1);
+            setIsLoading(true);
+            GetEmailThreads(value.value);
+          }}
+          onPress2={() => console.log('Pressed')}
+          // svg={<Contact />}
         />
 
         {/* =================================================== */}
 
         <View style={styles.flatListStyle}>
-          <FlatList
-            data={DATA}
-            renderItem={renderItem}
-            keyExtractor={item => item.id}
-          />
+          {isLoading ? (
+            <View style={{flex: 1, justifyContent: 'center'}}>
+              <ActivityIndicator color="blue" />
+            </View>
+          ) : (
+            <FlatList
+              data={emailData}
+              renderItem={renderItem}
+              keyExtractor={item => item.latesttime}
+            />
+          )}
         </View>
       </View>
       {/* <View style={{marginBottom: hp(7)}}>
@@ -151,7 +191,7 @@ const MailScreen = props => {
       </View> */}
       <TouchableOpacity
         activeOpacity={1}
-        onPress={() => props.navigation.navigate('NewMailScreen')}
+        onPress={() => props.navigation.navigate('NewMailScreen', {msg: ''})}
         style={styles.floatingActionStyle}>
         <LinearGradient
           colors={['#6FB3FF', '#7F5AFF']}

@@ -109,6 +109,7 @@ const MsgScreen = props => {
     setPage(1);
     setValue('All');
     MsgsThreads('All');
+    setIsLoading(true);
   }, [isFocused]);
 
   const LoadMoreData = () => {

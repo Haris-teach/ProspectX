@@ -1,8 +1,13 @@
-import {GET_ALL_NUMBERS, GET_NOTIFICATION} from '../Actions/actionType';
+import {
+  GET_ALL_EMAILS,
+  GET_ALL_NUMBERS,
+  GET_NOTIFICATION,
+} from '../Actions/actionType';
 
 const INITIAL_STATE = {
   Numbers: 'Hello',
   NotiNumber: 0,
+  emails: 'Empty',
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -17,6 +22,12 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         NotiNumber: action.payload,
       };
+    case GET_ALL_EMAILS:
+      return {
+        ...state,
+        emails: action.payload,
+      };
+
     default:
       return state;
   }

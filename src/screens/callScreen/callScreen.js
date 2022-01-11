@@ -179,9 +179,9 @@ const CallScreen = props => {
     } else {
       if (word.length < 13) {
         word = word + v;
+        setisString(word);
       }
     }
-    setisString(word);
   };
   // ==================================================
   return (
@@ -291,14 +291,7 @@ const CallScreen = props => {
             marginHorizontal: wp(10),
             marginTop: hp(5),
           }}>
-          <TextInput
-            style={styles.dailerTextStyle}
-            value={isString}
-            editable={false}
-            maxLength={13}
-          />
-          {/* {isString}
-          </Text> */}
+          <Text style={styles.dailerTextStyle}>{isString}</Text>
 
           <View style={styles.keyRowStyle}>
             <TouchableOpacity
@@ -515,7 +508,7 @@ const styles = {
     fontFamily: 'SF Pro Text',
     fontSize: wp(9),
     fontWeight: '400',
-    marginHorizontal: wp(6),
+    marginHorizontal: wp(4),
   },
   KeyStyle: {
     height: hp(8),
