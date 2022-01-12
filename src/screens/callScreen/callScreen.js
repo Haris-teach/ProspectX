@@ -288,7 +288,7 @@ const CallScreen = props => {
         <View
           style={{
             flex: 1,
-            marginHorizontal: wp(10),
+            marginHorizontal: wp(8),
             marginTop: hp(5),
           }}>
           <Text style={styles.dailerTextStyle}>{isString}</Text>

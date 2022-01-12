@@ -258,7 +258,10 @@ const ChatScreen = props => {
         setOpen={setOpen}
         showArrowIcon={true}
         showTickIcon={false}
-        dropDownContainerStyle={styles.dropDownContainerStyle}
+        dropDownContainerStyle={[
+          styles.dropDownContainerStyle,
+          {height: items.length > 3 ? hp(15) : null},
+        ]}
         arrowIconStyle={styles.arrowIconStyle}
         listItemLabelStyle={{color: 'black', fontSize: wp(4)}}
         containerStyle={styles.containerStyle}
@@ -285,7 +288,7 @@ const ChatScreen = props => {
                 //backgroundColor: 'red',
                 backgroundColor: 'rgba(255, 255, 255, 0.46)',
                 marginHorizontal: wp(8),
-                // marginBottom: hp(3),
+                marginBottom: hp(1),
                 borderRadius: wp(10),
                 // borderColor: 'white',
                 // borderWidth: 1,
@@ -451,7 +454,7 @@ const styles = {
   dropDownContainerStyle: {
     backgroundColor: 'white',
     borderColor: 'white',
-    height: hp(20),
+
     borderRadius: wp(5),
   },
 

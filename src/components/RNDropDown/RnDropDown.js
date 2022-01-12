@@ -39,7 +39,10 @@ const RNDropDown = props => {
         setOpen={props.setOpen}
         showArrowIcon={true}
         showTickIcon={false}
-        dropDownContainerStyle={styles.dropDownContainerStyle}
+        dropDownContainerStyle={[
+          styles.dropDownContainerStyle,
+          {height: props.items.length > 3 ? hp(15) : null},
+        ]}
         arrowIconStyle={styles.arrowIconStyle}
         containerStyle={styles.containerStyle}
         setValue={props.setValue}
@@ -101,7 +104,7 @@ const styles = {
     backgroundColor: 'white',
     // marginTop: hp(0.5),
     borderColor: 'white',
-    height: hp(20),
+
     //color: 'red',
     // width: wp(90),
     borderRadius: wp(7),

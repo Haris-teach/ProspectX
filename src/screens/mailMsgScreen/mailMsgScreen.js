@@ -11,6 +11,7 @@ import {
   View,
   TouchableOpacity,
   StyleSheet,
+  ActivityIndicator,
   ScrollView,
 } from 'react-native';
 import {useSelector} from 'react-redux';
@@ -29,6 +30,7 @@ const MailInbox = props => {
   const token = useSelector(state => state.authReducer.token);
   const [data, setData] = useState([]);
   const [select, setSelect] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     let params = {
@@ -38,6 +40,9 @@ const MailInbox = props => {
     HitApi(GETALLEMAIL, 'post', params, token).then(res => {
       if (res.status == 1) {
         setData(res.data);
+        setIsLoading(false);
+      } else {
+        setIsLoading(false);
       }
     });
   }, []);
@@ -63,10 +68,7 @@ const MailInbox = props => {
           <Text
             style={select == index ? styles.msgStyle : styles.boldTextStyle}
             numberOfLines={select == index ? 4 : 1}>
-            {select == index
-              ? props.route.params.name.toUpperCase()
-              : props.route.params.name}
-            :
+            {props.route.params.name}:
             <Text style={styles.msgStyle} numberOfLines={4}>
               {'  '}
               {item.email_body}
@@ -131,14 +133,44 @@ const MailInbox = props => {
         </Text>
       </View>
 
-      <View style={styles.flatListStyle}>
+      {/* <View style={styles.flatListStyle}>
         <FlatList
           showsVerticalScrollIndicator={false}
           data={data}
           renderItem={renderItem}
           keyExtractor={item => item.id}
         />
-      </View>
+      </View> */}
+      {isLoading ? (
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: 'rgb(0.5,0,0,0.5)',
+          }}>
+          <ActivityIndicator animating={true} color="blue" />
+        </View>
+      ) : (
+        <View style={styles.flatListStyle}>
+          {data.length == 0 ? (
+            <View
+              style={{
+                justifyContent: 'center',
+                flex: 1,
+              }}>
+              <Text style={{alignSelf: 'center'}}>Record not found</Text>
+            </View>
+          ) : (
+            <FlatList
+              showsVerticalScrollIndicator={false}
+              data={data}
+              renderItem={renderItem}
+              keyExtractor={item => item.id}
+            />
+          )}
+        </View>
+      )}
 
       {/* <View style={styles.msgBox}>
         <View style={styles.iconStyle}>

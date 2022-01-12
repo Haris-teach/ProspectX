@@ -55,7 +55,7 @@ const MailScreen = props => {
   const renderItem = ({item}) => {
     let Split = moment(item.latesttime).format('HH/mm/ss');
     let time = Split.split(':');
-    let name = item.second.split('.');
+    let name = item.second.split('@');
     return (
       <>
         <TouchableOpacity
@@ -123,6 +123,8 @@ const MailScreen = props => {
       if (res.status == 1) {
         setEmailData(res.data);
         setIsLoading(false);
+      } else {
+        setIsLoading(false);
       }
     });
   };
@@ -151,7 +153,7 @@ const MailScreen = props => {
 
         <RNDropDown
           open={open}
-          placeholder="Select a number for message"
+          placeholder="Select a email for mail"
           value={value}
           items={items}
           setOpen={setOpen}
@@ -163,7 +165,8 @@ const MailScreen = props => {
             GetEmailThreads(value.value);
           }}
           onPress2={() => console.log('Pressed')}
-          // svg={<Contact />}
+          svg={<Email />}
+          svg2={<Email />}
         />
 
         {/* =================================================== */}
@@ -174,11 +177,28 @@ const MailScreen = props => {
               <ActivityIndicator color="blue" />
             </View>
           ) : (
-            <FlatList
-              data={emailData}
-              renderItem={renderItem}
-              keyExtractor={item => item.latesttime}
-            />
+            <>
+              {emailData.length == 0 ? (
+                <View
+                  style={{
+                    justifyContent: 'center',
+                    flex: 1,
+                  }}>
+                  <Text style={{alignSelf: 'center', color: 'black'}}>
+                    Record not found
+                  </Text>
+                </View>
+              ) : (
+                <FlatList
+                  data={emailData}
+                  refreshing={isLoading}
+                  showsVerticalScrollIndicator={false}
+                  onRefresh={() => GetEmailThreads('All')}
+                  renderItem={renderItem}
+                  keyExtractor={item => item.latesttime}
+                />
+              )}
+            </>
           )}
         </View>
       </View>
@@ -335,15 +355,16 @@ const styles = {
   },
   timeStyle: {
     fontFamily: 'Barlow-Light',
-    color: '#959595',
+    color: '#4E4E4E',
     fontSize: wp(3),
     marginHorizontal: wp(3),
     marginTop: hp(-0.5),
   },
   viewStyle: {
-    borderWidth: 0.4,
+    borderWidth: 0.5,
     marginHorizontal: wp(10),
     opacity: 0.1,
+    borderColor: 'gray',
     marginTop: hp(-1),
   },
   floatingActionStyle: {

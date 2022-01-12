@@ -18,6 +18,8 @@ import {useIsFocused} from '@react-navigation/native';
 import {useSelector, useDispatch} from 'react-redux';
 import moment from 'moment';
 import io from 'socket.io-client';
+import CalendarPicker from 'react-native-calendar-picker';
+import {Dialog} from 'react-native-simple-dialogs';
 
 // ================local import=================
 import images from '../../assets/images/Images';
@@ -71,6 +73,9 @@ const MsgScreen = props => {
   const [page, setPage] = useState(1);
   const [count, setCount] = useState(0);
   const [pageSize, setPageSize] = useState(10);
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const [isvisible, setIsVisible] = useState(false);
 
   const PhoneNumbers = useSelector(state => state.commonReducer.Numbers);
   const token = useSelector(state => state.authReducer.token);
@@ -163,11 +168,55 @@ const MsgScreen = props => {
     );
   };
 
+  const onDateChange = (sdate, edate) => {
+    // isDate.push(date);
+    // setIsDate(isDate);
+    if (edate) {
+      console.log('Date :', sdate, edate);
+    }
+  };
+
+  const RenderModal = () => {
+    return (
+      <Dialog
+        visible={isvisible}
+        dialogStyle={{
+          borderRadius: 8,
+          width: wp(98),
+          marginHorizontal: wp(-5),
+        }}
+        animationType="SLIDE"
+        onTouchOutside={() => setIsVisible(false)}>
+        <CalendarPicker
+          onDateChange={(date, param) => {
+            if (param == 'START_DATE') {
+              setStartDate(date);
+            } else if (param == 'END_DATE') {
+              setEndDate(date);
+            } else {
+              return null;
+            }
+          }}
+          allowRangeSelection={true}
+          selectedRangeStartTextStyle={{color: 'white'}}
+          selectedRangeEndTextStyle={{color: 'white'}}
+          selectedRangeStyle={{backgroundColor: '#7F5AFF'}}
+        />
+
+        <TouchableOpacity
+          onPress={() => setIsVisible(false)}
+          style={styles.calanderBtnStyle}>
+          <Text style={{alignSelf: 'center', color: 'white'}}>Done</Text>
+        </TouchableOpacity>
+      </Dialog>
+    );
+  };
   return (
     <ImageBackground
       style={styles.mainContainer}
       source={images.splashBackground}>
       <View style={styles.mainContainer}>
+        {RenderModal()}
         {/* ===========Header PArt=========== */}
 
         <View style={styles.headerContainer}>
@@ -198,7 +247,7 @@ const MsgScreen = props => {
             setIsLoading(true);
             MsgsThreads(value.value);
           }}
-          onPress2={() => console.log('Pressed')}
+          //onPress2={() => setIsVisible(true)}
           svg={<Contact />}
           svg2={<Contact2 />}
         />
@@ -211,14 +260,30 @@ const MsgScreen = props => {
               <ActivityIndicator color="blue" />
             </View>
           ) : (
-            <FlatList
-              data={msgData}
-              renderItem={renderItem}
-              keyExtractor={item => item.latesttime}
-              onEndReachedThreshold={0}
-              onEndReached={() => LoadMoreData()}
-              showsVerticalScrollIndicator={false}
-            />
+            <>
+              {msgData.length == 0 ? (
+                <View
+                  style={{
+                    justifyContent: 'center',
+                    flex: 1,
+                  }}>
+                  <Text style={{alignSelf: 'center', color: 'black'}}>
+                    Record not found
+                  </Text>
+                </View>
+              ) : (
+                <FlatList
+                  data={msgData}
+                  renderItem={renderItem}
+                  refreshing={isLoading}
+                  onRefresh={() => MsgsThreads('All')}
+                  keyExtractor={item => item.latesttime}
+                  onEndReachedThreshold={0}
+                  onEndReached={() => LoadMoreData()}
+                  showsVerticalScrollIndicator={false}
+                />
+              )}
+            </>
           )}
         </View>
       </View>
@@ -393,5 +458,13 @@ const styles = {
     marginHorizontal: wp(10),
     opacity: 0.05,
     marginTop: hp(-1),
+  },
+  calanderBtnStyle: {
+    width: wp(20),
+    height: hp(4),
+    backgroundColor: '#7F5AFF',
+    justifyContent: 'center',
+    borderRadius: wp(4),
+    alignSelf: 'flex-end',
   },
 };

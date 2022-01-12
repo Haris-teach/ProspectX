@@ -8,6 +8,7 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   TouchableOpacity,
+  ActivityIndicator,
   SafeAreaView,
   FlatList,
 } from 'react-native';
@@ -52,6 +53,7 @@ const DATA = [
 const NotificationScreen = props => {
   const [select, setSelect] = useState(null);
   const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const styles = {
     headerContainer: {
@@ -223,6 +225,9 @@ const NotificationScreen = props => {
     HitApi(GETALLNOTIFICATION, 'POST', '', token).then(res => {
       if (res.status == 1) {
         setData(res.data);
+        setIsLoading(false);
+      } else {
+        setIsLoading(false);
       }
     });
   }, []);
@@ -242,15 +247,39 @@ const NotificationScreen = props => {
         <Text style={styles.headerText}>Notifications</Text>
       </View>
       {/* -------------------------------------------------------------------------- */}
-
-      <View style={styles.flatListStyle}>
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          data={data}
-          renderItem={renderItem}
-          keyExtractor={item => item.id}
-        />
-      </View>
+      {isLoading ? (
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: 'rgb(0.5,0,0,0.5)',
+          }}>
+          <ActivityIndicator animating={true} color="blue" />
+        </View>
+      ) : (
+        <View style={styles.flatListStyle}>
+          {data.length == 0 ? (
+            <View
+              style={{
+                justifyContent: 'center',
+                flex: 1,
+                marginBottom: hp(10),
+              }}>
+              <Text style={{alignSelf: 'center', color: 'black'}}>
+                Response not get! Due to bad network
+              </Text>
+            </View>
+          ) : (
+            <FlatList
+              showsVerticalScrollIndicator={false}
+              data={data}
+              renderItem={renderItem}
+              keyExtractor={item => item.id}
+            />
+          )}
+        </View>
+      )}
     </ImageBackground>
   );
 };
