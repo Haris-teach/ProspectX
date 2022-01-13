@@ -129,7 +129,7 @@ const MsgScreen = props => {
   // ============= END ========================
 
   const renderItem = ({item}) => {
-    let Split = moment(item.latesttime).format('HH:mm:ss');
+    let Split = moment(item.latesttime).format('DD/MM/YYYY');
     //console.log(Split.split(':').length);
     let time = Split.split(':');
     // console.log('ya loo', PhoneNumbers.includes(item.first))
@@ -166,14 +166,6 @@ const MsgScreen = props => {
         <View style={styles.viewStyle} />
       </>
     );
-  };
-
-  const onDateChange = (sdate, edate) => {
-    // isDate.push(date);
-    // setIsDate(isDate);
-    if (edate) {
-      console.log('Date :', sdate, edate);
-    }
   };
 
   const RenderModal = () => {
@@ -448,7 +440,7 @@ const styles = {
   },
   timeStyle: {
     fontFamily: 'Barlow-Light',
-    color: '#959595',
+    color: 'black',
     fontSize: wp(3),
     marginHorizontal: wp(3),
     marginTop: hp(-0.5),

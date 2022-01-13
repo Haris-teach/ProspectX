@@ -24,7 +24,10 @@ const GradientButton = props => {
       style={styles.gradientStyle}
       start={{y: 0.0, x: 0.0}}
       end={{y: 0.0, x: 1.0}}>
-      <TouchableOpacity onPress={props.onPress} style={styles.buttonStyle}>
+      <TouchableOpacity
+        onPress={props.onPress}
+        style={styles.buttonStyle}
+        disabled={props.condition ? true : false}>
         {props.condition == true ? (
           <ActivityIndicator color="white" />
         ) : (

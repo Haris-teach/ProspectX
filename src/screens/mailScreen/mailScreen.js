@@ -53,7 +53,7 @@ const MailScreen = props => {
   const [isLoading, setIsLoading] = useState(true);
 
   const renderItem = ({item}) => {
-    let Split = moment(item.latesttime).format('HH/mm/ss');
+    let Split = moment(item.latesttime).format('DD/MM/YYYY');
     let time = Split.split(':');
     let name = item.second.split('@');
     return (
@@ -153,7 +153,7 @@ const MailScreen = props => {
 
         <RNDropDown
           open={open}
-          placeholder="Select a email for mail"
+          placeholder="Select an email"
           value={value}
           items={items}
           setOpen={setOpen}
@@ -211,7 +211,9 @@ const MailScreen = props => {
       </View> */}
       <TouchableOpacity
         activeOpacity={1}
-        onPress={() => props.navigation.navigate('NewMailScreen', {msg: ''})}
+        onPress={() =>
+          props.navigation.navigate('NewMailScreen', {msg: '', subject: ''})
+        }
         style={styles.floatingActionStyle}>
         <LinearGradient
           colors={['#6FB3FF', '#7F5AFF']}
@@ -355,7 +357,7 @@ const styles = {
   },
   timeStyle: {
     fontFamily: 'Barlow-Light',
-    color: '#4E4E4E',
+    color: 'black',
     fontSize: wp(3),
     marginHorizontal: wp(3),
     marginTop: hp(-0.5),

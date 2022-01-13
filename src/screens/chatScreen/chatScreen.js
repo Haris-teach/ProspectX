@@ -3,10 +3,12 @@
 import React, {useState, useEffect, useCallback} from 'react';
 import {
   ImageBackground,
+  KeyboardAvoidingView,
   View,
   TouchableOpacity,
   ActivityIndicator,
   Keyboard,
+  ScrollView,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import AllStyles from '../../all_styles/All_Styles';
@@ -59,6 +61,7 @@ const ChatScreen = props => {
   // make connection with server from user side
 
   useEffect(() => {
+    console.log('Date', new Date());
     PhoneNumbers.forEach(i => {
       if (i.value == 'All') {
         setItems([]);
@@ -143,20 +146,24 @@ const ChatScreen = props => {
   }, []);
 
   const MSGFliterByNumber = value => {
+    setIsLoading(true);
     let params = {
       to: Number,
       from: value,
     };
     HitApi(GETMSGSBYNUMBER, 'POST', params, token).then(res => {
       if (res.status == 1) {
+        setIsLoading(false);
         let msgs = [];
         res.data.forEach((msg, index) => {
           if (msg) {
+            let msgData = moment(msg.timestamp).utc().format('hh:mm');
+            console.log('Time', moment(msg.timestamp).utc().format('hh:mm'));
             const {message, timestamp, second, out} = msg;
             let data = {
               _id: index,
               text: message,
-              createdAt: moment(timestamp),
+              createdAt: msgData,
               user: {
                 _id: out == true ? CurrentUserId : 2,
                 name: second,
@@ -173,8 +180,10 @@ const ChatScreen = props => {
         });
         setMessages(Data);
       } else {
+        setIsLoading(false);
+        //if(typeof res.errors == 'array')
         Toast.showWithGravity(
-          JSON.stringify(res.errors),
+          JSON.stringify(res.errors.name),
           Toast.SHORT,
           Toast.BOTTOM,
           setMessages([]),
@@ -198,8 +207,9 @@ const ChatScreen = props => {
         setIsLoading(false);
       } else {
         setIsLoading(false);
+        let error = res.errors.code.message.split(',');
         Toast.showWithGravity(
-          JSON.stringify(res.errors),
+          JSON.stringify(error[0]),
           Toast.SHORT,
           Toast.BOTTOM,
         );
@@ -230,6 +240,7 @@ const ChatScreen = props => {
     <ImageBackground
       source={images.splashBackground}
       style={AllStyles.mainContainer}>
+      {/* <ScrollView> */}
       {/* Header Code */}
       <View style={styles.headerContainer}>
         <TouchableOpacity
@@ -240,7 +251,7 @@ const ChatScreen = props => {
         {/* <Text style={styles.headerText}>Change Password</Text> */}
       </View>
       {/* -------------------------------------------------------------------------- */}
-
+      {/* <ScrollView style={{backgroundColor: 'red'}}> */}
       <DropDownPicker
         style={styles.dropdownStyle}
         props={{activeOpacity: 1}}
@@ -271,130 +282,135 @@ const ChatScreen = props => {
         onChangeValue={value => MSGFliterByNumber(value)}
         setItems={setItems}
       />
+      <>
+        <GiftedChat
+          messages={messages}
+          onSend={messages => messageSend(messages)}
+          onInputTextChanged={text => setTextMsg(text)}
+          user={{
+            _id: CurrentUserId,
+          }}
+          placeholder="Write Message"
+          renderInputToolbar={props => {
+            return (
+              <InputToolbar
+                {...props}
+                containerStyle={{
+                  //backgroundColor: 'red',
+                  backgroundColor: 'rgba(255, 255, 255, 0.46)',
+                  marginHorizontal: wp(8),
+                  marginBottom: hp(1),
+                  borderRadius: wp(10),
+                  maxHeight: hp(10),
+                  // borderColor: 'white',
+                  // borderWidth: 1,
+                }}
+                renderSend={props => {
+                  return (
+                    <LinearGradient
+                      colors={['#6FB3FF', '#7F5AFF']}
+                      style={{borderRadius: hp(7), marginRight: wp(-2)}}
+                      start={{y: 0.0, x: 0.0}}
+                      end={{y: 0.0, x: 1.0}}>
+                      <Send
+                        {...props}
+                        containerStyle={{
+                          width: 60,
+                          height: 60,
+                          borderRadius: 60,
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          alignSelf: 'center',
+                        }}>
+                        {isLoading == false ? (
+                          <Fly alignSelf="center" width={30} height={30} />
+                        ) : (
+                          <ActivityIndicator color="white" />
+                        )}
+                      </Send>
+                    </LinearGradient>
+                  );
+                }}
+                textInputStyle={{
+                  color: 'black',
+                  //backgroundColor: 'red',
+                  marginLeft: wp(8),
+                  alignSelf: 'center',
+                  fontSize: wp(4.5),
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  marginTop: hp(0.6),
+                  maxHeight: hp(6.6),
+                  //textAlign: 'center',
+                }}
+              />
+            );
+          }}
+          messagesContainerStyle={{
+            marginHorizontal: wp(3),
+            marginTop: hp(-7.8),
+            height: isKeyboardVisible ? hp(25) : hp(65),
 
-      <GiftedChat
-        messages={messages}
-        onSend={messages => messageSend(messages)}
-        onInputTextChanged={text => setTextMsg(text)}
-        user={{
-          _id: CurrentUserId,
-        }}
-        placeholder="Write Message"
-        renderInputToolbar={props => {
-          return (
-            <InputToolbar
-              {...props}
-              containerStyle={{
-                //backgroundColor: 'red',
-                backgroundColor: 'rgba(255, 255, 255, 0.46)',
-                marginHorizontal: wp(8),
-                marginBottom: hp(1),
-                borderRadius: wp(10),
-                // borderColor: 'white',
-                // borderWidth: 1,
-              }}
-              renderSend={props => {
-                return (
-                  <LinearGradient
-                    colors={['#6FB3FF', '#7F5AFF']}
-                    style={{borderRadius: hp(7), marginRight: wp(-2)}}
-                    start={{y: 0.0, x: 0.0}}
-                    end={{y: 0.0, x: 1.0}}>
-                    <Send
-                      {...props}
-                      containerStyle={{
-                        width: 60,
-                        height: 60,
-                        borderRadius: 60,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        alignSelf: 'center',
-                      }}>
-                      {isLoading == false ? (
-                        <Fly alignSelf="center" width={30} height={30} />
-                      ) : (
-                        <ActivityIndicator color="white" />
-                      )}
-                    </Send>
-                  </LinearGradient>
-                );
-              }}
-              textInputStyle={{
-                color: 'black',
-                //backgroundColor: 'red',
-                marginLeft: wp(8),
-                alignSelf: 'center',
-                fontSize: wp(4.5),
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginTop: hp(2),
-                //textAlign: 'center',
-              }}
-            />
-          );
-        }}
-        messagesContainerStyle={{
-          marginHorizontal: wp(3),
-          marginTop: hp(-7.8),
-          height: isKeyboardVisible ? hp(25) : hp(65),
-
-          //backgroundColor: 'red',
-        }}
-        renderAvatar={() => {
-          return <View />;
-        }}
-        renderBubble={props => {
-          return (
-            <Bubble
-              {...props}
-              textStyle={{
-                right: {
-                  color: 'white',
-                  fontSize: wp(3.5),
-                  fontFamily: fonts.regular,
-                },
-                left: {
-                  color: '#293859',
-                  fontSize: wp(3.5),
-                  fontFamily: fonts.regular,
-                },
-              }}
-              wrapperStyle={{
-                left: {
-                  backgroundColor: 'rgba(255, 255, 255, 0.4)',
-                  borderColor: 'white',
-                  borderWidth: 1,
-                  borderTopRightRadius: wp(5),
-                  borderTopLeftRadius: wp(6),
-                  borderBottomRightRadius: wp(5),
-                  borderBottomLeftRadius: 0,
-                  marginTop: hp(1),
-                },
-                right: {
-                  paddingHorizontal: 10,
-                  backgroundColor: colors.purpleColor,
-                  borderTopRightRadius: wp(6),
-                  borderTopLeftRadius: wp(5),
-                  borderBottomLeftRadius: wp(5),
-                  borderBottomRightRadius: 0,
-                  marginTop: hp(1),
-                },
-              }}
-            />
-          );
-        }}
-        // inverted={true}
-        // alignTop
-        isTyping={true}
-        // infiniteScroll
-        alwaysShowSend={true}
-        showUserAvatar={false}
-        showAvatarForEveryMessage={false}
-        //scrollToBottom
-        // isanimated={true}
-        //isKeyboardInternallyHandled={false}
-        //scrollToBottomOffset={1}
-      />
+            //backgroundColor: 'red',
+          }}
+          renderAvatar={() => {
+            return <View />;
+          }}
+          renderBubble={props => {
+            return (
+              <Bubble
+                {...props}
+                textStyle={{
+                  right: {
+                    color: 'white',
+                    fontSize: wp(3.5),
+                    fontFamily: fonts.regular,
+                  },
+                  left: {
+                    color: '#293859',
+                    fontSize: wp(3.5),
+                    fontFamily: fonts.regular,
+                  },
+                }}
+                wrapperStyle={{
+                  left: {
+                    backgroundColor: 'rgba(255, 255, 255, 0.4)',
+                    borderColor: 'white',
+                    borderWidth: 1,
+                    borderTopRightRadius: wp(5),
+                    borderTopLeftRadius: wp(6),
+                    borderBottomRightRadius: wp(5),
+                    borderBottomLeftRadius: 0,
+                    marginTop: hp(1),
+                  },
+                  right: {
+                    paddingHorizontal: 10,
+                    backgroundColor: colors.purpleColor,
+                    borderTopRightRadius: wp(6),
+                    borderTopLeftRadius: wp(5),
+                    borderBottomLeftRadius: wp(5),
+                    borderBottomRightRadius: 0,
+                    marginTop: hp(1),
+                  },
+                }}
+              />
+            );
+          }}
+          // inverted={true}
+          // alignTop
+          isTyping={true}
+          // infiniteScroll
+          alwaysShowSend={true}
+          showUserAvatar={false}
+          showAvatarForEveryMessage={false}
+          //scrollToBottom
+          // isanimated={true}
+          //isKeyboardInternallyHandled={false}
+          //scrollToBottomOffset={1}
+        />
+      </>
+      {/* </ScrollView> */}
+      {/* </ScrollView> */}
     </ImageBackground>
   );
 };

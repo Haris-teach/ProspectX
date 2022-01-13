@@ -14,6 +14,7 @@ import {
   ActivityIndicator,
   ScrollView,
 } from 'react-native';
+import moment from 'moment';
 import {useSelector} from 'react-redux';
 //====================================== Local Import Files =========================================
 
@@ -48,6 +49,7 @@ const MailInbox = props => {
   }, []);
 
   const renderItem = ({item, index}) => {
+    let time = item.latesttime;
     return (
       <TouchableOpacity
         onPress={() => setSelect(index)}
@@ -65,16 +67,33 @@ const MailInbox = props => {
               {backgroundColor: select == index ? null : '#7681FF'},
             ]}
           />
-          <Text
-            style={select == index ? styles.msgStyle : styles.boldTextStyle}
-            numberOfLines={select == index ? 4 : 1}>
-            {props.route.params.name}:
-            <Text style={styles.msgStyle} numberOfLines={4}>
-              {'  '}
-              {item.email_body}
+          {/* <Text style={styles.msgStyle}>
+            {select == index ? null : props.route.params.name}
+          </Text> */}
+          {select != index ? (
+            <Text
+              style={select == index ? styles.msgStyle : styles.boldTextStyle}
+              numberOfLines={select == index ? 4 : 1}>
+              {props.route.params.name}:
+              <Text style={styles.msgStyle} numberOfLines={4}>
+                {'  '}
+                {item.email_body}
+              </Text>
             </Text>
-          </Text>
+          ) : null}
         </View>
+        {select == index ? (
+          <View style={styles.msgBox}>
+            <View style={styles.toContainer}>
+              <Text style={styles.toStyle}>To : {item.second}</Text>
+            </View>
+            <Text style={styles.subjectTextStyle}>Email Subject:</Text>
+            <Text style={styles.subject1TextStyle}>{item.email_subject}</Text>
+
+            <Text style={styles.contentTextStyle}>Email Content:</Text>
+            <Text style={styles.subject1TextStyle}>{item.email_body}</Text>
+          </View>
+        ) : null}
 
         {select == index ? (
           <>
@@ -84,6 +103,7 @@ const MailInbox = props => {
                 onPress={() =>
                   props.navigation.navigate('NewMailScreen', {
                     msg: item.email_body,
+                    subject: item.email_subject,
                   })
                 }>
                 <Text style={[styles.textStyle, {alignSelf: 'center'}]}>
@@ -229,6 +249,18 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     elevation: 8,
   },
+  toContainer: {
+    zIndex: 0,
+    marginHorizontal: wp(4),
+
+    flexDirection: 'row',
+    height: hp(6),
+    //backgroundColor: 'rgba(255, 255, 255, 0.67)',
+    borderRadius: wp(10),
+    color: 'black',
+    borderWidth: 0.5,
+    borderColor: 'rgba(255, 255, 255, 1)',
+  },
 
   mailInboxSenderView: {
     backgroundColor: 'rgba(255, 255, 255, 0.67)',
@@ -248,7 +280,7 @@ const styles = StyleSheet.create({
     marginHorizontal: wp(5),
   },
   msgBox: {
-    backgroundColor: 'rgba(255, 255, 255, 0.67)',
+    //backgroundColor: 'rgba(255, 255, 255, 0.67)',
     borderWidth: 1,
     borderColor: 'white',
 
@@ -373,5 +405,30 @@ const styles = StyleSheet.create({
     marginTop: hp(4),
     marginBottom: hp(2),
     marginHorizontal: wp(6),
+  },
+  subjectTextStyle: {
+    fontSize: wp(3.5),
+    marginHorizontal: wp(4),
+    marginVertical: hp(0),
+    color: 'black',
+    fontFamily: 'Sf Pro Text',
+    opacity: 1,
+    fontWeight: 'bold',
+    marginTop: hp(-2),
+  },
+  subject1TextStyle: {
+    fontSize: wp(3.3),
+    marginHorizontal: wp(4),
+    marginVertical: hp(1),
+    color: 'black',
+    fontFamily: 'Sf Pro Text',
+    opacity: 0.7,
+  },
+
+  contentTextStyle: {
+    fontSize: wp(3.5),
+    marginHorizontal: wp(4),
+    color: 'black',
+    fontFamily: 'Sf Pro Text',
   },
 });

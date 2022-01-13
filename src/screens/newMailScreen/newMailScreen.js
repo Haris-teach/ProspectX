@@ -14,6 +14,7 @@ import {
   Alert,
   FlatList,
   Image,
+  Keyboard,
 } from 'react-native';
 var axios = require('axios');
 var FormData = require('form-data');
@@ -36,10 +37,14 @@ import GradientButton from '../../components/gradientButton/Button';
 import BackArrow from '../../assets/images/backarrow.svg';
 import Pen from '../../assets/svg/pen.svg';
 import PaperClip from '../../assets/svg/paperClip.svg';
+import RedCross from '../../assets/svg/redCross';
 import images from '../../assets/images/Images';
 import colors from '../../assets/colors/Colors';
 import fonts from '../../assets/fonts/Fonts';
+import BluePaperPin from '../../assets/svg/bluePin.svg';
 import {SENDEMAIL} from '../../HitApis/Urls';
+
+// var files = [];
 
 const NewMailScreen = props => {
   const token = useSelector(state => state.authReducer.token);
@@ -76,17 +81,34 @@ const NewMailScreen = props => {
   const [filePath, setFilePath] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [files, setFiles] = useState([]);
+  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
 
   const Documentpicker = async () => {
     try {
       const res = await DocumentPicker.pick({
         type: [DocumentPicker.types.allFiles],
-        allowMultiSelection: true,
-        presentationStyle: 'fullScreen',
+        //allowMultiSelection: true,
+        //presentationStyle: 'fullScreen',
       });
+      if (files.length < 1) {
+        setFiles([...files, ...res]);
+      } else {
+        files.map(i => {
+          console.log('I:    ', i.name, res[0].name);
+          if (i.name === res[0].name) {
+            Toast.showWithGravity(
+              'File alreday exits',
+              Toast.SHORT,
+              Toast.BOTTOM,
+            );
+          } else {
+            setFiles([...files, ...res]);
+          }
+        });
+      }
 
-      setFiles(res);
-      // console.log('Response:  ', files);
+      // console.log('Response:  ', res[0].name);
+      //setFiles(res);
     } catch (err) {
       if (DocumentPicker.isCancel(err)) {
         // User cancelled the picker, exit any dialogs or menus and mo
@@ -96,12 +118,12 @@ const NewMailScreen = props => {
     }
   };
 
-  const SendEmail = ({email}) => {
+  const SendEmail = ({email, subject, content}) => {
     setIsLoading(true);
     data.append('from', value.toString());
     data.append('to', email);
     data.append('text', content);
-    data.append('subject', subj);
+    data.append('subject', subject);
     files.forEach(element => {
       data.append('file[]', {
         uri: element.uri,
@@ -127,10 +149,12 @@ const NewMailScreen = props => {
         props.navigation.goBack();
       })
       .catch(function (error) {
-        console.log(error);
+        let err = error.response.data.errors[0].split('.');
+
+        console.log(err[0]);
         setIsLoading(false);
         Toast.showWithGravity(
-          JSON.stringify(error.message),
+          JSON.stringify(err[0]),
           Toast.SHORT,
           Toast.BOTTOM,
         );
@@ -144,7 +168,8 @@ const NewMailScreen = props => {
   };
 
   useEffect(() => {
-    setcontent(props.route.params.msg);
+    // setcontent(props.route.params.msg);
+    // setSubj(props.route.params.subject);
     setItems(emails);
     setIsLoading(false);
   }, []);
@@ -154,8 +179,30 @@ const NewMailScreen = props => {
     console.log(files);
   };
 
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      () => {
+        setKeyboardVisible(true); // or some other action
+      },
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      () => {
+        setKeyboardVisible(false); // or some other action
+      },
+    );
+
+    return () => {
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    };
+  }, []);
+
   const userInfo = {
     email: '',
+    subject: props.route.params.msg,
+    content: props.route.params.subject,
   };
 
   const validationSchema = yup.object({
@@ -164,178 +211,203 @@ const NewMailScreen = props => {
       .label('email')
       .email('Email must be a valid email address')
       .required('Email is required'),
+    subject: yup
+      .string()
+      .label('email')
+      .required('Email subject and content are required'),
+    content: yup
+      .string()
+      .label('email')
+      .required('Email subject and content are required'),
   });
 
   return (
-    <KeyboardAvoidingView
-      style={AllStyles.mainContainer}
-      behavior={Platform.OS == 'ios' ? 'padding' : null}>
+    <KeyboardAvoidingView style={{flex: 1}} behavior="padding">
       <ImageBackground source={images.splashBackground} style={{flex: 1}}>
-        {isLoading == true ? (
-          <View
-            style={{
-              height: '100%',
-              width: '100%',
-              justifyContent: 'center',
-              alignItems: 'center',
-              backgroundColor: 'rgb(0.5,0,0,0.5)',
-              position: 'absolute',
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <Formik
+            initialValues={userInfo}
+            validationSchema={validationSchema}
+            onSubmit={(values, {resetForm}) => {
+              //props.navigation.navigate('LoginScreen');
+              SendEmail(values);
+              // setIsMessage('');
+              resetForm();
             }}>
-            <ActivityIndicator animating={true} color="blue" />
-          </View>
-        ) : (
-          <ScrollView>
-            <Formik
-              initialValues={userInfo}
-              validationSchema={validationSchema}
-              onSubmit={(values, {resetForm}) => {
-                //props.navigation.navigate('LoginScreen');
-                SendEmail(values);
-                // setIsMessage('');
-                resetForm();
-              }}>
-              {({
-                handleChange,
-                handleBlur,
-                handleSubmit,
-                values,
-                touched,
-                errors,
-              }) => {
-                const {email, password} = values;
-                return (
-                  <>
-                    {/* Header Code */}
-                    <View style={styles.headerContainer}>
-                      <TouchableOpacity
-                        onPress={() => props.navigation.goBack()}
-                        style={styles.backButton}>
-                        <BackArrow height={15} width={15} />
-                      </TouchableOpacity>
-                      {/* <Text style={styles.headerText}>Change Password</Text> */}
-                    </View>
-                    {/* -------------------------------------------------------------------------- */}
-                    <>
-                      <DropDownPicker
-                        props={{activeOpacity: 1}}
-                        style={styles.dropdownStyle}
-                        open={open}
-                        placeholder="Select email for mail"
-                        searchPlaceholderTextColor="#AAB1BC"
-                        placeholderStyle={{
-                          color: '#AAB1BC',
-                          fontFamily: fonts.regular,
-                          fontSize: wp(3.6),
-                          marginHorizontal: wp(3),
-                        }}
-                        value={value}
-                        items={items}
-                        setOpen={setOpen}
-                        showArrowIcon={true}
-                        showTickIcon={false}
-                        dropDownContainerStyle={styles.dropDownContainerStyle}
-                        arrowIconStyle={styles.arrowIconStyle}
-                        listItemLabelStyle={{color: 'black'}}
-                        containerStyle={styles.containerStyle}
-                        textStyle={{color: 'black', marginHorizontal: wp(3)}}
-                        labelStyle={{color: 'black'}}
-                        setValue={setValue}
-                        setItems={setItems}
-                      />
-                    </>
+            {({
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              values,
+              touched,
+              errors,
+            }) => {
+              const {email, subject, content} = values;
+              return (
+                <>
+                  {/* Header Code */}
+                  <View style={styles.headerContainer}>
+                    <TouchableOpacity
+                      onPress={() => props.navigation.goBack()}
+                      style={styles.backButton}>
+                      <BackArrow height={15} width={15} />
+                    </TouchableOpacity>
+                    {/* <Text style={styles.headerText}>Change Password</Text> */}
+                  </View>
+                  {/* -------------------------------------------------------------------------- */}
 
-                    <View style={styles.toContainer}>
-                      <Text style={styles.toStyle}>To :</Text>
-                      <TextInput
-                        //placeholder="Type"
-                        numberOfLines={1}
-                        style={{width: wp(60)}}
-                        onChangeText={handleChange('email')}
-                        onBlur={handleBlur('email')}
-                        value={email}
-                        autoCapitalize="none"
-                        keyboardType={'email-address'}
-                      />
-                    </View>
-                    {touched.email && errors.email && (
-                      <Text style={styles.warningStyle}>{errors.email}</Text>
-                    )}
+                  <DropDownPicker
+                    props={{activeOpacity: 1}}
+                    style={styles.dropdownStyle}
+                    open={open}
+                    placeholder="Select email for mail"
+                    searchPlaceholderTextColor="#AAB1BC"
+                    placeholderStyle={{
+                      color: '#AAB1BC',
+                      fontFamily: fonts.regular,
+                      fontSize: wp(3.6),
+                      marginHorizontal: wp(3),
+                    }}
+                    value={value}
+                    items={items}
+                    setOpen={setOpen}
+                    showArrowIcon={true}
+                    showTickIcon={false}
+                    dropDownContainerStyle={styles.dropDownContainerStyle}
+                    arrowIconStyle={styles.arrowIconStyle}
+                    listItemLabelStyle={{color: 'black'}}
+                    containerStyle={styles.containerStyle}
+                    textStyle={{color: 'black', marginHorizontal: wp(3)}}
+                    labelStyle={{color: 'black'}}
+                    setValue={setValue}
+                    setItems={setItems}
+                  />
 
-                    <View style={styles.subjectStyle}>
-                      <Text style={styles.subjectTextStyle}>Email Subject</Text>
-                      <TextInput
-                        placeholder="Write your subject"
-                        placeholderTextColor="gray"
-                        onChangeText={text => setSubj(text)}
-                        value={subj}
-                        style={styles.subjectInputStyle}
-                      />
-                      <Text style={styles.contentTextStyle}>Email Content</Text>
-                      <TextInput
-                        placeholder="Write your content"
-                        placeholderTextColor="gray"
-                        onChangeText={text => setcontent(text)}
-                        value={content}
-                        style={styles.contentInputStyle}
-                        multiline={true}
-                        //numberOfLines={10}
-                      />
-                      {files.length != 0 ? (
-                        <View style={{height: hp(16.5)}}>
-                          <FlatList
-                            data={files}
-                            showsVerticalScrollIndicator={false}
-                            renderItem={({item, index}) => {
-                              return (
-                                <View style={styles.attachmentStyle}>
-                                  <TouchableOpacity
-                                    onPress={() => DeleteFile(index)}
-                                    style={styles.crossBtnStyle}>
-                                    <Image
-                                      source={require('../../assets/png/CrossImage.png')}
-                                      style={styles.crossImageStyle}
-                                      resizeMode="contain"
-                                    />
-                                  </TouchableOpacity>
-                                  <Text style={styles.labelStyle}>
-                                    {item.name}
-                                  </Text>
-                                </View>
-                              );
-                            }}
-                          />
-                        </View>
-                      ) : null}
-                    </View>
-                    {/* <View style={{marginRight: wp(4), marginTop: hp(2)}}>
+                  <View style={styles.toContainer}>
+                    <Text style={styles.toStyle}>To :</Text>
+                    <TextInput
+                      //placeholder="Type"
+                      numberOfLines={1}
+                      style={{width: wp(60)}}
+                      onChangeText={handleChange('email')}
+                      onBlur={handleBlur('email')}
+                      value={email}
+                      autoCapitalize="none"
+                      keyboardType={'email-address'}
+                    />
+                  </View>
+                  {touched.email && errors.email && (
+                    <Text style={styles.warningStyle}>{errors.email}</Text>
+                  )}
+
+                  <View
+                    style={[
+                      styles.subjectStyle,
+                      {
+                        height: subject == '' && content == '' ? hp(55) : null,
+                      },
+                    ]}>
+                    <Text style={styles.subjectTextStyle}>Email Subject</Text>
+                    <TextInput
+                      placeholder="Write your subject"
+                      placeholderTextColor="gray"
+                      onChangeText={handleChange('subject')}
+                      onBlur={handleBlur('subject')}
+                      value={subject}
+                      style={styles.subjectInputStyle}
+                    />
+
+                    <Text style={styles.contentTextStyle}>Email Content</Text>
+                    <TextInput
+                      placeholder="Write your content"
+                      placeholderTextColor="gray"
+                      onChangeText={handleChange('content')}
+                      onBlur={handleBlur('content')}
+                      value={content}
+                      style={[
+                        styles.contentInputStyle,
+                        {height: content.length < 50 ? hp(20) : null},
+                      ]}
+                      multiline={true}
+                      //numberOfLines={10}
+                    />
+
+                    {files.length != 0 ? (
+                      <View style={{marginBottom: hp(7)}}>
+                        <FlatList
+                          data={files}
+                          extraData={files}
+                          nestedScrollEnabled={true}
+                          showsVerticalScrollIndicator={false}
+                          renderItem={({item, index}) => {
+                            return (
+                              <View style={styles.attachmentStyle}>
+                                {/* <TouchableOpacity
+                                onPress={() => DeleteFile(index)}
+                                style={styles.crossBtnStyle}>
+                                <Image
+                                  source={require('../../assets/png/CrossImage.png')}
+                                  style={styles.crossImageStyle}
+                                  resizeMode="contain"
+                                />
+                              </TouchableOpacity>
+                              <Text style={styles.labelStyle}>{item.name}</Text> */}
+                                <BluePaperPin />
+                                <Text
+                                  style={styles.labelStyle}
+                                  numberOfLines={1}>
+                                  {item.name}
+                                </Text>
+                                <TouchableOpacity
+                                  onPress={() => DeleteFile(index)}>
+                                  <RedCross />
+                                </TouchableOpacity>
+                              </View>
+                            );
+                          }}
+                        />
+                      </View>
+                    ) : null}
+                  </View>
+                  {touched.content && errors.content && (
+                    <Text style={styles.warning1Style}>{errors.content}</Text>
+                  )}
+                  {touched.subject && errors.subject && (
+                    <Text style={styles.warning2Style}>{errors.subject}</Text>
+                  )}
+                  {/* <View style={{marginRight: wp(4), marginTop: hp(2)}}>
               <FloatingAction
                 backgroundColor="red"
                 floatingIcon={<PaperClip />}
                 onPressMain={() => Documentpicker()}
               />
             </View> */}
-                    <TouchableOpacity
-                      activeOpacity={1}
-                      onPress={() => Documentpicker()}
-                      style={styles.floatingActionStyle}>
-                      <LinearGradient
-                        colors={['#6FB3FF', '#7F5AFF']}
-                        start={{y: 0.0, x: 0.0}}
-                        style={styles.floatingBtnStyle}
-                        end={{y: 0.0, x: 1.0}}>
-                        <PaperClip />
-                      </LinearGradient>
-                    </TouchableOpacity>
+                  <TouchableOpacity
+                    disabled={isLoading ? true : false}
+                    activeOpacity={1}
+                    onPress={() => Documentpicker()}
+                    style={styles.floatingActionStyle}>
+                    <LinearGradient
+                      colors={['#6FB3FF', '#7F5AFF']}
+                      start={{y: 0.0, x: 0.0}}
+                      style={styles.floatingBtnStyle}
+                      end={{y: 0.0, x: 1.0}}>
+                      <PaperClip />
+                    </LinearGradient>
+                  </TouchableOpacity>
 
-                    <View style={styles.sendBtnStyle}>
-                      <GradientButton onPress={handleSubmit} title={'Send'} />
-                    </View>
-                  </>
-                );
-              }}
-            </Formik>
-          </ScrollView>
-        )}
+                  <View style={styles.sendBtnStyle}>
+                    <GradientButton
+                      onPress={handleSubmit}
+                      title={'Send'}
+                      condition={isLoading}
+                    />
+                  </View>
+                </>
+              );
+            }}
+          </Formik>
+        </ScrollView>
       </ImageBackground>
     </KeyboardAvoidingView>
   );
@@ -427,7 +499,8 @@ const styles = {
   },
   toStyle: {
     alignSelf: 'center',
-    marginHorizontal: wp(6),
+    marginLeft: wp(6),
+    marginRight: wp(2),
     fontFamily: 'SF Pro Text',
     color: 'black',
   },
@@ -447,7 +520,7 @@ const styles = {
     marginHorizontal: wp(10),
     borderRadius: wp(4),
     backgroundColor: 'rgba(255, 255, 255, 0.72)',
-    height: hp(55),
+
     //backgroundColor: 'red',
   },
   subjectTextStyle: {
@@ -474,7 +547,7 @@ const styles = {
   },
   contentInputStyle: {
     marginHorizontal: wp(5),
-    height: hp(20),
+    marginBottom: hp(8),
     textAlignVertical: 'top',
     //backgroundColor: 'red',
     color: 'black',
@@ -510,12 +583,15 @@ const styles = {
     marginTop: hp(-5),
   },
   attachmentStyle: {
-    justifyContent: 'center',
+    justifyContent: 'space-around',
     width: wp(70),
     marginHorizontal: wp(6),
-    borderWidth: 1,
+    flexDirection: 'row',
     marginVertical: hp(1),
-    borderColor: 'blue',
+    backgroundColor: '#EAEAFF',
+    borderRadius: wp(10),
+    alignSelf: 'center',
+    alignItems: 'center',
   },
   floatingActionStyle: {
     height: hp(8),
@@ -535,7 +611,8 @@ const styles = {
   labelStyle: {
     alignSelf: 'center',
     color: 'black',
-    marginBottom: hp(1.5),
+    marginVertical: hp(2),
+    width: wp(40),
   },
   warningStyle: {
     marginHorizontal: wp(28),
@@ -543,6 +620,18 @@ const styles = {
     marginBottom: hp(1),
     fontSize: wp('3%'),
     color: 'red',
+  },
+  warning1Style: {
+    marginHorizontal: wp(13),
+    fontSize: wp('3%'),
+    color: 'red',
+    marginTop: hp(-2),
+  },
+  warning2Style: {
+    marginHorizontal: wp(13),
+    fontSize: wp('3%'),
+    color: 'red',
+    marginTop: hp(-4),
   },
 };
 
