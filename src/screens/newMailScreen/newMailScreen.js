@@ -93,18 +93,22 @@ const NewMailScreen = props => {
       if (files.length < 1) {
         setFiles([...files, ...res]);
       } else {
+        let count = 0;
         files.map(i => {
-          console.log('I:    ', i.name, res[0].name);
+          //console.log('I:    ', i.name, res[0].name);
           if (i.name === res[0].name) {
-            Toast.showWithGravity(
-              'File alreday exits',
-              Toast.SHORT,
-              Toast.BOTTOM,
-            );
-          } else {
-            setFiles([...files, ...res]);
+            count = 1;
           }
         });
+        if (count == 0) {
+          setFiles([...files, ...res]);
+        } else {
+          Toast.showWithGravity(
+            'File alreday exits',
+            Toast.SHORT,
+            Toast.BOTTOM,
+          );
+        }
       }
 
       // console.log('Response:  ', res[0].name);
@@ -153,11 +157,7 @@ const NewMailScreen = props => {
 
         console.log(err[0]);
         setIsLoading(false);
-        Toast.showWithGravity(
-          JSON.stringify(err[0]),
-          Toast.SHORT,
-          Toast.BOTTOM,
-        );
+        Toast.showWithGravity(err[0], Toast.SHORT, Toast.BOTTOM);
       });
 
     // setcontent('');
@@ -201,8 +201,8 @@ const NewMailScreen = props => {
 
   const userInfo = {
     email: '',
-    subject: props.route.params.msg,
-    content: props.route.params.subject,
+    subject: props.route.params.subject,
+    content: props.route.params.msg,
   };
 
   const validationSchema = yup.object({
@@ -273,7 +273,10 @@ const NewMailScreen = props => {
                     setOpen={setOpen}
                     showArrowIcon={true}
                     showTickIcon={false}
-                    dropDownContainerStyle={styles.dropDownContainerStyle}
+                    dropDownContainerStyle={[
+                      styles.dropDownContainerStyle,
+                      {height: items.length > 3 ? hp(15) : null},
+                    ]}
                     arrowIconStyle={styles.arrowIconStyle}
                     listItemLabelStyle={{color: 'black'}}
                     containerStyle={styles.containerStyle}
@@ -304,7 +307,12 @@ const NewMailScreen = props => {
                     style={[
                       styles.subjectStyle,
                       {
-                        height: subject == '' && content == '' ? hp(55) : null,
+                        height:
+                          subject == '' &&
+                          content.length == '' &&
+                          files.length < 1
+                            ? hp(55)
+                            : null,
                       },
                     ]}>
                     <Text style={styles.subjectTextStyle}>Email Subject</Text>
@@ -326,14 +334,14 @@ const NewMailScreen = props => {
                       value={content}
                       style={[
                         styles.contentInputStyle,
-                        {height: content.length < 50 ? hp(20) : null},
+                        {height: content.length < 350 ? hp(25) : null},
                       ]}
                       multiline={true}
                       //numberOfLines={10}
                     />
 
                     {files.length != 0 ? (
-                      <View style={{marginBottom: hp(7)}}>
+                      <View>
                         <FlatList
                           data={files}
                           extraData={files}
@@ -368,13 +376,21 @@ const NewMailScreen = props => {
                         />
                       </View>
                     ) : null}
+                    <TouchableOpacity
+                      disabled={isLoading ? true : false}
+                      activeOpacity={1}
+                      onPress={() => Documentpicker()}
+                      style={styles.floatingActionStyle}>
+                      <LinearGradient
+                        colors={['#6FB3FF', '#7F5AFF']}
+                        start={{y: 0.0, x: 0.0}}
+                        style={styles.floatingBtnStyle}
+                        end={{y: 0.0, x: 1.0}}>
+                        <PaperClip />
+                      </LinearGradient>
+                    </TouchableOpacity>
                   </View>
-                  {touched.content && errors.content && (
-                    <Text style={styles.warning1Style}>{errors.content}</Text>
-                  )}
-                  {touched.subject && errors.subject && (
-                    <Text style={styles.warning2Style}>{errors.subject}</Text>
-                  )}
+
                   {/* <View style={{marginRight: wp(4), marginTop: hp(2)}}>
               <FloatingAction
                 backgroundColor="red"
@@ -382,19 +398,13 @@ const NewMailScreen = props => {
                 onPressMain={() => Documentpicker()}
               />
             </View> */}
-                  <TouchableOpacity
-                    disabled={isLoading ? true : false}
-                    activeOpacity={1}
-                    onPress={() => Documentpicker()}
-                    style={styles.floatingActionStyle}>
-                    <LinearGradient
-                      colors={['#6FB3FF', '#7F5AFF']}
-                      start={{y: 0.0, x: 0.0}}
-                      style={styles.floatingBtnStyle}
-                      end={{y: 0.0, x: 1.0}}>
-                      <PaperClip />
-                    </LinearGradient>
-                  </TouchableOpacity>
+
+                  {touched.content && errors.content && (
+                    <Text style={styles.warning1Style}>{errors.content}</Text>
+                  )}
+                  {touched.subject && errors.subject && (
+                    <Text style={styles.warning2Style}>{errors.subject}</Text>
+                  )}
 
                   <View style={styles.sendBtnStyle}>
                     <GradientButton
@@ -468,7 +478,7 @@ const styles = {
   dropDownContainerStyle: {
     backgroundColor: 'white',
     borderColor: 'white',
-    height: hp(15),
+
     borderRadius: wp(5),
   },
 
@@ -520,8 +530,8 @@ const styles = {
     marginHorizontal: wp(10),
     borderRadius: wp(4),
     backgroundColor: 'rgba(255, 255, 255, 0.72)',
-
     //backgroundColor: 'red',
+    // justifyContent: 'flex-end',
   },
   subjectTextStyle: {
     fontSize: wp(3.4),
@@ -533,7 +543,7 @@ const styles = {
   },
   subjectInputStyle: {
     marginHorizontal: wp(5),
-    // backgroundColor: 'red',
+    //backgroundColor: 'red',
     marginTop: hp(-2.5),
 
     height: hp(5),
@@ -547,7 +557,7 @@ const styles = {
   },
   contentInputStyle: {
     marginHorizontal: wp(5),
-    marginBottom: hp(8),
+
     textAlignVertical: 'top',
     //backgroundColor: 'red',
     color: 'black',
@@ -580,7 +590,7 @@ const styles = {
     alignSelf: 'center',
     width: wp(83),
     marginBottom: hp(3),
-    marginTop: hp(-5),
+    marginTop: hp(2),
   },
   attachmentStyle: {
     justifyContent: 'space-around',
@@ -594,11 +604,15 @@ const styles = {
     alignItems: 'center',
   },
   floatingActionStyle: {
+    flex: 1,
     height: hp(8),
     width: wp(20),
     alignSelf: 'flex-end',
-    bottom: hp(8),
-    marginRight: wp(8),
+    justifyContent: 'flex-end',
+
+    marginBottom: hp(1),
+    marginRight: wp(-1),
+    //backgroundColor: 'red',
   },
   floatingBtnStyle: {
     borderRadius: hp(7),
@@ -625,13 +639,11 @@ const styles = {
     marginHorizontal: wp(13),
     fontSize: wp('3%'),
     color: 'red',
-    marginTop: hp(-2),
   },
   warning2Style: {
     marginHorizontal: wp(13),
     fontSize: wp('3%'),
     color: 'red',
-    marginTop: hp(-4),
   },
 };
 

@@ -54,15 +54,20 @@ const MailScreen = props => {
 
   const renderItem = ({item}) => {
     let Split = moment(item.latesttime).format('DD/MM/YYYY');
+    let firstMail = '';
+    let secondMail = '';
+    let receiverEmail = items.includes(item.first) ? item.second : item.first;
+    let senderEmail = items.includes(item.first) ? item.first : item.second;
+
     let time = Split.split(':');
-    let name = item.second.split('@');
+    let name = receiverEmail.split('@');
     return (
       <>
         <TouchableOpacity
           style={styles.item}
           onPress={() =>
             props.navigation.navigate('MailIndox', {
-              email: item.first,
+              email: senderEmail,
               name: name[0],
               msg: item.email_body,
               first: item.first,

@@ -61,7 +61,7 @@ const ChatScreen = props => {
   // make connection with server from user side
 
   useEffect(() => {
-    console.log('Date', new Date());
+    // console.log('Date', new Date());
     PhoneNumbers.forEach(i => {
       if (i.value == 'All') {
         setItems([]);
@@ -122,11 +122,14 @@ const ChatScreen = props => {
       let msgs = [];
       res.data.forEach((msg, index) => {
         if (msg) {
+          let msgDate = moment(msg.timestamp)
+            .utc()
+            .format('YYYY-MM-DD HH:mm:ss');
           const {message, timestamp, second, out} = msg;
           let data = {
             _id: index,
             text: message,
-            createdAt: moment(timestamp),
+            createdAt: moment.utc(timestamp).local(),
             user: {
               _id: out == true ? CurrentUserId : 2,
               name: second,
@@ -147,6 +150,7 @@ const ChatScreen = props => {
 
   const MSGFliterByNumber = value => {
     setIsLoading(true);
+    setMessages([]);
     let params = {
       to: Number,
       from: value,
@@ -157,13 +161,15 @@ const ChatScreen = props => {
         let msgs = [];
         res.data.forEach((msg, index) => {
           if (msg) {
-            let msgData = moment(msg.timestamp).utc().format('hh:mm');
-            console.log('Time', moment(msg.timestamp).utc().format('hh:mm'));
+            let msgDate = moment(msg.timestamp)
+              .utc()
+              .format('YYYY-MM-DD HH:mm:ss');
+            // console.log('Time:', msgDate);
             const {message, timestamp, second, out} = msg;
             let data = {
               _id: index,
               text: message,
-              createdAt: msgData,
+              createdAt: moment.utc(timestamp).local(),
               user: {
                 _id: out == true ? CurrentUserId : 2,
                 name: second,
@@ -183,7 +189,7 @@ const ChatScreen = props => {
         setIsLoading(false);
         //if(typeof res.errors == 'array')
         Toast.showWithGravity(
-          JSON.stringify(res.errors.name),
+          res.errors[0],
           Toast.SHORT,
           Toast.BOTTOM,
           setMessages([]),
@@ -207,12 +213,8 @@ const ChatScreen = props => {
         setIsLoading(false);
       } else {
         setIsLoading(false);
-        let error = res.errors.code.message.split(',');
-        Toast.showWithGravity(
-          JSON.stringify(error[0]),
-          Toast.SHORT,
-          Toast.BOTTOM,
-        );
+        let error = res.errors.message;
+        Toast.showWithGravity(error, Toast.SHORT, Toast.BOTTOM);
       }
     });
   };
@@ -321,7 +323,8 @@ const ChatScreen = props => {
                           justifyContent: 'center',
                           alignItems: 'center',
                           alignSelf: 'center',
-                        }}>
+                        }}
+                        disabled={isLoading ? true : false}>
                         {isLoading == false ? (
                           <Fly alignSelf="center" width={30} height={30} />
                         ) : (

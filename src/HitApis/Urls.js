@@ -1,4 +1,4 @@
-export const BASE_URL = 'http://192.168.1.215:5000/';
+export const BASE_URL = 'https://8711-182-185-192-221.ngrok.io/';
 
 export const LOGIN = BASE_URL + 'api/v1/login';
 export const SETTING = BASE_URL + 'api/v1/settings/notifications';
