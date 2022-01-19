@@ -2,6 +2,7 @@
 import React from 'react';
 import {useEffect, useState} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
+
 import {
   ImageBackground,
   View,
@@ -55,6 +56,19 @@ const CallStart = props => {
 
     return () => backHandler.remove();
   }, []);
+
+  useEffect(() => {
+    initTelephony();
+  }, []);
+
+  const initTelephony = async () => {
+    try {
+      const accessToken = await getAccessTokenFromServer();
+      const success = await TwilioVoice.initWithToken(accessToken);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     //<SafeAreaView style={{flex: 1}}>

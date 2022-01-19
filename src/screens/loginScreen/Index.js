@@ -200,13 +200,13 @@ const LoginScreen = props => {
                       condition={loading}
                     />
                   </View>
-                  <TouchableOpacity
+                  {/* <TouchableOpacity
                     onPress={() => props.navigation.navigate('ForgotScreen')}
                     style={styles.forgotView}>
                     <Text style={styles.forgotStyle}>
                       {FORGOT_PASSWORD_LABEL}
                     </Text>
-                  </TouchableOpacity>
+                  </TouchableOpacity> */}
                 </View>
               </>
             );

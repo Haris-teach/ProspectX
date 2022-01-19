@@ -34,12 +34,40 @@ import NotificationScreen from '../screens/notificationScreen/notificationScreen
 import ChatScreen from '../screens/chatScreen/chatScreen';
 import MailInbox from '../screens/mailMsgScreen/mailMsgScreen';
 import NewMailScreen from '../screens/newMailScreen/newMailScreen';
+import TwilioVoice from 'react-native-twilio-programmable-voice';
+import {GetTwilioToken} from '../redux/Actions/commonAction';
+
+import axios from 'axios';
 
 const RootStack = createNativeStackNavigator();
 const Stack = () => {
   const dispatch = useDispatch();
   const isLogin = useSelector(state => state.authReducer.isLogin);
   const token = useSelector(state => state.authReducer.token);
+
+  const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    var config = {
+      method: 'get',
+      url: 'https://d6ad-182-185-166-32.ngrok.io/api/v1/commmunication/call/gettoken',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    axios(config)
+      .then(function (res) {
+        //console.log('Response:   ', res.data.data.token);
+        dispatch(GetTwilioToken(res.data.data.token));
+      })
+      .catch(function (error) {
+        console.log('error:  ', error);
+      });
+  }, []);
+
+  // initialize the Programmable Voice SDK passing an access token obtained from the server.
+  // Listen to deviceReady and deviceNotReady events to see whether the initialization succeeded.
 
   const AfterLoginAppContainer = () => {
     return (

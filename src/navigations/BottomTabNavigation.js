@@ -71,7 +71,7 @@ const TabScreen = () => (
                 ? hp(1)
                 : height_screen == 736
                 ? hp(0)
-                : -hp(3)
+                : -hp(3.5)
               : hp(1),
         },
       }}
@@ -97,7 +97,7 @@ const TabScreen = () => (
                 ? hp(1)
                 : height_screen == 736
                 ? hp(0)
-                : -hp(3)
+                : -hp(3.5)
               : hp(1),
         },
       }}
@@ -119,7 +119,7 @@ const TabScreen = () => (
                 ? hp(1)
                 : height_screen == 736
                 ? hp(0)
-                : -hp(3)
+                : -hp(3.5)
               : hp(1),
         },
       }}

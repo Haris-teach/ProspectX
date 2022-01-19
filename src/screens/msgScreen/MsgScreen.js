@@ -15,18 +15,21 @@ import {
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 import {useIsFocused} from '@react-navigation/native';
+import LinearGradient from 'react-native-linear-gradient';
 import {useSelector, useDispatch} from 'react-redux';
 import moment from 'moment';
 import io from 'socket.io-client';
 import CalendarPicker from 'react-native-calendar-picker';
 import {Dialog} from 'react-native-simple-dialogs';
+import Toast from 'react-native-simple-toast';
 
 // ================local import=================
 import images from '../../assets/images/Images';
 import colors from '../../assets/colors/Colors';
 import RNDropDown from '../../components/RNDropDown/RnDropDown';
 import HitApi from '../../HitApis/APIHandler';
-import {MSGTHREADS} from '../../HitApis/Urls';
+import {MSGTHREADS, GETPHONENUM} from '../../HitApis/Urls';
+import {GetNumbers} from '../../redux/Actions/commonAction';
 // =============================================
 
 // ============SVG Imports===================
@@ -39,6 +42,7 @@ import Contact from '../../assets/svg/contact.svg';
 import Msg from '../../assets/svg/msgIcon.svg';
 import Contact2 from '../../assets/svg/c1.svg';
 import axios from 'axios';
+
 // =========================================
 
 const DATA = [
@@ -64,6 +68,7 @@ const DATA = [
 
 const MsgScreen = props => {
   const isFocused = useIsFocused();
+  const dispatch = useDispatch();
 
   const [items, setItems] = useState([]);
   const [open, setOpen] = useState(false);
@@ -83,12 +88,35 @@ const MsgScreen = props => {
   // console.log('PHONE NUMBERS:   ', PhoneNumbers);
 
   //['+923346844455'],
+
+  // const GetAllNumbers = () => {
+  //   HitApi(GETPHONENUM, 'get', '', token).then(res => {
+  //     res.data.forEach(i => {
+  //       items.push({
+  //         id: i.id + 1,
+  //         label: i.label,
+  //         value: i.value,
+  //       });
+  //       setItems(items);
+  //     });
+  //     dispatch(GetNumbers(items));
+  //   });
+  // };
+
+  // useEffect(() => {
+  //   GetAllNumbers();
+  // }, []);
   // ============== GET all msgs threads function ================
 
   const MsgsThreads = pageVAl => {
     let params = {
       filters: {
         numbers: pageVAl === 'All' ? [] : [pageVAl],
+
+        date: {
+          start_date: startDate,
+          end_date: endDate,
+        },
       },
       pagination: {
         page_number: page,
@@ -100,12 +128,18 @@ const MsgScreen = props => {
       if (res.status == 1) {
         if (page == 1) {
           setMsgData(res.data);
+          setStartDate('');
+          setEndDate('');
         } else {
           setMsgData([...msgData, ...res.data]);
+          setStartDate('');
+          setEndDate('');
         }
         setIsLoading(false);
       } else {
         setIsLoading(false);
+        setStartDate('');
+        setEndDate('');
       }
     });
   };
@@ -120,12 +154,15 @@ const MsgScreen = props => {
   const LoadMoreData = () => {
     if (msgData.length > 9) {
       setPage(page + 1);
-      console.log('Trigger ho reha ha:', page, value);
+      // console.log('Trigger ho reha ha:', page, value);
       MsgsThreads(value);
     }
     // setPageSize(5);
     // MsgsThreads('All');
   };
+
+  //console.log(moment(startDate).isAfter(moment(endDate)));
+
   // ============= END ========================
 
   const renderItem = ({item}) => {
@@ -173,30 +210,68 @@ const MsgScreen = props => {
       <Dialog
         visible={isvisible}
         dialogStyle={{
-          borderRadius: 8,
           width: wp(98),
+          height: hp(50),
           marginHorizontal: wp(-5),
         }}
-        animationType="SLIDE"
         onTouchOutside={() => setIsVisible(false)}>
-        <CalendarPicker
-          onDateChange={(date, param) => {
-            if (param == 'START_DATE') {
-              setStartDate(date);
-            } else if (param == 'END_DATE') {
-              setEndDate(date);
-            } else {
-              return null;
-            }
-          }}
-          allowRangeSelection={true}
-          selectedRangeStartTextStyle={{color: 'white'}}
-          selectedRangeEndTextStyle={{color: 'white'}}
-          selectedRangeStyle={{backgroundColor: '#7F5AFF'}}
-        />
+        <View
+          style={{
+            backgroundColor: '#7F5AFF',
+            marginTop: hp(-2.3),
+            padding: hp(1.5),
+            borderBottomRightRadius: hp(10),
+            borderBottomLeftRadius: hp(10),
+            borderColor: 'white',
+            borderWidth: 1,
+            width: wp(97.9),
+            marginLeft: wp(-6),
+          }}>
+          <Text style={{color: 'white', alignSelf: 'center'}}>
+            Select Range Date
+          </Text>
+        </View>
+        <View style={{height: hp(38.65)}}>
+          <CalendarPicker
+            width={wp(100)}
+            // resetSelections
+            // height={hp(60)}
+            onDateChange={(date, param) => {
+              if (param == 'START_DATE') {
+                setStartDate(moment(date).format('YYYY-MM-DD'));
+              } else if (param == 'END_DATE') {
+                setEndDate(moment(date).format('YYYY-MM-DD'));
+              }
+            }}
+            maxDate={new Date()}
+            allowRangeSelection={true}
+            selectedRangeStartTextStyle={{color: 'white'}}
+            selectedRangeEndTextStyle={{color: 'white'}}
+            selectedRangeStyle={{backgroundColor: '#7F5AFF'}}
+            allowBackwardRangeSelect={true}
+            previousTitleStyle={{color: '#7F5AFF'}}
+            nextTitleStyle={{
+              color: '#7F5AFF',
+            }}
+          />
+        </View>
 
         <TouchableOpacity
-          onPress={() => setIsVisible(false)}
+          onPress={() => {
+            if (endDate === '' || endDate == 'Invalid date') {
+              // console.log('EndDate:  ', endDate);
+              Toast.show('Please select end date');
+            } else {
+              setIsLoading(true);
+              if (value == []) {
+                setIsVisible(false);
+                MsgsThreads('All');
+              } else {
+                setIsVisible(false);
+                MsgsThreads(value);
+              }
+            }
+          }}
           style={styles.calanderBtnStyle}>
           <Text style={{alignSelf: 'center', color: 'white'}}>Done</Text>
         </TouchableOpacity>
@@ -228,7 +303,7 @@ const MsgScreen = props => {
 
         <RNDropDown
           open={open}
-          placeholder="Select number for call"
+          placeholder="Select an number"
           value={value}
           items={PhoneNumbers}
           setOpen={setOpen}
@@ -237,9 +312,10 @@ const MsgScreen = props => {
           onPress={value => {
             setPage(1);
             setIsLoading(true);
+
             MsgsThreads(value.value);
           }}
-          //onPress2={() => setIsVisible(true)}
+          onPress2={() => setIsVisible(true)}
           svg={<Contact />}
           svg2={<Contact2 />}
         />
@@ -280,32 +356,23 @@ const MsgScreen = props => {
         </View>
       </View>
 
-      <TouchableOpacity
-        disabled
-        activeOpacity={0.5}
-        onPress={() => props.navigation.navigate('Chat', {Thread: []})}
-        style={{
-          height: hp(8),
-          width: wp(20),
-          alignSelf: 'flex-end',
-          bottom: hp(8),
-          marginRight: wp(5),
-        }}>
-        {/* <LinearGradient
+      {/* <TouchableOpacity
+        activeOpacity={1}
+        onPress={() =>
+          props.navigation.navigate('Chat', {
+            Number: null,
+            ThreadId: null,
+          })
+        }
+        style={styles.floatingActionStyle}>
+        <LinearGradient
           colors={['#6FB3FF', '#7F5AFF']}
           start={{y: 0.0, x: 0.0}}
-          style={{
-            borderRadius: hp(7),
-            height: hp(7),
-            width: hp(7),
-            justifyContent: 'center',
-            alignItems: 'center',
-            alignSelf: 'center',
-          }}
+          style={styles.floatingBtnStyle}
           end={{y: 0.0, x: 1.0}}>
           <Pen />
-        </LinearGradient> */}
-      </TouchableOpacity>
+        </LinearGradient>
+      </TouchableOpacity> */}
     </ImageBackground>
   );
 };
@@ -423,6 +490,8 @@ const styles = {
     borderRadius: wp(5),
     marginTop: hp(2),
     borderColor: '#FFFFFF',
+    marginBottom: hp(8),
+    //height: hp(50),
   },
   nameStyle: {
     fontFamily: 'SF Pro Text',
@@ -452,11 +521,28 @@ const styles = {
     marginTop: hp(-1),
   },
   calanderBtnStyle: {
-    width: wp(20),
-    height: hp(4),
     backgroundColor: '#7F5AFF',
-    justifyContent: 'center',
-    borderRadius: wp(4),
+
+    padding: hp(1.5),
+    borderRadius: hp(10),
+    borderColor: 'white',
+    borderWidth: 1,
+    width: wp(50),
+    alignSelf: 'center',
+  },
+  floatingActionStyle: {
+    height: hp(8),
+    width: wp(20),
     alignSelf: 'flex-end',
+    bottom: hp(8),
+    marginRight: wp(5),
+  },
+  floatingBtnStyle: {
+    borderRadius: hp(7),
+    height: hp(7),
+    width: hp(7),
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
   },
 };

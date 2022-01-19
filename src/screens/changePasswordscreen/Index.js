@@ -61,11 +61,7 @@ const ChangePassword = props => {
           Toast.BOTTOM,
         );
       } else {
-        Toast.showWithGravity(
-          JSON.stringify(res.errors),
-          Toast.SHORT,
-          Toast.BOTTOM,
-        );
+        Toast.showWithGravity(res.errors, Toast.SHORT, Toast.BOTTOM);
       }
     });
   };
@@ -148,7 +144,7 @@ const ChangePassword = props => {
                   <Text style={styles.textStyle}>{CHANGE_PASS_DESC}</Text>
 
                   <ChangePasswordComponent
-                    placeholder={OLD_PASSWORD}
+                    placeholder={'Current Password'}
                     value={oldPassword}
                     onChange={handleChange('oldPassword')}
                     onBlur={handleBlur('oldPassword')}

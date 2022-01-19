@@ -222,7 +222,16 @@ const NotificationScreen = props => {
   const token = useSelector(state => state.authReducer.token);
 
   useEffect(() => {
-    HitApi(GETALLNOTIFICATION, 'POST', '', token).then(res => {
+    GetNotifications();
+  }, []);
+
+  const GetNotifications = () => {
+    let params = {
+      order_by: {
+        created_at: 'desc',
+      },
+    };
+    HitApi(GETALLNOTIFICATION, 'POST', params, token).then(res => {
       if (res.status == 1) {
         setData(res.data);
         setIsLoading(false);
@@ -230,7 +239,7 @@ const NotificationScreen = props => {
         setIsLoading(false);
       }
     });
-  }, []);
+  };
 
   return (
     <ImageBackground
@@ -267,7 +276,7 @@ const NotificationScreen = props => {
                 marginBottom: hp(10),
               }}>
               <Text style={{alignSelf: 'center', color: 'black'}}>
-                Response not get! Due to bad network
+                Record not found
               </Text>
             </View>
           ) : (
@@ -276,6 +285,8 @@ const NotificationScreen = props => {
               data={data}
               renderItem={renderItem}
               keyExtractor={item => item.id}
+              refreshing={isLoading}
+              onRefresh={() => GetNotifications()}
             />
           )}
         </View>

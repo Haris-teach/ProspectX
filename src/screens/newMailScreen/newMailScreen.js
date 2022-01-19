@@ -136,7 +136,7 @@ const NewMailScreen = props => {
       });
     });
 
-    console.log('DATA:   ', data);
+    // console.log('DATA:   ', data);
     var config = {
       method: 'post',
       url: SENDEMAIL,
@@ -149,13 +149,13 @@ const NewMailScreen = props => {
     axios(config)
       .then(function (response) {
         setIsLoading(false);
-        console.log('Response:    ', JSON.stringify(response.data));
+        // console.log('Response:    ', JSON.stringify(response.data));
         props.navigation.goBack();
       })
       .catch(function (error) {
         let err = error.response.data.errors[0].split('.');
 
-        console.log(err[0]);
+        // console.log(err[0]);
         setIsLoading(false);
         Toast.showWithGravity(err[0], Toast.SHORT, Toast.BOTTOM);
       });
@@ -176,7 +176,7 @@ const NewMailScreen = props => {
 
   const DeleteFile = i => {
     setFiles(files.filter((item, index) => index != i));
-    console.log(files);
+    // console.log(files);
   };
 
   useEffect(() => {
@@ -629,8 +629,8 @@ const styles = {
     width: wp(40),
   },
   warningStyle: {
-    marginHorizontal: wp(28),
-    marginTop: hp(-2),
+    marginHorizontal: wp(13),
+    marginTop: hp(-1.5),
     marginBottom: hp(1),
     fontSize: wp('3%'),
     color: 'red',

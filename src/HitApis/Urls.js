@@ -1,13 +1,14 @@
-export const BASE_URL = 'https://8711-182-185-192-221.ngrok.io/';
+export const BASE_URL = 'https://app2.prospectx.com/';
+//export const BASE_URL = 'https://d6ad-182-185-166-32.ngrok.io/';
 
 export const LOGIN = BASE_URL + 'api/v1/login';
 export const SETTING = BASE_URL + 'api/v1/settings/notifications';
 export const CHANGEPASS = BASE_URL + 'api/v1/profile/change-password';
 export const GETPHONENUM = BASE_URL + 'api/v1/user/phone/numbers';
-export const MSGTHREADS = BASE_URL + 'user/message/threads';
-export const GETMSGS = BASE_URL + 'user/message/thread';
+export const MSGTHREADS = BASE_URL + 'api/v1/user/message/threads';
+export const GETMSGS = BASE_URL + 'api/v1/user/message/thread';
 export const SENDMESSAGE = BASE_URL + 'api/v1/communication/send/message';
-export const GETALLNOTIFICATION = BASE_URL + 'notifications/search';
+export const GETALLNOTIFICATION = BASE_URL + 'api/v1/notifications/search';
 export const GETMSGSBYNUMBER = BASE_URL + 'api/v1/user/message/thread';
 export const SENDEMAIL = BASE_URL + 'api/v1/communication/send/email';
 export const GETEMAIL = BASE_URL + 'api/v1/user/mail/emails';

@@ -2,12 +2,14 @@ import {
   GET_ALL_EMAILS,
   GET_ALL_NUMBERS,
   GET_NOTIFICATION,
+  TWILIO_TOKEN,
 } from '../Actions/actionType';
 
 const INITIAL_STATE = {
   Numbers: 'Hello',
   NotiNumber: 0,
   emails: 'Empty',
+  twilioToken: '',
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -26,6 +28,12 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         emails: action.payload,
+      };
+
+    case TWILIO_TOKEN:
+      return {
+        ...state,
+        twilioToken: action.payload,
       };
 
     default:

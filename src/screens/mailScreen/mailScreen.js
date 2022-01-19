@@ -14,8 +14,11 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
+import CalendarPicker from 'react-native-calendar-picker';
+import {Dialog} from 'react-native-simple-dialogs';
 import moment from 'moment';
 import {FloatingAction} from 'react-native-floating-action';
+import Toast from 'react-native-simple-toast';
 import LinearGradient from 'react-native-linear-gradient';
 import {GETEMAIL, GETEMAILTHREADS} from '../../HitApis/Urls';
 import HitApi from '../../HitApis/APIHandler';
@@ -47,10 +50,13 @@ const MailScreen = props => {
   const token = useSelector(state => state.authReducer.token);
   const [items, setItems] = useState([]);
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState('Set Time');
+  const [value, setValue] = useState(null);
   const [page, setPage] = useState(1);
   const [emailData, setEmailData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isvisible, setIsVisible] = useState(false);
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
 
   const renderItem = ({item}) => {
     let Split = moment(item.latesttime).format('DD/MM/YYYY');
@@ -70,14 +76,16 @@ const MailScreen = props => {
               email: senderEmail,
               name: name[0],
               msg: item.email_body,
-              first: item.first,
-              second: item.second,
+              first: senderEmail,
+              second: receiverEmail,
             })
           }>
           <View style={{flex: 1, flexDirection: 'row'}}>
             <Email height={hp(5)} width={wp(10)} />
             <View style={{flex: 1}}>
-              <Text style={styles.nameStyle}>{name[0]}</Text>
+              <Text style={styles.nameStyle} numberOfLines={1}>
+                {name[0]}
+              </Text>
               <Text style={styles.msgStyle} numberOfLines={2}>
                 {item.email_body}
               </Text>
@@ -100,7 +108,7 @@ const MailScreen = props => {
           items.push(obj);
           setItems(items);
         });
-        setItems(items);
+        console.log(items);
         dispatch(GetEmails(items));
       } else {
         setItems([]);
@@ -117,6 +125,10 @@ const MailScreen = props => {
     let params = {
       filters: {
         emails: pageVAl === 'All' ? [] : [pageVAl],
+        date: {
+          start_date: startDate,
+          end_date: endDate,
+        },
       },
       pagination: {
         page_number: page,
@@ -127,11 +139,89 @@ const MailScreen = props => {
     HitApi(GETEMAILTHREADS, 'post', params, token).then(res => {
       if (res.status == 1) {
         setEmailData(res.data);
+        setStartDate('');
+        setEndDate('');
         setIsLoading(false);
       } else {
         setIsLoading(false);
+        setStartDate('');
+        setEndDate('');
       }
     });
+  };
+  console.log('start date:    ', startDate, 'end date:', endDate);
+  const RenderModal = () => {
+    return (
+      <Dialog
+        visible={isvisible}
+        dialogStyle={{
+          width: wp(98),
+          height: hp(50),
+          marginHorizontal: wp(-5),
+        }}
+        onTouchOutside={() => setIsVisible(false)}>
+        <View
+          style={{
+            backgroundColor: '#7F5AFF',
+            marginTop: hp(-2.3),
+            padding: hp(1.5),
+            borderBottomRightRadius: hp(10),
+            borderBottomLeftRadius: hp(10),
+            borderColor: 'white',
+            borderWidth: 1,
+            width: wp(97.9),
+            marginLeft: wp(-6),
+          }}>
+          <Text style={{color: 'white', alignSelf: 'center'}}>
+            Select Range Date
+          </Text>
+        </View>
+        <View style={{height: hp(38.65)}}>
+          <CalendarPicker
+            width={wp(100)}
+            // resetSelections
+            // height={hp(60)}
+            onDateChange={(date, param) => {
+              if (param == 'START_DATE') {
+                setStartDate(moment(date).format('YYYY-MM-DD'));
+              } else if (param == 'END_DATE') {
+                setEndDate(moment(date).format('YYYY-MM-DD'));
+              }
+            }}
+            maxDate={new Date()}
+            allowRangeSelection={true}
+            selectedRangeStartTextStyle={{color: 'white'}}
+            selectedRangeEndTextStyle={{color: 'white'}}
+            selectedRangeStyle={{backgroundColor: '#7F5AFF'}}
+            allowBackwardRangeSelect={true}
+            previousTitleStyle={{color: '#7F5AFF'}}
+            nextTitleStyle={{
+              color: '#7F5AFF',
+            }}
+          />
+        </View>
+
+        <TouchableOpacity
+          onPress={() => {
+            if (endDate === '' || endDate == 'Invalid date') {
+              // console.log('EndDate:  ', endDate);
+              Toast.show('Please select end date');
+            } else {
+              setIsLoading(true);
+              if (value == null) {
+                setIsVisible(false);
+                GetEmailThreads('All');
+              } else {
+                setIsVisible(false);
+                GetEmailThreads(value);
+              }
+            }
+          }}
+          style={styles.calanderBtnStyle}>
+          <Text style={{alignSelf: 'center', color: 'white'}}>Done</Text>
+        </TouchableOpacity>
+      </Dialog>
+    );
   };
 
   return (
@@ -139,6 +229,7 @@ const MailScreen = props => {
       style={styles.mainContainer}
       source={images.splashBackground}>
       <View style={styles.mainContainer}>
+        {RenderModal()}
         {/* ===========Header PArt=========== */}
 
         <View style={styles.headerContainer}>
@@ -169,7 +260,7 @@ const MailScreen = props => {
             setIsLoading(true);
             GetEmailThreads(value.value);
           }}
-          onPress2={() => console.log('Pressed')}
+          onPress2={() => setIsVisible(true)}
           svg={<Email />}
           svg2={<Email />}
         />
@@ -387,6 +478,16 @@ const styles = {
     width: hp(7),
     justifyContent: 'center',
     alignItems: 'center',
+    alignSelf: 'center',
+  },
+  calanderBtnStyle: {
+    backgroundColor: '#7F5AFF',
+
+    padding: hp(1.5),
+    borderRadius: hp(10),
+    borderColor: 'white',
+    borderWidth: 1,
+    width: wp(50),
     alignSelf: 'center',
   },
 };

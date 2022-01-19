@@ -85,7 +85,9 @@ const MailInbox = props => {
         {select == index ? (
           <View style={styles.msgBox}>
             <View style={styles.toContainer}>
-              <Text style={styles.toStyle}>To : {item.second}</Text>
+              <Text style={styles.toStyle}>
+                To : {props.route.params.second}
+              </Text>
             </View>
             <Text style={styles.subjectTextStyle}>Email Subject:</Text>
             <Text style={styles.subject1TextStyle}>{item.email_subject}</Text>

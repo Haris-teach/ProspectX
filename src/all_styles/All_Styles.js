@@ -342,9 +342,12 @@ const AllStyles = {
     borderWidth: 15,
   },
   profileImageStyle: {
-    height: hp(14),
-    width: hp(14),
+    height: hp(17),
+    width: hp(17),
     alignSelf: 'center',
+    borderRadius: hp(17),
+    borderColor: 'white',
+    borderWidth: hp(1.3),
   },
   appHeaderMainView: {
     height: hp(15),
@@ -386,6 +389,7 @@ const AllStyles = {
     paddingHorizontal: wp(5),
     borderColor: colors.whiteColor,
     borderWidth: 1,
+    marginVertical: hp(1),
   },
   profileComponenticonView: {
     height: 30,
@@ -401,7 +405,7 @@ const AllStyles = {
   },
   profileComponentInnerRow: {
     flex: 0.38,
-    justifyContent: 'space-between',
+    //justifyContent: 'space-between',
     alignContent: 'center',
     width: wp(85),
     alignSelf: 'center',
@@ -456,6 +460,8 @@ const AllStyles = {
     fontSize: wp(5),
     color: colors.titleColor,
     fontFamily: fonts.medium,
+
+    alignSelf: 'center',
   },
   settingsSwitchButtonStyle: {
     height: hp(3.7),

@@ -432,6 +432,7 @@ DEPENDENCIES:
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - RNTwilioVoice (from `../node_modules/react-native-twilio-programmable-voice`)
+  - TwilioVoice (~> 5.2.1)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -596,6 +597,6 @@ SPEC CHECKSUMS:
   Yoga: 32a18c0e845e185f4a2a66ec76e1fd1f958f22fa
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 28c3322b6d57458abd375cbc145e8358170b9ee4
+PODFILE CHECKSUM: 1dc9ff40dff64b5ca024af5b566817accf1fa013
 
 COCOAPODS: 1.10.2

@@ -67,6 +67,7 @@ const RNDropDown = props => {
                 ? props.svg
                 : props.svg2}
               <Text
+                numberOfLines={1}
                 style={{
                   marginHorizontal: wp(3),
                   color: 'black',
@@ -130,10 +131,10 @@ const styles = {
   iconStyle: {
     alignSelf: 'center',
     backgroundColor: 'rgba(255, 255, 255, 0.6)',
-    width: hp(6.5),
-    height: hp(6.5),
+    width: hp(6.9),
+    height: hp(6.9),
     marginLeft: wp(2),
     justifyContent: 'center',
-    borderRadius: hp(6.5),
+    borderRadius: hp(6.9),
   },
 };

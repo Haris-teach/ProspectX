@@ -109,9 +109,7 @@ const SettingsScreen = props => {
           marginHorizontal: wp(12),
           marginTop: hp(10),
         }}>
-        <Text style={AllStyles.settingsNotificationStyle}>
-          Email Notification
-        </Text>
+        <Text style={AllStyles.settingsNotificationStyle}>Notifications</Text>
         <Switch
           // style={AllStyles.settingsSwitchButtonStyle}
           trackColor={{false: 'green', true: colors.purpleColor}}
@@ -122,7 +120,7 @@ const SettingsScreen = props => {
         />
       </View>
 
-      <View
+      {/* <View
         style={{
           flexDirection: 'row',
           justifyContent: 'space-between',
@@ -140,7 +138,7 @@ const SettingsScreen = props => {
           onValueChange={() => setIsSms(!isSms)}
           value={isSms}
         />
-      </View>
+      </View> */}
 
       <View style={AllStyles.settingsButtonView}>
         <GradientButton onPress={() => PutSettings()} title={SAVE} />

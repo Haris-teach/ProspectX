@@ -25,6 +25,7 @@ import Settings from '../../assets/images/settings.svg';
 import ChangePassword from '../../assets/images/unlock.svg';
 import Logout from '../../assets/images/logout.svg';
 import {logout} from '../../redux/Actions/authActions';
+import ProfilePic from '../../assets/svg/Profile.svg';
 
 const ProfileScreen = props => {
   const dispatch = useDispatch();
@@ -63,25 +64,27 @@ const ProfileScreen = props => {
         leftIconPress={() => props.navigation.goBack(null)}
       />
 
-      <TouchableOpacity
+      {/* <TouchableOpacity
         disabled={true}
         style={AllStyles.profileImageView}
         // onPress={() => Documentpicker()}
-      >
-        <Image
-          source={images.profile}
-          style={AllStyles.profileImageStyle}
-          resizeMode="contain"
-        />
-      </TouchableOpacity>
+      > */}
+      <Image
+        //source={images.profile}
+        source={require('../../assets/png/profile.png')}
+        style={AllStyles.profileImageStyle}
+        resizeMode="cover"
+      />
+
+      {/* </TouchableOpacity> */}
 
       <View style={AllStyles.profileComponentInnerRow}>
-        <ProfileComponent
+        {/* <ProfileComponent
           onPress={() => props.navigation.navigate('Setting')}
           title={PROFILE_SETTINGS}
           backgroundColor={colors.profileSettingColor}
           svg={<Settings />}
-        />
+        /> */}
         <ProfileComponent
           onPress={() => props.navigation.navigate('ChangePass')}
           title={PROFILE_CHANGE_PASS}
