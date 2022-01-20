@@ -24,14 +24,13 @@ import {
   SPEAKER_TEXT,
 } from '../../constants/ConstStrings';
 import {PROFILE_SCREEN} from '../../constants/Navigator';
+import TwilioVoice from 'react-native-twilio-voice-sdk';
 
 const CallStart = props => {
   const [mute, setMute] = useState(false);
   const [isSpeaker, setIsSpeaker] = useState(false);
   var [timerState, setTimerState] = useState(0);
-  useEffect(() => {
-    timer();
-  }, []);
+
   const timer = () => {
     let count = timerState;
     setInterval(() => {
@@ -58,17 +57,31 @@ const CallStart = props => {
   }, []);
 
   useEffect(() => {
-    initTelephony();
-  }, []);
+    TwilioVoice.on('connect', () => {
+      timer();
+      console.log('Call connect ho gi ha ');
+    });
+    TwilioVoice.on('ringing', () => {
+      console.log('Ringing');
+    });
 
-  const initTelephony = async () => {
-    try {
-      const accessToken = await getAccessTokenFromServer();
-      const success = await TwilioVoice.initWithToken(accessToken);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+    TwilioVoice.on('connectFailure', () => {
+      console.log('connectFailure');
+    });
+    TwilioVoice.on('reconnecting', () => {
+      console.log('reconnecting');
+    });
+    TwilioVoice.on('reconnect', () => {
+      console.log('reconnect');
+    });
+    TwilioVoice.on('disconnect', () => {
+      console.log('disconnent');
+      props.navigation.navigate('Home');
+    });
+    // TwilioVoice.on('ringing', () => {
+    //   console.log('Ringing ho ri ha');
+    // });
+  }, []);
 
   return (
     //<SafeAreaView style={{flex: 1}}>
@@ -90,7 +103,7 @@ const CallStart = props => {
       </View>
       <View style={AllStyles.callStartBottomView}>
         <View style={AllStyles.callStartButtonRow}>
-          <View style={AllStyles.startCallfirstColumn}>
+          {/* <View style={AllStyles.startCallfirstColumn}>
             <TouchableOpacity
               onPress={() => setMute(!mute)}
               style={[AllStyles.startCallMikeView, {backgroundColor: 'white'}]}>
@@ -101,9 +114,9 @@ const CallStart = props => {
               )}
             </TouchableOpacity>
             <Text style={AllStyles.callStartMuteStyle}>{MUTE_TEXT}</Text>
-          </View>
+          </View> */}
 
-          <View style={AllStyles.startCallfirstColumn}>
+          {/* <View style={AllStyles.startCallfirstColumn}>
             <TouchableOpacity
               onPress={() => setIsSpeaker(!isSpeaker)}
               style={[
@@ -116,7 +129,7 @@ const CallStart = props => {
               <Speaker height={20} width={20} />
             </TouchableOpacity>
             <Text style={AllStyles.callStartSpeakerStyle}>{SPEAKER_TEXT}</Text>
-          </View>
+          </View> */}
         </View>
       </View>
       <View style={AllStyles.startCallBottomView}>

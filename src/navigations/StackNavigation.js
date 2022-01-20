@@ -34,7 +34,6 @@ import NotificationScreen from '../screens/notificationScreen/notificationScreen
 import ChatScreen from '../screens/chatScreen/chatScreen';
 import MailInbox from '../screens/mailMsgScreen/mailMsgScreen';
 import NewMailScreen from '../screens/newMailScreen/newMailScreen';
-import TwilioVoice from 'react-native-twilio-programmable-voice';
 import {GetTwilioToken} from '../redux/Actions/commonAction';
 
 import axios from 'axios';
@@ -50,7 +49,7 @@ const Stack = () => {
   useEffect(() => {
     var config = {
       method: 'get',
-      url: 'https://d6ad-182-185-166-32.ngrok.io/api/v1/commmunication/call/gettoken',
+      url: 'https://c120-182-185-205-40.ngrok.io/api/v1/commmunication/call/gettoken',
       headers: {
         Authorization: `Bearer ${token}`,
       },

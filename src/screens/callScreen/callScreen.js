@@ -44,7 +44,9 @@ import Calendar from '../../assets/svg/calendar.svg';
 import Contact from '../../assets/svg/contact.svg';
 import Contact2 from '../../assets/svg/c1.svg';
 
-import TwilioVoice from 'react-native-twilio-programmable-voice';
+//const Device = require('@twilio/voice-sdk').Device;
+
+import TwilioVoice from 'react-native-twilio-voice-sdk';
 
 // =========================================
 
@@ -69,6 +71,7 @@ const DATA = [
 
 const CallScreen = props => {
   const dispatch = useDispatch();
+
   const sizeSheet = useRef();
 
   const token = useSelector(state => state.authReducer.token);
@@ -95,7 +98,7 @@ const CallScreen = props => {
     // );
     return (
       <TouchableOpacity
-        onPress={() => props.navigation.navigate('InComming', {name: title})}
+        // onPress={() => props.navigation.navigate('InComming', {name: title})}
         style={{
           backgroundColor: 'rgba(255, 255, 255, 0.67)',
           marginHorizontal: wp(6),
@@ -190,50 +193,11 @@ const CallScreen = props => {
   //==================== Call functions ==========================
   const twilioToken = useSelector(state => state.commonReducer.twilioToken);
 
-  async function initTelephony() {
-    try {
-      const success = await TwilioVoice.initWithToken(twilioToken);
-      console.log('initiallization status  ', success);
-    } catch (err) {
-      console.err(err);
-    }
-  }
-  // iOS Only
-  function initTelephonyWithUrl() {
-    TwilioVoice.initWithTokenUrl('https://d6ad-182-185-166-32.ngrok.io');
-    try {
-      TwilioVoice.configureCallKit({
-        appName: 'prospectx', // Required param
-        //imageName: 'my_image_name_in_bundle', // OPTIONAL
-        //ringtoneSound: 'my_ringtone_sound_filename_in_bundle', // OPTIONAL
-      });
-    } catch (err) {
-      console.err(err);
-    }
-  }
-  const DeviceReady = () => {
-    TwilioVoice.addEventListener('deviceReady', () => {
-      console.log('Device is ready');
-    });
-  };
-
-  const deviceNotReady = () => {
-    TwilioVoice.addEventListener('deviceNotReady', function (data) {
-      console.log('Device is not ready:   ', data);
-    });
-  };
-
-  const CallConnect = () => {
-    console.log('Call');
-    TwilioVoice.connect({To: '+923174011082'});
-  };
+  // console.log('Token:  ', twilioToken);
 
   useEffect(() => {
-    initTelephony();
-    //initTelephonyWithUrl();
-    // DeviceReady();
-    // deviceNotReady();
-    //initTelephonyWithUrl();
+    console.log('Version:   ', TwilioVoice.version);
+    console.log('Native Version:  ', TwilioVoice.nativeVersion);
   }, []);
 
   //==================== END =====================================
@@ -328,6 +292,13 @@ const CallScreen = props => {
         ref={sizeSheet}
         closeOnDragDown={false}
         closeOnPressMask={true}
+        onClose={async () => {
+          let call = TwilioVoice.connect(twilioToken, {To: isString});
+          console.log('Call:   ', await call);
+          props.navigation.replace('CallStart', {
+            name: isString,
+          });
+        }}
         height={hp(65)}
         customStyles={{
           container: {
@@ -450,7 +421,11 @@ const CallScreen = props => {
               <BlueIcon />
             </TouchableOpacity>
 
-            <TouchableOpacity style={{marginLeft: wp(4)}} onPress={CallConnect}>
+            <TouchableOpacity
+              style={{marginLeft: wp(4)}}
+              onPress={() => {
+                sizeSheet.current.close();
+              }}>
               <PhoneBtn />
             </TouchableOpacity>
 

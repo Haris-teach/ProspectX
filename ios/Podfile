@@ -14,8 +14,8 @@ target 'prospectx' do
   )
 
 
-  pod 'TwilioVoice', '~> 5.2.1'
-  pod 'RNTwilioVoice', :path => '../node_modules/react-native-twilio-programmable-voice'
+
+ 
 
   target 'prospectxTests' do
     inherit! :complete
