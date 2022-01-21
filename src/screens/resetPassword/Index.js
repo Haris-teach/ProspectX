@@ -16,6 +16,8 @@ import {
 } from 'react-native-responsive-screen';
 import * as yup from 'yup';
 import {Formik} from 'formik';
+import {useSelector} from 'react-redux';
+import Toast from 'react-native-simple-toast';
 //=================================== Local Import Files
 import AllStyles from '../../all_styles/All_Styles';
 import BackArrow from '../../assets/images/backarrow.svg';
@@ -31,10 +33,32 @@ import {
 import PasswordField from '../../components/PasswordInput/PasswordInput';
 import Lock from '../../assets/images/lock.svg';
 import GradientButton from '../../components/gradientButton/Button';
+import HitApi from '../../HitApis/APIHandler';
+import {PASSWORDREST} from '../../HitApis/Urls';
 
 const ResetPassword = props => {
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmNewPassword, setConfirmNewpassword] = useState('');
+  const token = useSelector(state => state.authReducer.token);
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  const PasswordReset = v => {
+    setIsLoading(true);
+    let params = {
+      email: props.route.params.email,
+      password: v.password,
+      password_confirmation: v.confirmPassword,
+      token: props.route.params.token,
+    };
+    HitApi(PASSWORDREST, 'post', params, token).then(res => {
+      //console.log('Response:   ', res.data);
+      if (res.status == 1) {
+        props.navigation.navigate('LoginScreen');
+      } else {
+        Toast.show(res.errors[0], Toast.SHORT, ['UIAlertController']);
+      }
+      setIsLoading(false);
+    });
+  };
 
   const userInfo = {
     password: '',
@@ -70,7 +94,7 @@ const ResetPassword = props => {
             initialValues={userInfo}
             validationSchema={validationSchema}
             onSubmit={values => {
-              props.navigation.navigate('LoginScreen');
+              PasswordReset(values);
             }}>
             {({
               handleChange,
@@ -135,6 +159,7 @@ const ResetPassword = props => {
                       //onPress={() => props.navigation.navigate('LoginScreen')}
                       onPress={handleSubmit}
                       title={RESET_BUTTON_TEXT}
+                      condition={isLoading}
                     />
                   </View>
                 </>

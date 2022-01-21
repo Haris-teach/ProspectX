@@ -49,7 +49,7 @@ const Stack = () => {
   useEffect(() => {
     var config = {
       method: 'get',
-      url: 'https://c120-182-185-205-40.ngrok.io/api/v1/commmunication/call/gettoken',
+      url: 'https://bc44-182-185-152-98.ngrok.io/api/v1/commmunication/call/gettoken',
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -57,7 +57,7 @@ const Stack = () => {
 
     axios(config)
       .then(function (res) {
-        //console.log('Response:   ', res.data.data.token);
+        console.log('Response:   ', res.data.data.token);
         dispatch(GetTwilioToken(res.data.data.token));
       })
       .catch(function (error) {

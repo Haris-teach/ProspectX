@@ -15,6 +15,8 @@ import {
 
 import OTPInputView from '@twotalltotems/react-native-otp-input';
 import CountDown from 'react-native-countdown-component';
+import {useSelector} from 'react-redux';
+import Toast from 'react-native-simple-toast';
 //==================================== Local Import Files =========================================
 import BackArrow from '../../assets/images/backarrow.svg';
 import {
@@ -34,12 +36,36 @@ import {
 import {RESET_PASSWORD} from '../../constants/Navigator';
 import colors from '../../assets/colors/Colors';
 import fonts from '../../assets/fonts/Fonts';
+import HitApi from '../../HitApis/APIHandler';
+import {OTPVERIFY} from '../../HitApis/Urls';
 
 const OtpScreen = props => {
-  const [code, setCode] = useState('');
-  const [clearOTP, setClearOTP] = useState(false);
+  const token = useSelector(state => state.authReducer.token);
+  const [otpCode, setOtpCode] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
   const OTPRef = useRef(null);
   const [timer, setTimer] = useState(true);
+
+  const OtpVerify = () => {
+    console.log('OTP CODE:  ', otpCode);
+    setIsLoading(true);
+    let params = {
+      email: props.route.params.email,
+      otp: otpCode,
+    };
+    HitApi(OTPVERIFY, 'post', params, token).then(res => {
+      if (res.status == 1) {
+        props.navigation.navigate('ResetScreen', {
+          token: res.data.token,
+          email: props.route.params.email,
+        });
+      } else {
+        Toast.show(res.errors[0], Toast.SHORT, ['UIAlertController']);
+      }
+      setIsLoading(false);
+    });
+  };
 
   return (
     <KeyboardAvoidingView
@@ -65,17 +91,18 @@ const OtpScreen = props => {
 
         <View style={styles.otpCodeFullView}>
           <OTPInputView
-            ref={OTPRef}
+            // ref={OTPRef}
             style={styles.otpInsideStyle}
             pinCount={4}
-            clearInputs={clearOTP}
             autoFocusOnLoad
             codeInputFieldStyle={styles.otpCodeFieldStyle}
             onCodeFilled={code => {
-              setClearOTP(false);
+              // setClearOTP(false);
               console.log(`Code is ${code}, you are good to go!`);
-              setCode(code);
+              setOtpCode(code);
             }}
+            editable={true}
+            // clearInputs={true}
           />
         </View>
         <View style={styles.otpResendViewStyle}>
@@ -113,7 +140,8 @@ const OtpScreen = props => {
           }}>
           <GradientButton
             title={SUBMIT}
-            onPress={() => props.navigation.navigate('ResetScreen')}
+            onPress={() => OtpVerify()}
+            condition={isLoading}
           />
         </View>
       </ImageBackground>

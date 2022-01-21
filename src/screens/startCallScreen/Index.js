@@ -11,6 +11,7 @@ import {
   SafeAreaView,
   BackHandler,
 } from 'react-native';
+import Toast from 'react-native-simple-toast';
 //======================================== Local Import Files ====================================
 import AllStyles from '../../all_styles/All_Styles';
 import images from '../../assets/images/Images';
@@ -57,16 +58,18 @@ const CallStart = props => {
   }, []);
 
   useEffect(() => {
-    TwilioVoice.on('connect', () => {
-      timer();
-      console.log('Call connect ho gi ha ');
+    TwilioVoice.on('connect', call => {
+      // timer();
+      console.log('Call connect ho gi ha: ', call._state);
     });
-    TwilioVoice.on('ringing', () => {
-      console.log('Ringing');
+    TwilioVoice.on('ringing', status => {
+      console.log('Ringing:   ', status);
     });
 
     TwilioVoice.on('connectFailure', () => {
       console.log('connectFailure');
+      Toast.show('Call not connect');
+      props.navigation.navigate('Home');
     });
     TwilioVoice.on('reconnecting', () => {
       console.log('reconnecting');
@@ -139,7 +142,10 @@ const CallStart = props => {
           start={{y: 0.0, x: 0.0}}
           end={{y: 1.0, x: 1.0}}>
           <TouchableOpacity
-            onPress={() => props.navigation.navigate('Home')}
+            onPress={() => {
+              TwilioVoice.destroy();
+              props.navigation.navigate('Home');
+            }}
             style={AllStyles.startCallDeclineButton}>
             <CallDecline />
           </TouchableOpacity>

@@ -9,6 +9,7 @@ import {
   Text,
   SafeAreaView,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import images from '../../assets/images/Images';
 import {
@@ -17,6 +18,8 @@ import {
 } from 'react-native-responsive-screen';
 import {Formik} from 'formik';
 import * as yup from 'yup';
+import {useSelector} from 'react-redux';
+import Toast from 'react-native-simple-toast';
 //=========================================== Local Import Files ================================
 import styles from './Style';
 import BackArrow from '../../assets/images/backarrow.svg';
@@ -33,8 +36,13 @@ import TextField from '../../components/textInput/TextInput';
 import GradientButton from '../../components/gradientButton/Button';
 import {RESET_PASSWORD} from '../../constants/Navigator';
 import AllStyles from '../../all_styles/All_Styles';
+import HitApi from '../../HitApis/APIHandler';
+import {GETOTP} from '../../HitApis/Urls';
+
 const ForgotPassword = props => {
-  const [email, setEmail] = useState('');
+  const token = useSelector(state => state.authReducer.token);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const userInfo = {
     email: '',
@@ -47,6 +55,22 @@ const ForgotPassword = props => {
       .email('Email must be a valid email address')
       .required('Email is required'),
   });
+
+  const GetOtp = v => {
+    setIsLoading(true);
+    let params = {
+      email: v.email,
+    };
+    HitApi(GETOTP, 'post', params, token).then(res => {
+      //console.log('Response:   ', res.data);
+      if (res.status == 1) {
+        props.navigation.navigate('OtpScreen', {email: v.email});
+      } else {
+        Toast.show(res.errors[0], Toast.SHORT, ['UIAlertController']);
+      }
+      setIsLoading(false);
+    });
+  };
 
   return (
     <KeyboardAvoidingView
@@ -62,7 +86,8 @@ const ForgotPassword = props => {
           initialValues={userInfo}
           validationSchema={validationSchema}
           onSubmit={values => {
-            props.navigation.navigate('OtpScreen');
+            GetOtp(values);
+            //props.navigation.navigate('OtpScreen', {email: values.email});
           }}>
           {({
             handleChange,
@@ -102,11 +127,13 @@ const ForgotPassword = props => {
                       <Text style={Styles.warningStyle}>{errors.email}</Text>
                     )}
                   </View>
+
                   <View style={styles.bottomView}>
                     <View style={AllStyles.forgotGradientView}>
                       <GradientButton
                         title={SUBMIT}
                         //onPress={() => props.navigation.navigate('OtpScreen')}
+                        condition={isLoading}
                         onPress={handleSubmit}
                       />
                     </View>

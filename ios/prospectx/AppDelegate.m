@@ -26,6 +26,7 @@ static void InitializeFlipper(UIApplication *application) {
 
 @implementation AppDelegate
 
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   [FIRApp configure];

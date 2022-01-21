@@ -17,6 +17,7 @@ import {
 import {useSelector, useDispatch} from 'react-redux';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import LinearGradient from 'react-native-linear-gradient';
+import Toast from 'react-native-simple-toast';
 
 // ================local import=================
 import RNDropDown from '../../components/RNDropDown/RnDropDown';
@@ -43,8 +44,6 @@ import Dilar from '../../assets/svg/dilar';
 import Calendar from '../../assets/svg/calendar.svg';
 import Contact from '../../assets/svg/contact.svg';
 import Contact2 from '../../assets/svg/c1.svg';
-
-//const Device = require('@twilio/voice-sdk').Device;
 
 import TwilioVoice from 'react-native-twilio-voice-sdk';
 
@@ -193,8 +192,6 @@ const CallScreen = props => {
   //==================== Call functions ==========================
   const twilioToken = useSelector(state => state.commonReducer.twilioToken);
 
-  // console.log('Token:  ', twilioToken);
-
   useEffect(() => {
     console.log('Version:   ', TwilioVoice.version);
     console.log('Native Version:  ', TwilioVoice.nativeVersion);
@@ -293,11 +290,16 @@ const CallScreen = props => {
         closeOnDragDown={false}
         closeOnPressMask={true}
         onClose={async () => {
-          let call = TwilioVoice.connect(twilioToken, {To: isString});
-          console.log('Call:   ', await call);
-          props.navigation.replace('CallStart', {
-            name: isString,
-          });
+          if (isString.length == 13) {
+            let call = TwilioVoice.connect(twilioToken, {
+              phoneNumber: isString,
+              from_number: '+16017518490',
+            });
+            console.log('Call:   ', await call);
+            props.navigation.replace('CallStart', {
+              name: isString,
+            });
+          }
         }}
         height={hp(65)}
         customStyles={{
@@ -424,7 +426,13 @@ const CallScreen = props => {
             <TouchableOpacity
               style={{marginLeft: wp(4)}}
               onPress={() => {
-                sizeSheet.current.close();
+                if (isString.length == 13) {
+                  sizeSheet.current.close();
+                } else {
+                  Toast.show('Number is not valid', Toast.SHORT, [
+                    'UIAlertController',
+                  ]);
+                }
               }}>
               <PhoneBtn />
             </TouchableOpacity>

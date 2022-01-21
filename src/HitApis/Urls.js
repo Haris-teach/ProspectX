@@ -1,5 +1,6 @@
 //export const BASE_URL = 'https://app2.prospectx.com/';
-export const BASE_URL = 'https://c120-182-185-205-40.ngrok.io/';
+export const BASE_URL = 'https://bc44-182-185-152-98.ngrok.io/';
+//export const BASE_URL = 'https://1c34-182-185-152-98.ngrok.io/';
 
 export const LOGIN = BASE_URL + 'api/v1/login';
 export const SETTING = BASE_URL + 'api/v1/settings/notifications';
@@ -14,3 +15,6 @@ export const SENDEMAIL = BASE_URL + 'api/v1/communication/send/email';
 export const GETEMAIL = BASE_URL + 'api/v1/user/mail/emails';
 export const GETEMAILTHREADS = BASE_URL + 'api/v1/user/mail/threads';
 export const GETALLEMAIL = BASE_URL + 'api/v1/user/mail/email_thread';
+export const GETOTP = BASE_URL + 'api/v1/forgot-password-otp';
+export const OTPVERIFY = BASE_URL + 'api/v1/verify-otp';
+export const PASSWORDREST = BASE_URL + 'api/v1/reset-password';
