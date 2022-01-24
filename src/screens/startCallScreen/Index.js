@@ -96,12 +96,13 @@ const CallStart = props => {
           <Text style={AllStyles.incomingNumberStyle}>
             {props.route.params.name}
           </Text>
-          <Text style={AllStyles.incomingRingingStyle}>
+          {/* <Text style={AllStyles.incomingRingingStyle}>
             {' '}
             {minutes > 59 ? (hours < 10 ? `0${hours}` : hours) : null}{' '}
             {hours === 1 ? `:` : null} {minutes < 10 ? `0${minutes}` : minutes}{' '}
             : {seconds < 10 ? `0${seconds}` : seconds}
-          </Text>
+          </Text> */}
+          <Text style={AllStyles.incomingRingingStyle}>Connected</Text>
         </View>
       </View>
       <View style={AllStyles.callStartBottomView}>

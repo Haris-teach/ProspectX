@@ -1,5 +1,8 @@
 #import "AppDelegate.h"
 #import <Firebase.h>
+#import <PushKit/PushKit.h>                    /* <------ add this line */
+#import "RNVoipPushNotificationManager.h"
+#import "RNCallKeep.h"
 
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
@@ -30,11 +33,23 @@ static void InitializeFlipper(UIApplication *application) {
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   [FIRApp configure];
+  [RNVoipPushNotificationManager voipRegistration];
 #ifdef FB_SONARKIT_ENABLED
   InitializeFlipper(application);
 #endif
+  
+  [RNCallKeep setup:@{
+     @"appName": @"prospectx",
+     @"maximumCallGroups": @3,
+     @"maximumCallsPerCallGroup": @1,
+     @"supportsVideo": @NO,
+   }];
 
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
+  
+  
+  
+  
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
                                                    moduleName:@"prospectx"
                                             initialProperties:nil];
@@ -53,6 +68,46 @@ static void InitializeFlipper(UIApplication *application) {
   return YES;
 }
 
+
+
+/* Add PushKit delegate method */
+
+// --- Handle updated push credentials
+- (void)pushRegistry:(PKPushRegistry *)registry didUpdatePushCredentials:(PKPushCredentials *)credentials forType:(PKPushType)type {
+  // Register VoIP push token (a property of PKPushCredentials) with server
+  [RNVoipPushNotificationManager didUpdatePushCredentials:credentials forType:(NSString *)type];
+}
+
+- (void)pushRegistry:(PKPushRegistry *)registry didInvalidatePushTokenForType:(PKPushType)type {
+  // --- The system calls this method when a previously provided push token is no longer valid for use. No action is necessary on your part to reregister the push type. Instead, use this method to notify your server not to send push notifications using the matching push token.
+}
+
+- (void)pushRegistry:(PKPushRegistry *)registry didReceiveIncomingPushWithPayload:(PKPushPayload *)payload forType:(PKPushType)type withCompletionHandler:(void (^)(void))completion {
+  // --- Retrieve information from Twilio push payload
+  NSString *uuid = [[[NSUUID UUID] UUIDString] lowercaseString];
+  NSString *callerName = [payload.dictionaryPayload[@"twi_from"] stringByReplacingOccurrencesOfString:@"client:" withString:@""];
+  NSString *handle = [payload.dictionaryPayload[@"twi_to"] stringByReplacingOccurrencesOfString:@"client:" withString:@""];
+  
+  // --- Process the received push
+  [RNVoipPushNotificationManager didReceiveIncomingPushWithPayload:payload forType:(NSString *)type];
+  
+  // --- You should make sure to report to callkit BEFORE execute `completion()`
+  [RNCallKeep reportNewIncomingCall:uuid
+                             handle:handle
+                         handleType:@"generic"
+                           hasVideo:NO
+                localizedCallerName:callerName
+                    supportsHolding:YES
+                       supportsDTMF:YES
+                   supportsGrouping:YES
+                 supportsUngrouping:YES
+                        fromPushKit:YES
+                            payload:payload.dictionaryPayload
+              withCompletionHandler:nil];
+  
+  completion();
+}
+
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
 {
 #if DEBUG
@@ -61,5 +116,7 @@ static void InitializeFlipper(UIApplication *application) {
   return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 #endif
 }
+
+
 
 @end

@@ -46,6 +46,8 @@ import Contact from '../../assets/svg/contact.svg';
 import Contact2 from '../../assets/svg/c1.svg';
 
 import TwilioVoice from 'react-native-twilio-voice-sdk';
+// import {RNTwilioPhone, twilioPhoneEmitter} from 'react-native-twilio-phone';
+import axios from 'axios';
 
 // =========================================
 
@@ -191,6 +193,80 @@ const CallScreen = props => {
 
   //==================== Call functions ==========================
   const twilioToken = useSelector(state => state.commonReducer.twilioToken);
+
+  // const callKeepOptions = {
+  //   ios: {
+  //     appName: 'prospectx',
+  //     supportsVideo: false,
+  //   },
+  //   android: {
+  //     alertTitle: 'Permissions required',
+  //     alertDescription: 'This application needs to access your phone accounts',
+  //     cancelButton: 'Cancel',
+  //     okButton: 'OK',
+  //     additionalPermissions: [],
+  //     // Required to get audio in background when using Android 11
+  //     foregroundService: {
+  //       channelId: 'com.example.reactnativetwiliophone',
+  //       channelName: 'Foreground service for my app',
+  //       notificationTitle: 'My app is running on background',
+  //     },
+  //   },
+  // };
+  // const options = {
+  //   requestPermissionsOnInit: true, // Default: true - Set to false if you want to request permissions manually
+  // };
+
+  // // Async function that returns Twilio access token
+  // async function fetchAccessToken() {
+  //   var config = {
+  //     method: 'get',
+  //     url: 'https://7823-182-185-248-177.ngrok.io/api/v1/commmunication/call/gettoken',
+  //     headers: {
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //   };
+
+  //   axios(config)
+  //     .then(function (res) {
+  //       //console.log('Response:   ', res.data.data.token);
+  //       // dispatch(GetTwilioToken(res.data.data.token));
+  //       return res.data.data.token;
+  //     })
+  //     .catch(function (error) {
+  //       console.log('error:  ', error);
+  //     });
+  // }
+  // useEffect(() => {
+  //   const subscriptions = [
+  //     twilioPhoneEmitter.addListener('CallConnected', data => {
+  //       console.log('Data:  ', data);
+  //     }),
+  //     twilioPhoneEmitter.addListener('CallDisconnected', data => {
+  //       console.log('DATA:   ', data);
+  //     }),
+  //     twilioPhoneEmitter.addListener('CallDisconnectedError', data => {
+  //       console.log('Data:   ', data);
+  //     }),
+  //   ];
+
+  //   return () => {
+  //     subscriptions.map(subscription => {
+  //       subscription.remove();
+  //     });
+  //   };
+  // }, []);
+
+  // useEffect(() => {
+  //   fetchAccessToken();
+  //   let call = RNTwilioPhone.initialize(
+  //     callKeepOptions,
+  //     fetchAccessToken,
+  //     options,
+  //   );
+
+  //   console.log('Calls:   ', call);
+  // }, []);
 
   useEffect(() => {
     console.log('Version:   ', TwilioVoice.version);
@@ -434,6 +510,7 @@ const CallScreen = props => {
                   ]);
                 }
               }}>
+              {/* onPress={() => sizeSheet.current.close()}> */}
               <PhoneBtn />
             </TouchableOpacity>
 

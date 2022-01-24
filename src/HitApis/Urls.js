@@ -1,6 +1,5 @@
 //export const BASE_URL = 'https://app2.prospectx.com/';
-export const BASE_URL = 'https://bc44-182-185-152-98.ngrok.io/';
-//export const BASE_URL = 'https://1c34-182-185-152-98.ngrok.io/';
+export const BASE_URL = 'https://4060-182-185-248-177.ngrok.io/';
 
 export const LOGIN = BASE_URL + 'api/v1/login';
 export const SETTING = BASE_URL + 'api/v1/settings/notifications';

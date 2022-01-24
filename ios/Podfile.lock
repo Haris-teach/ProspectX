@@ -403,6 +403,8 @@ PODS:
     - React-jsi (= 0.66.3)
     - React-logger (= 0.66.3)
     - React-perflogger (= 0.66.3)
+  - RNCallKeep (4.3.1):
+    - React
   - RNCAsyncStorage (1.15.14):
     - React-Core
   - RNCClipboard (1.5.1):
@@ -424,6 +426,8 @@ PODS:
   - RNTwilioVoiceSDK (0.5.2):
     - React
     - TwilioVoice (~> 4.1)
+  - RNVoipPushNotification (3.3.0):
+    - React-Core
   - Toast (4.0.0)
   - TwilioVoice (4.3.0)
   - Yoga (1.14.0)
@@ -488,6 +492,7 @@ DEPENDENCIES:
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - RNCallKeep (from `../node_modules/react-native-callkeep`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNCClipboard (from `../node_modules/@react-native-community/clipboard`)"
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
@@ -496,6 +501,7 @@ DEPENDENCIES:
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - RNTwilioVoiceSDK (from `../node_modules/react-native-twilio-voice-sdk`)
+  - RNVoipPushNotification (from `../node_modules/react-native-voip-push-notification`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -595,6 +601,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/runtimeexecutor"
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
+  RNCallKeep:
+    :path: "../node_modules/react-native-callkeep"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-async-storage/async-storage"
   RNCClipboard:
@@ -611,6 +619,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-svg"
   RNTwilioVoiceSDK:
     :path: "../node_modules/react-native-twilio-voice-sdk"
+  RNVoipPushNotification:
+    :path: "../node_modules/react-native-voip-push-notification"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -671,6 +681,7 @@ SPEC CHECKSUMS:
   React-RCTVibration: 50cfe7049167cfc7e83ac5542c6fff0c76791a9b
   React-runtimeexecutor: bbbdb3d8fcf327c6e2249ee71b6ef1764b7dc266
   ReactCommon: 9bac022ab71596f2b0fde1268272543184c63971
+  RNCallKeep: 3ac23a8074aa4b25901a437ee4c6fcbbd7509bfd
   RNCAsyncStorage: ea6b5c280997b2b32a587793163b1f10e580c4f7
   RNCClipboard: 41d8d918092ae8e676f18adada19104fa3e68495
   RNFBApp: 78d0446e8b28dc30616c134a9e4d8d4b01f9f966
@@ -679,6 +690,7 @@ SPEC CHECKSUMS:
   RNScreens: 4d79118be80f79fa1f4aa131909a1d6e86280af3
   RNSVG: 551acb6562324b1d52a4e0758f7ca0ec234e278f
   RNTwilioVoiceSDK: 54079fd2e32181433edefed0a880e269c74de529
+  RNVoipPushNotification: 14bb5a389588ea1cbee4706a55df99950687fd6d
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   TwilioVoice: 4c30f7f0a24831e4656000253319d430a96c6ff0
   Yoga: 32a18c0e845e185f4a2a66ec76e1fd1f958f22fa

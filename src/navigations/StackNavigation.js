@@ -1,7 +1,7 @@
 //=================================== React Native Import Files =====================
 
 import React, {useRef, useEffect, useState} from 'react';
-import {StatusBar, AppState} from 'react-native';
+import {StatusBar, AppState, AppRegistry} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {useSelector, useDispatch} from 'react-redux';
@@ -49,7 +49,7 @@ const Stack = () => {
   useEffect(() => {
     var config = {
       method: 'get',
-      url: 'https://bc44-182-185-152-98.ngrok.io/api/v1/commmunication/call/gettoken',
+      url: 'https://4060-182-185-248-177.ngrok.io/api/v1/commmunication/call/gettoken',
       headers: {
         Authorization: `Bearer ${token}`,
       },
