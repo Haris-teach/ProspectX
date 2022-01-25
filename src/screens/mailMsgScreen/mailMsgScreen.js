@@ -85,7 +85,7 @@ const MailInbox = props => {
         {select == index ? (
           <View style={styles.msgBox}>
             <View style={styles.toContainer}>
-              <Text style={styles.toStyle}>
+              <Text style={{color: 'black'}}>
                 To : {props.route.params.second}
               </Text>
             </View>
@@ -432,5 +432,6 @@ const styles = StyleSheet.create({
     marginHorizontal: wp(4),
     color: 'black',
     fontFamily: 'Sf Pro Text',
+    fontWeight: 'bold',
   },
 });

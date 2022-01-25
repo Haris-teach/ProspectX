@@ -17,3 +17,5 @@ export const GETALLEMAIL = BASE_URL + 'api/v1/user/mail/email_thread';
 export const GETOTP = BASE_URL + 'api/v1/forgot-password-otp';
 export const OTPVERIFY = BASE_URL + 'api/v1/verify-otp';
 export const PASSWORDREST = BASE_URL + 'api/v1/reset-password';
+export const SENDNOTIFICATION =
+  BASE_URL + 'api/v1/communication/firebase/send-notification';

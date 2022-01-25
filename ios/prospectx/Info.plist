@@ -22,6 +22,8 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -39,6 +41,8 @@
 	<string>Prospectx want to access your document</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>ProspectX want to access your location for getting user current location</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>using microphone for voice call using twilio service</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>SFProText-Regular.ttf</string>
@@ -69,6 +73,7 @@
 	<array>
 		<string>audio</string>
 		<string>fetch</string>
+		<string>remote-notification</string>
 		<string>voip</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
@@ -81,10 +86,6 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
-	<key>FirebaseAppDelegateProxyEnabled</key>
-	<false/>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>using microphone for voice call using twilio service</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 </dict>
