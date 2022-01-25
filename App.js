@@ -5,7 +5,6 @@ import StackNavigation from './src/navigations/StackNavigation';
 import {PersistGate} from 'redux-persist/integration/react';
 import {persistor, store} from './src/redux/index';
 import messaging from '@react-native-firebase/messaging';
-import NotificationPopup from 'react-native-push-notification-popup';
 
 AppRegistry.registerHeadlessTask(
   'RNFirebaseBackgroundMessage',
@@ -30,7 +29,7 @@ const App = () => {
         handleNotification(remoteMessage);
       }
     })
-    .catch(reason => console.log('App::getInitialNotification', reason));
+    .catch(reason => LOG('App::getInitialNotification', reason));
 
   messaging().onNotificationOpenedApp(remoteMessage => {
     handleNotification(remoteMessage);
@@ -48,9 +47,11 @@ const App = () => {
 
   const handleNotification = remoteMessage => {
     const data = remoteMessage.data;
+
     popup.current.show({
-      appIconSource: '',
-      appTitle: 'ChatApp',
+      //onPress: () => {},
+      appIconSource: logo,
+      appTitle: 'SiteSeekr',
       title: remoteMessage.notification.title,
       body: remoteMessage.notification.body,
       slideOutTime: 3000,
@@ -61,7 +62,7 @@ const App = () => {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <StackNavigation />
-        <NotificationPopup ref={popup} />
+        {/* <NotificationPopup ref={popup} /> */}
       </PersistGate>
     </Provider>
   );

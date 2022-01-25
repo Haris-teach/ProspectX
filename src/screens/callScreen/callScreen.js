@@ -47,6 +47,7 @@ import Contact2 from '../../assets/svg/c1.svg';
 
 import TwilioVoice from 'react-native-twilio-voice-sdk';
 // import {RNTwilioPhone, twilioPhoneEmitter} from 'react-native-twilio-phone';
+// const Device = require('@twilio/voice-sdk').Device;
 import axios from 'axios';
 
 // =========================================
