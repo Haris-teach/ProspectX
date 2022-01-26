@@ -1,0 +1,42 @@
+import {
+  GET_ALL_EMAILS,
+  GET_ALL_NUMBERS,
+  GET_NOTIFICATION,
+  TWILIO_TOKEN,
+} from '../Actions/actionType';
+
+const INITIAL_STATE = {
+  Numbers: 'Hello',
+  NotiNumber: 0,
+  emails: 'Empty',
+  twilioToken: '',
+};
+
+export default (state = INITIAL_STATE, action) => {
+  switch (action.type) {
+    case GET_ALL_NUMBERS:
+      return {
+        ...state,
+        Numbers: action.payload,
+      };
+    case GET_NOTIFICATION:
+      return {
+        ...state,
+        NotiNumber: action.payload,
+      };
+    case GET_ALL_EMAILS:
+      return {
+        ...state,
+        emails: action.payload,
+      };
+
+    case TWILIO_TOKEN:
+      return {
+        ...state,
+        twilioToken: action.payload,
+      };
+
+    default:
+      return state;
+  }
+};

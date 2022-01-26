@@ -1,6 +1,7 @@
 require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
+
 platform :ios, '11.0'
 
 target 'prospectx' do
@@ -12,7 +13,9 @@ target 'prospectx' do
     :hermes_enabled => false
   )
 
-  pod 'RNSVG', :path => '../node_modules/react-native-svg'
+
+
+  
 
   target 'prospectxTests' do
     inherit! :complete

@@ -1,40 +1,49 @@
 //========================================= React Native Import Files =================================
 
-import React from "react";
-import { TextInput,StyleSheet } from "react-native";
-import { heightPercentageToDP as hp ,  } from "react-native-responsive-screen";
+import React from 'react';
+import {TextInput, View, Text} from 'react-native';
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from 'react-native-responsive-screen';
 
 //========================================= Local Import Files =======================================
 
+import AllStyles from '../../all_styles/All_Styles';
+import colors from '../../assets/colors/Colors';
 
-const TextField = (props)=>{
- 
-return (  
-<TextInput
-    style={Styles.input}
-    value={props.value}
-    placeholder={props.placeholder}
-    placeholderTextColor={props.placeHolderColor}
-    keyboardType={props.keyboardType}
-    secureTextEntry={props.secureTextEntry}
-    onChangeText={props.onChangeText}
-/>
-)
-
-
-}
+const TextField = props => {
+  return (
+    // <View style={AllStyles.loginInputContainer}>
+    //   <Text style={AllStyles.labelStyle}>{props.title}</Text>
+    //   <View style={AllStyles.inputRow}>
+    //     {props.svg}
+    //     <TextInput
+    //       placeholder={props.placeholder}
+    //       placeholderTextColor={colors.fieldtitleColor}
+    //       value={props.value}
+    //       style={AllStyles.textFieldStyle}
+    //       keyboardType={'email-address'}
+    //       onChangeText={props.onChange}
+    //     />
+    //   </View>
+    // </View>
+    <View style={AllStyles.loginInputContainer}>
+      <Text style={AllStyles.labelStyle}>{props.title}</Text>
+      <View style={AllStyles.inputRow}>
+        {props.svg}
+        <TextInput
+          autoCapitalize="none"
+          placeholder={props.placeholder}
+          placeholderTextColor={colors.fieldtitleColor}
+          value={props.value}
+          style={AllStyles.textFieldStyle}
+          keyboardType={'email-address'}
+          onChangeText={props.onChange}
+          onBlur={props.onBlur}
+        />
+      </View>
+    </View>
+  );
+};
 export default TextField;
-
-
-
-const Styles = StyleSheet.create({
-    input: {
-        paddingHorizontal:10,
-        width:'100%',
-        borderColor:'transparent',
-        borderWidth: 2,
-        height:hp(2),
-        height:hp(3),
-        borderRadius:5
-      },
-})
