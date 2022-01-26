@@ -30,6 +30,7 @@ import RNDropDown from '../../components/RNDropDown/RnDropDown';
 import HitApi from '../../HitApis/APIHandler';
 import {MSGTHREADS, GETPHONENUM} from '../../HitApis/Urls';
 import {GetNumbers} from '../../redux/Actions/commonAction';
+import fonts from '../../assets/fonts/Fonts';
 // =============================================
 
 // ============SVG Imports===================
@@ -426,7 +427,7 @@ const styles = {
     borderRadius: wp(10),
   },
   header: {
-    fontFamily: 'SF Pro Text',
+    fontFamily: fonts.regular,
     fontSize: wp(4),
     color: '#B0B0B0',
     marginTop: hp(2),
@@ -437,7 +438,7 @@ const styles = {
   tileStyle: {
     alignSelf: 'center',
     color: '#2E2E2E',
-    fontFamily: 'SF Pro Text',
+    fontFamily: fonts.regular,
     marginHorizontal: wp(6),
     fontSize: wp(4),
   },
@@ -457,7 +458,7 @@ const styles = {
     color: 'black',
     alignSelf: 'center',
     marginRight: wp(7),
-    fontFamily: 'SF Pro Text',
+    fontFamily: fonts.regular,
     fontSize: hp(1.5),
   },
   iconStyle: {
@@ -494,14 +495,14 @@ const styles = {
     //height: hp(50),
   },
   nameStyle: {
-    fontFamily: 'SF Pro Text',
+    fontFamily: fonts.regular,
     color: '#2E2E2E',
     fontSize: wp(4.5),
     marginHorizontal: wp(3),
     marginTop: hp(-0.5),
   },
   msgStyle: {
-    fontFamily: 'SF Pro Text',
+    fontFamily: fonts.regular,
     color: '#959595',
     fontSize: wp(3.2),
     marginHorizontal: wp(3),

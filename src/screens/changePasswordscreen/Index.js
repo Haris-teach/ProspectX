@@ -37,6 +37,7 @@ import {
 import AllStyles from '../../all_styles/All_Styles';
 import HitApi from '../../HitApis/APIHandler';
 import {CHANGEPASS} from '../../HitApis/Urls';
+import fonts from '../../assets/fonts/Fonts';
 
 const ChangePassword = props => {
   const token = useSelector(state => state.authReducer.token);
@@ -229,7 +230,7 @@ const styles = {
     flex: 1,
     color: colors.titleColor,
     fontSize: wp(5.5),
-    fontFamily: 'SF Pro Text',
+    fontFamily: fonts.regular,
     textAlign: 'center',
     marginRight: wp(10),
   },

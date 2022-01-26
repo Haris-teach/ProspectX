@@ -219,7 +219,7 @@ const AllStyles = {
   },
   textFieldStyle: {
     fontSize: wp(3.7),
-    fontFamily: 'SF Pro Text',
+    fontFamily: fonts.regular,
     fontWeight: '900',
     //backgroundColor: 'red',
     width: wp(62),

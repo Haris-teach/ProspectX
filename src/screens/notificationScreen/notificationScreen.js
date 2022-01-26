@@ -27,6 +27,7 @@ import colors from '../../assets/colors/Colors';
 import BackArrow from '../../assets/images/backarrow.svg';
 import HitApi from '../../HitApis/APIHandler';
 import {GETALLNOTIFICATION} from '../../HitApis/Urls';
+import fonts from '../../assets/fonts/Fonts';
 import {useSelector} from 'react-redux';
 
 const DATA = [
@@ -84,7 +85,7 @@ const NotificationScreen = props => {
       flex: 1,
       color: colors.titleColor,
       fontSize: wp(5.5),
-      fontFamily: 'SF Pro Text',
+      fontFamily: fonts.regular,
       textAlign: 'center',
       marginRight: wp(10),
     },
@@ -104,7 +105,7 @@ const NotificationScreen = props => {
     msgStyle: {
       alignSelf: 'center',
       marginLeft: wp(5),
-      fontFamily: 'SF Pro Text',
+      fontFamily: fonts.regular,
       fontSize: wp(4),
       width: wp(60),
       textAlign: 'left',

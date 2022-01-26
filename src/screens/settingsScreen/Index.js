@@ -15,6 +15,7 @@ import {useSelector} from 'react-redux';
 
 //=================================== Local Import Files =======================================
 import AllStyles from '../../all_styles/All_Styles';
+import fonts from '../../assets/fonts/Fonts';
 import images from '../../assets/images/Images';
 import AppHeader from '../../components/AppHeadercomponent/Appheader';
 import colors from '../../assets/colors/Colors';
@@ -176,7 +177,7 @@ const styles = {
     flex: 1,
     color: colors.titleColor,
     fontSize: wp(5.5),
-    fontFamily: 'SF Pro Text',
+    fontFamily: fonts.regular,
     textAlign: 'center',
     marginRight: wp(10),
   },

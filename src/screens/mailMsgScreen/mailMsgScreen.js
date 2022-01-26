@@ -16,6 +16,7 @@ import {
 } from 'react-native';
 import moment from 'moment';
 import {useSelector} from 'react-redux';
+
 //====================================== Local Import Files =========================================
 
 import colors from '../../assets/colors/Colors';
@@ -278,7 +279,7 @@ const styles = StyleSheet.create({
   mailInboxSenderTextStyle: {
     color: 'rgba(170, 177, 188, 1)',
     fontSize: wp(3.7),
-    fontFamily: 'SF Pro Text',
+    fontFamily: fonts.regular,
     marginHorizontal: wp(5),
   },
   msgBox: {
@@ -296,7 +297,7 @@ const styles = StyleSheet.create({
   },
   nameStyle: {
     alignSelf: 'center',
-    fontFamily: 'SF Pro Text',
+    fontFamily: fonts.regular,
     fontSize: wp(4),
     fontWeight: 'bold',
     color: 'black',
@@ -309,7 +310,7 @@ const styles = StyleSheet.create({
   },
   msg1Style: {
     color: '#959595',
-    fontFamily: 'Sf Pro Text',
+    fontFamily: fonts.regular,
     fontSize: wp(3.5),
     lineHeight: hp(2.5),
     textAlign: 'left',
@@ -362,7 +363,7 @@ const styles = StyleSheet.create({
     flex: 1,
     color: colors.titleColor,
     fontSize: wp(5.5),
-    fontFamily: 'SF Pro Text',
+    fontFamily: fonts.regular,
     textAlign: 'center',
     marginRight: wp(10),
   },
@@ -382,7 +383,7 @@ const styles = StyleSheet.create({
   msgStyle: {
     alignSelf: 'center',
     marginLeft: wp(5),
-    fontFamily: 'SF Pro Text',
+    fontFamily: fonts.regular,
     fontSize: wp(4),
     width: wp(60),
     textAlign: 'left',
@@ -413,7 +414,7 @@ const styles = StyleSheet.create({
     marginHorizontal: wp(4),
     marginVertical: hp(0),
     color: 'black',
-    fontFamily: 'Sf Pro Text',
+    fontFamily: fonts.regular,
     opacity: 1,
     fontWeight: 'bold',
     marginTop: hp(-2),
@@ -423,7 +424,7 @@ const styles = StyleSheet.create({
     marginHorizontal: wp(4),
     marginVertical: hp(1),
     color: 'black',
-    fontFamily: 'Sf Pro Text',
+    fontFamily: fonts.regular,
     opacity: 0.7,
   },
 
@@ -431,7 +432,7 @@ const styles = StyleSheet.create({
     fontSize: wp(3.5),
     marginHorizontal: wp(4),
     color: 'black',
-    fontFamily: 'Sf Pro Text',
+    fontFamily: fonts.regular,
     fontWeight: 'bold',
   },
 });

@@ -583,7 +583,7 @@ const styles = {
     borderRadius: wp(10),
   },
   header: {
-    fontFamily: 'SF Pro Text',
+    fontFamily: fonts.regular,
     fontSize: wp(4),
     color: '#B0B0B0',
     marginTop: hp(2),
@@ -594,7 +594,7 @@ const styles = {
   tileStyle: {
     alignSelf: 'center',
     color: '#2E2E2E',
-    fontFamily: 'SF Pro Text',
+    fontFamily: fonts.regular,
     marginHorizontal: wp(6),
     fontSize: wp(4),
   },
@@ -614,7 +614,7 @@ const styles = {
     color: 'black',
     alignSelf: 'center',
     marginRight: wp(7),
-    fontFamily: 'SF Pro Text',
+    fontFamily: fonts.regular,
     fontSize: hp(1.5),
   },
   iconStyle: {
@@ -630,7 +630,7 @@ const styles = {
     height: hp(8),
     textAlign: 'right',
     color: 'black',
-    fontFamily: 'SF Pro Text',
+    fontFamily: fonts.regular,
     fontSize: wp(9),
     fontWeight: '400',
     marginHorizontal: wp(4),
@@ -640,7 +640,7 @@ const styles = {
   },
   numStyle: {
     color: 'black',
-    fontFamily: 'SF Pro Text',
+    fontFamily: fonts.regular,
     fontSize: wp(10),
     fontWeight: '400',
     textAlign: 'center',
@@ -648,7 +648,7 @@ const styles = {
   },
   alpaStyle: {
     color: '#8C8C8C',
-    fontFamily: 'SF Pro Text',
+    fontFamily: fonts.regular,
     fontSize: wp(3),
     marginTop: hp(-1),
     textAlign: 'center',

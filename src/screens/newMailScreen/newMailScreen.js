@@ -453,7 +453,7 @@ const styles = {
     flex: 1,
     color: colors.titleColor,
     fontSize: wp(5.5),
-    fontFamily: 'SF Pro Text',
+    fontFamily: fonts.regular,
     textAlign: 'center',
     marginRight: wp(10),
   },
@@ -511,7 +511,7 @@ const styles = {
     alignSelf: 'center',
     marginLeft: wp(6),
     marginRight: wp(2),
-    fontFamily: 'SF Pro Text',
+    fontFamily: fonts.regular,
     color: 'black',
   },
   toContainer: {
@@ -538,7 +538,7 @@ const styles = {
     marginHorizontal: wp(5),
     marginVertical: hp(2),
     color: 'black',
-    fontFamily: 'Sf Pro Text',
+    fontFamily: fonts.regular,
     opacity: 1,
   },
   subjectInputStyle: {
@@ -553,7 +553,7 @@ const styles = {
     fontSize: wp(3.4),
     marginHorizontal: wp(5),
     color: 'black',
-    fontFamily: 'Sf Pro Text',
+    fontFamily: fonts.regular,
   },
   contentInputStyle: {
     marginHorizontal: wp(5),
