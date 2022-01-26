@@ -20,7 +20,6 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import * as yup from 'yup';
 import {Formik} from 'formik';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 //========================================== Local Import Files ===================================
 import images from '../../assets/images/Images';

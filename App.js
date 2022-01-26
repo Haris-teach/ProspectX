@@ -5,7 +5,7 @@ import StackNavigation from './src/navigations/StackNavigation';
 import {PersistGate} from 'redux-persist/integration/react';
 import {persistor, store} from './src/redux/index';
 import messaging from '@react-native-firebase/messaging';
-import NotificationPopup from 'react-native-push-notification-popup';
+
 import InAppNotification from './src/components/InAppNotification/view';
 import {GetTwilioToken} from './src/redux/Actions/commonAction';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -107,7 +107,7 @@ const App = () => {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <StackNavigation />
-        {/* <NotificationPopup ref={popup} /> */}
+
         <InAppNotification
           vibrate
           interval={4500}
