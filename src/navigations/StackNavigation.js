@@ -49,7 +49,7 @@ const Stack = () => {
   useEffect(() => {
     var config = {
       method: 'get',
-      url: 'https://2927-182-185-248-177.ngrok.io/api/v1/commmunication/call/gettoken',
+      url: 'https://626b-182-185-248-177.ngrok.io/api/v1/commmunication/call/gettoken',
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -57,13 +57,13 @@ const Stack = () => {
 
     axios(config)
       .then(function (res) {
-        console.log('Response:   ', res.data.data.token);
+        console.log('Twilio Response:   ', res.data.data.token);
         dispatch(GetTwilioToken(res.data.data.token));
       })
       .catch(function (error) {
         console.log('error:  ', error);
       });
-  }, []);
+  }, [isLogin]);
 
   // initialize the Programmable Voice SDK passing an access token obtained from the server.
   // Listen to deviceReady and deviceNotReady events to see whether the initialization succeeded.

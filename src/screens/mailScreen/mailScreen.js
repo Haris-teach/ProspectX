@@ -149,7 +149,7 @@ const MailScreen = props => {
       }
     });
   };
-  console.log('start date:    ', startDate, 'end date:', endDate);
+  // console.log('start date:    ', startDate, 'end date:', endDate);
   const RenderModal = () => {
     return (
       <Dialog
