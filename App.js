@@ -8,6 +8,7 @@ import messaging from '@react-native-firebase/messaging';
 import NotificationPopup from 'react-native-push-notification-popup';
 import InAppNotification from './src/components/InAppNotification/view';
 import {GetTwilioToken} from './src/redux/Actions/commonAction';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 AppRegistry.registerHeadlessTask(
   'RNFirebaseBackgroundMessage',
@@ -36,6 +37,7 @@ const App = () => {
       .getToken()
       .then(resp => {
         console.log('Token', resp);
+        AsyncStorage.setItem('fcmToken', resp);
       });
   };
 

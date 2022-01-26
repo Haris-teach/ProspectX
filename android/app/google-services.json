@@ -1,41 +1,34 @@
 {
   "project_info": {
-    "project_number": "407622055595",
-    "project_id": "twilio-voice-call-fe18d",
-    "storage_bucket": "twilio-voice-call-fe18d.appspot.com"
+    "project_number": "934821549487",
+    "project_id": "push-notification-8517e",
+    "storage_bucket": "push-notification-8517e.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:407622055595:android:1d764e01c2f452aa88e9ee",
+        "mobilesdk_app_id": "1:934821549487:android:c6044450d77389b17f0b5a",
         "android_client_info": {
           "package_name": "com.prospectx"
         }
       },
       "oauth_client": [
         {
-          "client_id": "407622055595-54ujpggufpt0udskgbl8mtq8hukoe9ah.apps.googleusercontent.com",
+          "client_id": "934821549487-5h6eukcsel3sgumvdetnlijo2rha0cg3.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDEwkVMJZqXAusUx5ulnuC0op6xLP1wR-A"
+          "current_key": "AIzaSyCaTPKvva_xY04qiN0TL0Ez7r-PAYaqxG4"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "407622055595-54ujpggufpt0udskgbl8mtq8hukoe9ah.apps.googleusercontent.com",
+              "client_id": "934821549487-5h6eukcsel3sgumvdetnlijo2rha0cg3.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "407622055595-7t0rcmv810nbpprdcat3qlrb6o2pjn3c.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.argonteq.prospectx"
-              }
             }
           ]
         }

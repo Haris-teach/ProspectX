@@ -18,6 +18,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import LinearGradient from 'react-native-linear-gradient';
 import Toast from 'react-native-simple-toast';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // ================local import=================
 import RNDropDown from '../../components/RNDropDown/RnDropDown';
@@ -162,6 +163,9 @@ const CallScreen = props => {
   };
 
   useEffect(() => {
+    // let fcmToken = await AsyncStorage.getItem('fcmToken');
+    // console.log('FCMTOKEN:   ', fcmToken);
+
     let mounted = true;
     if (mounted) {
       GetAllNumbers();

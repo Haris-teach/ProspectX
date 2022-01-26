@@ -20,6 +20,7 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import * as yup from 'yup';
 import {Formik} from 'formik';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 //========================================== Local Import Files ===================================
 import images from '../../assets/images/Images';
@@ -75,11 +76,13 @@ const LoginScreen = props => {
 
   //============= Funtion for Login USer ======================
 
-  const Login_User = v => {
+  const Login_User = async v => {
+    let fcmToken = await AsyncStorage.getItem('fcmToken');
     setLoading(true);
     let params = {
       email: v.email,
       password: v.password,
+      fcm_token: fcmToken,
     };
 
     HitApi(LOGIN, 'POST', params).then(async res => {

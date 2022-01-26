@@ -8,35 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* prospectxTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* prospectxTests.m */; };
-		044101E927992A080057A42D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 044101E827992A080057A42D /* GoogleService-Info.plist */; };
-		0583EAABE81947A9ADCD7D17 /* Barlow-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FC468AC873644CC5B49BF9CB /* Barlow-Italic.ttf */; };
-		07D7E5322758DAA2007A5A1F /* SFProText-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 07D7E5312758DAA2007A5A1F /* SFProText-Regular.ttf */; };
-		0C69295FCA7942D885746C66 /* Barlow-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4699606A401C4FD9BB92A63E /* Barlow-LightItalic.ttf */; };
+		045D52BC27A133B7002D70EE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 045D52BB27A133B7002D70EE /* GoogleService-Info.plist */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		196CCA226394446BBE68837E /* Barlow-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3594808E868A43C48B8CA8AF /* Barlow-MediumItalic.ttf */; };
-		1DA37CCB00084695A61B6BEC /* Barlow-ExtraLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FFC519F6EDA34C53ABCDFCC1 /* Barlow-ExtraLightItalic.ttf */; };
-		2069AC374E284A6E96F9D6F2 /* Barlow-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DEEB40BD71D743C9A52BA069 /* Barlow-BoldItalic.ttf */; };
-		2C17BB5115604581A010D773 /* Barlow-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 267729BE32B9441E87A6FF4A /* Barlow-SemiBoldItalic.ttf */; };
-		35FB25B7568E4E8AAB441653 /* Barlow-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 41254EE0FEC54B73B8955AD8 /* Barlow-ExtraLight.ttf */; };
-		367812CA2BA0469EB1F45ED2 /* Barlow-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3E82C98A86F149F495CFAB04 /* Barlow-ThinItalic.ttf */; };
-		382D355E3D874EF5BA1EFD93 /* Barlow-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BBE56D1B4E17405E9B87FDE4 /* Barlow-Bold.ttf */; };
-		47CBC70095044F318B908C28 /* SFProDisplay-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EDCE0EA836CA4708B416AD13 /* SFProDisplay-Light.ttf */; };
-		4C8D53EC4F7F8A95E2804A44 /* libPods-prospectx-prospectxTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D282606A31C96B4C7FC7DBC6 /* libPods-prospectx-prospectxTests.a */; };
-		5047413A4263456D8B45D1FC /* SFProDisplay-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A27CA302B463465DA315A6DD /* SFProDisplay-Medium.ttf */; };
-		50ECFCFBD651467AAE8BCF37 /* Barlow-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7091EAE7694D4242B88E83C3 /* Barlow-ExtraBold.ttf */; };
-		73FCCD64D77D4F03A77B8A71 /* Barlow-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 380D9CA23C55400998F81924 /* Barlow-Thin.ttf */; };
-		9420667286E949C7AB252897 /* Barlow-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B32A06737DA34601AFBFF25A /* Barlow-Regular.ttf */; };
-		98003C9420D6483099A6C1E7 /* Barlow-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3615C7F14B334A03B8DB2C7D /* Barlow-SemiBold.ttf */; };
-		9F50374C4DE24BB597073F41 /* Barlow-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9A9152E775D04A028B89DC87 /* Barlow-Light.ttf */; };
-		B002ACEBC4664A7DB909CF0A /* Barlow-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9C1A2AEC22AE42C0B3505170 /* Barlow-BlackItalic.ttf */; };
-		B020293358DA45CEBD86B854 /* Barlow-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FC6F1C1161DE4A5595CFC2D6 /* Barlow-Medium.ttf */; };
-		B821F504E8864589B56B8D30 /* SFProDisplay-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0FA5A87C35CD4038A3B11A4E /* SFProDisplay-Semibold.ttf */; };
-		CE663889284388DED71F27F5 /* libPods-prospectx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D23CC2AD543DC9D5717D12D /* libPods-prospectx.a */; };
-		D8800B293CC744288CEBCB70 /* Barlow-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 25048E5EEB8D45228003B370 /* Barlow-Black.ttf */; };
-		D8BBD89C1D8248BCBE2C07DD /* Barlow-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 828C7B9314514FE598F45808 /* Barlow-ExtraBoldItalic.ttf */; };
-		E9E2CA86E4394F7B917A3C4D /* SFProDisplay-Heavy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2B5EA6CACD8B421080172981 /* SFProDisplay-Heavy.ttf */; };
+		8442EF9628E1BB996B6638B5 /* libPods-prospectx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ECEE499BC007F46012254A6D /* libPods-prospectx.a */; };
+		ACEACE8B9FA746E64BF434FE /* libPods-prospectx-prospectxTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 72DD36BC5C5F4A3C90161E6A /* libPods-prospectx-prospectxTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,9 +30,10 @@
 		00E356EE1AD99517003FC87E /* prospectxTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = prospectxTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* prospectxTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = prospectxTests.m; sourceTree = "<group>"; };
-		044101E827992A080057A42D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		045D52BB27A133B7002D70EE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		04DF8525276C584D0034CD04 /* prospectx.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = prospectx.entitlements; path = prospectx/prospectx.entitlements; sourceTree = "<group>"; };
-		07D7E5312758DAA2007A5A1F /* SFProText-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SFProText-Regular.ttf"; path = "../src/assets/Fonts/SFProText-Regular.ttf"; sourceTree = "<group>"; };
+		0AD9CC6B8B4B44C59B7091E3 /* Barlow-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-Light.ttf"; path = "../src/assets/fonts/Barlow-Light.ttf"; sourceTree = "<group>"; };
+		0ECDEE97C363435F8F0738EF /* Barlow-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-Bold.ttf"; path = "../src/assets/fonts/Barlow-Bold.ttf"; sourceTree = "<group>"; };
 		0FA5A87C35CD4038A3B11A4E /* SFProDisplay-Semibold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SFProDisplay-Semibold.ttf"; path = "../src/assets/Fonts/SFProDisplay-Semibold.ttf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* prospectx.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = prospectx.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = prospectx/AppDelegate.h; sourceTree = "<group>"; };
@@ -63,33 +41,54 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = prospectx/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = prospectx/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = prospectx/main.m; sourceTree = "<group>"; };
+		17901E47F213457883043E2A /* SFProDisplay-Heavy.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SFProDisplay-Heavy.ttf"; path = "../src/assets/fonts/SFProDisplay-Heavy.ttf"; sourceTree = "<group>"; };
 		25048E5EEB8D45228003B370 /* Barlow-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-Black.ttf"; path = "../src/assets/Fonts/Barlow-Black.ttf"; sourceTree = "<group>"; };
+		25384B84FB7C454497BF623C /* Barlow-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-Thin.ttf"; path = "../src/assets/fonts/Barlow-Thin.ttf"; sourceTree = "<group>"; };
+		25CB8C21ADE442F1935E53E6 /* SFProDisplay-Semibold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SFProDisplay-Semibold.ttf"; path = "../src/assets/fonts/SFProDisplay-Semibold.ttf"; sourceTree = "<group>"; };
 		267729BE32B9441E87A6FF4A /* Barlow-SemiBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-SemiBoldItalic.ttf"; path = "../src/assets/Fonts/Barlow-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
+		273725AC5CCF4F8998C14D94 /* Barlow-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-Italic.ttf"; path = "../src/assets/fonts/Barlow-Italic.ttf"; sourceTree = "<group>"; };
 		2B5EA6CACD8B421080172981 /* SFProDisplay-Heavy.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SFProDisplay-Heavy.ttf"; path = "../src/assets/Fonts/SFProDisplay-Heavy.ttf"; sourceTree = "<group>"; };
 		3594808E868A43C48B8CA8AF /* Barlow-MediumItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-MediumItalic.ttf"; path = "../src/assets/Fonts/Barlow-MediumItalic.ttf"; sourceTree = "<group>"; };
 		3615C7F14B334A03B8DB2C7D /* Barlow-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-SemiBold.ttf"; path = "../src/assets/Fonts/Barlow-SemiBold.ttf"; sourceTree = "<group>"; };
 		380D9CA23C55400998F81924 /* Barlow-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-Thin.ttf"; path = "../src/assets/Fonts/Barlow-Thin.ttf"; sourceTree = "<group>"; };
 		3E82C98A86F149F495CFAB04 /* Barlow-ThinItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-ThinItalic.ttf"; path = "../src/assets/Fonts/Barlow-ThinItalic.ttf"; sourceTree = "<group>"; };
+		3FBAD0B6C6724DC19A490C2A /* Barlow-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-Black.ttf"; path = "../src/assets/fonts/Barlow-Black.ttf"; sourceTree = "<group>"; };
 		41254EE0FEC54B73B8955AD8 /* Barlow-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-ExtraLight.ttf"; path = "../src/assets/Fonts/Barlow-ExtraLight.ttf"; sourceTree = "<group>"; };
 		4699606A401C4FD9BB92A63E /* Barlow-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-LightItalic.ttf"; path = "../src/assets/Fonts/Barlow-LightItalic.ttf"; sourceTree = "<group>"; };
+		4BCE83E4909DE4017A76FD21 /* Pods-prospectx.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-prospectx.release.xcconfig"; path = "Target Support Files/Pods-prospectx/Pods-prospectx.release.xcconfig"; sourceTree = "<group>"; };
+		4C0A8213C4704BAF8CD41584 /* Barlow-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-SemiBold.ttf"; path = "../src/assets/fonts/Barlow-SemiBold.ttf"; sourceTree = "<group>"; };
+		58147556D97A4DDBAB55C2EB /* Barlow-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-Regular.ttf"; path = "../src/assets/fonts/Barlow-Regular.ttf"; sourceTree = "<group>"; };
+		5D5546B8819A361A16B9CD96 /* Pods-prospectx-prospectxTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-prospectx-prospectxTests.debug.xcconfig"; path = "Target Support Files/Pods-prospectx-prospectxTests/Pods-prospectx-prospectxTests.debug.xcconfig"; sourceTree = "<group>"; };
+		617230DC546B45068507B666 /* Barlow-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-Medium.ttf"; path = "../src/assets/fonts/Barlow-Medium.ttf"; sourceTree = "<group>"; };
+		61ED77796E71460981C99AC4 /* Barlow-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-ExtraBoldItalic.ttf"; path = "../src/assets/fonts/Barlow-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
 		7091EAE7694D4242B88E83C3 /* Barlow-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-ExtraBold.ttf"; path = "../src/assets/Fonts/Barlow-ExtraBold.ttf"; sourceTree = "<group>"; };
-		7D23CC2AD543DC9D5717D12D /* libPods-prospectx.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-prospectx.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		7FA121A8A4A5C41CD07CFB8A /* Pods-prospectx-prospectxTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-prospectx-prospectxTests.debug.xcconfig"; path = "Target Support Files/Pods-prospectx-prospectxTests/Pods-prospectx-prospectxTests.debug.xcconfig"; sourceTree = "<group>"; };
+		7152C7B9A69E4BB1929E1E00 /* SFProDisplay-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SFProDisplay-Light.ttf"; path = "../src/assets/fonts/SFProDisplay-Light.ttf"; sourceTree = "<group>"; };
+		72DD36BC5C5F4A3C90161E6A /* libPods-prospectx-prospectxTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-prospectx-prospectxTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		828C7B9314514FE598F45808 /* Barlow-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-ExtraBoldItalic.ttf"; path = "../src/assets/Fonts/Barlow-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
-		89CA53544B3A1E7E96F85442 /* Pods-prospectx-prospectxTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-prospectx-prospectxTests.release.xcconfig"; path = "Target Support Files/Pods-prospectx-prospectxTests/Pods-prospectx-prospectxTests.release.xcconfig"; sourceTree = "<group>"; };
-		8A6A17949E1A6438990C6DD5 /* Pods-prospectx.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-prospectx.debug.xcconfig"; path = "Target Support Files/Pods-prospectx/Pods-prospectx.debug.xcconfig"; sourceTree = "<group>"; };
+		8FF27B6ACCC34761B7E4CBA5 /* Barlow-MediumItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-MediumItalic.ttf"; path = "../src/assets/fonts/Barlow-MediumItalic.ttf"; sourceTree = "<group>"; };
 		9A9152E775D04A028B89DC87 /* Barlow-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-Light.ttf"; path = "../src/assets/Fonts/Barlow-Light.ttf"; sourceTree = "<group>"; };
 		9C1A2AEC22AE42C0B3505170 /* Barlow-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-BlackItalic.ttf"; path = "../src/assets/Fonts/Barlow-BlackItalic.ttf"; sourceTree = "<group>"; };
 		A27CA302B463465DA315A6DD /* SFProDisplay-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SFProDisplay-Medium.ttf"; path = "../src/assets/Fonts/SFProDisplay-Medium.ttf"; sourceTree = "<group>"; };
+		A387D2914FE04AE592B5EC91 /* Barlow-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-BlackItalic.ttf"; path = "../src/assets/fonts/Barlow-BlackItalic.ttf"; sourceTree = "<group>"; };
+		A920601B243E46E1B6708436 /* Barlow-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-BoldItalic.ttf"; path = "../src/assets/fonts/Barlow-BoldItalic.ttf"; sourceTree = "<group>"; };
+		B0772E09238648F79CFCDCBF /* SFProText-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SFProText-Regular.ttf"; path = "../src/assets/fonts/SFProText-Regular.ttf"; sourceTree = "<group>"; };
 		B32A06737DA34601AFBFF25A /* Barlow-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-Regular.ttf"; path = "../src/assets/Fonts/Barlow-Regular.ttf"; sourceTree = "<group>"; };
 		BBE56D1B4E17405E9B87FDE4 /* Barlow-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-Bold.ttf"; path = "../src/assets/Fonts/Barlow-Bold.ttf"; sourceTree = "<group>"; };
-		C4ACBE470809D5348D2F1159 /* Pods-prospectx.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-prospectx.release.xcconfig"; path = "Target Support Files/Pods-prospectx/Pods-prospectx.release.xcconfig"; sourceTree = "<group>"; };
-		D282606A31C96B4C7FC7DBC6 /* libPods-prospectx-prospectxTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-prospectx-prospectxTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CFB3D14CABC749E1A968FC48 /* Barlow-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-ExtraLight.ttf"; path = "../src/assets/fonts/Barlow-ExtraLight.ttf"; sourceTree = "<group>"; };
+		D52A1F8EEFB549E4BD549519 /* Barlow-SemiBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-SemiBoldItalic.ttf"; path = "../src/assets/fonts/Barlow-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
 		DEEB40BD71D743C9A52BA069 /* Barlow-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-BoldItalic.ttf"; path = "../src/assets/Fonts/Barlow-BoldItalic.ttf"; sourceTree = "<group>"; };
+		E1FC072174E146328CB96678 /* Barlow-ThinItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-ThinItalic.ttf"; path = "../src/assets/fonts/Barlow-ThinItalic.ttf"; sourceTree = "<group>"; };
+		E59E1D67A3CC447F965A0023 /* Barlow-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-LightItalic.ttf"; path = "../src/assets/fonts/Barlow-LightItalic.ttf"; sourceTree = "<group>"; };
+		ECEE499BC007F46012254A6D /* libPods-prospectx.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-prospectx.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		EDCE0EA836CA4708B416AD13 /* SFProDisplay-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SFProDisplay-Light.ttf"; path = "../src/assets/Fonts/SFProDisplay-Light.ttf"; sourceTree = "<group>"; };
+		EDFD114F895844DF8ACAB0F9 /* SFProDisplay-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SFProDisplay-Medium.ttf"; path = "../src/assets/fonts/SFProDisplay-Medium.ttf"; sourceTree = "<group>"; };
+		EEF3EE4DFE4E4BCEB9A90589 /* Barlow-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-ExtraBold.ttf"; path = "../src/assets/fonts/Barlow-ExtraBold.ttf"; sourceTree = "<group>"; };
+		F244BD4252D08FA50DAA1791 /* Pods-prospectx-prospectxTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-prospectx-prospectxTests.release.xcconfig"; path = "Target Support Files/Pods-prospectx-prospectxTests/Pods-prospectx-prospectxTests.release.xcconfig"; sourceTree = "<group>"; };
 		FC468AC873644CC5B49BF9CB /* Barlow-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-Italic.ttf"; path = "../src/assets/Fonts/Barlow-Italic.ttf"; sourceTree = "<group>"; };
 		FC6F1C1161DE4A5595CFC2D6 /* Barlow-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-Medium.ttf"; path = "../src/assets/Fonts/Barlow-Medium.ttf"; sourceTree = "<group>"; };
+		FE859B2A30A7FA110333671F /* Pods-prospectx.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-prospectx.debug.xcconfig"; path = "Target Support Files/Pods-prospectx/Pods-prospectx.debug.xcconfig"; sourceTree = "<group>"; };
+		FF12D87E197A4B0598FF711F /* Barlow-ExtraLightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-ExtraLightItalic.ttf"; path = "../src/assets/fonts/Barlow-ExtraLightItalic.ttf"; sourceTree = "<group>"; };
 		FFC519F6EDA34C53ABCDFCC1 /* Barlow-ExtraLightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Barlow-ExtraLightItalic.ttf"; path = "../src/assets/Fonts/Barlow-ExtraLightItalic.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -98,7 +97,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4C8D53EC4F7F8A95E2804A44 /* libPods-prospectx-prospectxTests.a in Frameworks */,
+				ACEACE8B9FA746E64BF434FE /* libPods-prospectx-prospectxTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -106,7 +105,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE663889284388DED71F27F5 /* libPods-prospectx.a in Frameworks */,
+				8442EF9628E1BB996B6638B5 /* libPods-prospectx.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -168,6 +167,29 @@
 				267729BE32B9441E87A6FF4A /* Barlow-SemiBoldItalic.ttf */,
 				380D9CA23C55400998F81924 /* Barlow-Thin.ttf */,
 				3E82C98A86F149F495CFAB04 /* Barlow-ThinItalic.ttf */,
+				3FBAD0B6C6724DC19A490C2A /* Barlow-Black.ttf */,
+				A387D2914FE04AE592B5EC91 /* Barlow-BlackItalic.ttf */,
+				0ECDEE97C363435F8F0738EF /* Barlow-Bold.ttf */,
+				A920601B243E46E1B6708436 /* Barlow-BoldItalic.ttf */,
+				EEF3EE4DFE4E4BCEB9A90589 /* Barlow-ExtraBold.ttf */,
+				61ED77796E71460981C99AC4 /* Barlow-ExtraBoldItalic.ttf */,
+				CFB3D14CABC749E1A968FC48 /* Barlow-ExtraLight.ttf */,
+				FF12D87E197A4B0598FF711F /* Barlow-ExtraLightItalic.ttf */,
+				273725AC5CCF4F8998C14D94 /* Barlow-Italic.ttf */,
+				0AD9CC6B8B4B44C59B7091E3 /* Barlow-Light.ttf */,
+				E59E1D67A3CC447F965A0023 /* Barlow-LightItalic.ttf */,
+				617230DC546B45068507B666 /* Barlow-Medium.ttf */,
+				8FF27B6ACCC34761B7E4CBA5 /* Barlow-MediumItalic.ttf */,
+				58147556D97A4DDBAB55C2EB /* Barlow-Regular.ttf */,
+				4C0A8213C4704BAF8CD41584 /* Barlow-SemiBold.ttf */,
+				D52A1F8EEFB549E4BD549519 /* Barlow-SemiBoldItalic.ttf */,
+				25384B84FB7C454497BF623C /* Barlow-Thin.ttf */,
+				E1FC072174E146328CB96678 /* Barlow-ThinItalic.ttf */,
+				17901E47F213457883043E2A /* SFProDisplay-Heavy.ttf */,
+				7152C7B9A69E4BB1929E1E00 /* SFProDisplay-Light.ttf */,
+				EDFD114F895844DF8ACAB0F9 /* SFProDisplay-Medium.ttf */,
+				25CB8C21ADE442F1935E53E6 /* SFProDisplay-Semibold.ttf */,
+				B0772E09238648F79CFCDCBF /* SFProText-Regular.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -176,8 +198,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				7D23CC2AD543DC9D5717D12D /* libPods-prospectx.a */,
-				D282606A31C96B4C7FC7DBC6 /* libPods-prospectx-prospectxTests.a */,
+				ECEE499BC007F46012254A6D /* libPods-prospectx.a */,
+				72DD36BC5C5F4A3C90161E6A /* libPods-prospectx-prospectxTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -192,8 +214,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				044101E827992A080057A42D /* GoogleService-Info.plist */,
-				07D7E5312758DAA2007A5A1F /* SFProText-Regular.ttf */,
+				045D52BB27A133B7002D70EE /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* prospectx */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* prospectxTests */,
@@ -219,10 +240,10 @@
 		EC99681D0A1162FC8A6D7D43 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				8A6A17949E1A6438990C6DD5 /* Pods-prospectx.debug.xcconfig */,
-				C4ACBE470809D5348D2F1159 /* Pods-prospectx.release.xcconfig */,
-				7FA121A8A4A5C41CD07CFB8A /* Pods-prospectx-prospectxTests.debug.xcconfig */,
-				89CA53544B3A1E7E96F85442 /* Pods-prospectx-prospectxTests.release.xcconfig */,
+				FE859B2A30A7FA110333671F /* Pods-prospectx.debug.xcconfig */,
+				4BCE83E4909DE4017A76FD21 /* Pods-prospectx.release.xcconfig */,
+				5D5546B8819A361A16B9CD96 /* Pods-prospectx-prospectxTests.debug.xcconfig */,
+				F244BD4252D08FA50DAA1791 /* Pods-prospectx-prospectxTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -234,12 +255,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "prospectxTests" */;
 			buildPhases = (
-				816745A6ADBD5FC076E4F96C /* [CP] Check Pods Manifest.lock */,
+				74353CA23F0E3DF0CC51C4FE /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				1A852E804A9E78804A608279 /* [CP] Embed Pods Frameworks */,
-				754EB93260504F8F3F52231E /* [CP] Copy Pods Resources */,
+				C9E646094CCF0E684AF777D0 /* [CP] Embed Pods Frameworks */,
+				47E6A5136730B2151C06965B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -255,15 +276,15 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "prospectx" */;
 			buildPhases = (
-				8F2F317921CC4EF842175B4E /* [CP] Check Pods Manifest.lock */,
+				523851795607CD4927857050 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				D2B7D96A709A033037513070 /* [CP] Embed Pods Frameworks */,
-				EB592AA261F1FD1E459D9F01 /* [CP] Copy Pods Resources */,
-				A15B7B6293FF79FD1D1092E9 /* [CP-User] [RNFB] Core Configuration */,
+				33B992A25FB87FF56C533BB3 /* [CP] Embed Pods Frameworks */,
+				1102EBB7D966AC92622FD21B /* [CP] Copy Pods Resources */,
+				88896D91FD8155BB418A7A8F /* [CP-User] [RNFB] Core Configuration */,
 			);
 			buildRules = (
 			);
@@ -322,31 +343,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				07D7E5322758DAA2007A5A1F /* SFProText-Regular.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				044101E927992A080057A42D /* GoogleService-Info.plist in Resources */,
-				E9E2CA86E4394F7B917A3C4D /* SFProDisplay-Heavy.ttf in Resources */,
-				5047413A4263456D8B45D1FC /* SFProDisplay-Medium.ttf in Resources */,
-				B821F504E8864589B56B8D30 /* SFProDisplay-Semibold.ttf in Resources */,
-				47CBC70095044F318B908C28 /* SFProDisplay-Light.ttf in Resources */,
-				D8800B293CC744288CEBCB70 /* Barlow-Black.ttf in Resources */,
-				B002ACEBC4664A7DB909CF0A /* Barlow-BlackItalic.ttf in Resources */,
-				382D355E3D874EF5BA1EFD93 /* Barlow-Bold.ttf in Resources */,
-				2069AC374E284A6E96F9D6F2 /* Barlow-BoldItalic.ttf in Resources */,
-				50ECFCFBD651467AAE8BCF37 /* Barlow-ExtraBold.ttf in Resources */,
-				D8BBD89C1D8248BCBE2C07DD /* Barlow-ExtraBoldItalic.ttf in Resources */,
-				35FB25B7568E4E8AAB441653 /* Barlow-ExtraLight.ttf in Resources */,
-				1DA37CCB00084695A61B6BEC /* Barlow-ExtraLightItalic.ttf in Resources */,
-				0583EAABE81947A9ADCD7D17 /* Barlow-Italic.ttf in Resources */,
-				9F50374C4DE24BB597073F41 /* Barlow-Light.ttf in Resources */,
-				0C69295FCA7942D885746C66 /* Barlow-LightItalic.ttf in Resources */,
-				B020293358DA45CEBD86B854 /* Barlow-Medium.ttf in Resources */,
-				196CCA226394446BBE68837E /* Barlow-MediumItalic.ttf in Resources */,
-				9420667286E949C7AB252897 /* Barlow-Regular.ttf in Resources */,
-				98003C9420D6483099A6C1E7 /* Barlow-SemiBold.ttf in Resources */,
-				2C17BB5115604581A010D773 /* Barlow-SemiBoldItalic.ttf in Resources */,
-				73FCCD64D77D4F03A77B8A71 /* Barlow-Thin.ttf in Resources */,
-				367812CA2BA0469EB1F45ED2 /* Barlow-ThinItalic.ttf in Resources */,
+				045D52BC27A133B7002D70EE /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -367,24 +365,41 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nexport NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
-		1A852E804A9E78804A608279 /* [CP] Embed Pods Frameworks */ = {
+		1102EBB7D966AC92622FD21B /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-prospectx-prospectxTests/Pods-prospectx-prospectxTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-prospectx/Pods-prospectx-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			name = "[CP] Embed Pods Frameworks";
+			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-prospectx-prospectxTests/Pods-prospectx-prospectxTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-prospectx/Pods-prospectx-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-prospectx-prospectxTests/Pods-prospectx-prospectxTests-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-prospectx/Pods-prospectx-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		754EB93260504F8F3F52231E /* [CP] Copy Pods Resources */ = {
+		33B992A25FB87FF56C533BB3 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-prospectx/Pods-prospectx-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-prospectx/Pods-prospectx-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-prospectx/Pods-prospectx-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		47E6A5136730B2151C06965B /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -401,29 +416,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-prospectx-prospectxTests/Pods-prospectx-prospectxTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		816745A6ADBD5FC076E4F96C /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-prospectx-prospectxTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		8F2F317921CC4EF842175B4E /* [CP] Check Pods Manifest.lock */ = {
+		523851795607CD4927857050 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -445,7 +438,29 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		A15B7B6293FF79FD1D1092E9 /* [CP-User] [RNFB] Core Configuration */ = {
+		74353CA23F0E3DF0CC51C4FE /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-prospectx-prospectxTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		88896D91FD8155BB418A7A8F /* [CP-User] [RNFB] Core Configuration */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -458,38 +473,21 @@
 			shellPath = /bin/sh;
 			shellScript = "#!/usr/bin/env bash\n#\n# Copyright (c) 2016-present Invertase Limited & Contributors\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this library except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#   http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n#\nset -e\n\n_MAX_LOOKUPS=2;\n_SEARCH_RESULT=''\n_RN_ROOT_EXISTS=''\n_CURRENT_LOOKUPS=1\n_JSON_ROOT=\"'react-native'\"\n_JSON_FILE_NAME='firebase.json'\n_JSON_OUTPUT_BASE64='e30=' # { }\n_CURRENT_SEARCH_DIR=${PROJECT_DIR}\n_PLIST_BUDDY=/usr/libexec/PlistBuddy\n_TARGET_PLIST=\"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}\"\n_DSYM_PLIST=\"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Info.plist\"\n\n# plist arrays\n_PLIST_ENTRY_KEYS=()\n_PLIST_ENTRY_TYPES=()\n_PLIST_ENTRY_VALUES=()\n\nfunction setPlistValue {\n  echo \"info:      setting plist entry '$1' of type '$2' in file '$4'\"\n  ${_PLIST_BUDDY} -c \"Add :$1 $2 '$3'\" $4 || echo \"info:      '$1' already exists\"\n}\n\nfunction getFirebaseJsonKeyValue () {\n  if [[ ${_RN_ROOT_EXISTS} ]]; then\n    ruby -e \"require 'rubygems';require 'json'; output=JSON.parse('$1'); puts output[$_JSON_ROOT]['$2']\"\n  else\n    echo \"\"\n  fi;\n}\n\nfunction jsonBoolToYesNo () {\n  if [[ $1 == \"false\" ]]; then\n    echo \"NO\"\n  elif [[ $1 == \"true\" ]]; then\n    echo \"YES\"\n  else echo \"NO\"\n  fi\n}\n\necho \"info: -> RNFB build script started\"\necho \"info: 1) Locating ${_JSON_FILE_NAME} file:\"\n\nif [[ -z ${_CURRENT_SEARCH_DIR} ]]; then\n  _CURRENT_SEARCH_DIR=$(pwd)\nfi;\n\nwhile true; do\n  _CURRENT_SEARCH_DIR=$(dirname \"$_CURRENT_SEARCH_DIR\")\n  if [[ \"$_CURRENT_SEARCH_DIR\" == \"/\" ]] || [[ ${_CURRENT_LOOKUPS} -gt ${_MAX_LOOKUPS} ]]; then break; fi;\n  echo \"info:      ($_CURRENT_LOOKUPS of $_MAX_LOOKUPS) Searching in '$_CURRENT_SEARCH_DIR' for a ${_JSON_FILE_NAME} file.\"\n  _SEARCH_RESULT=$(find \"$_CURRENT_SEARCH_DIR\" -maxdepth 2 -name ${_JSON_FILE_NAME} -print | /usr/bin/head -n 1)\n  if [[ ${_SEARCH_RESULT} ]]; then\n    echo \"info:      ${_JSON_FILE_NAME} found at $_SEARCH_RESULT\"\n    break;\n  fi;\n  _CURRENT_LOOKUPS=$((_CURRENT_LOOKUPS+1))\ndone\n\nif [[ ${_SEARCH_RESULT} ]]; then\n  _JSON_OUTPUT_RAW=$(cat \"${_SEARCH_RESULT}\")\n  _RN_ROOT_EXISTS=$(ruby -e \"require 'rubygems';require 'json'; output=JSON.parse('$_JSON_OUTPUT_RAW'); puts output[$_JSON_ROOT]\" || echo '')\n\n  if [[ ${_RN_ROOT_EXISTS} ]]; then\n    _JSON_OUTPUT_BASE64=$(python -c 'import json,sys,base64;print(base64.b64encode(json.dumps(json.loads(open('\"'${_SEARCH_RESULT}'\"').read())['${_JSON_ROOT}'])))' || echo \"e30=\")\n  fi\n\n  _PLIST_ENTRY_KEYS+=(\"firebase_json_raw\")\n  _PLIST_ENTRY_TYPES+=(\"string\")\n  _PLIST_ENTRY_VALUES+=(\"$_JSON_OUTPUT_BASE64\")\n\n  # config.app_data_collection_default_enabled\n  _APP_DATA_COLLECTION_ENABLED=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"app_data_collection_default_enabled\")\n  if [[ $_APP_DATA_COLLECTION_ENABLED ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FirebaseDataCollectionDefaultEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_APP_DATA_COLLECTION_ENABLED\")\")\n  fi\n\n  # config.analytics_auto_collection_enabled\n  _ANALYTICS_AUTO_COLLECTION=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"analytics_auto_collection_enabled\")\n  if [[ $_ANALYTICS_AUTO_COLLECTION ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FIREBASE_ANALYTICS_COLLECTION_ENABLED\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_AUTO_COLLECTION\")\")\n  fi\n\n  # config.analytics_collection_deactivated\n  _ANALYTICS_DEACTIVATED=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"analytics_collection_deactivated\")\n  if [[ $_ANALYTICS_DEACTIVATED ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FIREBASE_ANALYTICS_COLLECTION_DEACTIVATED\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_DEACTIVATED\")\")\n  fi\n\n  # config.analytics_idfv_collection_enabled\n  _ANALYTICS_IDFV_COLLECTION=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"analytics_idfv_collection_enabled\")\n  if [[ $_ANALYTICS_IDFV_COLLECTION ]]; then\n    _PLIST_ENTRY_KEYS+=(\"GOOGLE_ANALYTICS_IDFV_COLLECTION_ENABLED\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_IDFV_COLLECTION\")\")\n  fi\n\n  # config.analytics_default_allow_ad_personalization_signals\n  _ANALYTICS_PERSONALIZATION=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"analytics_default_allow_ad_personalization_signals\")\n  if [[ $_ANALYTICS_PERSONALIZATION ]]; then\n    _PLIST_ENTRY_KEYS+=(\"GOOGLE_ANALYTICS_DEFAULT_ALLOW_AD_PERSONALIZATION_SIGNALS\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_PERSONALIZATION\")\")\n  fi\n\n  # config.google_analytics_automatic_screen_reporting_enabled\n  _ANALYTICS_AUTO_SCREEN_REPORTING=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"google_analytics_automatic_screen_reporting_enabled\")\n  if [[ $_ANALYTICS_AUTO_SCREEN_REPORTING ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FirebaseAutomaticScreenReportingEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_AUTO_SCREEN_REPORTING\")\")\n  fi\n\n  # config.perf_auto_collection_enabled\n  _PERF_AUTO_COLLECTION=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"perf_auto_collection_enabled\")\n  if [[ $_PERF_AUTO_COLLECTION ]]; then\n    _PLIST_ENTRY_KEYS+=(\"firebase_performance_collection_enabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_PERF_AUTO_COLLECTION\")\")\n  fi\n\n  # config.perf_collection_deactivated\n  _PERF_DEACTIVATED=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"perf_collection_deactivated\")\n  if [[ $_PERF_DEACTIVATED ]]; then\n    _PLIST_ENTRY_KEYS+=(\"firebase_performance_collection_deactivated\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_PERF_DEACTIVATED\")\")\n  fi\n\n  # config.messaging_auto_init_enabled\n  _MESSAGING_AUTO_INIT=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"messaging_auto_init_enabled\")\n  if [[ $_MESSAGING_AUTO_INIT ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FirebaseMessagingAutoInitEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_MESSAGING_AUTO_INIT\")\")\n  fi\n\n  # config.in_app_messaging_auto_colllection_enabled\n  _FIAM_AUTO_INIT=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"in_app_messaging_auto_collection_enabled\")\n  if [[ $_FIAM_AUTO_INIT ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FirebaseInAppMessagingAutomaticDataCollectionEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_FIAM_AUTO_INIT\")\")\n  fi\n\n  # config.app_check_token_auto_refresh\n  _APP_CHECK_TOKEN_AUTO_REFRESH=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"app_check_token_auto_refresh\")\n  if [[ $_APP_CHECK_TOKEN_AUTO_REFRESH ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FirebaseAppCheckTokenAutoRefreshEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_APP_CHECK_TOKEN_AUTO_REFRESH\")\")\n  fi\n\n  # config.crashlytics_disable_auto_disabler - undocumented for now - mainly for debugging, document if becomes useful\n  _CRASHLYTICS_AUTO_DISABLE_ENABLED=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"crashlytics_disable_auto_disabler\")\n  if [[ $_CRASHLYTICS_AUTO_DISABLE_ENABLED == \"true\" ]]; then\n    echo \"Disabled Crashlytics auto disabler.\" # do nothing\n  else\n    _PLIST_ENTRY_KEYS+=(\"FirebaseCrashlyticsCollectionEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"NO\")\n  fi\nelse\n  _PLIST_ENTRY_KEYS+=(\"firebase_json_raw\")\n  _PLIST_ENTRY_TYPES+=(\"string\")\n  _PLIST_ENTRY_VALUES+=(\"$_JSON_OUTPUT_BASE64\")\n  echo \"warning:   A firebase.json file was not found, whilst this file is optional it is recommended to include it to configure firebase services in React Native Firebase.\"\nfi;\n\necho \"info: 2) Injecting Info.plist entries: \"\n\n# Log out the keys we're adding\nfor i in \"${!_PLIST_ENTRY_KEYS[@]}\"; do\n  echo \"    ->  $i) ${_PLIST_ENTRY_KEYS[$i]}\" \"${_PLIST_ENTRY_TYPES[$i]}\" \"${_PLIST_ENTRY_VALUES[$i]}\"\ndone\n\nfor plist in \"${_TARGET_PLIST}\" \"${_DSYM_PLIST}\" ; do\n  if [[ -f \"${plist}\" ]]; then\n\n    # paths with spaces break the call to setPlistValue. temporarily modify\n    # the shell internal field separator variable (IFS), which normally\n    # includes spaces, to consist only of line breaks\n    oldifs=$IFS\n    IFS=\"\n\"\n\n    for i in \"${!_PLIST_ENTRY_KEYS[@]}\"; do\n      setPlistValue \"${_PLIST_ENTRY_KEYS[$i]}\" \"${_PLIST_ENTRY_TYPES[$i]}\" \"${_PLIST_ENTRY_VALUES[$i]}\" \"${plist}\"\n    done\n\n    # restore the original internal field separator value\n    IFS=$oldifs\n  else\n    echo \"warning:   A Info.plist build output file was not found (${plist})\"\n  fi\ndone\n\necho \"info: <- RNFB build script finished\"\n";
 		};
-		D2B7D96A709A033037513070 /* [CP] Embed Pods Frameworks */ = {
+		C9E646094CCF0E684AF777D0 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-prospectx/Pods-prospectx-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-prospectx-prospectxTests/Pods-prospectx-prospectxTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-prospectx/Pods-prospectx-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-prospectx-prospectxTests/Pods-prospectx-prospectxTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-prospectx/Pods-prospectx-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		EB592AA261F1FD1E459D9F01 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-prospectx/Pods-prospectx-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-prospectx/Pods-prospectx-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-prospectx/Pods-prospectx-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-prospectx-prospectxTests/Pods-prospectx-prospectxTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -544,7 +542,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7FA121A8A4A5C41CD07CFB8A /* Pods-prospectx-prospectxTests.debug.xcconfig */;
+			baseConfigurationReference = 5D5546B8819A361A16B9CD96 /* Pods-prospectx-prospectxTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				DEVELOPMENT_TEAM = 5USTH72R3N;
@@ -572,7 +570,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 89CA53544B3A1E7E96F85442 /* Pods-prospectx-prospectxTests.release.xcconfig */;
+			baseConfigurationReference = F244BD4252D08FA50DAA1791 /* Pods-prospectx-prospectxTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -597,7 +595,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8A6A17949E1A6438990C6DD5 /* Pods-prospectx.debug.xcconfig */;
+			baseConfigurationReference = FE859B2A30A7FA110333671F /* Pods-prospectx.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -626,7 +624,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C4ACBE470809D5348D2F1159 /* Pods-prospectx.release.xcconfig */;
+			baseConfigurationReference = 4BCE83E4909DE4017A76FD21 /* Pods-prospectx.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
