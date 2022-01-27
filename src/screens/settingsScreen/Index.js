@@ -15,11 +15,11 @@ import {useSelector} from 'react-redux';
 
 //=================================== Local Import Files =======================================
 import AllStyles from '../../all_styles/All_Styles';
-import fonts from '../../assets/fonts/Fonts';
 import images from '../../assets/images/Images';
 import AppHeader from '../../components/AppHeadercomponent/Appheader';
 import colors from '../../assets/colors/Colors';
 import BackArrow from '../../assets/images/backarrow.svg';
+import fonts from '../../assets/fonts/Fonts';
 import {
   ENABLE_NOTIFICATIONS,
   SAVE,

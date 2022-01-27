@@ -1,14 +1,12 @@
 import React, {useEffect, useRef} from 'react';
-import {LogBox, View, Text, AppState, AppRegistry} from 'react-native';
 import {Provider} from 'react-redux';
 import StackNavigation from './src/navigations/StackNavigation';
 import {PersistGate} from 'redux-persist/integration/react';
 import {persistor, store} from './src/redux/index';
+import {AppRegistry} from 'react-native';
 import messaging from '@react-native-firebase/messaging';
-
-import InAppNotification from './src/components/InAppNotification/view';
-import {GetTwilioToken} from './src/redux/Actions/commonAction';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import InAppNotification from './src/components/InAppNotification/view';
 
 AppRegistry.registerHeadlessTask(
   'RNFirebaseBackgroundMessage',
@@ -25,8 +23,6 @@ AppRegistry.registerHeadlessTask(
 );
 
 const App = () => {
-  let popup = useRef(null);
-
   useEffect(() => {
     getToken();
     checkNotification();
@@ -39,42 +35,6 @@ const App = () => {
         console.log('Token', resp);
         AsyncStorage.setItem('fcmToken', resp);
       });
-  };
-
-  // messaging()
-  //   .getInitialNotification()
-  //   .then(remoteMessage => {
-  //     if (remoteMessage) {
-  //       handleNotification(remoteMessage);
-  //     }
-  //   })
-  //   .catch(reason => console.log('App::getInitialNotification', reason));
-
-  // messaging().onNotificationOpenedApp(remoteMessage => {
-  //   handleNotification(remoteMessage);
-  // });
-
-  // useEffect(() => {
-  //   const unsubscribe = messaging().onMessage(remoteMessage => {
-  //     handleNotification(remoteMessage);
-  //   });
-
-  //   return () => {
-  //     unsubscribe();
-  //   };
-  // }, []);
-
-  const handleNotification = remoteMessage => {
-    const data = remoteMessage.data;
-
-    popup.current.show({
-      //onPress: () => {},
-      appIconSource: '',
-      appTitle: 'ProspectX',
-      title: 'Cloude msg',
-      body: 'this is notification msg',
-      slideOutTime: 3000,
-    });
   };
 
   const checkNotification = () => {
@@ -103,11 +63,40 @@ const App = () => {
     };
   };
 
+  const requestUserPermission = async () => {
+    await messaging().requestPermission();
+  };
+
+  useEffect(() => {
+    requestUserPermission();
+  }, []);
+
+  messaging()
+    .getInitialNotification()
+    .then(remoteMessage => {
+      if (remoteMessage) {
+        console.log('MESSAGE:   ', remoteMessage);
+      }
+    })
+    .catch(reason => console.log('App::getInitialNotification', reason));
+
+  messaging().onNotificationOpenedApp(remoteMessage => {
+    console.log('MESSAGE:   ', remoteMessage);
+  });
+
+  useEffect(() => {
+    const unsubscribe = messaging().onMessage(remoteMessage => {
+      console.log('MESSAGE:   ', remoteMessage);
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <StackNavigation />
-
         <InAppNotification
           vibrate
           interval={4500}

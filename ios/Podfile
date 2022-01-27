@@ -1,10 +1,9 @@
 require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
-
 platform :ios, '11.0'
 
-target 'prospectx' do
+target 'ProspectX' do
   config = use_native_modules!
 
   use_react_native!(
@@ -13,11 +12,7 @@ target 'prospectx' do
     :hermes_enabled => false
   )
 
-
-
-  
-
-  target 'prospectxTests' do
+  target 'ProspectXTests' do
     inherit! :complete
     # Pods for testing
   end

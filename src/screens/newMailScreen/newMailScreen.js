@@ -719,7 +719,7 @@ const styles = {
 //         marginHorizontal: wp(5),
 //         marginVertical: hp(2),
 //         color: 'black',
-//         fontFamily: 'Sf Pro Text',
+//         fontFamily:fonts.regular,
 //         opacity: 0.6,
 //       }}>
 //       Email Subject
@@ -737,7 +737,7 @@ const styles = {
 //         marginHorizontal: wp(5),
 
 //         color: 'black',
-//         fontFamily: 'Sf Pro Text',
+//         fontFamily:fonts.regular,
 //       }}>
 //       Email Content
 //     </Text>

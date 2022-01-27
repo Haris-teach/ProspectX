@@ -16,7 +16,6 @@ import {
 } from 'react-native';
 import moment from 'moment';
 import {useSelector} from 'react-redux';
-
 //====================================== Local Import Files =========================================
 
 import colors from '../../assets/colors/Colors';

@@ -49,7 +49,7 @@ const Stack = () => {
   useEffect(() => {
     var config = {
       method: 'get',
-      url: 'https://626b-182-185-248-177.ngrok.io/api/v1/commmunication/call/gettoken',
+      url: 'https://250f-182-185-248-177.ngrok.io/api/v1/commmunication/call/gettoken',
       headers: {
         Authorization: `Bearer ${token}`,
       },

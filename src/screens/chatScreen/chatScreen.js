@@ -448,7 +448,7 @@ const styles = {
     flex: 1,
     color: colors.titleColor,
     fontSize: wp(5.5),
-    fontFamily: fonts.regular,
+    fontFamily: 'SF Pro Text',
     textAlign: 'center',
     marginRight: wp(10),
   },

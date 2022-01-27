@@ -27,8 +27,8 @@ import colors from '../../assets/colors/Colors';
 import BackArrow from '../../assets/images/backarrow.svg';
 import HitApi from '../../HitApis/APIHandler';
 import {GETALLNOTIFICATION} from '../../HitApis/Urls';
-import fonts from '../../assets/fonts/Fonts';
 import {useSelector} from 'react-redux';
+import fonts from '../../assets/fonts/Fonts';
 
 const DATA = [
   {

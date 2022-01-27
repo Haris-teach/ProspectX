@@ -1,5 +1,5 @@
 //export const BASE_URL = 'https://app2.prospectx.com/';
-export const BASE_URL = 'https://626b-182-185-248-177.ngrok.io/';
+export const BASE_URL = 'https://0e1f-182-185-248-177.ngrok.io/';
 
 export const LOGIN = BASE_URL + 'api/v1/login';
 export const SETTING = BASE_URL + 'api/v1/settings/notifications';
@@ -19,3 +19,4 @@ export const OTPVERIFY = BASE_URL + 'api/v1/verify-otp';
 export const PASSWORDREST = BASE_URL + 'api/v1/reset-password';
 export const SENDNOTIFICATION =
   BASE_URL + 'api/v1/communication/firebase/send-notification';
+export const LOGOUT = BASE_URL + 'api/v1/logout/mobile';

@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   ImageBackground,
   SectionList,
+  Platform,
   StatusBar,
   FlatList,
   ActivityIndicator,
@@ -212,14 +213,14 @@ const MsgScreen = props => {
         visible={isvisible}
         dialogStyle={{
           width: wp(98),
-          height: hp(50),
+          height: Platform.OS === 'ios' ? hp(50) : hp(53),
           marginHorizontal: wp(-5),
         }}
         onTouchOutside={() => setIsVisible(false)}>
         <View
           style={{
             backgroundColor: '#7F5AFF',
-            marginTop: hp(-2.3),
+            marginTop: Platform.OS === 'ios' ? hp(-2.3) : hp(-3),
             padding: hp(1.5),
             borderBottomRightRadius: hp(10),
             borderBottomLeftRadius: hp(10),
@@ -234,7 +235,7 @@ const MsgScreen = props => {
         </View>
         <View style={{height: hp(38.65)}}>
           <CalendarPicker
-            width={wp(100)}
+            width={wp(99)}
             // resetSelections
             // height={hp(60)}
             onDateChange={(date, param) => {
@@ -264,12 +265,12 @@ const MsgScreen = props => {
               Toast.show('Please select end date');
             } else {
               setIsLoading(true);
-              if (value == []) {
+              if (value == null) {
                 setIsVisible(false);
-                MsgsThreads('All');
+                GetEmailThreads('All');
               } else {
                 setIsVisible(false);
-                MsgsThreads(value);
+                GetEmailThreads(value);
               }
             }
           }}
@@ -509,7 +510,7 @@ const styles = {
     marginTop: hp(0.5),
   },
   timeStyle: {
-    fontFamily: 'Barlow-Light',
+    fontFamily: fonts.regular,
     color: 'black',
     fontSize: wp(3),
     marginHorizontal: wp(3),
@@ -523,13 +524,13 @@ const styles = {
   },
   calanderBtnStyle: {
     backgroundColor: '#7F5AFF',
-
     padding: hp(1.5),
     borderRadius: hp(10),
     borderColor: 'white',
     borderWidth: 1,
     width: wp(50),
     alignSelf: 'center',
+    marginTop: Platform.OS === 'ios' ? null : hp(3),
   },
   floatingActionStyle: {
     height: hp(8),

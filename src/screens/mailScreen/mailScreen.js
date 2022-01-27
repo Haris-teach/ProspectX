@@ -9,6 +9,7 @@ import {
   ActivityIndicator,
   StatusBar,
   FlatList,
+  Platform,
 } from 'react-native';
 import {
   heightPercentageToDP as hp,
@@ -43,6 +44,7 @@ import Pen from '../../assets/svg/pen.svg';
 import Dilar from '../../assets/svg/dilar';
 import Contact from '../../assets/svg/contact.svg';
 import Email from '../../assets/svg/email.svg';
+import {playSampleSound} from 'react-native-notification-sounds';
 // =========================================
 
 const MailScreen = props => {
@@ -156,14 +158,14 @@ const MailScreen = props => {
         visible={isvisible}
         dialogStyle={{
           width: wp(98),
-          height: hp(50),
+          height: Platform.OS === 'ios' ? hp(50) : hp(53),
           marginHorizontal: wp(-5),
         }}
         onTouchOutside={() => setIsVisible(false)}>
         <View
           style={{
             backgroundColor: '#7F5AFF',
-            marginTop: hp(-2.3),
+            marginTop: Platform.OS === 'ios' ? hp(-2.3) : hp(-3),
             padding: hp(1.5),
             borderBottomRightRadius: hp(10),
             borderBottomLeftRadius: hp(10),
@@ -178,7 +180,7 @@ const MailScreen = props => {
         </View>
         <View style={{height: hp(38.65)}}>
           <CalendarPicker
-            width={wp(100)}
+            width={wp(99)}
             // resetSelections
             // height={hp(60)}
             onDateChange={(date, param) => {
@@ -373,7 +375,7 @@ const styles = {
     borderRadius: wp(10),
   },
   header: {
-    fontFamily: 'SF Pro Text',
+    fontFamily: fonts.regular,
     fontSize: wp(4),
     color: '#B0B0B0',
     marginTop: hp(2),
@@ -384,7 +386,7 @@ const styles = {
   tileStyle: {
     alignSelf: 'center',
     color: '#2E2E2E',
-    fontFamily: 'SF Pro Text',
+    fontFamily: fonts.regular,
     marginHorizontal: wp(6),
     fontSize: wp(4),
   },
@@ -404,7 +406,7 @@ const styles = {
     color: 'black',
     alignSelf: 'center',
     marginRight: wp(7),
-    fontFamily: 'SF Pro Text',
+    fontFamily: fonts.regular,
     fontSize: hp(1.5),
   },
   iconStyle: {
@@ -438,21 +440,21 @@ const styles = {
     borderColor: '#FFFFFF',
   },
   nameStyle: {
-    fontFamily: 'SF Pro Text',
+    fontFamily: fonts.regular,
     color: '#2E2E2E',
     fontSize: wp(4.5),
     marginHorizontal: wp(3),
     marginTop: hp(-0.5),
   },
   msgStyle: {
-    fontFamily: 'SF Pro Text',
+    fontFamily: fonts.regular,
     color: '#959595',
     fontSize: wp(3.2),
     marginHorizontal: wp(3),
     marginTop: hp(0.5),
   },
   timeStyle: {
-    fontFamily: 'Barlow-Light',
+    fontFamily: fonts.regular,
     color: 'black',
     fontSize: wp(3),
     marginHorizontal: wp(3),
@@ -482,12 +484,12 @@ const styles = {
   },
   calanderBtnStyle: {
     backgroundColor: '#7F5AFF',
-
     padding: hp(1.5),
     borderRadius: hp(10),
     borderColor: 'white',
     borderWidth: 1,
     width: wp(50),
     alignSelf: 'center',
+    marginTop: Platform.OS === 'ios' ? null : hp(3),
   },
 };

@@ -1,7 +1,14 @@
 //============================= React Native Import Files =================================
 import React, {useState} from 'react';
-import {ImageBackground, View, Image, TouchableOpacity} from 'react-native';
-import {useDispatch} from 'react-redux';
+import {
+  ImageBackground,
+  View,
+  Image,
+  TouchableOpacity,
+  ActivityIndicator,
+} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 //import DocumentPicker from 'react-native-document-picker';
 
 //============================= Local Import Files ========================================
@@ -11,6 +18,8 @@ import AppHeader from '../../components/AppHeadercomponent/Appheader';
 import colors from '../../assets/colors/Colors';
 import BackArrow from '../../assets/images/backarrow.svg';
 import ProfileComponent from '../../components/ProfileComponent/ProfileRow';
+import HitApi from '../../HitApis/APIHandler';
+import {LOGOUT} from '../../HitApis/Urls';
 import {
   PROFILE_CHANGE_PASS,
   PROFILE_LOGOUT,
@@ -28,8 +37,10 @@ import {logout} from '../../redux/Actions/authActions';
 import ProfilePic from '../../assets/svg/Profile.svg';
 
 const ProfileScreen = props => {
+  const token = useSelector(state => state.authReducer.token);
   const dispatch = useDispatch();
   const [fileUri, setFileURI] = useState(null);
+  const [isLodaing, setIsLoading] = useState(false);
 
   // const Documentpicker = async () => {
   //   try {
@@ -53,6 +64,23 @@ const ProfileScreen = props => {
   //     }
   //   }
   // };
+
+  const LogOut = async () => {
+    setIsLoading(true);
+
+    let fcmToken = await AsyncStorage.getItem('fcmToken');
+    let params = {
+      fcm_token: fcmToken,
+    };
+    HitApi(LOGOUT, 'post', params, token).then(res => {
+      if (res.status == 1) {
+        dispatch(logout());
+        setIsLoading(false);
+      } else {
+        setIsLoading(false);
+      }
+    });
+  };
 
   return (
     <ImageBackground
@@ -92,10 +120,10 @@ const ProfileScreen = props => {
           svg={<ChangePassword />}
         />
         <ProfileComponent
-          onPress={() => dispatch(logout())}
+          onPress={() => LogOut()}
           title={PROFILE_LOGOUT}
           backgroundColor={colors.profileLogoutColor}
-          svg={<Logout />}
+          svg={isLodaing ? <ActivityIndicator color="blue" /> : <Logout />}
         />
       </View>
     </ImageBackground>
