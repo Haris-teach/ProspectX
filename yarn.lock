@@ -7062,6 +7062,13 @@
   dependencies:
     "prop-types" "^15.7.x"
 
+"react-native-push-notification-popup@^1.6.0":
+  "integrity" "sha512-QBWDXzhxgegck3PQxop7/xo34k8CkU51y+uHujXVpx/GjpUeEA9gh8W2aFULslkp1T7fq1YSCpWXkQxieKweqA=="
+  "resolved" "https://registry.npmjs.org/react-native-push-notification-popup/-/react-native-push-notification-popup-1.6.0.tgz"
+  "version" "1.6.0"
+  dependencies:
+    "prop-types" "^15.7.2"
+
 "react-native-raw-bottom-sheet@^2.2.0":
   "integrity" "sha512-qL4JKIqvbcVxbkKzeh51hjV7suoJN3ouxzvLmOg0FBUV1yiJAfEbacjQdtRCI6+OU5pyGFBIifLsTXcFDwHggg=="
   "version" "2.2.0"
