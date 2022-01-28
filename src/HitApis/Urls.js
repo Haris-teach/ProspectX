@@ -14,6 +14,7 @@ export const SENDEMAIL = BASE_URL + 'api/v1/communication/send/email';
 export const GETEMAIL = BASE_URL + 'api/v1/user/mail/emails';
 export const GETEMAILTHREADS = BASE_URL + 'api/v1/user/mail/threads';
 export const GETALLEMAIL = BASE_URL + 'api/v1/user/mail/email_thread';
+export const CALLLOGS = BASE_URL + 'api/v1/communication/call/logs';
 export const GETOTP = BASE_URL + 'api/v1/forgot-password-otp';
 export const OTPVERIFY = BASE_URL + 'api/v1/verify-otp';
 export const PASSWORDREST = BASE_URL + 'api/v1/reset-password';

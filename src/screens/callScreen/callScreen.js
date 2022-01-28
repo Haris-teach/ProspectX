@@ -8,8 +8,10 @@ import {
   SectionList,
   StatusBar,
   Platform,
+  ActivityIndicator,
   TextInput,
 } from 'react-native';
+import {useIsFocused} from '@react-navigation/native';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
@@ -19,6 +21,7 @@ import RBSheet from 'react-native-raw-bottom-sheet';
 import LinearGradient from 'react-native-linear-gradient';
 import Toast from 'react-native-simple-toast';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import moment from 'moment';
 
 // ================local import=================
 import RNDropDown from '../../components/RNDropDown/RnDropDown';
@@ -27,7 +30,7 @@ import images from '../../assets/images/Images';
 import colors from '../../assets/colors/Colors';
 import fonts from '../../assets/fonts/Fonts';
 import HitApi from '../../HitApis/APIHandler';
-import {GETPHONENUM} from '../../HitApis/Urls';
+import {GETPHONENUM, CALLLOGS} from '../../HitApis/Urls';
 import {GetNumbers} from '../../redux/Actions/commonAction';
 
 // =============================================
@@ -71,8 +74,10 @@ const DATA = [
     data: ['Coke', 'Anna White'],
   },
 ];
+var arr = [];
 
 const CallScreen = props => {
+  const isFocused = useIsFocused();
   const dispatch = useDispatch();
 
   const sizeSheet = useRef();
@@ -90,15 +95,9 @@ const CallScreen = props => {
   ]);
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('Set Time');
+  const [isLoading, setIsLoading] = useState(false);
 
   const Item = ({title, index, section}) => {
-    // console.log(
-    //   'FADFAFASF:   ',
-    //   section.data.length,
-    //   index,
-    //   DATA.length,
-    //   title,
-    // );
     return (
       <TouchableOpacity
         // onPress={() => props.navigation.navigate('InComming', {name: title})}
@@ -125,16 +124,21 @@ const CallScreen = props => {
         }}>
         <View style={styles.listStyle}>
           <View style={styles.miniContainer}>
-            {index % 2 == 0 ? (
+            {title.dir != 'outbound-dial' ? (
               <INCall width={wp(4)} height={hp(4)} alignSelf="center" />
             ) : (
               <OutCall width={wp(4)} height={hp(4)} alignSelf="center" />
             )}
 
-            <Text style={styles.tileStyle}>{title}</Text>
+            <Text style={styles.tileStyle}>
+              {title.dir == 'outbound-dial' ? title.to : title.from}
+            </Text>
           </View>
 
-          <Text style={styles.durationStyle}>few min ago</Text>
+          <Text style={styles.durationStyle}>
+            {' '}
+            {moment(title.time).format('h:mm A')}
+          </Text>
         </View>
 
         {index < section.data.length - 1 ? (
@@ -176,6 +180,79 @@ const CallScreen = props => {
   }, []);
 
   // ===============================================================
+
+  // ============== Get all call logs =============================
+
+  const [callLogs, setCallLogs] = useState([]);
+
+  const GetCallLogs = () => {
+    setIsLoading(true);
+    let params = {
+      filters: {
+        numbers: ['+16232923707'],
+      },
+      pagination: {
+        page_number: 1,
+        page_size: 100,
+      },
+    };
+
+    HitApi(CALLLOGS, 'post', params, token).then(res => {
+      setIsLoading(false);
+      if (res.status == 1) {
+        var externalObj = {};
+        var prevEndDate = null;
+        var date = null;
+
+        res.data.forEach(i => {
+          let currentEndDate = i.endTime;
+          let obj = {
+            title: currentEndDate,
+            data: {
+              dir: i.direction,
+              direction: i.direction,
+              to: i.to,
+              from: i.from,
+              time: i.endTime,
+            },
+          };
+          if (
+            !moment(prevEndDate)
+              .startOf('day')
+              .isSame(moment(currentEndDate).startOf('day'))
+          ) {
+            prevEndDate = currentEndDate;
+            date = currentEndDate;
+            externalObj[date] = [];
+          }
+          externalObj[date].push(obj);
+        });
+        let dataArr = [];
+        for (const item in externalObj) {
+          let obj = {
+            title: item,
+            data: externalObj[item].map(obj => {
+              return obj.data;
+            }),
+          };
+
+          console.log('Object:   ', obj.data);
+          dataArr.push(obj);
+        }
+        console.log('Call Logs:   ', dataArr);
+        setCallLogs(dataArr);
+        console.log('Print Data : ', callLogs);
+      } else {
+        return null;
+      }
+    });
+  };
+
+  useEffect(() => {
+    GetCallLogs();
+  }, [isFocused]);
+
+  // =================== END =====================================
 
   // ================ Concatinate string function ================
 
@@ -322,8 +399,15 @@ const CallScreen = props => {
         {/* ==================================================== */}
 
         {/* ===============LIST VIEW========================== */}
-
+        {isLoading ? (
+          <View
+            style={{flex: 1, justifyContent: 'center', position: 'absolute'}}>
+            <ActivityIndicator color="blue" />
+          </View>
+        ) : null}
         <SectionList
+          refreshing={isLoading}
+          onRefresh={() => GetCallLogs()}
           stickySectionHeadersEnabled={false}
           showsVerticalScrollIndicator={false}
           style={{
@@ -331,13 +415,18 @@ const CallScreen = props => {
             zIndex: Platform.OS == 'ios' ? -1 : 0,
             //backgroundColor: 'red',
           }}
-          sections={DATA}
+          sections={callLogs}
           keyExtractor={(item, index) => item + index}
-          renderItem={({item, section, index}) => (
-            <Item title={item} index={index} section={section} />
-          )}
+          renderItem={({item, section, index}) => {
+            return (
+              <Item title={item} index={index} section={section} />
+              //<Text>{index}</Text>
+            );
+          }}
           renderSectionHeader={({section: {title}}) => (
-            <Text style={styles.header}>{title}</Text>
+            <Text style={styles.header}>
+              {moment(title).format('DD/MM/YYYY')}
+            </Text>
           )}
         />
 
@@ -616,6 +705,7 @@ const styles = {
     marginRight: wp(7),
     fontFamily: fonts.regular,
     fontSize: hp(1.5),
+    opacity: 0.2,
   },
   iconStyle: {
     alignSelf: 'center',

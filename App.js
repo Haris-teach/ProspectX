@@ -25,7 +25,7 @@ const App = () => {
     messaging()
       .getToken()
       .then(resp => {
-        console.log('Token', resp);
+        console.log('FCM Token', resp);
         AsyncStorage.setItem('fcmToken', resp);
       });
   };
