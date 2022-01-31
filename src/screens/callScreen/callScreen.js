@@ -204,7 +204,20 @@ const CallScreen = props => {
         var prevEndDate = null;
         var date = null;
 
-        res.data.forEach(i => {
+        let call_logs = res.data.call_logs;
+
+        call_logs.sort(function (a, b) {
+          return new Date(b.startTime) - new Date(a.startTime);
+        });
+
+        // // Excluding all forwarding number call logs
+        call_logs.map((logs, index) => {
+          if (res.data.forwarding_numbers.includes(logs.to)) {
+            call_logs.splice(index, 1);
+          }
+        });
+
+        call_logs.forEach(i => {
           let currentEndDate = i.endTime;
           let obj = {
             title: currentEndDate,
