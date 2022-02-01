@@ -34,6 +34,7 @@ import colors from '../../assets/colors/Colors';
 import fonts from '../../assets/fonts/Fonts';
 import RNDropDown from '../../components/RNDropDown/RnDropDown';
 import {GetEmails} from '../../redux/Actions/commonAction';
+import AppHeader from '../../components/AppHeadercomponent/Appheader';
 // =============================================
 
 // ============SVG Imports===================
@@ -45,6 +46,7 @@ import Dilar from '../../assets/svg/dilar';
 import Contact from '../../assets/svg/contact.svg';
 import Email from '../../assets/svg/email.svg';
 import {playSampleSound} from 'react-native-notification-sounds';
+import {GetTabLocation} from '../../redux/Actions/commonAction';
 // =========================================
 
 const MailScreen = props => {
@@ -226,6 +228,8 @@ const MailScreen = props => {
     );
   };
 
+  const location = useSelector(state => state.notPresistReducer.location);
+
   return (
     <ImageBackground
       style={styles.mainContainer}
@@ -234,16 +238,12 @@ const MailScreen = props => {
         {RenderModal()}
         {/* ===========Header PArt=========== */}
 
-        <View style={styles.headerContainer}>
-          <TouchableOpacity
-            onPress={() => props.navigation.navigate('Profile')}>
-            <Menu />
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => props.navigation.navigate('Notification')}>
-            <Bell />
-          </TouchableOpacity>
-        </View>
+        <AppHeader
+          leftonPress={() => props.navigation.navigate('Profile')}
+          rightonPress={() => props.navigation.navigate('Notification')}
+          leftIcon={<Menu />}
+          rightIcon={<Bell />}
+        />
 
         {/* ==================================== */}
 

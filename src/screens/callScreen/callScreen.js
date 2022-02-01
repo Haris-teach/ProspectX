@@ -22,6 +22,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import Toast from 'react-native-simple-toast';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import moment from 'moment';
+import messaging from '@react-native-firebase/messaging';
 
 // ================local import=================
 import RNDropDown from '../../components/RNDropDown/RnDropDown';
@@ -31,7 +32,8 @@ import colors from '../../assets/colors/Colors';
 import fonts from '../../assets/fonts/Fonts';
 import HitApi from '../../HitApis/APIHandler';
 import {GETPHONENUM, CALLLOGS} from '../../HitApis/Urls';
-import {GetNumbers} from '../../redux/Actions/commonAction';
+import {GetNumbers, GetTabLocation} from '../../redux/Actions/commonAction';
+import AppHeader from '../../components/AppHeadercomponent/Appheader';
 
 // =============================================
 
@@ -74,7 +76,6 @@ const DATA = [
     data: ['Coke', 'Anna White'],
   },
 ];
-var arr = [];
 
 const CallScreen = props => {
   const isFocused = useIsFocused();
@@ -167,16 +168,7 @@ const CallScreen = props => {
   };
 
   useEffect(() => {
-    // let fcmToken = await AsyncStorage.getItem('fcmToken');
-    // console.log('FCMTOKEN:   ', fcmToken);
-
-    let mounted = true;
-    if (mounted) {
-      GetAllNumbers();
-    }
-    return () => {
-      mounted = false;
-    };
+    GetAllNumbers();
   }, []);
 
   // ===============================================================
@@ -249,12 +241,10 @@ const CallScreen = props => {
             }),
           };
 
-          console.log('Object:   ', obj.data);
           dataArr.push(obj);
         }
-        console.log('Call Logs:   ', dataArr);
+
         setCallLogs(dataArr);
-        console.log('Print Data : ', callLogs);
       } else {
         return null;
       }
@@ -289,86 +279,16 @@ const CallScreen = props => {
   //==================== Call functions ==========================
   const twilioToken = useSelector(state => state.commonReducer.twilioToken);
 
-  // const callKeepOptions = {
-  //   ios: {
-  //     appName: 'prospectx',
-  //     supportsVideo: false,
-  //   },
-  //   android: {
-  //     alertTitle: 'Permissions required',
-  //     alertDescription: 'This application needs to access your phone accounts',
-  //     cancelButton: 'Cancel',
-  //     okButton: 'OK',
-  //     additionalPermissions: [],
-  //     // Required to get audio in background when using Android 11
-  //     foregroundService: {
-  //       channelId: 'com.example.reactnativetwiliophone',
-  //       channelName: 'Foreground service for my app',
-  //       notificationTitle: 'My app is running on background',
-  //     },
-  //   },
-  // };
-  // const options = {
-  //   requestPermissionsOnInit: true, // Default: true - Set to false if you want to request permissions manually
-  // };
-
-  // // Async function that returns Twilio access token
-  // async function fetchAccessToken() {
-  //   var config = {
-  //     method: 'get',
-  //     url: 'https://7823-182-185-248-177.ngrok.io/api/v1/commmunication/call/gettoken',
-  //     headers: {
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //   };
-
-  //   axios(config)
-  //     .then(function (res) {
-  //       //console.log('Response:   ', res.data.data.token);
-  //       // dispatch(GetTwilioToken(res.data.data.token));
-  //       return res.data.data.token;
-  //     })
-  //     .catch(function (error) {
-  //       console.log('error:  ', error);
-  //     });
-  // }
-  // useEffect(() => {
-  //   const subscriptions = [
-  //     twilioPhoneEmitter.addListener('CallConnected', data => {
-  //       console.log('Data:  ', data);
-  //     }),
-  //     twilioPhoneEmitter.addListener('CallDisconnected', data => {
-  //       console.log('DATA:   ', data);
-  //     }),
-  //     twilioPhoneEmitter.addListener('CallDisconnectedError', data => {
-  //       console.log('Data:   ', data);
-  //     }),
-  //   ];
-
-  //   return () => {
-  //     subscriptions.map(subscription => {
-  //       subscription.remove();
-  //     });
-  //   };
-  // }, []);
-
-  // useEffect(() => {
-  //   fetchAccessToken();
-  //   let call = RNTwilioPhone.initialize(
-  //     callKeepOptions,
-  //     fetchAccessToken,
-  //     options,
-  //   );
-
-  //   console.log('Calls:   ', call);
-  // }, []);
-
   useEffect(() => {
     console.log('Version:   ', TwilioVoice.version);
     console.log('Native Version:  ', TwilioVoice.nativeVersion);
   }, []);
 
   //==================== END =====================================
+
+  messaging().onNotificationOpenedApp(remoteMessage => {
+    props.navigation.navigate('Home', {screen: 'Message'});
+  });
 
   return (
     <ImageBackground
@@ -377,16 +297,12 @@ const CallScreen = props => {
       <View style={styles.mainContainer}>
         {/* ===========Header PArt=========== */}
 
-        <View style={styles.headerContainer}>
-          <TouchableOpacity
-            onPress={() => props.navigation.navigate('Profile')}>
-            <Menu />
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => props.navigation.navigate('Notification')}>
-            <Bell />
-          </TouchableOpacity>
-        </View>
+        <AppHeader
+          leftonPress={() => props.navigation.navigate('Profile')}
+          rightonPress={() => props.navigation.navigate('Notification')}
+          leftIcon={<Menu />}
+          rightIcon={<Bell />}
+        />
 
         {/* ==================================== */}
 
@@ -412,12 +328,7 @@ const CallScreen = props => {
         {/* ==================================================== */}
 
         {/* ===============LIST VIEW========================== */}
-        {isLoading ? (
-          <View
-            style={{flex: 1, justifyContent: 'center', position: 'absolute'}}>
-            <ActivityIndicator color="blue" />
-          </View>
-        ) : null}
+
         <SectionList
           refreshing={isLoading}
           onRefresh={() => GetCallLogs()}

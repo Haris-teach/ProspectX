@@ -37,7 +37,7 @@ import {RESET_PASSWORD} from '../../constants/Navigator';
 import colors from '../../assets/colors/Colors';
 import fonts from '../../assets/fonts/Fonts';
 import HitApi from '../../HitApis/APIHandler';
-import {OTPVERIFY} from '../../HitApis/Urls';
+import {OTPVERIFY, GETOTP} from '../../HitApis/Urls';
 
 const OtpScreen = props => {
   const token = useSelector(state => state.authReducer.token);
@@ -47,24 +47,44 @@ const OtpScreen = props => {
   const OTPRef = useRef(null);
   const [timer, setTimer] = useState(true);
 
-  const OtpVerify = () => {
-    console.log('OTP CODE:  ', otpCode);
+  const GetOtp = v => {
     setIsLoading(true);
     let params = {
       email: props.route.params.email,
-      otp: otpCode,
     };
-    HitApi(OTPVERIFY, 'post', params, token).then(res => {
+    HitApi(GETOTP, 'post', params, token).then(res => {
+      //console.log('Response:   ', res.data);
       if (res.status == 1) {
-        props.navigation.navigate('ResetScreen', {
-          token: res.data.token,
-          email: props.route.params.email,
-        });
+        Toast.show(res.message, Toast.SHORT, ['UIAlertController']);
       } else {
         Toast.show(res.errors[0], Toast.SHORT, ['UIAlertController']);
       }
       setIsLoading(false);
     });
+  };
+
+  const OtpVerify = () => {
+    setIsLoading(true);
+    let params = {
+      email: props.route.params.email,
+      otp: otpCode,
+    };
+    if (otpCode == '') {
+      Toast.show('Enter verification code', Toast.SHORT, ['UIAlertController']);
+      setIsLoading(false);
+    } else {
+      HitApi(OTPVERIFY, 'post', params, token).then(res => {
+        if (res.status == 1) {
+          props.navigation.navigate('ResetScreen', {
+            token: res.data.token,
+            email: props.route.params.email,
+          });
+        } else {
+          Toast.show(res.errors[0], Toast.SHORT, ['UIAlertController']);
+        }
+        setIsLoading(false);
+      });
+    }
   };
 
   return (
@@ -74,76 +94,85 @@ const OtpScreen = props => {
       <ImageBackground
         style={AllStyles.mainContainer}
         source={images.splashBackground}>
-        <View style={AllStyles.headerView}>
-          <TouchableOpacity
-            onPress={() => props.navigation.goBack()}
-            style={AllStyles.backArrowWidth}>
-            <BackArrow />
-          </TouchableOpacity>
-        </View>
+        <ScrollView>
+          <View style={AllStyles.headerView}>
+            <TouchableOpacity
+              onPress={() => props.navigation.goBack()}
+              style={AllStyles.backArrowWidth}>
+              <BackArrow />
+            </TouchableOpacity>
+          </View>
 
-        <View style={styles.otpMainView}>
-          <Text style={styles.otpTitleTextStyle}>Enter Verification Code</Text>
-          <Text style={styles.otpDescTextStyle}>
-            Please enter the 4 Digit Verification Code Below
-          </Text>
-        </View>
+          <View style={styles.otpMainView}>
+            <Text style={styles.otpTitleTextStyle}>
+              Enter Verification Code
+            </Text>
+            <Text style={styles.otpDescTextStyle}>
+              Please enter the 4 Digit Verification Code Below
+            </Text>
+          </View>
 
-        <View style={styles.otpCodeFullView}>
-          <OTPInputView
-            // ref={OTPRef}
-            style={styles.otpInsideStyle}
-            pinCount={4}
-            autoFocusOnLoad
-            codeInputFieldStyle={styles.otpCodeFieldStyle}
-            onCodeFilled={code => {
-              // setClearOTP(false);
-              console.log(`Code is ${code}, you are good to go!`);
-              setOtpCode(code);
-            }}
-            editable={true}
-            // clearInputs={true}
-          />
-        </View>
-        <View style={styles.otpResendViewStyle}>
-          {!timer ? (
-            <View style={styles.otpResendRowView}>
-              <Text style={styles.otpCodeTextStyle}>
-                Did not receive the code yet?
-              </Text>
-              <TouchableOpacity onPress={() => setTimer(!timer)}>
-                <Text style={styles.otpResendTextStyle}>Resend</Text>
-              </TouchableOpacity>
-            </View>
-          ) : (
-            <CountDown
-              until={30}
-              digitStyle={styles.otpDigitStyle}
-              digitTxtStyle={styles.otpDigitalTextStyle}
-              separatorStyle={styles.otpDigitalTextStyle}
-              timeToShow={['M', 'S']}
-              timeLabels={{}}
-              onFinish={() => setTimer(!timer)}
-              size={15}
-              showSeparator
+          <View style={styles.otpCodeFullView}>
+            <OTPInputView
+              // ref={OTPRef}
+              keyboardType="number-pad"
+              style={styles.otpInsideStyle}
+              pinCount={4}
+              autoFocusOnLoad
+              codeInputFieldStyle={styles.otpCodeFieldStyle}
+              onCodeFilled={code => {
+                // setClearOTP(false);
+                console.log(`Code is ${code}, you are good to go!`);
+                setOtpCode(code);
+              }}
+              editable={true}
+              //clearInputs={true}
             />
-          )}
-        </View>
+          </View>
+          <View style={styles.otpResendViewStyle}>
+            {!timer ? (
+              <View style={styles.otpResendRowView}>
+                <Text style={styles.otpCodeTextStyle}>
+                  Did not receive the code yet?
+                </Text>
+                <TouchableOpacity
+                  onPress={() => {
+                    setTimer(!timer);
+                    GetOtp();
+                  }}>
+                  <Text style={styles.otpResendTextStyle}>Resend</Text>
+                </TouchableOpacity>
+              </View>
+            ) : (
+              <CountDown
+                until={60}
+                digitStyle={styles.otpDigitStyle}
+                digitTxtStyle={styles.otpDigitalTextStyle}
+                separatorStyle={styles.otpDigitalTextStyle}
+                timeToShow={['M', 'S']}
+                timeLabels={{}}
+                onFinish={() => setTimer(!timer)}
+                size={15}
+                showSeparator
+              />
+            )}
+          </View>
 
-        <View
-          style={{
-            flex: 1,
-            justifyContent: 'center',
-            marginTop: hp(15),
-            width: wp(80),
-            alignSelf: 'center',
-          }}>
-          <GradientButton
-            title={SUBMIT}
-            onPress={() => OtpVerify()}
-            condition={isLoading}
-          />
-        </View>
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              marginTop: hp(15),
+              width: wp(80),
+              alignSelf: 'center',
+            }}>
+            <GradientButton
+              title={SUBMIT}
+              onPress={() => OtpVerify()}
+              condition={isLoading}
+            />
+          </View>
+        </ScrollView>
       </ImageBackground>
     </KeyboardAvoidingView>
   );

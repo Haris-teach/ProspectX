@@ -167,7 +167,9 @@ const AllStyles = {
   },
   backArrowWidth: {
     width: wp(10),
+    height: hp(5),
     justifyContent: 'center',
+    //backgroundColor: 'red',
   },
   bottomView: {
     height: hp(30),

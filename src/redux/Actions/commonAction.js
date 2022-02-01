@@ -3,6 +3,8 @@ import {
   GET_NOTIFICATION,
   GET_ALL_EMAILS,
   TWILIO_TOKEN,
+  TAB_LOCATION,
+  GET_NOTINUMBER,
 } from './actionType';
 
 export function GetNumbers(numbers) {
@@ -10,13 +12,6 @@ export function GetNumbers(numbers) {
   return {
     type: GET_ALL_NUMBERS,
     payload: numbers,
-  };
-}
-
-export function GetNotification(number) {
-  return {
-    type: GET_NOTIFICATION,
-    payload: number,
   };
 }
 
@@ -31,5 +26,19 @@ export function GetTwilioToken(accessToken) {
   return {
     type: TWILIO_TOKEN,
     payload: accessToken,
+  };
+}
+
+export function GetTabLocation(location) {
+  return {
+    type: TAB_LOCATION,
+    payload: location,
+  };
+}
+
+export function GetNotiNumber(number) {
+  return {
+    type: GET_NOTINUMBER,
+    payload: number,
   };
 }

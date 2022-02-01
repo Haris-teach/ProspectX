@@ -10,6 +10,10 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 //import DocumentPicker from 'react-native-document-picker';
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from 'react-native-responsive-screen';
 
 //============================= Local Import Files ========================================
 import AllStyles from '../../all_styles/All_Styles';
@@ -86,11 +90,30 @@ const ProfileScreen = props => {
     <ImageBackground
       style={AllStyles.mainContainer}
       source={images.splashBackground}>
-      <AppHeader
-        leftIconBackgrounColor={colors.whiteColor}
-        leftSvg={<BackArrow height={15} width={15} />}
-        leftIconPress={() => props.navigation.goBack(null)}
-      />
+      <View style={styles.appHeaderMainView}>
+        <TouchableOpacity
+          onPress={() => props.navigation.goBack()}
+          style={{
+            backgroundColor: 'white',
+            height: 27,
+            width: 28,
+            alignItems: 'center',
+            alignSelf: 'center',
+            borderRadius: wp(2),
+            justifyContent: 'center',
+            shadowColor: '#0E2247',
+            shadowOffset: {
+              width: 0,
+              height: 2,
+            },
+            shadowOpacity: 0.2,
+            shadowRadius: 5,
+            elevation: 8,
+          }}>
+          <BackArrow height={15} width={15} />
+          {props.leftSvg}
+        </TouchableOpacity>
+      </View>
 
       {/* <TouchableOpacity
         disabled={true}
@@ -130,3 +153,12 @@ const ProfileScreen = props => {
   );
 };
 export default ProfileScreen;
+
+const styles = {
+  appHeaderMainView: {
+    height: hp(15),
+    flexDirection: 'row',
+    marginHorizontal: wp(6),
+    justifyContent: 'space-between',
+  },
+};

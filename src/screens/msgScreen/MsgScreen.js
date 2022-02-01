@@ -30,8 +30,9 @@ import colors from '../../assets/colors/Colors';
 import RNDropDown from '../../components/RNDropDown/RnDropDown';
 import HitApi from '../../HitApis/APIHandler';
 import {MSGTHREADS, GETPHONENUM} from '../../HitApis/Urls';
-import {GetNumbers} from '../../redux/Actions/commonAction';
+import {GetNumbers, GetTabLocation} from '../../redux/Actions/commonAction';
 import fonts from '../../assets/fonts/Fonts';
+import AppHeader from '../../components/AppHeadercomponent/Appheader';
 // =============================================
 
 // ============SVG Imports===================
@@ -267,10 +268,10 @@ const MsgScreen = props => {
               setIsLoading(true);
               if (value == null) {
                 setIsVisible(false);
-                GetEmailThreads('All');
+                MsgsThreads('All');
               } else {
                 setIsVisible(false);
-                GetEmailThreads(value);
+                MsgsThreads(value);
               }
             }
           }}
@@ -280,6 +281,9 @@ const MsgScreen = props => {
       </Dialog>
     );
   };
+
+  const location = useSelector(state => state.notPresistReducer.location);
+
   return (
     <ImageBackground
       style={styles.mainContainer}
@@ -288,16 +292,12 @@ const MsgScreen = props => {
         {RenderModal()}
         {/* ===========Header PArt=========== */}
 
-        <View style={styles.headerContainer}>
-          <TouchableOpacity
-            onPress={() => props.navigation.navigate('Profile')}>
-            <Menu />
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => props.navigation.navigate('Notification')}>
-            <Bell />
-          </TouchableOpacity>
-        </View>
+        <AppHeader
+          leftonPress={() => props.navigation.navigate('Profile')}
+          rightonPress={() => props.navigation.navigate('Notification')}
+          leftIcon={<Menu />}
+          rightIcon={<Bell />}
+        />
 
         {/* ==================================== */}
 

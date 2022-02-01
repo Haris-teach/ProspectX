@@ -1,13 +1,14 @@
+import {act} from 'react-test-renderer';
 import {
   GET_ALL_EMAILS,
   GET_ALL_NUMBERS,
-  GET_NOTIFICATION,
+  GET_NOTINUMBER,
   TWILIO_TOKEN,
 } from '../Actions/actionType';
 
 const INITIAL_STATE = {
   Numbers: 'Hello',
-  NotiNumber: 0,
+  notiNumber: 0,
   emails: 'Empty',
   twilioToken: '',
 };
@@ -19,11 +20,7 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         Numbers: action.payload,
       };
-    case GET_NOTIFICATION:
-      return {
-        ...state,
-        NotiNumber: action.payload,
-      };
+
     case GET_ALL_EMAILS:
       return {
         ...state,
@@ -35,6 +32,18 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         twilioToken: action.payload,
       };
+    case GET_NOTINUMBER: {
+      return {
+        ...state,
+        notiNumber: action.payload,
+      };
+    }
+    // case GET_NOTINUMBER: {
+    //   return {
+    //     ...state,
+    //     notiNumber: action.payload,
+    //   };
+    // }
 
     default:
       return state;

@@ -18,6 +18,7 @@ import {
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 import moment from 'moment';
+import {useDispatch} from 'react-redux';
 
 //======================================== Local Import Files ====================================
 import images from '../../assets/images/Images';
@@ -29,6 +30,7 @@ import HitApi from '../../HitApis/APIHandler';
 import {GETALLNOTIFICATION} from '../../HitApis/Urls';
 import {useSelector} from 'react-redux';
 import fonts from '../../assets/fonts/Fonts';
+import {GetNotiNumber} from '../../redux/Actions/commonAction';
 
 const DATA = [
   {
@@ -52,6 +54,7 @@ const DATA = [
 ];
 
 const NotificationScreen = props => {
+  const dispatch = useDispatch();
   const [select, setSelect] = useState(null);
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -227,9 +230,11 @@ const NotificationScreen = props => {
   }, []);
 
   const GetNotifications = () => {
+    // dispatch(GetNotification(0));
     let params = {
-      order_by: {
-        created_at: 'desc',
+      query: {
+        value: '%SMS%',
+        fields: ['message'],
       },
     };
     HitApi(GETALLNOTIFICATION, 'POST', params, token).then(res => {
@@ -250,7 +255,10 @@ const NotificationScreen = props => {
 
       <View style={styles.headerContainer}>
         <TouchableOpacity
-          onPress={() => props.navigation.goBack()}
+          onPress={() => {
+            dispatch(GetNotiNumber(0));
+            props.navigation.goBack();
+          }}
           style={styles.backButton}>
           <BackArrow height={15} width={15} />
         </TouchableOpacity>

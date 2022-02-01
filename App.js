@@ -3,93 +3,91 @@ import {Provider} from 'react-redux';
 import StackNavigation from './src/navigations/StackNavigation';
 import {PersistGate} from 'redux-persist/integration/react';
 import {persistor, store} from './src/redux/index';
-import {AppRegistry} from 'react-native';
 import messaging from '@react-native-firebase/messaging';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import InAppNotification from './src/components/InAppNotification/view';
-
-AppRegistry.registerHeadlessTask(
-  'RNFirebaseBackgroundMessage',
-  messaging().setBackgroundMessageHandler(async remoteMessage => {
-    console.log('Background notifications:    ', remoteMessage);
-  }),
-);
+import NotificationPopup from 'react-native-push-notification-popup';
+import {AppRegistry} from 'react-native';
 
 const App = () => {
-  useEffect(() => {
-    getToken();
-    //checkNotification();
-  }, []);
+  // AppRegistry.registerHeadlessTask(
+  //   'RNFirebaseBackgroundMessage',
+  //   messaging().setBackgroundMessageHandler(async remoteMessage => {
+  //     console.log('Background notifications:    ', remoteMessage);
+  //     // dispatch(GetNotification(parseInt(NotifiNumber) + 1));
+  //     handleNotification(remoteMessage);
+  //   }),
+  // );
 
-  const getToken = () => {
-    messaging()
-      .getToken()
-      .then(resp => {
-        console.log('FCM Token', resp);
-        AsyncStorage.setItem('fcmToken', resp);
-      });
-  };
+  // let popup = useRef(null);
+  // useEffect(() => {
+  //   getToken();
+  // }, []);
 
-  // const checkNotification = () => {
-  //   addNotificationListener = () => {
-  //     this.messageForeGround();
-  //     this.messageBackGround();
-  //     messaging().onNotificationOpenedApp(remoteMessage => {
-  //       console.log('onNotificationOpenedApp', remoteMessage.notification);
+  // const getToken = () => {
+  //   messaging()
+  //     .getToken()
+  //     .then(resp => {
+  //       console.log('FCM Token', resp);
+  //       AsyncStorage.setItem('fcmToken', resp);
   //     });
-  //     messaging()
-  //       .getInitialNotification()
-  //       .then(remoteMessage => {
-  //         console.log('getInitialNotification', remoteMessage);
-  //       });
-  //   };
-  //   messageForeGround = () => {
-  //     return messaging().onMessage(async remoteMessage => {
-  //       EventRegister.emit('InAppNotification', remoteMessage);
-  //       console.log('onMessageForGround====>', remoteMessage);
-  //     });
-  //   };
-  //   messageBackGround = () => {
-  //     messaging().setBackgroundMessageHandler(async remoteMessage => {
-  //       // console.log('setBackgroundMessageHandler', remoteMessage);
-  //     });
-  //   };
   // };
 
-  const requestUserPermission = async () => {
-    await messaging().requestPermission();
-  };
+  // const requestUserPermission = async () => {
+  //   await messaging().requestPermission();
+  // };
 
-  useEffect(() => {
-    requestUserPermission();
-  }, []);
+  // useEffect(() => {
+  //   requestUserPermission();
+  // }, []);
 
-  messaging()
-    .getInitialNotification()
-    .then(remoteMessage => {
-      if (remoteMessage) {
-        console.log('initialNotifition MESSAGE:   ', remoteMessage);
-      }
-    })
-    .catch(reason => console.log('App::getInitialNotification', reason));
+  // messaging()
+  //   .getInitialNotification()
+  //   .then(remoteMessage => {
+  //     if (remoteMessage) {
+  //       console.log('initialNotifition MESSAGE:   ', remoteMessage);
+  //       //handleNotification(remoteMessage);
+  //     }
+  //   })
+  //   .catch(reason => console.log('App::getInitialNotification', reason));
 
-  messaging().onNotificationOpenedApp(remoteMessage => {
-    console.log('onNotification open MESSAGE:   ', remoteMessage);
-  });
+  // messaging().onNotificationOpenedApp(remoteMessage => {
+  //   console.log('onNotification open MESSAGE:   ', remoteMessage);
+  //   handleNotification(remoteMessage);
+  // });
 
-  useEffect(() => {
-    const unsubscribe = messaging().onMessage(remoteMessage => {
-      console.log('unSubcribe  MESSAGE:   ', remoteMessage);
-    });
+  // messaging().setBackgroundMessageHandler(async remoteMessage => {
+  //   console.log('Background notifications:    ', remoteMessage);
+  //   // dispatch(GetNotification());
+  //   handleNotification(remoteMessage);
+  // });
 
-    return () => {
-      unsubscribe();
-    };
-  }, []);
+  // useEffect(() => {
+  //   const unsubscribe = messaging().onMessage(remoteMessage => {
+  //     //dispatch(GetNotification());
+  //     console.log('unSubcribe  MESSAGE:   ', remoteMessage);
+  //     //console.log('Notofhjfjh:   ', NotifiNumber);
+  //     handleNotification(remoteMessage);
+  //   });
+
+  //   return () => {
+  //     unsubscribe();
+  //   };
+  // }, []);
+
+  // const handleNotification = remoteMessage => {
+  //   popup.current.show({
+  //     appIconSource: null,
+  //     appTitle: 'ProspectX',
+  //     title: remoteMessage.notification.title,
+  //     body: remoteMessage.notification.body,
+  //     slideOutTime: 3000,
+  //   });
+  // };
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <StackNavigation />
+        {/* <NotificationPopup ref={popup} /> */}
       </PersistGate>
     </Provider>
   );

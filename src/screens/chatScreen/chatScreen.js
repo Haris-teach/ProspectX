@@ -75,7 +75,7 @@ const ChatScreen = props => {
       setItems(items);
     });
 
-    setValue(PhoneNumbers[1].value);
+    setValue(PhoneNumbers[2].value);
 
     //console.log('first Phone number:   ', value, Number);
     var socket = io(BASE_URL, {

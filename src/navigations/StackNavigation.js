@@ -6,6 +6,10 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {useSelector, useDispatch} from 'react-redux';
 import io from 'socket.io-client';
+import messaging from '@react-native-firebase/messaging';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import NotificationPopup from 'react-native-push-notification-popup';
+import {useNavigation} from '@react-navigation/native';
 
 //======================================= Local Import Files ===============================
 import LoginScreen from '../screens/loginScreen/Index';
@@ -34,7 +38,11 @@ import NotificationScreen from '../screens/notificationScreen/notificationScreen
 import ChatScreen from '../screens/chatScreen/chatScreen';
 import MailInbox from '../screens/mailMsgScreen/mailMsgScreen';
 import NewMailScreen from '../screens/newMailScreen/newMailScreen';
-import {GetTwilioToken} from '../redux/Actions/commonAction';
+import {
+  GetNotiNumber,
+  GetTabLocation,
+  GetTwilioToken,
+} from '../redux/Actions/commonAction';
 
 import axios from 'axios';
 
@@ -43,13 +51,24 @@ const Stack = () => {
   const dispatch = useDispatch();
   const isLogin = useSelector(state => state.authReducer.isLogin);
   const token = useSelector(state => state.authReducer.token);
+  const notiNumber = useSelector(state => state.commonReducer.notiNumber);
+
+  // AppRegistry.registerHeadlessTask(
+  //   'RNFirebaseBackgroundMessage',
+  //   messaging().setBackgroundMessageHandler(async remoteMessage => {
+  //     console.log('Background notifications:    ', remoteMessage);
+  //     // dispatch(GetNotification(parseInt(NotifiNumber) + 1));
+  //     // handleNotification(remoteMessage);
+  //   }),
+  // );
 
   const [items, setItems] = useState([]);
+  const location = useSelector(state => state.notPresistReducer.location);
 
   useEffect(() => {
     var config = {
       method: 'get',
-      url: 'https://250f-182-185-248-177.ngrok.io/api/v1/commmunication/call/gettoken',
+      url: 'https://4b78-182-185-252-125.ngrok.io/commmunication/call/token',
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -57,7 +76,7 @@ const Stack = () => {
 
     axios(config)
       .then(function (res) {
-        console.log('Twilio Response:   ', res.data.data.token);
+        console.log('Twilio Response is:   ', res.data.data.token);
         dispatch(GetTwilioToken(res.data.data.token));
       })
       .catch(function (error) {
@@ -67,6 +86,72 @@ const Stack = () => {
 
   // initialize the Programmable Voice SDK passing an access token obtained from the server.
   // Listen to deviceReady and deviceNotReady events to see whether the initialization succeeded.
+
+  let popup = useRef(null);
+  useEffect(() => {
+    getToken();
+  }, []);
+
+  const getToken = () => {
+    messaging()
+      .getToken()
+      .then(resp => {
+        console.log('FCM Token', resp);
+        AsyncStorage.setItem('fcmToken', resp);
+      });
+  };
+
+  const requestUserPermission = async () => {
+    await messaging().requestPermission();
+  };
+
+  useEffect(() => {
+    requestUserPermission();
+  }, []);
+
+  messaging()
+    .getInitialNotification()
+    .then(remoteMessage => {
+      if (remoteMessage) {
+        console.log('initialNotifition MESSAGE:   ', remoteMessage);
+        //handleNotification(remoteMessage);
+      }
+    })
+    .catch(reason => console.log('App::getInitialNotification', reason));
+
+  // messaging().onNotificationOpenedApp(remoteMessage => {
+  //   console.log('onNotification open MESSAGE:   ', remoteMessage);
+  //   dispatch(GetTabLocation('Message'));
+  //   //handleNotification(remoteMessage);
+  // });
+
+  messaging().setBackgroundMessageHandler(async remoteMessage => {
+    console.log('Background notifications:    ', remoteMessage);
+    dispatch(GetNotiNumber(1));
+    handleNotification(remoteMessage);
+  });
+
+  useEffect(() => {
+    const unsubscribe = messaging().onMessage(remoteMessage => {
+      dispatch(GetNotiNumber(1));
+      console.log('unSubcribe  MESSAGE:   ', remoteMessage);
+      handleNotification(remoteMessage);
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
+  const handleNotification = remoteMessage => {
+    popup.current.show({
+      appIconSource: null,
+      appTitle: 'ProspectX',
+      title: remoteMessage.notification.title,
+      body: remoteMessage.notification.body,
+      slideOutTime: 3000,
+    });
+  };
 
   const AfterLoginAppContainer = () => {
     return (
@@ -115,7 +200,12 @@ const Stack = () => {
   if (isLogin == false) {
     return <BeforeLoginAppContainer />;
   } else {
-    return <AfterLoginAppContainer />;
+    return (
+      <>
+        <AfterLoginAppContainer />
+        <NotificationPopup ref={popup} />
+      </>
+    );
   }
 };
 export default Stack;

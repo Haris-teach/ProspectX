@@ -1,11 +1,13 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import React from 'react';
-import {Platform, StyleSheet, Dimensions} from 'react-native';
+import React, {useEffect} from 'react';
+import {Platform, StyleSheet, Dimensions, TouchableOpacity} from 'react-native';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
-import LinearGradient from 'react-native-linear-gradient';
+import {GetTabLocation} from '../redux/Actions/commonAction';
+import {useSelector, useDispatch} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
 
 // =======================local import=========================
 
@@ -51,82 +53,98 @@ const customTabBarStyle = {
 const height_screen = Dimensions.get('window').height;
 console.log('HEIGHT:   ', height_screen);
 
-const TabScreen = () => (
-  <Tab.Navigator screenOptions={customTabBarStyle}>
-    {/* <LinearGradient colors={['#79e3fe', '#635df8', '#42385D']} style={{flex: 1}}> */}
-    <Tab.Screen
-      name="Call"
-      component={CallScreen}
-      options={{
-        tabBarIcon: ({focused}) => (!focused ? <Phone /> : <PhoneFill />),
-        tabBarItemStyle: {
-          borderRadius: 15,
-          alignSelf: 'center',
-          height: hp('7%'),
-          marginLeft: wp('3%'),
-          marginRight: wp('3%'),
-          marginBottom:
-            Platform.OS === 'ios'
-              ? height_screen < 675
-                ? hp(1)
-                : height_screen == 736
-                ? hp(0)
-                : -hp(3.5)
-              : hp(1),
-        },
-      }}
-    />
-    <Tab.Screen
-      name="Message"
-      component={MsgScreen}
-      options={{
-        tabBarActiveTintColor: 'white',
-        tabBarIcon: ({focused}) => (!focused ? <Msg /> : <MsgFill />),
+const TabScreen = () => {
+  const dispatch = useDispatch();
 
-        tabBarItemStyle: {
-          borderRadius: 15,
-          height: hp('7%'),
-          alignSelf: 'center',
-          marginLeft: wp('3%'),
-          marginRight: wp('3%'),
-          alignItems: 'center',
-          alignContent: 'center',
-          marginBottom:
-            Platform.OS === 'ios'
-              ? height_screen < 675
-                ? hp(1)
-                : height_screen == 736
-                ? hp(0)
-                : -hp(3.5)
-              : hp(1),
-        },
-      }}
-    />
-    <Tab.Screen
-      name="Mail"
-      component={MailScreen}
-      options={{
-        tabBarIcon: ({focused}) => (!focused ? <Mail /> : <MailFill />),
-        tabBarItemStyle: {
-          borderRadius: 15,
-          height: hp('7%'),
-          alignSelf: 'center',
-          marginLeft: wp('3%'),
-          marginRight: wp('3%'),
-          marginBottom:
-            Platform.OS === 'ios'
-              ? height_screen < 675
-                ? hp(1)
-                : height_screen == 736
-                ? hp(0)
-                : -hp(3.5)
-              : hp(1),
-        },
-      }}
-    />
-    {/* </LinearGradient> */}
-  </Tab.Navigator>
-);
+  return (
+    <Tab.Navigator
+      screenOptions={customTabBarStyle}
+      //initialRouteName={location}
+    >
+      <Tab.Screen
+        name="Call"
+        component={CallScreen}
+        options={{
+          tabBarIcon: ({focused}) => {
+            //dispatch(GetTabLocation('Call'));
+            return !focused ? <Phone /> : <PhoneFill />;
+          },
+          // tabBarButton: props => (
+          //   <TouchableOpacity onPress={() => console.log('Pressed')} />
+          // ),
+
+          tabBarItemStyle: {
+            borderRadius: 15,
+            alignSelf: 'center',
+            height: hp('7%'),
+            marginLeft: wp('3%'),
+            marginRight: wp('3%'),
+            marginBottom:
+              Platform.OS === 'ios'
+                ? height_screen < 675
+                  ? hp(1)
+                  : height_screen == 736
+                  ? hp(0)
+                  : -hp(3.5)
+                : hp(1),
+          },
+        }}
+      />
+      <Tab.Screen
+        name="Message"
+        component={MsgScreen}
+        options={{
+          tabBarActiveTintColor: 'white',
+          tabBarIcon: ({focused}) => {
+            return !focused ? <Msg /> : <MsgFill />;
+          },
+
+          tabBarItemStyle: {
+            borderRadius: 15,
+            height: hp('7%'),
+            alignSelf: 'center',
+            marginLeft: wp('3%'),
+            marginRight: wp('3%'),
+            alignItems: 'center',
+            alignContent: 'center',
+            marginBottom:
+              Platform.OS === 'ios'
+                ? height_screen < 675
+                  ? hp(1)
+                  : height_screen == 736
+                  ? hp(0)
+                  : -hp(3.5)
+                : hp(1),
+          },
+        }}
+      />
+      <Tab.Screen
+        name="Mail"
+        component={MailScreen}
+        options={{
+          tabBarIcon: ({focused}) => {
+            return !focused ? <Mail /> : <MailFill />;
+          },
+          tabBarItemStyle: {
+            borderRadius: 15,
+            height: hp('7%'),
+            alignSelf: 'center',
+            marginLeft: wp('3%'),
+            marginRight: wp('3%'),
+            marginBottom:
+              Platform.OS === 'ios'
+                ? height_screen < 675
+                  ? hp(1)
+                  : height_screen == 736
+                  ? hp(0)
+                  : -hp(3.5)
+                : hp(1),
+          },
+        }}
+      />
+    </Tab.Navigator>
+  );
+};
 
 export default TabScreen;
 
