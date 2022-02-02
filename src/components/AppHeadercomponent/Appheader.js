@@ -11,9 +11,9 @@ import {useSelector} from 'react-redux';
 import AllStyles from '../../all_styles/All_Styles';
 const AppHeader = props => {
   const Notifi = useSelector(state => state.commonReducer.notiNumber);
-  useEffect(() => {
-    console.log('Chl gia');
-  }, [Notifi]);
+  // useEffect(() => {
+  //   console.log('Chl gia');
+  // }, [Notifi]);
   return (
     <View style={styles.headerContainer}>
       <TouchableOpacity onPress={props.leftonPress}>

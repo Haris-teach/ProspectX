@@ -20,4 +20,5 @@ export const OTPVERIFY = BASE_URL + 'api/v1/verify-otp';
 export const PASSWORDREST = BASE_URL + 'api/v1/reset-password';
 export const SENDNOTIFICATION =
   BASE_URL + 'api/v1/communication/firebase/send-notification';
+export const ISSEENNOTIFICATION = BASE_URL + 'api/v1/my/notifications';
 export const LOGOUT = BASE_URL + 'api/v1/logout/mobile';

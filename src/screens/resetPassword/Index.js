@@ -109,11 +109,11 @@ const ResetPassword = props => {
                 <>
                   <View style={{flex: 1}}>
                     <View style={AllStyles.headerView}>
-                      <TouchableOpacity
+                      {/* <TouchableOpacity
                         onPress={() => props.navigation.goBack(null)}
                         style={AllStyles.backArrowWidth}>
                         <BackArrow />
-                      </TouchableOpacity>
+                      </TouchableOpacity> */}
                     </View>
 
                     <Text style={AllStyles.signinStyle}>

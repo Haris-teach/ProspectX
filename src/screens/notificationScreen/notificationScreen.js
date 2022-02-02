@@ -27,7 +27,7 @@ import Calander from '../../assets/svg/calan.svg';
 import colors from '../../assets/colors/Colors';
 import BackArrow from '../../assets/images/backarrow.svg';
 import HitApi from '../../HitApis/APIHandler';
-import {GETALLNOTIFICATION} from '../../HitApis/Urls';
+import {GETALLNOTIFICATION, ISSEENNOTIFICATION} from '../../HitApis/Urls';
 import {useSelector} from 'react-redux';
 import fonts from '../../assets/fonts/Fonts';
 import {GetNotiNumber} from '../../redux/Actions/commonAction';
@@ -141,7 +141,10 @@ const NotificationScreen = props => {
 
     return (
       <TouchableOpacity
-        onPress={() => setSelect(index)}
+        onPress={() => {
+          IsSeenNotification(item.notification_user[0].notification_id);
+          setSelect(index);
+        }}
         style={{
           backgroundColor: select == index ? 'rgba(255, 255, 255, 0.62)' : null,
           borderRadius: wp(5),
@@ -151,15 +154,19 @@ const NotificationScreen = props => {
         }}>
         <View style={{flexDirection: 'row', marginVertical: hp(2)}}>
           <View
-            style={[
-              styles.viewContainer,
-              {backgroundColor: select == index ? null : '#7681FF'},
-            ]}
+            style={
+              item.notification_user[0].read == false
+                ? [
+                    styles.viewContainer,
+                    {backgroundColor: select == index ? null : '#7681FF'},
+                  ]
+                : null
+            }
           />
           <Text
             style={select == index ? styles.msgStyle : styles.boldTextStyle}
             numberOfLines={select == index ? 4 : 1}>
-            {number[2]}
+            {select == index ? null : number[2]}
             <Text style={styles.msgStyle} numberOfLines={4}>
               {'  '}
               {item.message}
@@ -236,6 +243,9 @@ const NotificationScreen = props => {
         value: '%SMS%',
         fields: ['message'],
       },
+      order_by: {
+        created_at: 'desc',
+      },
     };
     HitApi(GETALLNOTIFICATION, 'POST', params, token).then(res => {
       if (res.status == 1) {
@@ -243,6 +253,16 @@ const NotificationScreen = props => {
         setIsLoading(false);
       } else {
         setIsLoading(false);
+      }
+    });
+  };
+
+  const IsSeenNotification = notiId => {
+    HitApi(`${ISSEENNOTIFICATION}/${notiId}`, 'get', '', token).then(res => {
+      if (res.status == 1) {
+        GetNotifications();
+      } else {
+        return null;
       }
     });
   };

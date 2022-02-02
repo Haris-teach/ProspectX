@@ -1,7 +1,15 @@
 //=================================== React Native Import Files =====================
 
 import React, {useRef, useEffect, useState} from 'react';
-import {StatusBar, AppState, AppRegistry} from 'react-native';
+import {
+  StatusBar,
+  AppState,
+  AppRegistry,
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {useSelector, useDispatch} from 'react-redux';
@@ -14,17 +22,7 @@ import {useNavigation} from '@react-navigation/native';
 //======================================= Local Import Files ===============================
 import LoginScreen from '../screens/loginScreen/Index';
 import SplashScreen from '../screens/splashScreen/Index';
-import {
-  CALL_START,
-  CHANGE_PASSWORD,
-  FORGOT_PASSWORD,
-  INCOMING_CALLS,
-  LOGIN_SCREEN,
-  PROFILE_SCREEN,
-  RESET_PASSWORD,
-  SETTINGS_SCREEN,
-  SPLASH_SCREEN,
-} from '../constants/Navigator';
+
 import ForgotPassword from '../screens/forgotPassword/Index';
 import ResetPassword from '../screens/resetPassword/Index';
 import TabScreen from '../navigations/BottomTabNavigation';
@@ -127,13 +125,13 @@ const Stack = () => {
 
   messaging().setBackgroundMessageHandler(async remoteMessage => {
     console.log('Background notifications:    ', remoteMessage);
-    dispatch(GetNotiNumber(1));
-    handleNotification(remoteMessage);
+    // dispatch(GetNotiNumber(1));
+    // handleNotification(remoteMessage);
   });
 
   useEffect(() => {
     const unsubscribe = messaging().onMessage(remoteMessage => {
-      dispatch(GetNotiNumber(1));
+      //dispatch(GetNotiNumber(1));
       console.log('unSubcribe  MESSAGE:   ', remoteMessage);
       handleNotification(remoteMessage);
     });
@@ -149,7 +147,7 @@ const Stack = () => {
       appTitle: 'ProspectX',
       title: remoteMessage.notification.title,
       body: remoteMessage.notification.body,
-      slideOutTime: 3000,
+      slideOutTime: 2000,
     });
   };
 
@@ -197,13 +195,61 @@ const Stack = () => {
     );
   };
 
+  const renderCustomPopup = ({
+    appIconSource,
+    appTitle,
+    timeText,
+    title,
+    body,
+  }) => (
+    <TouchableOpacity
+      style={{
+        marginHorizontal: '2%',
+        backgroundColor: 'rgba(14, 34, 71, 0.26)',
+        borderRadius: 12,
+        height: 70,
+      }}>
+      <View
+        style={{
+          backgroundColor: '#7B6CFF',
+          height: 25,
+          flexDirection: 'row',
+        }}>
+        <Image
+          source={require('../assets/png/1024.png')}
+          resizeMode="contain"
+          style={{width: 25, height: 25}}
+        />
+        <Text
+          style={{
+            color: 'white',
+            fontSize: 15,
+            fontWeight: 'bold',
+            marginLeft: 5,
+            alignSelf: 'center',
+          }}>
+          {title}
+        </Text>
+      </View>
+
+      <Text style={{color: 'black'}} numberOfLines={3}>
+        {body}
+      </Text>
+    </TouchableOpacity>
+  );
+
   if (isLogin == false) {
     return <BeforeLoginAppContainer />;
   } else {
     return (
       <>
         <AfterLoginAppContainer />
-        <NotificationPopup ref={popup} />
+        <NotificationPopup
+          ref={popup}
+          renderPopupContent={renderCustomPopup}
+          shouldChildHandleResponderStart={true}
+          shouldChildHandleResponderMove={true}
+        />
       </>
     );
   }

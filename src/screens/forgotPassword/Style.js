@@ -23,6 +23,8 @@ const styles = StyleSheet.create({
   backArrowWidth: {
     width: wp(10),
     height: hp(5),
+
+    justifyContent: 'center',
   },
   bottomView: {
     flex: 1,
