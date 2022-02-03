@@ -42,6 +42,8 @@ import {
   GetTwilioToken,
 } from '../redux/Actions/commonAction';
 
+import {BASE_URL} from '../HitApis/Urls';
+
 import axios from 'axios';
 
 const RootStack = createNativeStackNavigator();
@@ -141,16 +143,6 @@ const Stack = () => {
     };
   }, []);
 
-  const handleNotification = remoteMessage => {
-    popup.current.show({
-      appIconSource: null,
-      appTitle: 'ProspectX',
-      title: remoteMessage.notification.title,
-      body: remoteMessage.notification.body,
-      slideOutTime: 2000,
-    });
-  };
-
   const AfterLoginAppContainer = () => {
     return (
       <NavigationContainer>
@@ -194,6 +186,15 @@ const Stack = () => {
       </NavigationContainer>
     );
   };
+  const handleNotification = remoteMessage => {
+    popup.current.show({
+      appIconSource: null,
+      appTitle: 'ProspectX',
+      title: remoteMessage.notification.title,
+      body: remoteMessage.notification.body,
+      slideOutTime: 2000,
+    });
+  };
 
   const renderCustomPopup = ({
     appIconSource,
@@ -202,37 +203,20 @@ const Stack = () => {
     title,
     body,
   }) => (
-    <TouchableOpacity
-      style={{
-        marginHorizontal: '2%',
-        backgroundColor: 'rgba(14, 34, 71, 0.26)',
-        borderRadius: 12,
-        height: 70,
-      }}>
-      <View
-        style={{
-          backgroundColor: '#7B6CFF',
-          height: 25,
-          flexDirection: 'row',
-        }}>
-        <Image
-          source={require('../assets/png/1024.png')}
-          resizeMode="contain"
-          style={{width: 25, height: 25}}
-        />
-        <Text
-          style={{
-            color: 'white',
-            fontSize: 15,
-            fontWeight: 'bold',
-            marginLeft: 5,
-            alignSelf: 'center',
-          }}>
-          {title}
-        </Text>
+    <TouchableOpacity style={styles.popUpStyle}>
+      <View style={styles.popUpHeaderStyle}>
+        <View style={styles.mergeStyle}>
+          <Image
+            source={require('../assets/png/1024.png')}
+            resizeMode="contain"
+            style={styles.notiIcon}
+          />
+          <Text style={styles.titleStyle}>{title}</Text>
+        </View>
+        <Text style={styles.nowStyle}>Now</Text>
       </View>
 
-      <Text style={{color: 'black'}} numberOfLines={3}>
+      <Text style={styles.bodyStyle} numberOfLines={2}>
         {body}
       </Text>
     </TouchableOpacity>
@@ -255,3 +239,36 @@ const Stack = () => {
   }
 };
 export default Stack;
+
+const styles = {
+  popUpStyle: {
+    marginHorizontal: '2%',
+    backgroundColor: 'rgba(14, 34, 71, 0.26)',
+    borderRadius: 12,
+    height: 70,
+  },
+  popUpHeaderStyle: {
+    backgroundColor: '#7B6CFF',
+    height: 25,
+    flexDirection: 'row',
+    borderTopLeftRadius: 12,
+    borderTopRightRadius: 12,
+    justifyContent: 'space-between',
+  },
+  notiIcon: {width: 25, height: 25, borderTopLeftRadius: 12},
+  titleStyle: {
+    color: 'white',
+    fontSize: 15,
+    fontWeight: 'bold',
+    marginLeft: 5,
+    alignSelf: 'center',
+  },
+  bodyStyle: {color: 'black', fontSize: 13, marginHorizontal: 4},
+  mergeStyle: {flexDirection: 'row', flex: 1},
+  nowStyle: {
+    color: 'white',
+    alignSelf: 'center',
+    fontSize: 12,
+    marginHorizontal: 5,
+  },
+};

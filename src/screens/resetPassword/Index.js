@@ -41,6 +41,8 @@ const ResetPassword = props => {
 
   const [isLoading, setIsLoading] = useState(false);
 
+  // ========================== Password Reset function =========================
+
   const PasswordReset = v => {
     setIsLoading(true);
     let params = {
@@ -59,6 +61,10 @@ const ResetPassword = props => {
       setIsLoading(false);
     });
   };
+
+  // =========================== END ===============================
+
+  // ========================= Formik Validation ===================
 
   const userInfo = {
     password: '',
@@ -81,6 +87,8 @@ const ResetPassword = props => {
       .min(8, 'Password must be at least 8 characters')
       .matches(/^[^-\s]+$/, '* This field cannot contain only blankspaces'),
   });
+
+  // =======================  END ============================
 
   return (
     <KeyboardAvoidingView

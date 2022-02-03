@@ -10,6 +10,7 @@ import {
   Platform,
   ActivityIndicator,
   TextInput,
+  Vibration,
 } from 'react-native';
 import {useIsFocused} from '@react-navigation/native';
 import {
@@ -23,6 +24,8 @@ import Toast from 'react-native-simple-toast';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import moment from 'moment';
 import messaging from '@react-native-firebase/messaging';
+import CalendarPicker from 'react-native-calendar-picker';
+import {Dialog} from 'react-native-simple-dialogs';
 
 // ================local import=================
 import RNDropDown from '../../components/RNDropDown/RnDropDown';
@@ -95,8 +98,11 @@ const CallScreen = props => {
     },
   ]);
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState('Set Time');
+  const [value, setValue] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isvisible, setIsVisible] = useState(false);
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
 
   const Item = ({title, index, section}) => {
     return (
@@ -171,17 +177,18 @@ const CallScreen = props => {
     GetAllNumbers();
   }, []);
 
-  // ===============================================================
+  // ============================== END  =================================
 
   // ============== Get all call logs =============================
 
   const [callLogs, setCallLogs] = useState([]);
+  const [isCallLogs, setIsCallLogs] = useState([]);
 
-  const GetCallLogs = () => {
+  const GetCallLogs = pageVal => {
     setIsLoading(true);
     let params = {
       filters: {
-        numbers: ['+16232923707'],
+        numbers: pageVal === 'All' ? [] : [pageVal],
       },
       pagination: {
         page_number: 1,
@@ -240,11 +247,10 @@ const CallScreen = props => {
               return obj.data;
             }),
           };
-
           dataArr.push(obj);
         }
-
         setCallLogs(dataArr);
+        setIsCallLogs(dataArr);
       } else {
         return null;
       }
@@ -252,7 +258,7 @@ const CallScreen = props => {
   };
 
   useEffect(() => {
-    GetCallLogs();
+    GetCallLogs('All');
   }, [isFocused]);
 
   // =================== END =====================================
@@ -264,17 +270,19 @@ const CallScreen = props => {
     let word = isString;
 
     if (v == 'del') {
+      // Vibration.vibrate(50);
       word = word.slice(0, -1);
       setisString(word);
       return;
     } else {
       if (word.length < 13) {
+        //Vibration.vibrate(50);
         word = word + v;
         setisString(word);
       }
     }
   };
-  // ==================================================
+  // ========================= END =========================
 
   //==================== Call functions ==========================
   const twilioToken = useSelector(state => state.commonReducer.twilioToken);
@@ -286,15 +294,103 @@ const CallScreen = props => {
 
   //==================== END =====================================
 
+  // ========================= On Notification OPEN ====================
+
   messaging().onNotificationOpenedApp(remoteMessage => {
     props.navigation.navigate('Home', {screen: 'Message'});
   });
+
+  // ===================== END ===========================
+
+  const RenderModal = () => {
+    return (
+      <Dialog
+        visible={isvisible}
+        dialogStyle={{
+          width: wp(98),
+          height: Platform.OS === 'ios' ? hp(50) : hp(53),
+          marginHorizontal: wp(-5),
+        }}
+        onTouchOutside={() => setIsVisible(false)}>
+        <View
+          style={{
+            backgroundColor: '#7F5AFF',
+            marginTop: Platform.OS === 'ios' ? hp(-2.3) : hp(-3),
+            padding: hp(1.5),
+            borderBottomRightRadius: hp(10),
+            borderBottomLeftRadius: hp(10),
+            borderColor: 'white',
+            borderWidth: 1,
+            width: wp(97.9),
+            marginLeft: wp(-6),
+          }}>
+          <Text style={{color: 'white', alignSelf: 'center'}}>
+            Select Range Date
+          </Text>
+        </View>
+        <View style={{height: hp(38.65)}}>
+          <CalendarPicker
+            width={wp(99)}
+            // resetSelections
+            // height={hp(60)}
+            onDateChange={(date, param) => {
+              if (param == 'START_DATE') {
+                setStartDate(moment(date).format('YYYY-MM-DD'));
+              } else if (param == 'END_DATE') {
+                setEndDate(moment(date).format('YYYY-MM-DD'));
+              }
+            }}
+            maxDate={new Date()}
+            allowRangeSelection={true}
+            selectedRangeStartTextStyle={{color: 'white'}}
+            selectedRangeEndTextStyle={{color: 'white'}}
+            selectedRangeStyle={{backgroundColor: '#7F5AFF'}}
+            allowBackwardRangeSelect={true}
+            previousTitleStyle={{color: '#7F5AFF'}}
+            nextTitleStyle={{
+              color: '#7F5AFF',
+            }}
+          />
+        </View>
+
+        <TouchableOpacity
+          onPress={() => {
+            if (endDate === '' || endDate == 'Invalid date') {
+              // console.log('EndDate:  ', endDate);
+              Toast.show('Please select end date');
+            } else {
+              setIsLoading(true);
+              setIsVisible(false);
+              DateFilter();
+            }
+          }}
+          style={styles.calanderBtnStyle}>
+          <Text style={{alignSelf: 'center', color: 'white'}}>Done</Text>
+        </TouchableOpacity>
+      </Dialog>
+    );
+  };
+
+  const DateFilter = () => {
+    setIsLoading(false);
+    setEndDate('');
+    setStartDate('');
+    setIsCallLogs(
+      callLogs.filter(function (a) {
+        return (
+          moment(a.title).format('YYYY-MM-DD') >= startDate &&
+          moment(a.title).format('YYYY-MM-DD') <= endDate
+        );
+      }),
+    );
+  };
 
   return (
     <ImageBackground
       style={styles.mainContainer}
       source={images.splashBackground}>
       <View style={styles.mainContainer}>
+        {RenderModal()}
         {/* ===========Header PArt=========== */}
 
         <AppHeader
@@ -320,7 +416,11 @@ const CallScreen = props => {
           setOpen={setOpen}
           setValue={setValue}
           setItems={setItems}
-          onPress={() => console.log('Pressed')}
+          onPress={value => {
+            setIsLoading(true);
+            GetCallLogs(value.value);
+          }}
+          onPress2={() => setIsVisible(true)}
           svg={<Contact />}
           svg2={<Contact2 />}
         />
@@ -339,7 +439,7 @@ const CallScreen = props => {
             zIndex: Platform.OS == 'ios' ? -1 : 0,
             //backgroundColor: 'red',
           }}
-          sections={callLogs}
+          sections={isCallLogs}
           keyExtractor={(item, index) => item + index}
           renderItem={({item, section, index}) => {
             return (
@@ -387,7 +487,7 @@ const CallScreen = props => {
           if (isString.length == 13) {
             let call = TwilioVoice.connect(twilioToken, {
               phoneNumber: isString,
-              from_number: '+16017518490',
+              from_number: value,
             });
             console.log('Call:   ', await call);
             props.navigation.replace('CallStart', {
@@ -686,5 +786,15 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
+  },
+  calanderBtnStyle: {
+    backgroundColor: '#7F5AFF',
+    padding: hp(1.5),
+    borderRadius: hp(10),
+    borderColor: 'white',
+    borderWidth: 1,
+    width: wp(50),
+    alignSelf: 'center',
+    marginTop: Platform.OS === 'ios' ? null : hp(3),
   },
 };

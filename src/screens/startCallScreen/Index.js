@@ -45,7 +45,7 @@ const CallStart = props => {
 
   useEffect(() => {
     const backAction = () => {
-      props.navigation.navigate('Call');
+      props.navigation.navigate('Home');
       return true;
     };
 

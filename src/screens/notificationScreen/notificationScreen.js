@@ -58,6 +58,7 @@ const NotificationScreen = props => {
   const [select, setSelect] = useState(null);
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  var isPage = 1;
 
   const styles = {
     headerContainer: {
@@ -236,6 +237,8 @@ const NotificationScreen = props => {
     GetNotifications();
   }, []);
 
+  // ===============  Get All Notification function =============
+
   const GetNotifications = () => {
     // dispatch(GetNotification(0));
     let params = {
@@ -246,16 +249,26 @@ const NotificationScreen = props => {
       order_by: {
         created_at: 'desc',
       },
+      limit: 50,
+      page: isPage,
     };
     HitApi(GETALLNOTIFICATION, 'POST', params, token).then(res => {
       if (res.status == 1) {
-        setData(res.data);
+        if (isPage == 1) {
+          setData(res.data);
+        } else {
+          setData([...data, ...res.data]);
+        }
         setIsLoading(false);
       } else {
         setIsLoading(false);
       }
     });
   };
+
+  // =================  END ================
+
+  // =============================== Get Notification is Senn or not function ===================
 
   const IsSeenNotification = notiId => {
     HitApi(`${ISSEENNOTIFICATION}/${notiId}`, 'get', '', token).then(res => {
@@ -266,6 +279,18 @@ const NotificationScreen = props => {
       }
     });
   };
+  // ================================== END ===================================
+
+  // ===================== Load more Data for pagination ==============
+
+  const LoadMoreData = () => {
+    isPage = isPage + 1;
+    GetNotifications();
+
+    // setPageSize(5);
+    // MsgsThreads('All');
+  };
+  // =========================== END ====================
 
   return (
     <ImageBackground
@@ -284,7 +309,9 @@ const NotificationScreen = props => {
         </TouchableOpacity>
         <Text style={styles.headerText}>Notifications</Text>
       </View>
+
       {/* -------------------------------------------------------------------------- */}
+
       {isLoading ? (
         <View
           style={{
@@ -316,6 +343,8 @@ const NotificationScreen = props => {
               keyExtractor={item => item.id}
               refreshing={isLoading}
               onRefresh={() => GetNotifications()}
+              onEndReached={LoadMoreData}
+              onEndReachedThreshold={0}
             />
           )}
         </View>

@@ -9,8 +9,6 @@ import {
   TouchableOpacity,
   Text,
   StyleSheet,
-  SafeAreaView,
-  MaskedViewBase,
 } from 'react-native';
 
 import OTPInputView from '@twotalltotems/react-native-otp-input';
@@ -26,14 +24,8 @@ import {
 import AllStyles from '../../all_styles/All_Styles';
 import images from '../../assets/images/Images';
 import GradientButton from '../../components/gradientButton/Button';
-import {
-  CODE_NOT_RECEIVED,
-  OTP_SUBTITLE,
-  OTP_TITLE,
-  RESEND,
-  SUBMIT,
-} from '../../constants/ConstStrings';
-import {RESET_PASSWORD} from '../../constants/Navigator';
+import {SUBMIT} from '../../constants/ConstStrings';
+
 import colors from '../../assets/colors/Colors';
 import fonts from '../../assets/fonts/Fonts';
 import HitApi from '../../HitApis/APIHandler';
@@ -46,6 +38,8 @@ const OtpScreen = props => {
 
   const OTPRef = useRef(null);
   const [timer, setTimer] = useState(true);
+
+  // ============ GET OPT Function ============
 
   const GetOtp = v => {
     setIsLoading(true);
@@ -63,6 +57,9 @@ const OtpScreen = props => {
     });
   };
 
+  // =============== END =======================
+
+  // ================== OTP VERIFY FUnction ================
   const OtpVerify = () => {
     setIsLoading(true);
     let params = {
@@ -86,6 +83,8 @@ const OtpScreen = props => {
       });
     }
   };
+
+  // =============== END =====================
 
   return (
     <KeyboardAvoidingView
@@ -158,14 +157,7 @@ const OtpScreen = props => {
             )}
           </View>
 
-          <View
-            style={{
-              flex: 1,
-              justifyContent: 'center',
-              marginTop: hp(15),
-              width: wp(80),
-              alignSelf: 'center',
-            }}>
+          <View style={styles.submitBtnStyle}>
             <GradientButton
               title={SUBMIT}
               onPress={() => OtpVerify()}
@@ -264,5 +256,12 @@ const styles = StyleSheet.create({
   },
   otpDigitalTextStyle: {
     color: '#A3A3A3',
+  },
+  submitBtnStyle: {
+    flex: 1,
+    justifyContent: 'center',
+    marginTop: hp(15),
+    width: wp(80),
+    alignSelf: 'center',
   },
 });

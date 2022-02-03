@@ -44,6 +44,8 @@ const ForgotPassword = props => {
 
   const [isLoading, setIsLoading] = useState(false);
 
+  // ============  Formik Validations ==================
+
   const userInfo = {
     email: '',
   };
@@ -56,6 +58,9 @@ const ForgotPassword = props => {
       .required('Email is required'),
   });
 
+  // ================== END ============================
+
+  // ===================== GET OTP Function =============
   const GetOtp = v => {
     setIsLoading(true);
     let params = {
@@ -71,6 +76,8 @@ const ForgotPassword = props => {
       setIsLoading(false);
     });
   };
+
+  // ======================= END ===============================
 
   return (
     <KeyboardAvoidingView

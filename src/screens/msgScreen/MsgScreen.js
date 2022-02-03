@@ -29,7 +29,7 @@ import images from '../../assets/images/Images';
 import colors from '../../assets/colors/Colors';
 import RNDropDown from '../../components/RNDropDown/RnDropDown';
 import HitApi from '../../HitApis/APIHandler';
-import {MSGTHREADS, GETPHONENUM} from '../../HitApis/Urls';
+import {MSGTHREADS, GETPHONENUM, BASE_URL} from '../../HitApis/Urls';
 import {GetNumbers, GetTabLocation} from '../../redux/Actions/commonAction';
 import fonts from '../../assets/fonts/Fonts';
 import AppHeader from '../../components/AppHeadercomponent/Appheader';
@@ -84,9 +84,38 @@ const MsgScreen = props => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [isvisible, setIsVisible] = useState(false);
+  const [isCheck, setIsCheck] = useState(false);
 
   const PhoneNumbers = useSelector(state => state.commonReducer.Numbers);
   const token = useSelector(state => state.authReducer.token);
+
+  // ==============  web io for Chat thread call Listner ============
+
+  useEffect(() => {
+    var socket = io(BASE_URL, {
+      transportOptions: {
+        polling: {
+          extraHeaders: {
+            authorization: `Bearer ${token}`,
+          },
+        },
+      },
+    });
+
+    socket.on('connect', function () {
+      console.log('Connected to Server');
+      socket.emit('subscribe', 'Creating the socket setting to user');
+    });
+
+    socket.on('receiveMessage', event => {
+      setPage(1);
+      setValue('All');
+      MsgsThreads('All');
+      setIsCheck(false);
+    });
+  }, []);
+
+  // ============= END ==================
 
   // console.log('PHONE NUMBERS:   ', PhoneNumbers);
 
@@ -168,7 +197,7 @@ const MsgScreen = props => {
 
   // ============= END ========================
 
-  const renderItem = ({item}) => {
+  const renderItem = ({item, index}) => {
     let Split = moment(item.latesttime).format('DD/MM/YYYY');
     //console.log(Split.split(':').length);
     let time = Split.split(':');
@@ -186,12 +215,12 @@ const MsgScreen = props => {
       <>
         <TouchableOpacity
           style={styles.item}
-          onPress={() =>
+          onPress={() => {
             props.navigation.navigate('Chat', {
               Number: number,
               ThreadId: item.thread_id,
-            })
-          }>
+            });
+          }}>
           <View style={{flex: 1, flexDirection: 'row'}}>
             <Msg height={hp(5)} width={wp(10)} />
             <View style={{flex: 1}}>
@@ -201,7 +230,24 @@ const MsgScreen = props => {
               </Text>
             </View>
           </View>
-          <Text style={styles.timeStyle}>{Split}</Text>
+          <View>
+            <Text style={styles.timeStyle}>{Split}</Text>
+            {/* <View
+              style={
+                index == 0 && isCheck == false
+                  ? {
+                      backgroundColor: 'red',
+                      width: wp(3),
+                      height: wp(3),
+                      borderRadius: wp(3),
+                      alignSelf: 'flex-end',
+                      marginTop: hp(2),
+                      marginRight: wp(2.6),
+                    }
+                  : null
+              }
+            /> */}
+          </View>
         </TouchableOpacity>
         <View style={styles.viewStyle} />
       </>
