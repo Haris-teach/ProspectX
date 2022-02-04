@@ -60,6 +60,7 @@ const ChatScreen = props => {
 
   // make connection with server from user side
 
+  // ================ Phone number filter =============
   useEffect(() => {
     // console.log('Date', new Date());
     PhoneNumbers.forEach(i => {
@@ -116,7 +117,9 @@ const ChatScreen = props => {
       );
     });
   }, []);
+  // ================= END =======================
 
+  // ================ Get Message threads filter =========
   useEffect(() => {
     HitApi(`${GETMSGS}/${ThreadId}`, 'GET', '', token).then(res => {
       let msgs = [];
@@ -147,7 +150,9 @@ const ChatScreen = props => {
       setMessages(Data);
     });
   }, []);
+  // ============= END =================
 
+  // ============= Msg filter function =============
   const MSGFliterByNumber = value => {
     setIsLoading(true);
     setMessages([]);
@@ -197,7 +202,9 @@ const ChatScreen = props => {
       }
     });
   };
+  // =================== END ==============
 
+  // =========== Send Msg Function ========
   const messageSend = (message = []) => {
     setIsLoading(true);
     let params = {
@@ -218,6 +225,7 @@ const ChatScreen = props => {
       }
     });
   };
+  // ================ END ==================
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(

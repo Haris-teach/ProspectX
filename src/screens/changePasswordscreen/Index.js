@@ -44,7 +44,6 @@ const ChangePassword = props => {
   const [isMessage, setIsMessage] = useState('');
 
   //============= Funtion for Change PAssword  ======================
-
   const PasswordChange = v => {
     //setLoading(true);
 
@@ -66,11 +65,9 @@ const ChangePassword = props => {
       }
     });
   };
-
   //===================== END ====================
 
   // ================= formik validations ============
-
   const userInfo = {
     oldPassword: '',
     password: '',
@@ -100,7 +97,6 @@ const ChangePassword = props => {
       .min(8, 'Password must be at least 8 characters')
       .matches(/^[^-\s]+$/, '* This field cannot contain only blankspaces'),
   });
-
   //================= END ==========================
 
   return (

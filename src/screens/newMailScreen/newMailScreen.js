@@ -55,28 +55,7 @@ const NewMailScreen = props => {
   const [subj, setSubj] = useState('');
   const [content, setcontent] = useState('');
   const [open, setOpen] = useState(false);
-  const [items, setItems] = useState([
-    {
-      id: 0,
-      label: 'farhan.zia@argonteq.com',
-      value: 'farhan.zia@argonteq.com',
-    },
-    {
-      id: 1,
-      label: 'test2@gmail.com',
-      value: 'test2@gmail.com',
-    },
-    {
-      id: 2,
-      label: 'test3@gmail.com',
-      value: 'test3@gmail.com',
-    },
-    {
-      id: 3,
-      label: 'test4@gmail.com',
-      value: 'test4@gmail.com',
-    },
-  ]);
+  const [items, setItems] = useState([]);
   const [fileUri, setFileURI] = useState(null);
   const [filePath, setFilePath] = useState(null);
   const [isLoading, setIsLoading] = useState(true);

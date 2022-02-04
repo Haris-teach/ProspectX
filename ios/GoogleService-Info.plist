@@ -3,21 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>701605603364-a1haapp2c3mfgvr335pfefbesifmuu7n.apps.googleusercontent.com</string>
+	<string>451334629226-ghojju81eelrq57pfdodi9ibhq28uuie.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.701605603364-a1haapp2c3mfgvr335pfefbesifmuu7n</string>
+	<string>com.googleusercontent.apps.451334629226-ghojju81eelrq57pfdodi9ibhq28uuie</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>451334629226-gqric6jmtedcquafo6fptpjouf598g9q.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyAfpE1q6y3Y0XBEor0YGpmqXrqZMacKg1o</string>
+	<string>AIzaSyBXoMg4dR_a_E015tlq2MB1NrQNU9qIqYI</string>
 	<key>GCM_SENDER_ID</key>
-	<string>701605603364</string>
+	<string>451334629226</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.argonteq.prospectx</string>
+	<string>com.prospectx.app</string>
 	<key>PROJECT_ID</key>
-	<string>pushnotif-2a0f7</string>
+	<string>prospectx-85db7</string>
 	<key>STORAGE_BUCKET</key>
-	<string>pushnotif-2a0f7.appspot.com</string>
+	<string>prospectx-85db7.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:701605603364:ios:6657df28ef44e6b43c50b1</string>
+	<string>1:451334629226:ios:22169b63ed6c1ad47ae713</string>
 </dict>
 </plist>

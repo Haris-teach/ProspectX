@@ -1,4 +1,4 @@
-package com.prospectx;
+package com.prospectx.app;
 
 import com.facebook.react.ReactActivity;
 

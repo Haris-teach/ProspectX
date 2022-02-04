@@ -20,22 +20,22 @@ import {
 import {useSelector, useDispatch} from 'react-redux';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import LinearGradient from 'react-native-linear-gradient';
-import Toast from 'react-native-simple-toast';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import moment from 'moment';
 import messaging from '@react-native-firebase/messaging';
 import CalendarPicker from 'react-native-calendar-picker';
 import {Dialog} from 'react-native-simple-dialogs';
+import TwilioVoice from 'react-native-twilio-voice-sdk';
 
 // ================local import=================
 import RNDropDown from '../../components/RNDropDown/RnDropDown';
-import RNSearch from '../../components/RNSearch/RNSearch';
+
 import images from '../../assets/images/Images';
 import colors from '../../assets/colors/Colors';
 import fonts from '../../assets/fonts/Fonts';
 import HitApi from '../../HitApis/APIHandler';
 import {GETPHONENUM, CALLLOGS} from '../../HitApis/Urls';
-import {GetNumbers, GetTabLocation} from '../../redux/Actions/commonAction';
+import {GetNumbers} from '../../redux/Actions/commonAction';
 import AppHeader from '../../components/AppHeadercomponent/Appheader';
 
 // =============================================
@@ -50,14 +50,9 @@ import Bell from '../../assets/svg/bell.svg';
 import INCall from '../../assets/svg/inCall.svg';
 import OutCall from '../../assets/svg/outCall.svg';
 import Dilar from '../../assets/svg/dilar';
-import Calendar from '../../assets/svg/calendar.svg';
+
 import Contact from '../../assets/svg/contact.svg';
 import Contact2 from '../../assets/svg/c1.svg';
-
-import TwilioVoice from 'react-native-twilio-voice-sdk';
-// import {RNTwilioPhone, twilioPhoneEmitter} from 'react-native-twilio-phone';
-// const Device = require('@twilio/voice-sdk').Device;
-import axios from 'axios';
 
 // =========================================
 
@@ -88,8 +83,6 @@ const CallScreen = props => {
 
   const token = useSelector(state => state.authReducer.token);
 
-  const PhoneNumbers = useSelector(state => state.commonReducer.Numbers);
-
   const [items, setItems] = useState([
     {
       id: 0,
@@ -103,7 +96,10 @@ const CallScreen = props => {
   const [isvisible, setIsVisible] = useState(false);
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+  const [callLogs, setCallLogs] = useState([]);
+  const [isCallLogs, setIsCallLogs] = useState([]);
 
+  // ================== Render Section list function ==============
   const Item = ({title, index, section}) => {
     return (
       <TouchableOpacity
@@ -156,9 +152,9 @@ const CallScreen = props => {
       </TouchableOpacity>
     );
   };
+  // ============= END ===========================
 
   // ============== GET all phone  numbers function ================
-
   const GetAllNumbers = () => {
     HitApi(GETPHONENUM, 'get', '', token).then(res => {
       res.data.forEach(i => {
@@ -172,18 +168,12 @@ const CallScreen = props => {
       dispatch(GetNumbers(items));
     });
   };
-
   useEffect(() => {
     GetAllNumbers();
   }, []);
-
   // ============================== END  =================================
 
   // ============== Get all call logs =============================
-
-  const [callLogs, setCallLogs] = useState([]);
-  const [isCallLogs, setIsCallLogs] = useState([]);
-
   const GetCallLogs = pageVal => {
     setIsLoading(true);
     let params = {
@@ -256,11 +246,9 @@ const CallScreen = props => {
       }
     });
   };
-
   useEffect(() => {
     GetCallLogs('All');
   }, [isFocused]);
-
   // =================== END =====================================
 
   // ================ Concatinate string function ================
@@ -286,22 +274,19 @@ const CallScreen = props => {
 
   //==================== Call functions ==========================
   const twilioToken = useSelector(state => state.commonReducer.twilioToken);
-
   useEffect(() => {
     console.log('Version:   ', TwilioVoice.version);
     console.log('Native Version:  ', TwilioVoice.nativeVersion);
   }, []);
-
   //==================== END =====================================
 
   // ========================= On Notification OPEN ====================
-
   messaging().onNotificationOpenedApp(remoteMessage => {
     props.navigation.navigate('Home', {screen: 'Message'});
   });
-
   // ===================== END ===========================
 
+  // ================== Date picker Modal =================
   const RenderModal = () => {
     return (
       <Dialog
@@ -370,7 +355,9 @@ const CallScreen = props => {
       </Dialog>
     );
   };
+  // ======================= END =======================
 
+  // =================== Date filter Function ===============
   const DateFilter = () => {
     setIsLoading(false);
     setEndDate('');
@@ -383,7 +370,10 @@ const CallScreen = props => {
         );
       }),
     );
+
+    console.log('ISCallLogs:   ', isCallLogs);
   };
+  // =================== END =========================
 
   return (
     <ImageBackground
@@ -391,7 +381,7 @@ const CallScreen = props => {
       source={images.splashBackground}>
       <View style={styles.mainContainer}>
         {RenderModal()}
-        {/* ===========Header PArt=========== */}
+        {/* =========== Header PArt=========== */}
 
         <AppHeader
           leftonPress={() => props.navigation.navigate('Profile')}
@@ -425,36 +415,102 @@ const CallScreen = props => {
           svg2={<Contact2 />}
         />
 
-        {/* ==================================================== */}
+        {/* ========================== END ========================== */}
 
         {/* ===============LIST VIEW========================== */}
 
-        <SectionList
-          refreshing={isLoading}
-          onRefresh={() => GetCallLogs()}
-          stickySectionHeadersEnabled={false}
-          showsVerticalScrollIndicator={false}
-          style={{
-            marginBottom: -hp(0.2),
-            zIndex: Platform.OS == 'ios' ? -1 : 0,
-            //backgroundColor: 'red',
-          }}
-          sections={isCallLogs}
-          keyExtractor={(item, index) => item + index}
-          renderItem={({item, section, index}) => {
-            return (
-              <Item title={item} index={index} section={section} />
-              //<Text>{index}</Text>
-            );
-          }}
-          renderSectionHeader={({section: {title}}) => (
-            <Text style={styles.header}>
-              {moment(title).format('DD/MM/YYYY')}
-            </Text>
-          )}
-        />
+        {/* {isLoading ? (
+            <View style={{flex: 1, justifyContent: 'center'}}>
+              <ActivityIndicator color="blue" />
+            </View>
+          ) : (
+            <>
+              {msgData.length == 0 ? (
 
-        {/* ======================================================== */}
+                <View
+                  style={{
+                    justifyContent: 'center',
+                    flex: 1,
+                  }}>
+                  <Text style={{alignSelf: 'center', color: 'black'}}>
+                    Record not found
+                  </Text>
+                </View>
+              ) : (
+          <SectionList
+            refreshing={isLoading}
+            onRefresh={() => GetCallLogs()}
+            stickySectionHeadersEnabled={false}
+            showsVerticalScrollIndicator={false}
+            style={{
+              marginBottom: -hp(0.2),
+              zIndex: Platform.OS == 'ios' ? -1 : 0,
+              //backgroundColor: 'red',
+            }}
+            sections={isCallLogs}
+            keyExtractor={(item, index) => item + index}
+            renderItem={({item, section, index}) => {
+              return (
+                <Item title={item} index={index} section={section} />
+                //<Text>{index}</Text>
+              );
+            }}
+            renderSectionHeader={({section: {title}}) => (
+              <Text style={styles.header}>
+                {moment(title).format('DD/MM/YYYY')}
+              </Text>
+            )}
+          />
+          
+        )}
+        </> */}
+
+        {isLoading ? (
+          <View style={{flex: 1, justifyContent: 'center'}}>
+            <ActivityIndicator color="blue" />
+          </View>
+        ) : (
+          <>
+            {isCallLogs.length == 0 ? (
+              <View
+                style={{
+                  justifyContent: 'center',
+                  flex: 1,
+                }}>
+                <Text style={{alignSelf: 'center', color: 'black'}}>
+                  Record not found
+                </Text>
+              </View>
+            ) : (
+              <SectionList
+                refreshing={isLoading}
+                onRefresh={() => GetCallLogs()}
+                stickySectionHeadersEnabled={false}
+                showsVerticalScrollIndicator={false}
+                style={{
+                  marginBottom: -hp(0.2),
+                  zIndex: Platform.OS == 'ios' ? -1 : 0,
+                  //backgroundColor: 'red',
+                }}
+                sections={isCallLogs}
+                keyExtractor={(item, index) => item + index}
+                renderItem={({item, section, index}) => {
+                  return (
+                    <Item title={item} index={index} section={section} />
+                    //<Text>{index}</Text>
+                  );
+                }}
+                renderSectionHeader={({section: {title}}) => (
+                  <Text style={styles.header}>
+                    {moment(title).format('DD/MM/YYYY')}
+                  </Text>
+                )}
+              />
+            )}
+          </>
+        )}
+
+        {/* ========================== END ============================== */}
         {/* <View style={{marginBottom: hp(5.5)}}>
           <FloatingAction
             backgroundColor="red"
@@ -641,7 +697,7 @@ const CallScreen = props => {
         </View>
       </RBSheet>
 
-      {/* ==================================================================== */}
+      {/* ============================== END ================================ */}
     </ImageBackground>
   );
 };
