@@ -484,7 +484,7 @@ const CallScreen = props => {
             ) : (
               <SectionList
                 refreshing={isLoading}
-                onRefresh={() => GetCallLogs()}
+                onRefresh={() => GetCallLogs('All')}
                 stickySectionHeadersEnabled={false}
                 showsVerticalScrollIndicator={false}
                 style={{

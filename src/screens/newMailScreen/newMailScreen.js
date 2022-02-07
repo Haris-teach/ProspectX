@@ -201,7 +201,9 @@ const NewMailScreen = props => {
   });
 
   return (
-    <KeyboardAvoidingView style={{flex: 1}} behavior="padding">
+    <KeyboardAvoidingView
+      style={{flex: 1}}
+      behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
       <ImageBackground source={images.splashBackground} style={{flex: 1}}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <Formik
@@ -270,7 +272,7 @@ const NewMailScreen = props => {
                     <TextInput
                       //placeholder="Type"
                       numberOfLines={1}
-                      style={{width: wp(60)}}
+                      style={{width: wp(60), color: 'black'}}
                       onChangeText={handleChange('email')}
                       onBlur={handleBlur('email')}
                       value={email}

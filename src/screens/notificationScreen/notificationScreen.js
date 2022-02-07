@@ -58,7 +58,7 @@ const NotificationScreen = props => {
   const [select, setSelect] = useState(null);
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  var isPage = 1;
+  const [isPage, setIsPage] = useState(1);
 
   const styles = {
     headerContainer: {
@@ -249,7 +249,7 @@ const NotificationScreen = props => {
       order_by: {
         created_at: 'desc',
       },
-      limit: 50,
+      limit: 100,
       page: isPage,
     };
     HitApi(GETALLNOTIFICATION, 'POST', params, token).then(res => {
@@ -284,8 +284,10 @@ const NotificationScreen = props => {
   // ===================== Load more Data for pagination ==============
 
   const LoadMoreData = () => {
-    isPage = isPage + 1;
-    GetNotifications();
+    if (isPage <= 3) {
+      setIsPage(isPage + 1);
+      GetNotifications();
+    }
 
     // setPageSize(5);
     // MsgsThreads('All');

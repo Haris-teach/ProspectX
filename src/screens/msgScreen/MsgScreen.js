@@ -224,7 +224,9 @@ const MsgScreen = props => {
           <View style={{flex: 1, flexDirection: 'row'}}>
             <Msg height={hp(5)} width={wp(10)} />
             <View style={{flex: 1}}>
-              <Text style={styles.nameStyle}>{number}</Text>
+              <Text style={styles.nameStyle} numberOfLines={1}>
+                {number}
+              </Text>
               <Text style={styles.msgStyle} numberOfLines={2}>
                 {item.message}
               </Text>
