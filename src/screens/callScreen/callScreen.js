@@ -160,8 +160,8 @@ const CallScreen = props => {
       res.data.forEach(i => {
         items.push({
           id: i.id + 1,
-          label: i.label,
-          value: i.value,
+          label: i.label.incoming_number,
+          value: i.value.incoming_number,
         });
         setItems(items);
       });

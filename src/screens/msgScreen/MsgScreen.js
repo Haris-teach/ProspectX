@@ -395,7 +395,7 @@ const MsgScreen = props => {
                   renderItem={renderItem}
                   refreshing={isLoading}
                   onRefresh={() => MsgsThreads('All')}
-                  keyExtractor={item => item.latesttime}
+                  keyExtractor={(item, index) => item.latesttime + index}
                   onEndReachedThreshold={0}
                   onEndReached={() => LoadMoreData()}
                   showsVerticalScrollIndicator={false}
