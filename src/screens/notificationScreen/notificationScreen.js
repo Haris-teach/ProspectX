@@ -1,35 +1,31 @@
 //========================================= React Native Import Files ============================
 
+import moment from 'moment';
 import React, {useEffect, useState} from 'react';
 import {
+  ActivityIndicator,
+  FlatList,
   ImageBackground,
   Text,
-  View,
-  KeyboardAvoidingView,
-  ScrollView,
   TouchableOpacity,
-  ActivityIndicator,
-  SafeAreaView,
-  FlatList,
+  View,
 } from 'react-native';
-import AllStyles from '../../all_styles/All_Styles';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
-import moment from 'moment';
-import {useDispatch} from 'react-redux';
-
+import Toast from 'react-native-simple-toast';
+import {useDispatch, useSelector} from 'react-redux';
+import AllStyles from '../../all_styles/All_Styles';
+import colors from '../../assets/colors/Colors';
+import fonts from '../../assets/fonts/Fonts';
+import BackArrow from '../../assets/images/backarrow.svg';
 //======================================== Local Import Files ====================================
 import images from '../../assets/images/Images';
-import Clock from '../../assets/svg/clock.svg';
 import Calander from '../../assets/svg/calan.svg';
-import colors from '../../assets/colors/Colors';
-import BackArrow from '../../assets/images/backarrow.svg';
+import Clock from '../../assets/svg/clock.svg';
 import HitApi from '../../HitApis/APIHandler';
 import {GETALLNOTIFICATION, ISSEENNOTIFICATION} from '../../HitApis/Urls';
-import {useSelector} from 'react-redux';
-import fonts from '../../assets/fonts/Fonts';
 import {GetNotiNumber} from '../../redux/Actions/commonAction';
 
 const DATA = [
@@ -240,7 +236,6 @@ const NotificationScreen = props => {
   // ===============  Get All Notification function =============
 
   const GetNotifications = () => {
-    // dispatch(GetNotification(0));
     let params = {
       query: {
         value: '%SMS%',
@@ -252,18 +247,25 @@ const NotificationScreen = props => {
       limit: 100,
       page: isPage,
     };
-    HitApi(GETALLNOTIFICATION, 'POST', params, token).then(res => {
-      if (res.status == 1) {
-        if (isPage == 1) {
-          setData(res.data);
+    HitApi(GETALLNOTIFICATION, 'POST', params, token)
+      .then(res => {
+        if (res.status == 1) {
+          if (isPage == 1) {
+            setData(res.data);
+          } else {
+            setData([...data, ...res.data]);
+          }
+          setIsLoading(false);
         } else {
-          setData([...data, ...res.data]);
+          setIsLoading(false);
         }
+      })
+      .catch(e => {
+        Toast.show('Resquest is not successfull', Toast.SHORT, [
+          'UIAlertController',
+        ]);
         setIsLoading(false);
-      } else {
-        setIsLoading(false);
-      }
-    });
+      });
   };
 
   // =================  END ================
@@ -288,9 +290,6 @@ const NotificationScreen = props => {
       setIsPage(isPage + 1);
       GetNotifications();
     }
-
-    // setPageSize(5);
-    // MsgsThreads('All');
   };
   // =========================== END ====================
 

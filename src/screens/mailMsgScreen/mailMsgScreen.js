@@ -1,29 +1,25 @@
 //====================================== React Native Import Files ==================================
 import React, {useEffect, useState} from 'react';
 import {
+  ActivityIndicator,
+  FlatList,
+  ImageBackground,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
-import {
-  ImageBackground,
-  FlatList,
-  Text,
-  View,
-  TouchableOpacity,
-  StyleSheet,
-  ActivityIndicator,
-  ScrollView,
-} from 'react-native';
-import moment from 'moment';
 import {useSelector} from 'react-redux';
+import Toast from 'react-native-simple-toast';
 //====================================== Local Import Files =========================================
-
 import colors from '../../assets/colors/Colors';
-import images from '../../assets/images/Images';
-
-import BackArrow from '../../assets/images/backarrow.svg';
-import MailSvg from '../../assets/svg/email.svg';
 import fonts from '../../assets/fonts/Fonts';
+import BackArrow from '../../assets/images/backarrow.svg';
+import images from '../../assets/images/Images';
 import HitApi from '../../HitApis/APIHandler';
 import {GETALLEMAIL} from '../../HitApis/Urls';
 
@@ -38,14 +34,21 @@ const MailInbox = props => {
       to: props.route.params.first,
       from: props.route.params.second,
     };
-    HitApi(GETALLEMAIL, 'post', params, token).then(res => {
-      if (res.status == 1) {
-        setData(res.data);
+    HitApi(GETALLEMAIL, 'post', params, token)
+      .then(res => {
+        if (res.status == 1) {
+          setData(res.data);
+          setIsLoading(false);
+        } else {
+          setIsLoading(false);
+        }
+      })
+      .catch(e => {
+        Toast.show('Resquest is not successfull', Toast.SHORT, [
+          'UIAlertController',
+        ]);
         setIsLoading(false);
-      } else {
-        setIsLoading(false);
-      }
-    });
+      });
   }, []);
 
   const renderItem = ({item, index}) => {
@@ -145,7 +148,6 @@ const MailInbox = props => {
           style={styles.backButton}>
           <BackArrow height={15} width={15} />
         </TouchableOpacity>
-        {/* <Text style={styles.headerText}>Change Password</Text> */}
       </View>
       {/* -------------------------------------------------------------------------- */}
 
@@ -155,14 +157,6 @@ const MailInbox = props => {
         </Text>
       </View>
 
-      {/* <View style={styles.flatListStyle}>
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          data={data}
-          renderItem={renderItem}
-          keyExtractor={item => item.id}
-        />
-      </View> */}
       {isLoading ? (
         <View
           style={{
@@ -193,35 +187,6 @@ const MailInbox = props => {
           )}
         </View>
       )}
-
-      {/* <View style={styles.msgBox}>
-        <View style={styles.iconStyle}>
-          <View style={styles.subHeaderStyle}>
-            <MailSvg marginHorizontal={wp(2)} />
-            <Text style={styles.nameStyle}>{props.route.params.name}</Text>
-          </View>
-          <Text style={styles.dateStyle}>12/12/2021</Text>
-        </View>
-
-        <ScrollView
-          style={{marginHorizontal: wp(4)}}
-          showsVerticalScrollIndicator={false}>
-          <Text style={styles.msgStyle}>{props.route.params.msg}</Text>
-        </ScrollView>
-      </View>
-
-      <View style={styles.footerStyle}>
-        <TouchableOpacity style={[styles.buttonStyle, {width: wp(48)}]}>
-          <Text style={[styles.textStyle, {alignSelf: 'center'}]}>
-            Forward this mail...
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.buttonStyle, {width: wp(28)}]}>
-          <Text style={[styles.textStyle, {textAlign: 'center'}]}>
-            Follow up
-          </Text>
-        </TouchableOpacity>
-      </View> */}
     </ImageBackground>
   );
 };
@@ -426,7 +391,6 @@ const styles = StyleSheet.create({
     fontFamily: fonts.regular,
     opacity: 0.7,
   },
-
   contentTextStyle: {
     fontSize: wp(3.5),
     marginHorizontal: wp(4),

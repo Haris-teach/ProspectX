@@ -42,8 +42,8 @@ const ChatScreen = props => {
   const PhoneNumbers = useSelector(state => state.commonReducer.Numbers);
   const token = useSelector(state => state.authReducer.token);
   const CurrentUserId = useSelector(state => parseInt(state.authReducer.id));
-
   const Number = props.route.params.Number;
+  const secondNumber = props.route.params.secondNumber;
 
   // const Number2 = props.route.params.Number2;
 
@@ -53,7 +53,6 @@ const ChatScreen = props => {
   const [textMsg, setTextMsg] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
-
   const [value, setValue] = useState('');
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState([]);
@@ -74,11 +73,11 @@ const ChatScreen = props => {
         });
       }
       setItems(items);
+      console.log('first Phone number:   ', Number, i.value);
     });
 
-    setValue(PhoneNumbers[2].value);
+    setValue(Number);
 
-    //console.log('first Phone number:   ', value, Number);
     var socket = io(BASE_URL, {
       transportOptions: {
         polling: {
@@ -120,36 +119,43 @@ const ChatScreen = props => {
   // ================= END =======================
 
   // ================ Get Message threads filter =========
-  useEffect(() => {
-    HitApi(`${GETMSGS}/${ThreadId}`, 'GET', '', token).then(res => {
-      let msgs = [];
-      res.data.forEach((msg, index) => {
-        if (msg) {
-          let msgDate = moment(msg.timestamp)
-            .utc()
-            .format('YYYY-MM-DD HH:mm:ss');
-          const {message, timestamp, second, out} = msg;
-          let data = {
-            _id: index,
-            text: message,
-            createdAt: moment.utc(timestamp).local(),
-            user: {
-              _id: out == true ? CurrentUserId : 2,
-              name: second,
-              avatar: null,
-            },
-          };
-          msgs.push(data);
-        }
-      });
-      let Data = msgs.sort(function compare(a, b) {
-        var dateA = new Date(a.createdAt);
-        var dateB = new Date(b.createdAt);
-        return dateB - dateA;
-      });
-      setMessages(Data);
-    });
-  }, []);
+  // useEffect(() => {
+  //   HitApi(`${GETMSGS}/${ThreadId}`, 'GET', '', token)
+  //     .then(res => {
+  //       let msgs = [];
+  //       res.data.forEach((msg, index) => {
+  //         if (msg) {
+  //           let msgDate = moment(msg.timestamp)
+  //             .utc()
+  //             .format('YYYY-MM-DD HH:mm:ss');
+  //           const {message, timestamp, second, out} = msg;
+  //           let data = {
+  //             _id: index,
+  //             text: message,
+  //             createdAt: moment.utc(timestamp).local(),
+  //             user: {
+  //               _id: out == true ? CurrentUserId : 2,
+  //               name: second,
+  //               avatar: null,
+  //             },
+  //           };
+  //           msgs.push(data);
+  //         }
+  //       });
+  //       let Data = msgs.sort(function compare(a, b) {
+  //         var dateA = new Date(a.createdAt);
+  //         var dateB = new Date(b.createdAt);
+  //         return dateB - dateA;
+  //       });
+  //       setMessages(Data);
+  //     })
+  //     .catch(e => {
+  //       Toast.show('Resquest is not successfull', Toast.SHORT, [
+  //         'UIAlertController',
+  //       ]);
+  //       setIsLoading(false);
+  //     });
+  // }, []);
   // ============= END =================
 
   // ============= Msg filter function =============
@@ -157,50 +163,57 @@ const ChatScreen = props => {
     setIsLoading(true);
     setMessages([]);
     let params = {
-      to: Number,
+      to: secondNumber,
       from: value,
     };
-    HitApi(GETMSGSBYNUMBER, 'POST', params, token).then(res => {
-      if (res.status == 1) {
+    HitApi(GETMSGSBYNUMBER, 'POST', params, token)
+      .then(res => {
+        if (res.status == 1) {
+          setIsLoading(false);
+          let msgs = [];
+          res.data.forEach((msg, index) => {
+            if (msg) {
+              let msgDate = moment(msg.timestamp)
+                .utc()
+                .format('YYYY-MM-DD HH:mm:ss');
+              // console.log('Time:', msgDate);
+              const {message, timestamp, second, out} = msg;
+              let data = {
+                _id: index,
+                text: message,
+                createdAt: moment.utc(timestamp).local(),
+                user: {
+                  _id: out == true ? CurrentUserId : 2,
+                  name: second,
+                  avatar: null,
+                },
+              };
+              msgs.push(data);
+            }
+          });
+          let Data = msgs.sort(function compare(a, b) {
+            var dateA = new Date(a.createdAt);
+            var dateB = new Date(b.createdAt);
+            return dateB - dateA;
+          });
+          setMessages(Data);
+        } else {
+          setIsLoading(false);
+          //if(typeof res.errors == 'array')
+          Toast.showWithGravity(
+            res.errors[0],
+            Toast.SHORT,
+            Toast.BOTTOM,
+            setMessages([]),
+          );
+        }
+      })
+      .catch(e => {
+        Toast.show('Resquest is not successfull', Toast.SHORT, [
+          'UIAlertController',
+        ]);
         setIsLoading(false);
-        let msgs = [];
-        res.data.forEach((msg, index) => {
-          if (msg) {
-            let msgDate = moment(msg.timestamp)
-              .utc()
-              .format('YYYY-MM-DD HH:mm:ss');
-            // console.log('Time:', msgDate);
-            const {message, timestamp, second, out} = msg;
-            let data = {
-              _id: index,
-              text: message,
-              createdAt: moment.utc(timestamp).local(),
-              user: {
-                _id: out == true ? CurrentUserId : 2,
-                name: second,
-                avatar: null,
-              },
-            };
-            msgs.push(data);
-          }
-        });
-        let Data = msgs.sort(function compare(a, b) {
-          var dateA = new Date(a.createdAt);
-          var dateB = new Date(b.createdAt);
-          return dateB - dateA;
-        });
-        setMessages(Data);
-      } else {
-        setIsLoading(false);
-        //if(typeof res.errors == 'array')
-        Toast.showWithGravity(
-          res.errors[0],
-          Toast.SHORT,
-          Toast.BOTTOM,
-          setMessages([]),
-        );
-      }
-    });
+      });
   };
   // =================== END ==============
 
@@ -209,21 +222,28 @@ const ChatScreen = props => {
     setIsLoading(true);
     let params = {
       from: value,
-      to: Number,
+      to: secondNumber,
       message: message[0].text,
     };
-    HitApi(SENDMESSAGE, 'POST', params, token).then(res => {
-      if (res.status == 1) {
-        setMessages(previousMessages =>
-          GiftedChat.append(previousMessages, message),
-        );
+    HitApi(SENDMESSAGE, 'POST', params, token)
+      .then(res => {
+        if (res.status == 1) {
+          setMessages(previousMessages =>
+            GiftedChat.append(previousMessages, message),
+          );
+          setIsLoading(false);
+        } else {
+          setIsLoading(false);
+          let error = res.errors.message;
+          Toast.showWithGravity(error, Toast.SHORT, Toast.BOTTOM);
+        }
+      })
+      .catch(e => {
+        Toast.show('Resquest is not successfull', Toast.SHORT, [
+          'UIAlertController',
+        ]);
         setIsLoading(false);
-      } else {
-        setIsLoading(false);
-        let error = res.errors.message;
-        Toast.showWithGravity(error, Toast.SHORT, Toast.BOTTOM);
-      }
-    });
+      });
   };
   // ================ END ==================
 
@@ -360,9 +380,7 @@ const ChatScreen = props => {
           messagesContainerStyle={{
             marginHorizontal: wp(3),
             marginTop: hp(-7.8),
-            height: isKeyboardVisible ? hp(25) : hp(65),
-
-            //backgroundColor: 'red',
+            height: isKeyboardVisible ? hp(30) : hp(67),
           }}
           renderAvatar={() => {
             return <View />;
@@ -469,11 +487,11 @@ const styles = {
   },
   dropdownStyle: {
     height: hp(6),
-
     backgroundColor: 'rgba(255, 255, 255, 0.67)',
     borderRadius: wp(5),
     color: 'black',
     borderWidth: 0.5,
+    marginTop: hp(-3),
     borderColor: 'rgba(255, 255, 255, 1)',
 
     //justifyContent: 'center',
@@ -481,7 +499,7 @@ const styles = {
   dropDownContainerStyle: {
     backgroundColor: 'white',
     borderColor: 'white',
-
+    marginTop: hp(-3),
     borderRadius: wp(5),
   },
 

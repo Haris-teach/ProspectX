@@ -1,63 +1,48 @@
 //========================================= React Native Import Files ============================
 
+import {Formik} from 'formik';
 import React, {useEffect, useState} from 'react';
 import {
-  ImageBackground,
-  Text,
-  View,
-  ActivityIndicator,
-  KeyboardAvoidingView,
-  ScrollView,
-  TouchableOpacity,
-  TextInput,
-  Platform,
-  Alert,
   FlatList,
-  Image,
+  ImageBackground,
   Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-var axios = require('axios');
-var FormData = require('form-data');
-import {useSelector} from 'react-redux';
-import Toast from 'react-native-simple-toast';
-var data = new FormData();
-import {FloatingAction} from 'react-native-floating-action';
+import DocumentPicker from 'react-native-document-picker';
+import DropDownPicker from 'react-native-dropdown-picker';
 import LinearGradient from 'react-native-linear-gradient';
-import AllStyles from '../../all_styles/All_Styles';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
-import DropDownPicker from 'react-native-dropdown-picker';
-import DocumentPicker from 'react-native-document-picker';
+import Toast from 'react-native-simple-toast';
+import {useSelector} from 'react-redux';
 import * as yup from 'yup';
-import {Formik} from 'formik';
-
-import GradientButton from '../../components/gradientButton/Button';
-import BackArrow from '../../assets/images/backarrow.svg';
-import Pen from '../../assets/svg/pen.svg';
-import PaperClip from '../../assets/svg/paperClip.svg';
-import RedCross from '../../assets/svg/redCross';
-import images from '../../assets/images/Images';
 import colors from '../../assets/colors/Colors';
 import fonts from '../../assets/fonts/Fonts';
+import BackArrow from '../../assets/images/backarrow.svg';
+import images from '../../assets/images/Images';
 import BluePaperPin from '../../assets/svg/bluePin.svg';
+import PaperClip from '../../assets/svg/paperClip.svg';
+import RedCross from '../../assets/svg/redCross';
+import GradientButton from '../../components/gradientButton/Button';
 import {SENDEMAIL} from '../../HitApis/Urls';
-
-// var files = [];
+var axios = require('axios');
+var FormData = require('form-data');
+var data = new FormData();
 
 const NewMailScreen = props => {
   const token = useSelector(state => state.authReducer.token);
   const emails = useSelector(state => state.commonReducer.emails);
-
   const [value, setValue] = useState('Set Time');
-  const [toMail, setToMail] = useState(null);
-  const [subj, setSubj] = useState('');
-  const [content, setcontent] = useState('');
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState([]);
-  const [fileUri, setFileURI] = useState(null);
-  const [filePath, setFilePath] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [files, setFiles] = useState([]);
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
@@ -66,15 +51,14 @@ const NewMailScreen = props => {
     try {
       const res = await DocumentPicker.pick({
         type: [DocumentPicker.types.allFiles],
-        //allowMultiSelection: true,
-        //presentationStyle: 'fullScreen',
       });
+
+      console.log('RESPONSE:    ', res);
       if (files.length < 1) {
         setFiles([...files, ...res]);
       } else {
         let count = 0;
         files.map(i => {
-          //console.log('I:    ', i.name, res[0].name);
           if (i.name === res[0].name) {
             count = 1;
           }
@@ -115,7 +99,6 @@ const NewMailScreen = props => {
       });
     });
 
-    // console.log('DATA:   ', data);
     var config = {
       method: 'post',
       url: SENDEMAIL,
@@ -128,34 +111,30 @@ const NewMailScreen = props => {
     axios(config)
       .then(function (response) {
         setIsLoading(false);
-        // console.log('Response:    ', JSON.stringify(response.data));
         props.navigation.goBack();
       })
       .catch(function (error) {
         let err = error.response.data.errors[0].split('.');
-
-        // console.log(err[0]);
         setIsLoading(false);
-        Toast.showWithGravity(err[0], Toast.SHORT, Toast.BOTTOM);
+        let msgs = '';
+        if (err[0] == 'Expected params') {
+          Toast.showWithGravity('Select from email', Toast.SHORT, Toast.BOTTOM);
+        } else {
+          Toast.showWithGravity(err[0], Toast.SHORT, Toast.BOTTOM);
+        }
       });
 
-    // setcontent('');
-    // setSubj('');
-    // setToMail('');
     data = new FormData();
     setFiles([]);
   };
 
   useEffect(() => {
-    // setcontent(props.route.params.msg);
-    // setSubj(props.route.params.subject);
     setItems(emails);
     setIsLoading(false);
   }, []);
 
   const DeleteFile = i => {
     setFiles(files.filter((item, index) => index != i));
-    // console.log(files);
   };
 
   useEffect(() => {
@@ -210,9 +189,7 @@ const NewMailScreen = props => {
             initialValues={userInfo}
             validationSchema={validationSchema}
             onSubmit={(values, {resetForm}) => {
-              //props.navigation.navigate('LoginScreen');
               SendEmail(values);
-              // setIsMessage('');
               resetForm();
             }}>
             {({
@@ -241,7 +218,7 @@ const NewMailScreen = props => {
                     props={{activeOpacity: 1}}
                     style={styles.dropdownStyle}
                     open={open}
-                    placeholder="Select email for mail"
+                    placeholder="From"
                     searchPlaceholderTextColor="#AAB1BC"
                     placeholderStyle={{
                       color: '#AAB1BC',
@@ -270,7 +247,7 @@ const NewMailScreen = props => {
                   <View style={styles.toContainer}>
                     <Text style={styles.toStyle}>To :</Text>
                     <TextInput
-                      //placeholder="Type"
+                      placeholder="Type to email"
                       numberOfLines={1}
                       style={{width: wp(60), color: 'black'}}
                       onChangeText={handleChange('email')}
@@ -331,16 +308,6 @@ const NewMailScreen = props => {
                           renderItem={({item, index}) => {
                             return (
                               <View style={styles.attachmentStyle}>
-                                {/* <TouchableOpacity
-                                onPress={() => DeleteFile(index)}
-                                style={styles.crossBtnStyle}>
-                                <Image
-                                  source={require('../../assets/png/CrossImage.png')}
-                                  style={styles.crossImageStyle}
-                                  resizeMode="contain"
-                                />
-                              </TouchableOpacity>
-                              <Text style={styles.labelStyle}>{item.name}</Text> */}
                                 <BluePaperPin />
                                 <Text
                                   style={styles.labelStyle}
@@ -371,14 +338,6 @@ const NewMailScreen = props => {
                       </LinearGradient>
                     </TouchableOpacity>
                   </View>
-
-                  {/* <View style={{marginRight: wp(4), marginTop: hp(2)}}>
-              <FloatingAction
-                backgroundColor="red"
-                floatingIcon={<PaperClip />}
-                onPressMain={() => Documentpicker()}
-              />
-            </View> */}
 
                   {touched.content && errors.content && (
                     <Text style={styles.warning1Style}>{errors.content}</Text>
@@ -454,7 +413,6 @@ const styles = {
     shadowOpacity: 0.4,
     shadowRadius: 5,
     elevation: 10,
-    //justifyContent: 'center',
   },
   dropDownContainerStyle: {
     backgroundColor: 'white',
@@ -470,7 +428,7 @@ const styles = {
   },
   containerStyle: {
     alignSelf: 'center',
-    // backgroundColor: 'yellow',
+
     width: wp(80),
   },
   mainContainer: {
@@ -511,8 +469,6 @@ const styles = {
     marginHorizontal: wp(10),
     borderRadius: wp(4),
     backgroundColor: 'rgba(255, 255, 255, 0.72)',
-    //backgroundColor: 'red',
-    // justifyContent: 'flex-end',
   },
   subjectTextStyle: {
     fontSize: wp(3.4),
@@ -524,7 +480,7 @@ const styles = {
   },
   subjectInputStyle: {
     marginHorizontal: wp(5),
-    //backgroundColor: 'red',
+
     marginTop: hp(-2.5),
 
     height: hp(5),
@@ -540,11 +496,10 @@ const styles = {
     marginHorizontal: wp(5),
 
     textAlignVertical: 'top',
-    //backgroundColor: 'red',
+
     color: 'black',
   },
   uriBoxStyle: {
-    //backgroundColor: 'yellow',
     width: wp(70),
     height: 50,
     marginHorizontal: wp(5),
@@ -557,7 +512,7 @@ const styles = {
   crossBtnStyle: {
     width: wp(12),
     marginVertical: hp(0.5),
-    // backgroundColor: 'red',
+
     alignSelf: 'flex-end',
     marginTop: hp(-2.5),
     marginRight: wp(-5),
@@ -593,7 +548,6 @@ const styles = {
 
     marginBottom: hp(1),
     marginRight: wp(-1),
-    //backgroundColor: 'red',
   },
   floatingBtnStyle: {
     borderRadius: hp(7),
@@ -627,124 +581,3 @@ const styles = {
     color: 'red',
   },
 };
-
-{
-  /* <View style={{flex: 1}}> */
-}
-
-//   <DropDownPicker
-//     style={styles.dropdownStyle}
-//     open={open}
-//     zIndex={1}
-//     placeholder="Select email for mail"
-//     placeholderStyle={{
-//       color: colors.blackWithOpacityColor,
-//       fontFamily: fonts.regular,
-//       fontSize: wp(3.6),
-//       marginHorizontal: wp(3),
-//     }}
-//     value={value}
-//     items={items}
-//     setOpen={setOpen}
-//     showArrowIcon={true}
-//     showTickIcon={false}
-//     dropDownContainerStyle={styles.dropDownContainerStyle}
-//     arrowIconStyle={styles.arrowIconStyle}
-//     listItemLabelStyle={{color: colors.blackolor}}
-//     containerStyle={styles.containerStyle}
-//     textStyle={{color: colors.blackolor, marginHorizontal: wp(3)}}
-//     labelStyle={{color: colors.blackolor}}
-//     setValue={setValue}
-//     setItems={setItems}
-//   />
-
-//   <View
-//     style={{
-//       zIndex: 1,
-//       marginHorizontal: wp(10),
-//       marginVertical: hp(2),
-//       flexDirection: 'row',
-//       height: hp(6),
-//       backgroundColor: 'rgba(255, 255, 255, 0.67)',
-//       borderRadius: wp(10),
-//       color: 'black',
-//       borderWidth: 0.5,
-//       borderColor: 'rgba(255, 255, 255, 1)',
-//       shadowColor: 'white',
-//       shadowOffset: {
-//         width: 0,
-//         height: 6,
-//       },
-//       shadowOpacity: 0.4,
-//       shadowRadius: 5,
-//       elevation: 10,
-//     }}>
-//     <Text style={styles.toStyle}>To :</Text>
-//     <TextInput
-//       //placeholder="Type"
-//       numberOfLines={1}
-//       style={{width: wp(60)}}
-//     />
-//   </View>
-
-//   <View
-//     style={{
-//       marginHorizontal: wp(10),
-//       borderRadius: wp(4),
-//       backgroundColor: 'rgba(255, 255, 255, 0.72)',
-//       flex: 0.9,
-//     }}>
-//     <Text
-//       style={{
-//         fontSize: wp(3.4),
-//         marginHorizontal: wp(5),
-//         marginVertical: hp(2),
-//         color: 'black',
-//         fontFamily:fonts.regular,
-//         opacity: 0.6,
-//       }}>
-//       Email Subject
-//     </Text>
-//     <TextInput
-//       // placeholder="tyoe"
-//       style={{
-//         marginHorizontal: wp(5),
-//         marginTop: hp(-1),
-//       }}
-//     />
-//     <Text
-//       style={{
-//         fontSize: wp(3.4),
-//         marginHorizontal: wp(5),
-
-//         color: 'black',
-//         fontFamily:fonts.regular,
-//       }}>
-//       Email Content
-//     </Text>
-//     <TextInput
-//       // placeholder="tyoe"
-//       style={{
-//         marginHorizontal: wp(5),
-//         marginTop: hp(-1),
-//         textAlignVertical: 'top',
-//         //backgroundColor: 'red',
-//       }}
-//       numberOfLines={10}
-//     />
-//   </View>
-
-//   <View
-//     style={{
-//       flex: 0.14,
-//       alignSelf: 'center',
-//       width: wp(83),
-//       justifyContent: 'flex-end',
-//       marginBottom: hp(5),
-//     }}>
-//     <GradientButton
-//       onPress={() => alert('Login Pressed')}
-//       title={'Save'}
-//     />
-//   </View>
-// </View>

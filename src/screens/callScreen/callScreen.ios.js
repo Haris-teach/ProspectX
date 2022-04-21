@@ -2,15 +2,13 @@ import React, {useState, useRef, useEffect} from 'react';
 import {
   View,
   Text,
-  SafeAreaView,
   TouchableOpacity,
   ImageBackground,
   SectionList,
-  StatusBar,
   Platform,
+  FlatList,
   ActivityIndicator,
-  TextInput,
-  Vibration,
+  PermissionsAndroid,
 } from 'react-native';
 import {useIsFocused} from '@react-navigation/native';
 import {
@@ -25,8 +23,15 @@ import moment from 'moment';
 import messaging from '@react-native-firebase/messaging';
 import CalendarPicker from 'react-native-calendar-picker';
 import {Dialog} from 'react-native-simple-dialogs';
-import TwilioVoice from 'react-native-twilio-voice-sdk';
-
+// import TwilioVoice from 'react-native-twilio-voice-sdk';
+// import TwilioVoice from 'react-native-twilio-programmable-voice'
+import Toast from 'react-native-simple-toast';
+import RNCallKeep from 'react-native-callkeep';
+import {
+  EventType,
+  RNTwilioPhone,
+  twilioPhoneEmitter,
+} from 'react-native-twilio-phone';
 // ================local import=================
 import RNDropDown from '../../components/RNDropDown/RnDropDown';
 
@@ -34,7 +39,7 @@ import images from '../../assets/images/Images';
 import colors from '../../assets/colors/Colors';
 import fonts from '../../assets/fonts/Fonts';
 import HitApi from '../../HitApis/APIHandler';
-import {GETPHONENUM, CALLLOGS} from '../../HitApis/Urls';
+import {GETPHONENUM, CALLLOGS, CALL_TOKEN_API} from '../../HitApis/Urls';
 import {GetNumbers} from '../../redux/Actions/commonAction';
 import AppHeader from '../../components/AppHeadercomponent/Appheader';
 
@@ -49,33 +54,60 @@ import Menu from '../../assets/svg/menu.svg';
 import Bell from '../../assets/svg/bell.svg';
 import INCall from '../../assets/svg/inCall.svg';
 import OutCall from '../../assets/svg/outCall.svg';
-import Dilar from '../../assets/svg/dilar';
-
+import Dilar from '../../assets/svg/dilar.svg';
+import Call from '../../assets/svg/call.svg';
 import Contact from '../../assets/svg/contact.svg';
 import Contact2 from '../../assets/svg/c1.svg';
-
+import uuid from 'uuid';
+import {promises} from 'form-data';
 // =========================================
 
-const DATA = [
-  {
-    title: 'Today',
-    data: ['John Wick', 'Lesnar', 'Adam'],
+// Options passed to CallKeep (https://github.com/react-native-webrtc/react-native-callkeep#usage)
+const callKeepOptions = {
+  ios: {
+    appName: 'ProspecX',
+    supportsVideo: false,
+    maximumCallGroups: '1',
+    maximumCallsPerCallGroup: '1',
   },
-  {
-    title: 'Yesterday',
-    data: ['Rock', 'Glod barg', 'Kane'],
+  android: {
+    alertTitle: 'Permissions required',
+    alertDescription: 'This application needs to access your phone accounts',
+    cancelButton: 'Cancel',
+    okButton: 'OK',
+    additionalPermissions: [PermissionsAndroid.PERMISSIONS.READ_CONTACTS],
+    // Required to get audio in background when using Android 11
+    foregroundService: {
+      channelId: 'com.prospectx.app',
+      channelName: 'Foreground service for my app',
+      notificationTitle: 'My app is running on background',
+    },
   },
-  {
-    title: '14 December 2021',
-    data: ['Roman', 'Ven Disal', 'Shawn Mical'],
-  },
-  {
-    title: '13 December 2021',
-    data: ['Coke', 'Anna White'],
-  },
-];
+};
+
+// RNTwilioPhone options
+const options = {
+  requestPermissionsOnInit: true, // Default: true - Set to false if you want to request permissions manually
+};
+
+const identity = Platform.select({
+  ios: 'Steve',
+  android: 'Larry',
+});
+
+// const from = Platform.select({
+//   ios: 'client:Steve',
+//   android: 'client:Larry',
+// });
+
+const from = Platform.select({
+  ios: '+12058584164',
+  android: '+12058584164',
+});
 
 const CallScreen = props => {
+  const [callInProgress, setCallInProgress] = useState(false);
+
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
 
@@ -83,13 +115,7 @@ const CallScreen = props => {
 
   const token = useSelector(state => state.authReducer.token);
 
-  const [items, setItems] = useState([
-    {
-      id: 0,
-      label: 'All',
-      value: 'All',
-    },
-  ]);
+  const [items, setItems] = useState([]);
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -98,58 +124,66 @@ const CallScreen = props => {
   const [endDate, setEndDate] = useState('');
   const [callLogs, setCallLogs] = useState([]);
   const [isCallLogs, setIsCallLogs] = useState([]);
+  const [isCallBtn, setIsCallBtn] = useState(false);
+  const [isString, setIsString] = useState('');
+  const [isPopUp, setIsPopUp] = useState(false);
 
   // ================== Render Section list function ==============
   const Item = ({title, index, section}) => {
     return (
-      <TouchableOpacity
-        // onPress={() => props.navigation.navigate('InComming', {name: title})}
-        style={{
-          backgroundColor: 'rgba(255, 255, 255, 0.67)',
-          marginHorizontal: wp(6),
-          borderTopRightRadius: index == 0 ? wp(7) : wp(0),
-          borderTopLeftRadius: index == 0 ? wp(7) : wp(0),
-          borderBottomRightRadius:
-            index == section.data.length - 1 ? wp(7) : wp(0),
-          borderBottomLeftRadius:
-            index == section.data.length - 1 ? wp(7) : wp(0),
-          borderColor:
-            index == 0 || index == section.data.length - 1
-              ? 'white'
-              : 'rgba(255, 255, 255, 0.67)',
+      <>
+        {title.to.split(':').length == 1 &&
+        title.from.split(':').length == 1 ? (
+          <TouchableOpacity
+            onPress={() => {
+              setIsString(title.dir == 'outbound-dial' ? title.to : title.from);
+              sizeSheet.current.open();
+            }}
+            style={{
+              backgroundColor: 'rgba(255, 255, 255, 0.67)',
+              marginHorizontal: wp(6),
+              borderTopRightRadius: index == 0 ? wp(7) : wp(0),
+              borderTopLeftRadius: index == 0 ? wp(7) : wp(0),
+              borderBottomRightRadius:
+                index == section.data.length - 1 ? wp(7) : wp(0),
+              borderBottomLeftRadius:
+                index == section.data.length - 1 ? wp(7) : wp(0),
+              borderColor:
+                index == 0 || index == section.data.length - 1
+                  ? 'white'
+                  : 'rgba(255, 255, 255, 0.67)',
+            }}>
+            <View style={styles.listStyle}>
+              <View style={styles.miniContainer}>
+                {title.direction != 'outbound-dial' ? (
+                  <INCall width={wp(4)} height={hp(4)} alignSelf="center" />
+                ) : (
+                  <OutCall width={wp(4)} height={hp(4)} alignSelf="center" />
+                )}
 
-          //   borderTopWidth: index == 0 ? 1 : -10,
-          //   borderLeftWidth: 1,
-          //   borderRightWidth: 1,
-          //   borderBottomWidth: index === section.data.length - 1 ? 1 : 0,
+                <Text style={styles.tileStyle}>
+                  {title.direction == 'outbound-dial' ? title.to : title.from}
+                </Text>
+              </View>
 
-          //marginBottom: index == section.data.length - 1 ? hp(5) : hp(0),
-        }}>
-        <View style={styles.listStyle}>
-          <View style={styles.miniContainer}>
-            {title.dir != 'outbound-dial' ? (
-              <INCall width={wp(4)} height={hp(4)} alignSelf="center" />
-            ) : (
-              <OutCall width={wp(4)} height={hp(4)} alignSelf="center" />
-            )}
+              <Text style={styles.durationStyle}>
+                {' '}
+                {moment(title.endDate).format('h:mm A')}
+              </Text>
+            </View>
 
-            <Text style={styles.tileStyle}>
-              {title.dir == 'outbound-dial' ? title.to : title.from}
-            </Text>
-          </View>
-
-          <Text style={styles.durationStyle}>
-            {' '}
-            {moment(title.time).format('h:mm A')}
-          </Text>
-        </View>
-
-        {index < section.data.length - 1 ? (
-          <View
-            style={{borderWidth: 0.4, marginHorizontal: wp(10), opacity: 0.1}}
-          />
+            {index < section.data.length - 1 ? (
+              <View
+                style={{
+                  borderWidth: 0.4,
+                  marginHorizontal: wp(10),
+                  opacity: 0.1,
+                }}
+              />
+            ) : null}
+          </TouchableOpacity>
         ) : null}
-      </TouchableOpacity>
+      </>
     );
   };
   // ============= END ===========================
@@ -157,20 +191,22 @@ const CallScreen = props => {
   // ============== GET all phone  numbers function ================
   const GetAllNumbers = () => {
     HitApi(GETPHONENUM, 'get', '', token).then(res => {
+      let allNumbers = [];
       res.data.forEach(i => {
-        items.push({
+        allNumbers.push({
           id: i.id + 1,
           label: i.label.incoming_number,
           value: i.value.incoming_number,
         });
-        setItems(items);
       });
-      dispatch(GetNumbers(items));
+
+      setItems(allNumbers);
+      dispatch(GetNumbers(allNumbers));
     });
   };
   useEffect(() => {
     GetAllNumbers();
-  }, []);
+  }, [isFocused]);
   // ============================== END  =================================
 
   // ============== Get all call logs =============================
@@ -189,95 +225,179 @@ const CallScreen = props => {
     HitApi(CALLLOGS, 'post', params, token).then(res => {
       setIsLoading(false);
       if (res.status == 1) {
-        var externalObj = {};
-        var prevEndDate = null;
-        var date = null;
-
-        let call_logs = res.data.call_logs;
-
-        call_logs.sort(function (a, b) {
-          return new Date(b.startTime) - new Date(a.startTime);
-        });
-
-        // // Excluding all forwarding number call logs
-        call_logs.map((logs, index) => {
-          if (res.data.forwarding_numbers.includes(logs.to)) {
-            call_logs.splice(index, 1);
-          }
-        });
-
-        call_logs.forEach(i => {
-          let currentEndDate = i.endTime;
-          let obj = {
-            title: currentEndDate,
-            data: {
-              dir: i.direction,
-              direction: i.direction,
-              to: i.to,
-              from: i.from,
-              time: i.endTime,
-            },
-          };
-          if (
-            !moment(prevEndDate)
-              .startOf('day')
-              .isSame(moment(currentEndDate).startOf('day'))
-          ) {
-            prevEndDate = currentEndDate;
-            date = currentEndDate;
-            externalObj[date] = [];
-          }
-          externalObj[date].push(obj);
-        });
-        let dataArr = [];
-        for (const item in externalObj) {
-          let obj = {
-            title: item,
-            data: externalObj[item].map(obj => {
-              return obj.data;
-            }),
-          };
-          dataArr.push(obj);
-        }
-        setCallLogs(dataArr);
-        setIsCallLogs(dataArr);
+        setCallLogs(res.data.call_logs);
+        setIsCallLogs(res.data.call_logs);
       } else {
         return null;
       }
     });
   };
   useEffect(() => {
-    GetCallLogs('All');
+    setIsLoading(true);
+    setTimeout(() => {
+      GetCallLogs('All');
+    }, 3000);
   }, [isFocused]);
   // =================== END =====================================
 
   // ================ Concatinate string function ================
 
-  const [isString, setisString] = useState('');
   const concatinate = v => {
     let word = isString;
 
     if (v == 'del') {
       // Vibration.vibrate(50);
       word = word.slice(0, -1);
-      setisString(word);
+      setIsString(word);
       return;
     } else {
       if (word.length < 13) {
         //Vibration.vibrate(50);
         word = word + v;
-        setisString(word);
+        setIsString(word);
       }
     }
   };
   // ========================= END =========================
 
+  const fetchAccessToken = async () => {
+    const accessToken = await HitApi(CALL_TOKEN_API, 'get', '', token);
+
+    return accessToken.data.token;
+    // return accessToken;
+  };
   //==================== Call functions ==========================
   const twilioToken = useSelector(state => state.commonReducer.twilioToken);
   useEffect(() => {
-    console.log('Version:   ', TwilioVoice.version);
-    console.log('Native Version:  ', TwilioVoice.nativeVersion);
+    RNTwilioPhone.initialize(callKeepOptions, fetchAccessToken, options);
+    RNTwilioPhone.initializeCallKeep(
+      callKeepOptions,
+      fetchAccessToken,
+      options,
+    );
+    // RNTwilioPhone.initializeCallKeep(callKeepOptions, fetchAccessToken, options).then((response)=>{
+    //    console.log("twilioAcessToken444", response)
+    // });
+
+    const subscriptions = [
+      twilioPhoneEmitter.addListener('CallConnected', data => {
+        console.log(data);
+      }),
+      twilioPhoneEmitter.addListener('CallDisconnected', data => {
+        console.log(data);
+      }),
+      twilioPhoneEmitter.addListener('CallDisconnectedError', data => {
+        console.log(data);
+      }),
+    ];
+
+    return () => {
+      subscriptions.map(subscription => {
+        subscription.remove();
+      });
+    };
   }, []);
+
+  useEffect(() => {
+    const subscriptions = [
+      twilioPhoneEmitter.addListener(EventType.CallConnected, () => {
+        setCallInProgress(true);
+      }),
+      twilioPhoneEmitter.addListener(EventType.CallDisconnected, () => {
+        setCallInProgress(RNTwilioPhone.calls.length > 0);
+      }),
+      twilioPhoneEmitter.addListener(EventType.CallDisconnectedError, data => {
+        console.log(data);
+        setCallInProgress(RNTwilioPhone.calls.length > 0);
+      }),
+    ];
+
+    return () => {
+      subscriptions.map(subscription => {
+        subscription.remove();
+      });
+    };
+  }, []);
+
+  function hangup() {
+    RNCallKeep.endAllCalls();
+  }
+
+  const getNewUuid = () => uuid.v4().toLowerCase();
+  async function call(fromNum) {
+    if (isString === '') {
+      return;
+    }
+
+    // setCallInProgress(true);
+
+    try {
+      if (Platform.OS === 'android') {
+        RNTwilioPhone.startCall(isString, isString, fromNum);
+      } else {
+        const callUUID = getNewUuid();
+
+        // RNTwilioPhone.startCall(isString, isString, from);
+        setIsPopUp(false);
+        setTimeout(() => {
+          props.navigation.replace('CallStart', {
+            name: isString,
+            callUUID: callUUID,
+            accessToken: twilioToken,
+            fromNum: fromNum,
+          });
+        }, 1000);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  useEffect(() => {
+    const unsubscribe = messaging().onMessage(remoteMessage => {
+      //dispatch(GetNotiNumber(1));
+
+      handleNotification(remoteMessage);
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
+  const handleNotification = remoteMessage => {
+    if (remoteMessage.data) {
+      // props.navigation.navigate('InComming', {data: remoteMessage.data})
+      //   Alert.alert(
+      //     //This is title
+      //    'ProspectX',
+      //      //This is body text
+      //      remoteMessage.data.twi_from+ ' is calling!',
+      //    [
+      //      {text: 'Accept', onPress: () => {
+      //       //  TwilioVoice.accept();
+      //        props.navigation.navigate('InComming', {data: remoteMessage.data})
+      //       // props.navigation.navigate('InComming', {name: title})
+      //      }},
+      //      {text: 'Reject', onPress: () => {
+      //        TwilioVoice.reject();
+      //      }, style: 'cancel'},
+      //    ],
+      //    { cancelable: false }
+      //    //on clicking out side, Alert will not dismiss
+      //  );
+    } else {
+      popup.current.show({
+        appIconSource: null,
+        appTitle: 'ProspectX',
+        title: remoteMessage.notification.title,
+        body: remoteMessage.notification.body,
+        slideOutTime: 2000,
+      });
+    }
+  };
+
+  // };
   //==================== END =====================================
 
   // ========================= On Notification OPEN ====================
@@ -341,7 +461,6 @@ const CallScreen = props => {
         <TouchableOpacity
           onPress={() => {
             if (endDate === '' || endDate == 'Invalid date') {
-              // console.log('EndDate:  ', endDate);
               Toast.show('Please select end date');
             } else {
               setIsLoading(true);
@@ -370,10 +489,45 @@ const CallScreen = props => {
         );
       }),
     );
-
-    console.log('ISCallLogs:   ', isCallLogs);
   };
   // =================== END =========================
+
+  // ===================== Select sim number Modal ================
+  const SelectSim = () => {
+    return (
+      <Dialog
+        visible={isPopUp}
+        dialogStyle={styles.selectSim}
+        onTouchOutside={() => setIsPopUp(false)}>
+        <View>
+          <Text style={styles.selectSimTextStyle}>
+            Choose Number for this call
+          </Text>
+          <View style={{maxHeight: hp(25), marginTop: hp(2)}}>
+            <FlatList
+              showsVerticalScrollIndicator={false}
+              data={items}
+              keyExtractor={(item, index) => item + index}
+              renderItem={({item, index}) => {
+                return (
+                  <TouchableOpacity
+                    style={{flexDirection: 'row'}}
+                    onPress={() => {
+                      call(item.value);
+                    }}>
+                    <Call alignSelf="center" width={wp(5)} height={hp(5)} />
+                    <Text style={styles.renderNumberStyle}>{item.value}</Text>
+                  </TouchableOpacity>
+                );
+              }}
+              nestedScrollEnabled={true}
+            />
+          </View>
+        </View>
+      </Dialog>
+    );
+  };
+  // ===================== END =======================
 
   return (
     <ImageBackground
@@ -381,7 +535,8 @@ const CallScreen = props => {
       source={images.splashBackground}>
       <View style={styles.mainContainer}>
         {RenderModal()}
-        {/* =========== Header PArt=========== */}
+        {SelectSim()}
+        {/* =========== Header Part=========== */}
 
         <AppHeader
           leftonPress={() => props.navigation.navigate('Profile')}
@@ -394,10 +549,6 @@ const CallScreen = props => {
 
         {/* ================DropDown component============== */}
 
-        {/* <RNSearch
-            placeholder="Select a number for calls"
-            onPress={() => console.log('Presssed')}
-          /> */}
         <RNDropDown
           open={open}
           placeholder="Select number for call"
@@ -418,52 +569,6 @@ const CallScreen = props => {
         {/* ========================== END ========================== */}
 
         {/* ===============LIST VIEW========================== */}
-
-        {/* {isLoading ? (
-            <View style={{flex: 1, justifyContent: 'center'}}>
-              <ActivityIndicator color="blue" />
-            </View>
-          ) : (
-            <>
-              {msgData.length == 0 ? (
-
-                <View
-                  style={{
-                    justifyContent: 'center',
-                    flex: 1,
-                  }}>
-                  <Text style={{alignSelf: 'center', color: 'black'}}>
-                    Record not found
-                  </Text>
-                </View>
-              ) : (
-          <SectionList
-            refreshing={isLoading}
-            onRefresh={() => GetCallLogs()}
-            stickySectionHeadersEnabled={false}
-            showsVerticalScrollIndicator={false}
-            style={{
-              marginBottom: -hp(0.2),
-              zIndex: Platform.OS == 'ios' ? -1 : 0,
-              //backgroundColor: 'red',
-            }}
-            sections={isCallLogs}
-            keyExtractor={(item, index) => item + index}
-            renderItem={({item, section, index}) => {
-              return (
-                <Item title={item} index={index} section={section} />
-                //<Text>{index}</Text>
-              );
-            }}
-            renderSectionHeader={({section: {title}}) => (
-              <Text style={styles.header}>
-                {moment(title).format('DD/MM/YYYY')}
-              </Text>
-            )}
-          />
-          
-        )}
-        </> */}
 
         {isLoading ? (
           <View style={{flex: 1, justifyContent: 'center'}}>
@@ -502,7 +607,8 @@ const CallScreen = props => {
                 }}
                 renderSectionHeader={({section: {title}}) => (
                   <Text style={styles.header}>
-                    {moment(title).format('DD/MM/YYYY')}
+                    {/* {moment(title).format('DD/MM/YYYY')} */}
+                    {title}
                   </Text>
                 )}
               />
@@ -521,7 +627,10 @@ const CallScreen = props => {
 
         <TouchableOpacity
           activeOpacity={0.5}
-          onPress={() => sizeSheet.current.open()}
+          onPress={() => {
+            sizeSheet.current.open();
+            setOpen(false);
+          }}
           style={styles.actionStyle}>
           <LinearGradient
             colors={['#6FB3FF', '#7F5AFF']}
@@ -539,18 +648,6 @@ const CallScreen = props => {
         ref={sizeSheet}
         closeOnDragDown={false}
         closeOnPressMask={true}
-        onClose={async () => {
-          if (isString.length == 13) {
-            let call = TwilioVoice.connect(twilioToken, {
-              phoneNumber: isString,
-              from_number: value,
-            });
-            console.log('Call:   ', await call);
-            props.navigation.replace('CallStart', {
-              name: isString,
-            });
-          }
-        }}
         height={hp(65)}
         customStyles={{
           container: {
@@ -559,7 +656,6 @@ const CallScreen = props => {
             backgroundColor: 'white',
             borderColor: 'white',
             borderWidth: 1,
-            //zIndex: -1,
           },
         }}>
         <View
@@ -568,7 +664,13 @@ const CallScreen = props => {
             marginHorizontal: wp(8),
             marginTop: hp(5),
           }}>
-          <Text style={styles.dailerTextStyle}>{isString}</Text>
+          <Text
+            style={{
+              ...styles.dailerTextStyle,
+              fontSize: isString.length > 13 ? wp(8.5) : wp(9),
+            }}>
+            {isString}
+          </Text>
 
           <View style={styles.keyRowStyle}>
             <TouchableOpacity
@@ -670,14 +772,17 @@ const CallScreen = props => {
             //     ThreadId: null,
             //   })
             >
-              <BlueIcon />
+              {/* <BlueIcon /> */}
             </TouchableOpacity>
 
             <TouchableOpacity
               style={{marginLeft: wp(4)}}
               onPress={() => {
-                if (isString.length == 13) {
+                if (isString.length >= 10) {
                   sizeSheet.current.close();
+                  setTimeout(() => {
+                    setIsPopUp(true);
+                  }, 200);
                 } else {
                   Toast.show('Number is not valid', Toast.SHORT, [
                     'UIAlertController',
@@ -690,7 +795,7 @@ const CallScreen = props => {
 
             <TouchableOpacity
               onPress={() => concatinate('del')}
-              onLongPress={() => setisString('')}>
+              onLongPress={() => setIsString('')}>
               <Cross />
             </TouchableOpacity>
           </View>
@@ -801,7 +906,7 @@ const styles = {
     textAlign: 'right',
     color: 'black',
     fontFamily: fonts.regular,
-    fontSize: wp(9),
+
     fontWeight: '400',
     marginHorizontal: wp(4),
   },
@@ -852,5 +957,23 @@ const styles = {
     width: wp(50),
     alignSelf: 'center',
     marginTop: Platform.OS === 'ios' ? null : hp(3),
+  },
+  selectSim: {
+    width: wp(80),
+    maxheight: hp(35),
+    borderRadius: wp(4),
+    alignSelf: 'center',
+  },
+  selectSimTextStyle: {
+    color: 'black',
+    fontFamily: fonts.light,
+    fontSize: wp(5),
+  },
+  renderNumberStyle: {
+    color: 'black',
+    fontFamily: fonts.light,
+    fontSize: wp(4.5),
+    marginVertical: hp(2),
+    marginLeft: wp(5),
   },
 };

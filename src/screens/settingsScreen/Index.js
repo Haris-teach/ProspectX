@@ -2,31 +2,25 @@
 import React, {useEffect, useState} from 'react';
 import {
   ImageBackground,
-  View,
-  Text,
   Switch,
+  Text,
   TouchableOpacity,
+  View,
 } from 'react-native';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 import {useSelector} from 'react-redux';
-
+import Toast from 'react-native-simple-toast';
 //=================================== Local Import Files =======================================
 import AllStyles from '../../all_styles/All_Styles';
-import images from '../../assets/images/Images';
-import AppHeader from '../../components/AppHeadercomponent/Appheader';
 import colors from '../../assets/colors/Colors';
-import BackArrow from '../../assets/images/backarrow.svg';
 import fonts from '../../assets/fonts/Fonts';
-import {
-  ENABLE_NOTIFICATIONS,
-  SAVE,
-  SETTINGS,
-} from '../../constants/ConstStrings';
+import BackArrow from '../../assets/images/backarrow.svg';
+import images from '../../assets/images/Images';
 import GradientButton from '../../components/gradientButton/Button';
-
+import {SAVE} from '../../constants/ConstStrings';
 import HitApi from '../../HitApis/APIHandler';
 import {SETTING} from '../../HitApis/Urls';
 
@@ -47,17 +41,24 @@ const SettingsScreen = props => {
   const GetSettings = () => {
     setLoading(true);
 
-    HitApi(SETTING, 'GET', '', token).then(res => {
-      if (res.status == 1) {
-        setError(null);
+    HitApi(SETTING, 'GET', '', token)
+      .then(res => {
+        if (res.status == 1) {
+          setError(null);
+          setLoading(false);
+          setIsEmail(res.data.email_notification);
+          setIsSms(res.data.sms_notification);
+        } else {
+          setError(res.errors);
+          setLoading(false);
+        }
+      })
+      .catch(e => {
+        Toast.show('Resquest is not successfull', Toast.SHORT, [
+          'UIAlertController',
+        ]);
         setLoading(false);
-        setIsEmail(res.data.email_notification);
-        setIsSms(res.data.sms_notification);
-      } else {
-        setError(res.errors);
-        setLoading(false);
-      }
-    });
+      });
   };
 
   // ===================== END =================================
@@ -72,16 +73,23 @@ const SettingsScreen = props => {
       sms_notification: isSms,
     };
 
-    HitApi(SETTING, 'PUT', params, token).then(res => {
-      if (res.status == 1) {
-        setError(null);
+    HitApi(SETTING, 'PUT', params, token)
+      .then(res => {
+        if (res.status == 1) {
+          setError(null);
+          setLoading(false);
+          props.navigation.goBack();
+        } else {
+          setError(res.errors);
+          setLoading(false);
+        }
+      })
+      .catch(e => {
+        Toast.show('Resquest is not successfull', Toast.SHORT, [
+          'UIAlertController',
+        ]);
         setLoading(false);
-        props.navigation.goBack();
-      } else {
-        setError(res.errors);
-        setLoading(false);
-      }
-    });
+      });
   };
 
   //========== END =================================

@@ -46,15 +46,22 @@ const OtpScreen = props => {
     let params = {
       email: props.route.params.email,
     };
-    HitApi(GETOTP, 'post', params, token).then(res => {
-      //console.log('Response:   ', res.data);
-      if (res.status == 1) {
-        Toast.show(res.message, Toast.SHORT, ['UIAlertController']);
-      } else {
-        Toast.show(res.errors[0], Toast.SHORT, ['UIAlertController']);
-      }
-      setIsLoading(false);
-    });
+    HitApi(GETOTP, 'post', params, token)
+      .then(res => {
+        //console.log('Response:   ', res.data);
+        if (res.status == 1) {
+          Toast.show(res.message, Toast.SHORT, ['UIAlertController']);
+        } else {
+          Toast.show(res.errors[0], Toast.SHORT, ['UIAlertController']);
+        }
+        setIsLoading(false);
+      })
+      .catch(e => {
+        Toast.show('Resquest is not successfull', Toast.SHORT, [
+          'UIAlertController',
+        ]);
+        setIsLoading(false);
+      });
   };
 
   // =============== END =======================
@@ -70,17 +77,24 @@ const OtpScreen = props => {
       Toast.show('Enter verification code', Toast.SHORT, ['UIAlertController']);
       setIsLoading(false);
     } else {
-      HitApi(OTPVERIFY, 'post', params, token).then(res => {
-        if (res.status == 1) {
-          props.navigation.navigate('ResetScreen', {
-            token: res.data.token,
-            email: props.route.params.email,
-          });
-        } else {
-          Toast.show(res.errors[0], Toast.SHORT, ['UIAlertController']);
-        }
-        setIsLoading(false);
-      });
+      HitApi(OTPVERIFY, 'post', params, token)
+        .then(res => {
+          if (res.status == 1) {
+            props.navigation.navigate('ResetScreen', {
+              token: res.data.token,
+              email: props.route.params.email,
+            });
+          } else {
+            Toast.show(res.errors[0], Toast.SHORT, ['UIAlertController']);
+          }
+          setIsLoading(false);
+        })
+        .catch(e => {
+          Toast.show('Resquest is not successfull', Toast.SHORT, [
+            'UIAlertController',
+          ]);
+          setIsLoading(false);
+        });
     }
   };
 

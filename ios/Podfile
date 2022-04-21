@@ -6,16 +6,19 @@ platform :ios, '11.0'
 target 'ProspectX' do
   config = use_native_modules!
 
+  pod 'TwilioVoice'
   use_react_native!(
     :path => config[:reactNativePath],
     # to enable hermes on iOS, change `false` to `true` and then install pods
     :hermes_enabled => false
   )
 
-  target 'ProspectXTests' do
-    inherit! :complete
-    # Pods for testing
-  end
+  
+
+  # target 'ProspectXTests' do
+  #   inherit! :complete
+  #   # Pods for testing
+  # end
 
   # Enables Flipper.
   #

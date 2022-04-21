@@ -1,52 +1,40 @@
-import React, {useState, useEffect} from 'react';
+import {useIsFocused} from '@react-navigation/native';
+import moment from 'moment';
+import React, {useEffect, useState} from 'react';
 import {
-  View,
-  Text,
-  SafeAreaView,
-  TouchableOpacity,
-  ImageBackground,
-  SectionList,
   ActivityIndicator,
-  StatusBar,
   FlatList,
+  ImageBackground,
   Platform,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
+import CalendarPicker from 'react-native-calendar-picker';
+import LinearGradient from 'react-native-linear-gradient';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
-import CalendarPicker from 'react-native-calendar-picker';
 import {Dialog} from 'react-native-simple-dialogs';
-import moment from 'moment';
-import {FloatingAction} from 'react-native-floating-action';
+
 import Toast from 'react-native-simple-toast';
-import LinearGradient from 'react-native-linear-gradient';
-import {GETEMAIL, GETEMAILTHREADS} from '../../HitApis/Urls';
-import HitApi from '../../HitApis/APIHandler';
-import {useSelector, useDispatch} from 'react-redux';
-import {useIsFocused} from '@react-navigation/native';
-
-// ================local import=================
-
-import RNSearch from '../../components/RNSearch/RNSearch';
-import images from '../../assets/images/Images';
+import {useDispatch, useSelector} from 'react-redux';
 import colors from '../../assets/colors/Colors';
 import fonts from '../../assets/fonts/Fonts';
-import RNDropDown from '../../components/RNDropDown/RnDropDown';
-import {GetEmails} from '../../redux/Actions/commonAction';
-import AppHeader from '../../components/AppHeadercomponent/Appheader';
-// =============================================
-
-// ============SVG Imports===================
-
-import Menu from '../../assets/svg/menu.svg';
+import images from '../../assets/images/Images';
 import Bell from '../../assets/svg/bell.svg';
-import Pen from '../../assets/svg/pen.svg';
-import Dilar from '../../assets/svg/dilar';
-import Contact from '../../assets/svg/contact.svg';
 import Email from '../../assets/svg/email.svg';
-import {playSampleSound} from 'react-native-notification-sounds';
-import {GetTabLocation} from '../../redux/Actions/commonAction';
+// =============================================
+// ============SVG Imports===================
+import Menu from '../../assets/svg/menu.svg';
+import Pen from '../../assets/svg/pen.svg';
+import AppHeader from '../../components/AppHeadercomponent/Appheader';
+import RNDropDown from '../../components/RNDropDown/RnDropDown';
+import HitApi from '../../HitApis/APIHandler';
+import {GETEMAIL, GETEMAILTHREADS} from '../../HitApis/Urls';
+import {GetEmails} from '../../redux/Actions/commonAction';
+
 // =========================================
 
 const MailScreen = props => {
@@ -64,8 +52,6 @@ const MailScreen = props => {
 
   const renderItem = ({item}) => {
     let Split = moment(item.latesttime).format('DD/MM/YYYY');
-    let firstMail = '';
-    let secondMail = '';
     let receiverEmail = items.includes(item.first) ? item.second : item.first;
     let senderEmail = items.includes(item.first) ? item.first : item.second;
 
@@ -105,19 +91,26 @@ const MailScreen = props => {
   const isFocused = useIsFocused();
 
   useEffect(() => {
-    HitApi(GETEMAIL, 'get', '', token).then(res => {
-      if (res.status == 1) {
-        res.data.forEach((element, index) => {
-          const obj = {id: index + 1, label: element, value: element};
-          items.push(obj);
-          setItems(items);
-        });
-        console.log(items);
-        dispatch(GetEmails(items));
-      } else {
-        setItems([]);
-      }
-    });
+    HitApi(GETEMAIL, 'get', '', token)
+      .then(res => {
+        if (res.status == 1) {
+          res.data.forEach((element, index) => {
+            const obj = {id: index + 1, label: element, value: element};
+            items.push(obj);
+            setItems(items);
+          });
+          console.log(items);
+          dispatch(GetEmails(items));
+        } else {
+          setItems([]);
+        }
+      })
+      .catch(e => {
+        Toast.show('Resquest is not successfull', Toast.SHORT, [
+          'UIAlertController',
+        ]);
+        setIsLoading(false);
+      });
   }, []);
 
   useEffect(() => {
@@ -136,7 +129,7 @@ const MailScreen = props => {
       },
       pagination: {
         page_number: page,
-        page_size: 10,
+        page_size: 70,
       },
     };
 
@@ -293,7 +286,7 @@ const MailScreen = props => {
                   showsVerticalScrollIndicator={false}
                   onRefresh={() => GetEmailThreads('All')}
                   renderItem={renderItem}
-                  keyExtractor={item => item.latesttime}
+                  keyExtractor={(item, index) => item.latesttime + index}
                 />
               )}
             </>

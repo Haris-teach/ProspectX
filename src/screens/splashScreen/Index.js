@@ -5,7 +5,6 @@ import {ImageBackground, Image} from 'react-native';
 //====================================== Local Import Files ===========================================
 import Styles from './Styles';
 import images from '../../assets/images/Images';
-import {LOGIN_SCREEN} from '../../constants/Navigator';
 
 const SplashScreen = props => {
   useEffect(() => {

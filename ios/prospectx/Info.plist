@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+	<array>
+		<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -37,12 +41,16 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSContactsUsageDescription</key>
+	<string>Access contacts list for voip call from app</string>
 	<key>NSDocumentsFolderUsageDescription</key>
 	<string>Prospectx want to access your document</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>ProspectX want to access your location for getting user current location</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>using microphone for voice call using twilio service</string>
+	<key>NSUserActivityTypes</key>
+	<string>INStartCallIntent</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>SFProDisplay-Heavy.ttf</string>
@@ -55,6 +63,7 @@
 	<array>
 		<string>audio</string>
 		<string>fetch</string>
+		<string>processing</string>
 		<string>remote-notification</string>
 		<string>voip</string>
 	</array>

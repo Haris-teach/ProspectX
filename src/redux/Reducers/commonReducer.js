@@ -1,4 +1,3 @@
-import {act} from 'react-test-renderer';
 import {
   GET_ALL_EMAILS,
   GET_ALL_NUMBERS,
@@ -7,7 +6,13 @@ import {
 } from '../Actions/actionType';
 
 const INITIAL_STATE = {
-  Numbers: 'Hello',
+  Numbers: [
+    {
+      id: 0,
+      label: 'All',
+      value: 'All',
+    },
+  ],
   notiNumber: 0,
   emails: 'Empty',
   twilioToken: '',
@@ -38,12 +43,6 @@ export default (state = INITIAL_STATE, action) => {
         notiNumber: action.payload,
       };
     }
-    // case GET_NOTINUMBER: {
-    //   return {
-    //     ...state,
-    //     notiNumber: action.payload,
-    //   };
-    // }
 
     default:
       return state;

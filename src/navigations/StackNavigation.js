@@ -1,28 +1,21 @@
 //=================================== React Native Import Files =====================
 
 import React, {useRef, useEffect, useState} from 'react';
-import {
-  StatusBar,
-  AppState,
-  AppRegistry,
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
+import {View, Text, Image, TouchableOpacity} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {useSelector, useDispatch} from 'react-redux';
-import io from 'socket.io-client';
+// import io from 'socket.io-client';
 import messaging from '@react-native-firebase/messaging';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import NotificationPopup from 'react-native-push-notification-popup';
-import {useNavigation} from '@react-navigation/native';
-
+import RNCallKeep from 'react-native-callkeep';
 //======================================= Local Import Files ===============================
 import LoginScreen from '../screens/loginScreen/Index';
 import SplashScreen from '../screens/splashScreen/Index';
-
+import HitApi from '../HitApis/APIHandler';
+import {logout} from '../redux/Actions/authActions';
+import {LOGOUT, CALL_TOKEN_API} from '../HitApis/Urls';
 import ForgotPassword from '../screens/forgotPassword/Index';
 import ResetPassword from '../screens/resetPassword/Index';
 import TabScreen from '../navigations/BottomTabNavigation';
@@ -36,13 +29,8 @@ import NotificationScreen from '../screens/notificationScreen/notificationScreen
 import ChatScreen from '../screens/chatScreen/chatScreen';
 import MailInbox from '../screens/mailMsgScreen/mailMsgScreen';
 import NewMailScreen from '../screens/newMailScreen/newMailScreen';
-import {
-  GetNotiNumber,
-  GetTabLocation,
-  GetTwilioToken,
-} from '../redux/Actions/commonAction';
-
-import {BASE_URL} from '../HitApis/Urls';
+import {GetTwilioToken} from '../redux/Actions/commonAction';
+import uuid from 'uuid';
 
 import axios from 'axios';
 
@@ -53,22 +41,21 @@ const Stack = () => {
   const token = useSelector(state => state.authReducer.token);
   const notiNumber = useSelector(state => state.commonReducer.notiNumber);
 
-  // AppRegistry.registerHeadlessTask(
-  //   'RNFirebaseBackgroundMessage',
-  //   messaging().setBackgroundMessageHandler(async remoteMessage => {
-  //     console.log('Background notifications:    ', remoteMessage);
-  //     // dispatch(GetNotification(parseInt(NotifiNumber) + 1));
-  //     // handleNotification(remoteMessage);
-  //   }),
-  // );
-
   const [items, setItems] = useState([]);
   const location = useSelector(state => state.notPresistReducer.location);
+
+  const LogOut = async () => {
+    dispatch(logout());
+    await RNTwilioPhone.unregister();
+    await RNTwilioPhone.removeCall();
+    await RNTwilioPhone.removeCallKeepListeners();
+    await RNTwilioPhone.removeTwilioPhoneListeners();
+  };
 
   useEffect(() => {
     var config = {
       method: 'get',
-      url: 'https://4b78-182-185-252-125.ngrok.io/commmunication/call/token',
+      url: CALL_TOKEN_API,
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -76,11 +63,15 @@ const Stack = () => {
 
     axios(config)
       .then(function (res) {
-        console.log('Twilio Response is:   ', res.data.data.token);
-        dispatch(GetTwilioToken(res.data.data.token));
+        // console.log('Twilio Response is:   ', res.data.data.token);
+        // dispatch(GetTwilioToken(res.data.data.token));
+
+        console.log('Twilio Response for toke is:   ', res.data);
+        dispatch(GetTwilioToken(res.data.token));
       })
       .catch(function (error) {
-        console.log('error:  ', error);
+        console.log('error::::::  ', error.response.status);
+        LogOut();
       });
   }, [isLogin]);
 
@@ -119,21 +110,8 @@ const Stack = () => {
     })
     .catch(reason => console.log('App::getInitialNotification', reason));
 
-  // messaging().onNotificationOpenedApp(remoteMessage => {
-  //   console.log('onNotification open MESSAGE:   ', remoteMessage);
-  //   dispatch(GetTabLocation('Message'));
-  //   //handleNotification(remoteMessage);
-  // });
-
-  messaging().setBackgroundMessageHandler(async remoteMessage => {
-    console.log('Background notifications:    ', remoteMessage);
-    // dispatch(GetNotiNumber(1));
-    // handleNotification(remoteMessage);
-  });
-
   useEffect(() => {
     const unsubscribe = messaging().onMessage(remoteMessage => {
-      //dispatch(GetNotiNumber(1));
       console.log('unSubcribe  MESSAGE:   ', remoteMessage);
       handleNotification(remoteMessage);
     });
@@ -142,6 +120,42 @@ const Stack = () => {
       unsubscribe();
     };
   }, []);
+
+  const getNewUuid = () => uuid.v4().toLowerCase();
+  messaging().setBackgroundMessageHandler(async remoteMessage => {
+    console.log('Background notifications:    ', remoteMessage);
+
+    const callUUID = getNewUuid();
+
+    // if (Platform.OS === 'android') {
+    // NativeModules.RNCallKeep.displayIncomingCall(callUUID, remoteMessage.data.twi_from, remoteMessage.data.twi_from, 'number', false);
+
+    RNCallKeep.displayIncomingCall(
+      callUUID,
+      remoteMessage.data.twi_from,
+      remoteMessage.data.twi_from,
+      'number',
+      false,
+    );
+
+    // }
+    // else {
+    // NativeModules.RNCallKeep.displayIncomingCall(callUUID, remoteMessage.data.twi_from, 'number', remoteMessage.data.twi_from, false, remoteMessage.data.twi_from);
+    // NativeModules.RNCallKeep.displayIncomingCall(callUUID, callSid, 'app', "generic", false);
+    // RCT_EXPORT_METHOD(displayIncomingCall:(NSString *)uuidString
+    //                          handle:(NSString *)handle
+    //                      handleType:(NSString *)handleType
+    //                        hasVideo:(BOOL)hasVideo
+    //             localizedCallerName:(NSString * _Nullable)localizedCallerName
+    //                 supportsHolding:(BOOL)supportsHolding
+    //                    supportsDTMF:(BOOL)supportsDTMF
+    //                supportsGrouping:(BOOL)supportsGrouping
+    //              supportsUngrouping:(BOOL)supportsUngrouping)
+    // }
+
+    // NativeModules.RNCallKeep.displayIncomingCall(TwilioPhone.getCallUUID())
+    // NativeModules.RNCallKeep.displayIncomingCall(callUUID, remoteMessage.data.twi_from, remoteMessage.data.twi_from)
+  });
 
   const AfterLoginAppContainer = () => {
     return (
@@ -186,6 +200,7 @@ const Stack = () => {
       </NavigationContainer>
     );
   };
+
   const handleNotification = remoteMessage => {
     popup.current.show({
       appIconSource: null,

@@ -62,7 +62,7 @@ const RNDropDown = props => {
                 //backgroundColor: 'red',
               }}>
               {item.item.id == 0
-                ? null
+                ? props.svg
                 : item.item.id % 2 == 0
                 ? props.svg
                 : props.svg2}

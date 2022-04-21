@@ -41,11 +41,11 @@ import fonts from '../../assets/fonts/Fonts';
 
 const ChangePassword = props => {
   const token = useSelector(state => state.authReducer.token);
-  const [isMessage, setIsMessage] = useState('');
+  const [loading, setLoading] = useState(false);
 
   //============= Funtion for Change PAssword  ======================
   const PasswordChange = v => {
-    //setLoading(true);
+    setLoading(true);
 
     let params = {
       old_password: v.oldPassword,
@@ -53,17 +53,25 @@ const ChangePassword = props => {
       password_confirmation: v.confirmPassword,
     };
 
-    HitApi(CHANGEPASS, 'PUT', params, token).then(res => {
-      if (res.status == 1) {
-        Toast.showWithGravity(
-          JSON.stringify(res.message),
-          Toast.SHORT,
-          Toast.BOTTOM,
-        );
-      } else {
-        Toast.showWithGravity(res.errors, Toast.SHORT, Toast.BOTTOM);
-      }
-    });
+    HitApi(CHANGEPASS, 'PUT', params, token)
+      .then(res => {
+        if (res.status == 1) {
+          Toast.showWithGravity(
+            JSON.stringify(res.message),
+            Toast.SHORT,
+            Toast.BOTTOM,
+          );
+        } else {
+          Toast.showWithGravity(res.errors, Toast.SHORT, Toast.BOTTOM);
+        }
+        setLoading(true);
+      })
+      .catch(e => {
+        Toast.show('Resquest is not successfull', Toast.SHORT, [
+          'UIAlertController',
+        ]);
+        setLoading(false);
+      });
   };
   //===================== END ====================
 
@@ -122,9 +130,7 @@ const ChangePassword = props => {
             initialValues={userInfo}
             validationSchema={validationSchema}
             onSubmit={(values, {resetForm}) => {
-              //props.navigation.navigate('LoginScreen');
               PasswordChange(values);
-              // setIsMessage('');
               resetForm();
             }}>
             {({
@@ -179,7 +185,6 @@ const ChangePassword = props => {
 
                   <View style={styles.btnStyle}>
                     <GradientButton
-                      // onPress={() => alert('Login Pressed')}
                       onPress={() => {
                         handleSubmit();
                       }}

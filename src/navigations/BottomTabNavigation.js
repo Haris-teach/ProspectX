@@ -1,18 +1,14 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import React, {useEffect} from 'react';
-import {Platform, StyleSheet, Dimensions, TouchableOpacity} from 'react-native';
+import React from 'react';
+import {Platform, StyleSheet, Dimensions} from 'react-native';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
-import {GetTabLocation} from '../redux/Actions/commonAction';
-import {useSelector, useDispatch} from 'react-redux';
-import {useNavigation} from '@react-navigation/native';
+import {useDispatch} from 'react-redux';
 
 // =======================local import=========================
 
-import CallStart from '../screens/startCallScreen/Index';
-import ProfileScreen from '../screens/profileScreen/Index';
 import CallScreen from '../screens/callScreen/callScreen';
 import MsgScreen from '../screens/msgScreen/MsgScreen';
 import MailScreen from '../screens/mailScreen/mailScreen';
@@ -32,13 +28,10 @@ import MailFill from '../assets/svg/mailfill.svg';
 
 const Tab = createBottomTabNavigator();
 const customTabBarStyle = {
-  //tabBarActiveBackgroundColor: 'red',
   tabBarShowLabel: false,
   headerShown: false,
   tabBarStyle: {
     backgroundColor: 'rgba(127, 90, 255, 1)',
-    // borderTopLeftRadius: 25,
-    // borderTopRightRadius: 25,
     borderRadius: wp(10),
     marginHorizontal: wp(6),
     position: 'absolute',
@@ -86,7 +79,7 @@ const TabScreen = () => {
                   : height_screen == 736
                   ? hp(0)
                   : -hp(3.5)
-                : hp(1),
+                : hp(0),
           },
         }}
       />
@@ -114,7 +107,7 @@ const TabScreen = () => {
                   : height_screen == 736
                   ? hp(0)
                   : -hp(3.5)
-                : hp(1),
+                : hp(0),
           },
         }}
       />
@@ -138,7 +131,7 @@ const TabScreen = () => {
                   : height_screen == 736
                   ? hp(0)
                   : -hp(3.5)
-                : hp(1),
+                : hp(0),
           },
         }}
       />

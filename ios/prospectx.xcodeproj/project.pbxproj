@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		00E356F31AD99517003FC87E /* ProspectXTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* ProspectXTests.m */; };
+		0487497A28084D0600E6FA6C /* CallKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0487497928084D0600E6FA6C /* CallKit.framework */; };
+		0487497C28084D0E00E6FA6C /* Intents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0487497B28084D0E00E6FA6C /* Intents.framework */; };
+		0487497E280850CA00E6FA6C /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0487497D280850CA00E6FA6C /* File.swift */; };
 		04D06B5E27AD5361001FB0AC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 04D06B5D27AD5361001FB0AC /* GoogleService-Info.plist */; };
 		06AD07EE96FD4FFF83EEBC7D /* SFProDisplay-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 78C36DC605EC463BA9684000 /* SFProDisplay-Medium.ttf */; };
 		131D11427A834BEE960027BD /* SFProText-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7985076008624B06AB8B8854 /* SFProText-Regular.ttf */; };
@@ -16,26 +18,15 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		215B66FAF9D644FD8C659C4A /* SFProDisplay-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DBE03D62C71241F580D46CA8 /* SFProDisplay-Light.ttf */; };
 		836AAE7E9C4040C7A0A10E62 /* SFProDisplay-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 50508EBEAE764880AF560903 /* SFProDisplay-Semibold.ttf */; };
-		A34C6AFB9A9FBF8D45DA0AFF /* libPods-ProspectX-ProspectXTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D8BD889C31E1E1C9B0CF84B /* libPods-ProspectX-ProspectXTests.a */; };
 		E208FBD6963448B9995AEB0E /* SFProDisplay-Heavy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 165011729A894A04A8288250 /* SFProDisplay-Heavy.ttf */; };
 		EF7F404E30DC69427A5508F9 /* libPods-ProspectX.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E2823CDABC47D9AEBCAE4DFB /* libPods-ProspectX.a */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		00E356F41AD99517003FC87E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
-			remoteInfo = ProspectX;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
-		00E356EE1AD99517003FC87E /* ProspectXTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ProspectXTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		00E356F21AD99517003FC87E /* ProspectXTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProspectXTests.m; sourceTree = "<group>"; };
 		0467DD4727A27AD700C7AB07 /* ProspectX.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = ProspectX.entitlements; path = ProspectX/ProspectX.entitlements; sourceTree = "<group>"; };
+		0487497928084D0600E6FA6C /* CallKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CallKit.framework; path = System/Library/Frameworks/CallKit.framework; sourceTree = SDKROOT; };
+		0487497B28084D0E00E6FA6C /* Intents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Intents.framework; path = System/Library/Frameworks/Intents.framework; sourceTree = SDKROOT; };
+		0487497D280850CA00E6FA6C /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		04D06B5D27AD5361001FB0AC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* ProspectX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProspectX.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ProspectX/AppDelegate.h; sourceTree = "<group>"; };
@@ -45,12 +36,9 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ProspectX/main.m; sourceTree = "<group>"; };
 		165011729A894A04A8288250 /* SFProDisplay-Heavy.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SFProDisplay-Heavy.ttf"; path = "../src/assets/Fonts/SFProDisplay-Heavy.ttf"; sourceTree = "<group>"; };
 		27F0D76C1681AB9455E96106 /* Pods-ProspectX.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProspectX.debug.xcconfig"; path = "Target Support Files/Pods-ProspectX/Pods-ProspectX.debug.xcconfig"; sourceTree = "<group>"; };
-		4FA68CC3C967BC3D1CDB43D5 /* Pods-ProspectX-ProspectXTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProspectX-ProspectXTests.release.xcconfig"; path = "Target Support Files/Pods-ProspectX-ProspectXTests/Pods-ProspectX-ProspectXTests.release.xcconfig"; sourceTree = "<group>"; };
 		50508EBEAE764880AF560903 /* SFProDisplay-Semibold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SFProDisplay-Semibold.ttf"; path = "../src/assets/Fonts/SFProDisplay-Semibold.ttf"; sourceTree = "<group>"; };
-		6D8BD889C31E1E1C9B0CF84B /* libPods-ProspectX-ProspectXTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ProspectX-ProspectXTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		78C36DC605EC463BA9684000 /* SFProDisplay-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SFProDisplay-Medium.ttf"; path = "../src/assets/Fonts/SFProDisplay-Medium.ttf"; sourceTree = "<group>"; };
 		7985076008624B06AB8B8854 /* SFProText-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SFProText-Regular.ttf"; path = "../src/assets/Fonts/SFProText-Regular.ttf"; sourceTree = "<group>"; };
-		A8A00C5D33A3AF7F5383FEA3 /* Pods-ProspectX-ProspectXTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProspectX-ProspectXTests.debug.xcconfig"; path = "Target Support Files/Pods-ProspectX-ProspectXTests/Pods-ProspectX-ProspectXTests.debug.xcconfig"; sourceTree = "<group>"; };
 		DBE03D62C71241F580D46CA8 /* SFProDisplay-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SFProDisplay-Light.ttf"; path = "../src/assets/Fonts/SFProDisplay-Light.ttf"; sourceTree = "<group>"; };
 		E2823CDABC47D9AEBCAE4DFB /* libPods-ProspectX.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ProspectX.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -58,18 +46,12 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		00E356EB1AD99517003FC87E /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				A34C6AFB9A9FBF8D45DA0AFF /* libPods-ProspectX-ProspectXTests.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		13B07F8C1A680F5B00A75B9A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0487497C28084D0E00E6FA6C /* Intents.framework in Frameworks */,
+				0487497A28084D0600E6FA6C /* CallKit.framework in Frameworks */,
 				EF7F404E30DC69427A5508F9 /* libPods-ProspectX.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -77,23 +59,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		00E356EF1AD99517003FC87E /* ProspectXTests */ = {
-			isa = PBXGroup;
-			children = (
-				00E356F21AD99517003FC87E /* ProspectXTests.m */,
-				00E356F01AD99517003FC87E /* Supporting Files */,
-			);
-			path = ProspectXTests;
-			sourceTree = "<group>";
-		};
-		00E356F01AD99517003FC87E /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				00E356F11AD99517003FC87E /* Info.plist */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
 		13B07FAE1A68108700A75B9A /* ProspectX */ = {
 			isa = PBXGroup;
 			children = (
@@ -110,9 +75,10 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0487497B28084D0E00E6FA6C /* Intents.framework */,
+				0487497928084D0600E6FA6C /* CallKit.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				E2823CDABC47D9AEBCAE4DFB /* libPods-ProspectX.a */,
-				6D8BD889C31E1E1C9B0CF84B /* libPods-ProspectX-ProspectXTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -127,10 +93,10 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				0487497D280850CA00E6FA6C /* File.swift */,
 				04D06B5D27AD5361001FB0AC /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* ProspectX */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
-				00E356EF1AD99517003FC87E /* ProspectXTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				D0DC29562C2AC6495DA53186 /* Pods */,
@@ -145,7 +111,6 @@
 			isa = PBXGroup;
 			children = (
 				13B07F961A680F5B00A75B9A /* ProspectX.app */,
-				00E356EE1AD99517003FC87E /* ProspectXTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -155,8 +120,6 @@
 			children = (
 				27F0D76C1681AB9455E96106 /* Pods-ProspectX.debug.xcconfig */,
 				F780C2DE098B946071E3E045 /* Pods-ProspectX.release.xcconfig */,
-				A8A00C5D33A3AF7F5383FEA3 /* Pods-ProspectX-ProspectXTests.debug.xcconfig */,
-				4FA68CC3C967BC3D1CDB43D5 /* Pods-ProspectX-ProspectXTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -176,27 +139,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		00E356ED1AD99517003FC87E /* ProspectXTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "ProspectXTests" */;
-			buildPhases = (
-				90C9929EB397CF2F03821F00 /* [CP] Check Pods Manifest.lock */,
-				00E356EA1AD99517003FC87E /* Sources */,
-				00E356EB1AD99517003FC87E /* Frameworks */,
-				00E356EC1AD99517003FC87E /* Resources */,
-				5B38A0CE38564387D0C35279 /* [CP] Embed Pods Frameworks */,
-				86E0D6867542D4E16F65FF7E /* [CP] Copy Pods Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				00E356F51AD99517003FC87E /* PBXTargetDependency */,
-			);
-			name = ProspectXTests;
-			productName = ProspectXTests;
-			productReference = 00E356EE1AD99517003FC87E /* ProspectXTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 		13B07F861A680F5B00A75B9A /* ProspectX */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "ProspectX" */;
@@ -226,18 +168,14 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1210;
+				LastUpgradeCheck = 1320;
 				TargetAttributes = {
-					00E356ED1AD99517003FC87E = {
-						CreatedOnToolsVersion = 6.2;
-						TestTargetID = 13B07F861A680F5B00A75B9A;
-					};
 					13B07F861A680F5B00A75B9A = {
 						LastSwiftMigration = 1120;
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "ProspectX" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "prospectx" */;
 			compatibilityVersion = "Xcode 12.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -251,19 +189,11 @@
 			projectRoot = "";
 			targets = (
 				13B07F861A680F5B00A75B9A /* ProspectX */,
-				00E356ED1AD99517003FC87E /* ProspectXTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		00E356EC1AD99517003FC87E /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		13B07F8E1A680F5B00A75B9A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -295,23 +225,6 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nexport NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
-		5B38A0CE38564387D0C35279 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ProspectX-ProspectXTests/Pods-ProspectX-ProspectXTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ProspectX-ProspectXTests/Pods-ProspectX-ProspectXTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ProspectX-ProspectXTests/Pods-ProspectX-ProspectXTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		807745064C3C41A635EA07FD /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -328,45 +241,6 @@
 			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-ProspectX-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		86E0D6867542D4E16F65FF7E /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ProspectX-ProspectXTests/Pods-ProspectX-ProspectXTests-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ProspectX-ProspectXTests/Pods-ProspectX-ProspectXTests-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ProspectX-ProspectXTests/Pods-ProspectX-ProspectXTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		90C9929EB397CF2F03821F00 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-ProspectX-ProspectXTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -442,85 +316,19 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		00E356EA1AD99517003FC87E /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				00E356F31AD99517003FC87E /* ProspectXTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		13B07F871A680F5B00A75B9A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				0487497E280850CA00E6FA6C /* File.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		00E356F51AD99517003FC87E /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 13B07F861A680F5B00A75B9A /* ProspectX */;
-			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin XCBuildConfiguration section */
-		00E356F61AD99517003FC87E /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = A8A00C5D33A3AF7F5383FEA3 /* Pods-ProspectX-ProspectXTests.debug.xcconfig */;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = ProspectXTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-lc++",
-					"$(inherited)",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ProspectX.app/ProspectX";
-			};
-			name = Debug;
-		};
-		00E356F71AD99517003FC87E /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4FA68CC3C967BC3D1CDB43D5 /* Pods-ProspectX-ProspectXTests.release.xcconfig */;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				COPY_PHASE_STRIP = NO;
-				INFOPLIST_FILE = ProspectXTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-lc++",
-					"$(inherited)",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ProspectX.app/ProspectX";
-			};
-			name = Release;
-		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 27F0D76C1681AB9455E96106 /* Pods-ProspectX.debug.xcconfig */;
@@ -528,7 +336,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = ProspectX/ProspectX.entitlements;
-				CURRENT_PROJECT_VERSION = 1.0;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = 5USTH72R3N;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = ProspectX/Info.plist;
@@ -536,7 +344,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.01;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -557,14 +365,15 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = ProspectX/ProspectX.entitlements;
-				CURRENT_PROJECT_VERSION = 1.0;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = 5USTH72R3N;
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = ProspectX/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.01;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -626,7 +435,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",
@@ -684,7 +493,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",
@@ -696,6 +505,7 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -703,15 +513,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "ProspectXTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				00E356F61AD99517003FC87E /* Debug */,
-				00E356F71AD99517003FC87E /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "ProspectX" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -719,16 +520,16 @@
 				13B07F951A680F5B00A75B9A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "ProspectX" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "prospectx" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,
 				83CBBA211A601CBA00E9B192 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};

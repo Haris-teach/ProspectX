@@ -7,19 +7,18 @@ import {
   Text,
   TouchableOpacity,
   ScrollView,
-  TextInput,
   KeyboardAvoidingView,
   Platform,
   Keyboard,
-  ActivityIndicator,
 } from 'react-native';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import * as yup from 'yup';
 import {Formik} from 'formik';
+import Toast from 'react-native-simple-toast';
 
 //========================================== Local Import Files ===================================
 import images from '../../assets/images/Images';
@@ -81,25 +80,32 @@ const LoginScreen = props => {
     let params = {
       email: v.email,
       password: v.password,
-      fcm_token: fcmToken,
+      device_uuid: fcmToken,
     };
 
-    HitApi(LOGIN, 'POST', params).then(async res => {
-      if (res.status == 1) {
-        setError(null);
+    HitApi(LOGIN, 'POST', params)
+      .then(async res => {
+        if (res.status == 1) {
+          setError(null);
+          setLoading(false);
+          let token = res.data.auth.access_token;
+          let firstName = res.data.user.firstname;
+          let lastName = res.data.user.lastname;
+          let id = res.data.user.id;
+          let email = res.data.user.email;
+          dispatch(Login(token, '', firstName, lastName, id, email));
+          await AsyncStorage.setItem('Token', token);
+        } else {
+          setError(res.errors);
+          setLoading(false);
+        }
+      })
+      .catch(e => {
+        Toast.show('Resquest is not successfull', Toast.SHORT, [
+          'UIAlertController',
+        ]);
         setLoading(false);
-        let token = res.data.auth.access_token;
-        let firstName = res.data.user.firstname;
-        let lastName = res.data.user.lastname;
-        let id = res.data.user.id;
-        let email = res.data.user.email;
-        dispatch(Login(token, '', firstName, lastName, id, email));
-        await AsyncStorage.setItem('Token', token);
-      } else {
-        setError(res.errors);
-        setLoading(false);
-      }
-    });
+      });
   };
 
   //===================== END ====================

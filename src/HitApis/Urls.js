@@ -1,7 +1,5 @@
-//export const BASE_URL = 'https://app2.prospectx.com/';
-//export const BASE_URL = 'https://05ff-182-185-245-36.ngrok.io/';
-
-export const BASE_URL = 'px2b.prospectx.com';
+//export const BASE_URL = 'https://a6fa-182-185-169-220.ngrok.io/'; // Staging URL
+export const BASE_URL = 'https://px2b.prospectx.com/'; // Live URL
 
 export const LOGIN = BASE_URL + 'api/v1/login';
 export const SETTING = BASE_URL + 'api/v1/settings/notifications';
@@ -24,3 +22,5 @@ export const SENDNOTIFICATION =
   BASE_URL + 'api/v1/communication/firebase/send-notification';
 export const ISSEENNOTIFICATION = BASE_URL + 'api/v1/my/notifications';
 export const LOGOUT = BASE_URL + 'api/v1/logout/mobile';
+export const CALL_TOKEN_API =
+  BASE_URL + 'api/v1/commmunication/call/token?platform=' + Platform.OS;

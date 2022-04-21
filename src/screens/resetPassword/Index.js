@@ -1,38 +1,34 @@
 //==================================== React Native Import Files ==========================
+import {Formik} from 'formik';
 import React, {useState} from 'react';
 import {
-  KeyboardAvoidingView,
   ImageBackground,
+  KeyboardAvoidingView,
   ScrollView,
-  View,
-  TouchableOpacity,
   Text,
-  SafeAreaView,
-  Alert,
+  View,
 } from 'react-native';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
-import * as yup from 'yup';
-import {Formik} from 'formik';
-import {useSelector} from 'react-redux';
 import Toast from 'react-native-simple-toast';
+import {useSelector} from 'react-redux';
+import * as yup from 'yup';
 //=================================== Local Import Files
 import AllStyles from '../../all_styles/All_Styles';
-import BackArrow from '../../assets/images/backarrow.svg';
 import images from '../../assets/images/Images';
-import {
-  RESET_PASSWORD_TITLE,
-  RESET_PASSWORD_SUBTEXT,
-  ENTER_PASSWORD_LABEL,
-  PASSWORD_PLACEHOLDER,
-  ENTER_CONFIRM_PASSWORD_LABEL,
-  RESET_BUTTON_TEXT,
-} from '../../constants/ConstStrings';
-import PasswordField from '../../components/PasswordInput/PasswordInput';
 import Lock from '../../assets/images/lock.svg';
 import GradientButton from '../../components/gradientButton/Button';
+import PasswordField from '../../components/PasswordInput/PasswordInput';
+import {
+  ENTER_CONFIRM_PASSWORD_LABEL,
+  ENTER_PASSWORD_LABEL,
+  PASSWORD_PLACEHOLDER,
+  RESET_BUTTON_TEXT,
+  RESET_PASSWORD_SUBTEXT,
+  RESET_PASSWORD_TITLE,
+} from '../../constants/ConstStrings';
 import HitApi from '../../HitApis/APIHandler';
 import {PASSWORDREST} from '../../HitApis/Urls';
 
@@ -116,13 +112,7 @@ const ResetPassword = props => {
               return (
                 <>
                   <View style={{flex: 1}}>
-                    <View style={AllStyles.headerView}>
-                      {/* <TouchableOpacity
-                        onPress={() => props.navigation.goBack(null)}
-                        style={AllStyles.backArrowWidth}>
-                        <BackArrow />
-                      </TouchableOpacity> */}
-                    </View>
+                    <View style={AllStyles.headerView}></View>
 
                     <Text style={AllStyles.signinStyle}>
                       {RESET_PASSWORD_TITLE}
@@ -164,7 +154,6 @@ const ResetPassword = props => {
                   </View>
                   <View style={AllStyles.resetGradientView}>
                     <GradientButton
-                      //onPress={() => props.navigation.navigate('LoginScreen')}
                       onPress={handleSubmit}
                       title={RESET_BUTTON_TEXT}
                       condition={isLoading}

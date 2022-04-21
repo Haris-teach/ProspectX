@@ -73,14 +73,18 @@ const MsgScreen = props => {
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
 
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState([
+    {
+      id: 0,
+      label: 'All',
+      value: 'All',
+    },
+  ]);
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState([]);
   const [msgData, setMsgData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(1);
-  const [count, setCount] = useState(0);
-  const [pageSize, setPageSize] = useState(10);
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [isvisible, setIsVisible] = useState(false);
@@ -117,34 +121,12 @@ const MsgScreen = props => {
 
   // ============= END ==================
 
-  // console.log('PHONE NUMBERS:   ', PhoneNumbers);
-
-  //['+923346844455'],
-
-  // const GetAllNumbers = () => {
-  //   HitApi(GETPHONENUM, 'get', '', token).then(res => {
-  //     res.data.forEach(i => {
-  //       items.push({
-  //         id: i.id + 1,
-  //         label: i.label,
-  //         value: i.value,
-  //       });
-  //       setItems(items);
-  //     });
-  //     dispatch(GetNumbers(items));
-  //   });
-  // };
-
-  // useEffect(() => {
-  //   GetAllNumbers();
-  // }, []);
   // ============== GET all msgs threads function ================
 
   const MsgsThreads = pageVAl => {
     let params = {
       filters: {
         numbers: pageVAl === 'All' ? [] : [pageVAl],
-
         date: {
           start_date: startDate,
           end_date: endDate,
@@ -152,28 +134,35 @@ const MsgScreen = props => {
       },
       pagination: {
         page_number: page,
-        page_size: 10,
+        page_size: 70,
       },
     };
     // setIsLoading(true);
-    HitApi(MSGTHREADS, 'POST', params, token).then(res => {
-      if (res.status == 1) {
-        if (page == 1) {
-          setMsgData(res.data);
-          setStartDate('');
-          setEndDate('');
+    HitApi(MSGTHREADS, 'POST', params, token)
+      .then(res => {
+        if (res.status == 1) {
+          if (page == 1) {
+            setMsgData(res.data);
+            setStartDate('');
+            setEndDate('');
+          } else {
+            setMsgData([...msgData, ...res.data]);
+            setStartDate('');
+            setEndDate('');
+          }
+          setIsLoading(false);
         } else {
-          setMsgData([...msgData, ...res.data]);
+          setIsLoading(false);
           setStartDate('');
           setEndDate('');
         }
+      })
+      .catch(e => {
+        Toast.show('Resquest is not successfull', Toast.SHORT, [
+          'UIAlertController',
+        ]);
         setIsLoading(false);
-      } else {
-        setIsLoading(false);
-        setStartDate('');
-        setEndDate('');
-      }
-    });
+      });
   };
 
   useEffect(() => {
@@ -189,35 +178,29 @@ const MsgScreen = props => {
       // console.log('Trigger ho reha ha:', page, value);
       MsgsThreads(value);
     }
-    // setPageSize(5);
-    // MsgsThreads('All');
   };
-
-  //console.log(moment(startDate).isAfter(moment(endDate)));
 
   // ============= END ========================
 
   const renderItem = ({item, index}) => {
     let Split = moment(item.latesttime).format('DD/MM/YYYY');
-    //console.log(Split.split(':').length);
+
     let time = Split.split(':');
-    // console.log('ya loo', PhoneNumbers.includes(item.first))
-    let number = '';
-    PhoneNumbers.forEach((i, index) => {
-      if (i.value == item.first) {
-        number = item.second;
-      } else {
-        number = item.first;
-      }
-    });
-    //console.log('NUMBERS:   ', number);
+
+    let number = PhoneNumbers.includes(item.first) ? item.first : item.second;
+
     return (
       <>
         <TouchableOpacity
           style={styles.item}
           onPress={() => {
             props.navigation.navigate('Chat', {
-              Number: number,
+              Number: PhoneNumbers.includes(item.first)
+                ? item.second
+                : item.first,
+              secondNumber: PhoneNumbers.includes(item.first)
+                ? item.first
+                : item.second,
               ThreadId: item.thread_id,
             });
           }}>
@@ -329,8 +312,6 @@ const MsgScreen = props => {
       </Dialog>
     );
   };
-
-  const location = useSelector(state => state.notPresistReducer.location);
 
   return (
     <ImageBackground
@@ -454,15 +435,13 @@ const styles = {
   },
   containerStyle: {
     alignSelf: 'center',
-    //backgroundColor: 'red',
+
     width: wp(74),
   },
   mainContainer: {
     flex: 1,
-    //backgroundColor: 'red',
   },
   headerContainer: {
-    //backgroundColor: 'yellow',
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: hp(5),
@@ -493,7 +472,7 @@ const styles = {
   },
   listStyle: {
     flexDirection: 'row',
-    //backgroundColor: 'red',
+
     height: hp(6),
     justifyContent: 'space-between',
   },
@@ -523,7 +502,7 @@ const styles = {
     marginHorizontal: wp(2),
     marginVertical: 8,
     marginHorizontal: 16,
-    //backgroundColor: 'red',
+
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginVertical: hp(3),
@@ -535,13 +514,12 @@ const styles = {
     flex: 1,
     zIndex: Platform.OS == 'ios' ? -1 : 0,
     backgroundColor: 'rgba(255, 255, 255, 0.67)',
-    //backgroundColor: 'red',
+
     marginHorizontal: wp(6.5),
     borderRadius: wp(5),
     marginTop: hp(2),
     borderColor: '#FFFFFF',
     marginBottom: hp(8),
-    //height: hp(50),
   },
   nameStyle: {
     fontFamily: fonts.regular,

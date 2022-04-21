@@ -1,6 +1,6 @@
 //================================ React Native Import Files ============================
-import React, {useEffect, useState} from 'react';
-import {ImageBackground, Text, View, Vibration} from 'react-native';
+import React, { useEffect } from 'react';
+import { ImageBackground, Text, View, Vibration } from 'react-native';
 import SwipeButton from 'rn-swipe-button';
 import NotificationSounds, {
   playSampleSound,
@@ -11,14 +11,11 @@ import images from '../../assets/images/Images';
 import AllStyles from '../../all_styles/All_Styles';
 import colors from '../../assets/colors/Colors';
 import {
-  INCOMING_NUMBER,
   INCOMING_STATUS,
   SWIPEBTNTITLE,
 } from '../../constants/ConstStrings';
-import fonts from '../../assets/fonts/Fonts';
-import {CALL_START} from '../../constants/Navigator';
-import {widthPercentageToDP} from 'react-native-responsive-screen';
-import {SafeAreaView} from 'react-native-safe-area-context';
+// import TwilioVoice from 'react-native-twilio-programmable-voice'
+import {RNTwilioPhone, twilioPhoneEmitter } from 'react-native-twilio-phone';
 
 var timer = null;
 var setTime = null;
@@ -75,6 +72,166 @@ const IncomingCalls = props => {
   //   });
   // };
 
+  useEffect(()=>{
+    console.log("props==>", props.data);
+
+    const subscriptions = [
+      twilioPhoneEmitter.addListener('CallConnected', (data) => {
+        console.log(data);
+      }),
+      twilioPhoneEmitter.addListener('CallDisconnected', (data) => {
+        console.log(data);
+      }),
+      twilioPhoneEmitter.addListener('CallDisconnectedError', (data) => {
+        console.log(data);
+      }),
+    ];
+  
+    return () => {
+      subscriptions.map((subscription) => {
+        subscription.remove();
+      });
+    };
+
+    // addTwilioListeners();
+  },[])
+
+
+  // const addTwilioListeners = async () => {
+
+  //   // add listeners (flowtype notation)
+  //   TwilioVoice.addEventListener('deviceReady', () => {
+  //     // no data
+  //   })
+  //   TwilioVoice.addEventListener('deviceNotReady', (data) => {
+  //     // {
+  //     //     err: string
+  //     // }
+  //   })
+  //   TwilioVoice.addEventListener('connectionDidConnect', (data) => {
+  //     // {
+  //     //     call_sid: string,  // Twilio call sid
+  //     //     call_state: 'CONNECTED' | 'ACCEPTED' | 'CONNECTING' | 'RINGING' | 'DISCONNECTED' | 'CANCELLED',
+  //     //     call_from: string, // "+441234567890"
+  //     //     call_to: string,   // "client:bob"
+  //     // }
+  //   })
+  //   TwilioVoice.addEventListener('connectionIsReconnecting', (data) => {
+  //     // {
+  //     //     call_sid: string,  // Twilio call sid
+  //     //     call_from: string, // "+441234567890"
+  //     //     call_to: string,   // "client:bob"
+  //     // }
+
+  //   })
+  //   TwilioVoice.addEventListener('connectionDidReconnect', (data) => {
+  //     // {
+  //     //     call_sid: string,  // Twilio call sid
+  //     //     call_from: string, // "+441234567890"
+  //     //     call_to: string,   // "client:bob"
+  //     // }
+
+    
+  //   })
+  //   TwilioVoice.addEventListener('connectionDidDisconnect', (data) => {
+  //     //   | null
+  //     //   | {
+  //     //       err: string
+  //     //     }
+  //     //   | {
+  //     //         call_sid: string,  // Twilio call sid
+  //     //         call_state: 'CONNECTED' | 'ACCEPTED' | 'CONNECTING' | 'RINGING' | 'DISCONNECTED' | 'CANCELLED',
+  //     //         call_from: string, // "+441234567890"
+  //     //         call_to: string,   // "client:bob"
+  //     //         err?: string,
+  //     //     }
+
+  //     TwilioVoice.disconnect();
+  //     props.navigation.goBack();
+  //   })
+  //   TwilioVoice.addEventListener('callStateRinging', (data) => {
+  //     //   {
+  //     //       call_sid: string,  // Twilio call sid
+  //     //       call_state: 'CONNECTED' | 'ACCEPTED' | 'CONNECTING' | 'RINGING' | 'DISCONNECTED' | 'CANCELLED',
+  //     //       call_from: string, // "+441234567890"
+  //     //       call_to: string,   // "client:bob"
+  //     //   }
+  //   })
+  //   TwilioVoice.addEventListener('callInviteCancelled', (data) => {
+  //     //   {
+  //     //       call_sid: string,  // Twilio call sid
+  //     //       call_from: string, // "+441234567890"
+  //     //       call_to: string,   // "client:bob"
+  //     //   }
+  //   })
+
+  //   // iOS Only
+
+
+  //   TwilioVoice.addEventListener('callRejected', 'callRejected', () => { })
+
+
+  //   TwilioVoice.addEventListener('deviceDidReceiveIncoming', (data) => {
+  //     console.log("deviceDidReceiveIncoming111 callscreen",data)
+  //     // {
+  //     //     call_sid: string,  // Twilio call sid
+  //     //     call_from: string, // "+441234567890"
+  //     //     call_to: string,   // "client:bob"
+  //     // }
+
+
+  //     // Alert.alert(
+  //     //   //title
+  //     //   'Incoming Call',
+  //     //   //body
+  //     //   `${data.call_from} Calling`,
+  //     //   [
+  //     //     {
+  //     //       text: 'Accept',
+  //     //       onPress: () => {
+  //     //         TwilioVoice.accept();
+  //     //       }
+  //     //     },
+  //     //     {
+  //     //       text: 'Reject',
+  //     //       onPress: () => {
+  //     //         TwilioVoice.reject();
+
+  //     //       }
+  //     //     },
+  //     //   ],
+  //     //   {cancelable: false},
+  //     //   //clicking out side of alert will not cancel
+  //     // );
+
+  //     // props.navigation.navigate('InComming',data);
+
+      
+
+  //   })
+
+  //   // Android Only
+  //   TwilioVoice.addEventListener('proximity', (data) => {
+  //     // {
+  //     //     isNear: boolean
+  //     // }
+  //   })
+
+  //   // Android Only
+  //   TwilioVoice.addEventListener('wiredHeadset', (data) => {
+  //     // {
+  //     //     isPlugged: boolean,
+  //     //     hasMic: boolean,
+  //     //     deviceName: string
+  //     // }
+  //   })
+
+
+
+
+
+  // };
+
   return (
     <ImageBackground
       source={images.splashBackground}
@@ -91,17 +248,26 @@ const IncomingCalls = props => {
         <View style={AllStyles.incomingSwipeBtnStyle}>
           <SwipeButton
             enableRightToLeftSwipe={true}
-            onSwipeSuccess={() =>
-              props.navigation.replace('CallStart', {
-                name: props.route.params.name,
-              })
+            onSwipeSuccess={() => {
+              // TwilioVoice.accept();
+              // props.navigation.replace('CallStart', {
+              //   name: props.route.params.name,
+              // })
+              // RNTwilioPhone.a
             }
+            }
+
+            onSwipeFail={()=>{
+              // TwilioVoice.reject();
+              props.navigation.goBack();
+              RNTwilioPhone.cancel();
+            }}
             railBackgroundColor={colors.railbackgroundColor}
             railBorderColor={colors.whiteColor}
             railFillBackgroundColor={colors.railFillBackgroundColor}
             railFillBorderColor={colors.whiteColor}
             thumbIconBackgroundColor={colors.thumbIconBackgroundColor}
-            enableRightToLeftSwipe={30}
+            // enableRightToLeftSwipe={30}
             thumbIconBorderColor={'transparent'}
             shouldResetAfterSuccess={true}
             titleColor={colors.purpleColor}

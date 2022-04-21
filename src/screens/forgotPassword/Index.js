@@ -1,43 +1,37 @@
 //=========================================== React Native Import Files ========================
-import React from 'react';
-import {useState} from 'react';
+import {Formik} from 'formik';
+import React, {useState} from 'react';
 import {
-  View,
-  KeyboardAvoidingView,
   ImageBackground,
-  ScrollView,
+  KeyboardAvoidingView,
   Text,
-  SafeAreaView,
   TouchableOpacity,
-  ActivityIndicator,
+  View,
 } from 'react-native';
-import images from '../../assets/images/Images';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
-import {Formik} from 'formik';
-import * as yup from 'yup';
-import {useSelector} from 'react-redux';
 import Toast from 'react-native-simple-toast';
-//=========================================== Local Import Files ================================
-import styles from './Style';
+import {useSelector} from 'react-redux';
+import * as yup from 'yup';
+import AllStyles from '../../all_styles/All_Styles';
 import BackArrow from '../../assets/images/backarrow.svg';
+import images from '../../assets/images/Images';
+import User from '../../assets/images/user.svg';
+import GradientButton from '../../components/gradientButton/Button';
+import TextField from '../../components/textInput/TextInput';
 import {
   DESC_TEXT,
   EMAIL_LABEL,
   EMAIL_PLACEHOLDER,
   FORGOT_PASSWORD_TITLE,
-  RESEND_CODE,
   SUBMIT,
 } from '../../constants/ConstStrings';
-import User from '../../assets/images/user.svg';
-import TextField from '../../components/textInput/TextInput';
-import GradientButton from '../../components/gradientButton/Button';
-import {RESET_PASSWORD} from '../../constants/Navigator';
-import AllStyles from '../../all_styles/All_Styles';
 import HitApi from '../../HitApis/APIHandler';
 import {GETOTP} from '../../HitApis/Urls';
+//=========================================== Local Import Files ================================
+import styles from './Style';
 
 const ForgotPassword = props => {
   const token = useSelector(state => state.authReducer.token);
@@ -66,15 +60,22 @@ const ForgotPassword = props => {
     let params = {
       email: v.email,
     };
-    HitApi(GETOTP, 'post', params, token).then(res => {
-      //console.log('Response:   ', res.data);
-      if (res.status == 1) {
-        props.navigation.navigate('OtpScreen', {email: v.email});
-      } else {
-        Toast.show(res.errors[0], Toast.SHORT, ['UIAlertController']);
-      }
-      setIsLoading(false);
-    });
+    HitApi(GETOTP, 'post', params, token)
+      .then(res => {
+        //console.log('Response:   ', res.data);
+        if (res.status == 1) {
+          props.navigation.navigate('OtpScreen', {email: v.email});
+        } else {
+          Toast.show(res.errors[0], Toast.SHORT, ['UIAlertController']);
+        }
+        setIsLoading(false);
+      })
+      .catch(e => {
+        Toast.show('Resquest is not successfull', Toast.SHORT, [
+          'UIAlertController',
+        ]);
+        setIsLoading(false);
+      });
   };
 
   // ======================= END ===============================
