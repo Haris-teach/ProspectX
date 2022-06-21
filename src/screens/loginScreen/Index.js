@@ -87,12 +87,15 @@ const LoginScreen = props => {
       .then(async res => {
         if (res.status == 1) {
           setError(null);
+
           setLoading(false);
           let token = res.data.auth.access_token;
+
           let firstName = res.data.user.firstname;
           let lastName = res.data.user.lastname;
           let id = res.data.user.id;
           let email = res.data.user.email;
+          await AsyncStorage.setItem('token', token);
           dispatch(Login(token, '', firstName, lastName, id, email));
           await AsyncStorage.setItem('Token', token);
         } else {
@@ -140,12 +143,12 @@ const LoginScreen = props => {
           validationSchema={validationSchema}
           onSubmit={values => {
             Login_User(values);
-            //dispatch(Login('', '', '', '', '', ''));
           }}>
           {({
             handleChange,
             handleBlur,
             handleSubmit,
+            handleReset,
             values,
             touched,
             errors,
@@ -179,6 +182,7 @@ const LoginScreen = props => {
                         onChange={handleChange('email')}
                         onBlur={handleBlur('email')}
                         title={EMAIL_LABEL}
+                        value={email}
                         placeholder={EMAIL_PLACEHOLDER}
                         svg={<User marginVertical={hp(2)} />}
                       />
@@ -191,6 +195,7 @@ const LoginScreen = props => {
                         onChange={handleChange('password')}
                         onBlur={handleBlur('password')}
                         title={PASSWORD_LABEL}
+                        value={password}
                         placeholder={PASSWORD_PLACEHOLDER}
                         svg={<Lock marginVertical={hp(2)} />}
                       />
@@ -212,7 +217,10 @@ const LoginScreen = props => {
                       />
                     </View>
                     <TouchableOpacity
-                      onPress={() => props.navigation.navigate('ForgotScreen')}
+                      onPress={() => {
+                        handleReset();
+                        props.navigation.navigate('ForgotScreen');
+                      }}
                       style={styles.forgotView}>
                       <Text style={styles.forgotStyle}>
                         {FORGOT_PASSWORD_LABEL}

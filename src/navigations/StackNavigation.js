@@ -10,12 +10,13 @@ import messaging from '@react-native-firebase/messaging';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import NotificationPopup from 'react-native-push-notification-popup';
 import RNCallKeep from 'react-native-callkeep';
+import Toast from 'react-native-simple-toast';
 //======================================= Local Import Files ===============================
 import LoginScreen from '../screens/loginScreen/Index';
 import SplashScreen from '../screens/splashScreen/Index';
 import HitApi from '../HitApis/APIHandler';
-import {logout} from '../redux/Actions/authActions';
-import {LOGOUT, CALL_TOKEN_API} from '../HitApis/Urls';
+import {ExternalId, logout} from '../redux/Actions/authActions';
+import {LOGOUT, CALL_TOKEN_API, GET_EXTERNAL_ID} from '../HitApis/Urls';
 import ForgotPassword from '../screens/forgotPassword/Index';
 import ResetPassword from '../screens/resetPassword/Index';
 import TabScreen from '../navigations/BottomTabNavigation';
@@ -30,7 +31,8 @@ import ChatScreen from '../screens/chatScreen/chatScreen';
 import MailInbox from '../screens/mailMsgScreen/mailMsgScreen';
 import NewMailScreen from '../screens/newMailScreen/newMailScreen';
 import {GetTwilioToken} from '../redux/Actions/commonAction';
-import uuid from 'uuid';
+import {RNTwilioPhone} from 'react-native-twilio-phone';
+import uuid from 'react-native-uuid';
 
 import axios from 'axios';
 
@@ -39,17 +41,31 @@ const Stack = () => {
   const dispatch = useDispatch();
   const isLogin = useSelector(state => state.authReducer.isLogin);
   const token = useSelector(state => state.authReducer.token);
-  const notiNumber = useSelector(state => state.commonReducer.notiNumber);
-
-  const [items, setItems] = useState([]);
-  const location = useSelector(state => state.notPresistReducer.location);
+  const externalId = useSelector(state => state.authReducer.externalId);
+  const userId = useSelector(state => state.authReducer.id);
 
   const LogOut = async () => {
-    dispatch(logout());
-    await RNTwilioPhone.unregister();
-    await RNTwilioPhone.removeCall();
-    await RNTwilioPhone.removeCallKeepListeners();
-    await RNTwilioPhone.removeTwilioPhoneListeners();
+    let fcmToken = await AsyncStorage.getItem('fcmToken');
+    let params = {
+      device_uuid: fcmToken,
+    };
+    HitApi(LOGOUT, 'post', params, token).then(async res => {
+      if (res.status == 1) {
+        try {
+          await RNTwilioPhone.unregister();
+        } catch (e) {
+          console.log('Ungregister Error:    ', e);
+        }
+
+        await RNTwilioPhone.removeCall();
+        await RNTwilioPhone.removeCallKeepListeners();
+        await RNTwilioPhone.removeTwilioPhoneListeners();
+        if (Platform.OS == 'ios') {
+          RNRestart.Restart();
+        }
+        dispatch(logout());
+      }
+    });
   };
 
   useEffect(() => {
@@ -63,20 +79,13 @@ const Stack = () => {
 
     axios(config)
       .then(function (res) {
-        // console.log('Twilio Response is:   ', res.data.data.token);
-        // dispatch(GetTwilioToken(res.data.data.token));
-
-        console.log('Twilio Response for toke is:   ', res.data);
-        dispatch(GetTwilioToken(res.data.token));
+        dispatch(GetTwilioToken(res.data.data.token));
       })
       .catch(function (error) {
         console.log('error::::::  ', error.response.status);
         LogOut();
       });
-  }, [isLogin]);
-
-  // initialize the Programmable Voice SDK passing an access token obtained from the server.
-  // Listen to deviceReady and deviceNotReady events to see whether the initialization succeeded.
+  }, []);
 
   let popup = useRef(null);
   useEffect(() => {
@@ -100,12 +109,27 @@ const Stack = () => {
     requestUserPermission();
   }, []);
 
+  messaging().onTokenRefresh(async token => {
+    let fcmToken = await AsyncStorage.getItem('fcmToken');
+    let params = {
+      device_uuid: fcmToken,
+    };
+    HitApi(LOGOUT, 'post', params, token).then(async res => {
+      if (res.status == 1) {
+        dispatch(logout());
+        setIsLoading(false);
+      } else {
+        setIsLoading(false);
+      }
+    });
+  });
+
   messaging()
     .getInitialNotification()
     .then(remoteMessage => {
       if (remoteMessage) {
         console.log('initialNotifition MESSAGE:   ', remoteMessage);
-        //handleNotification(remoteMessage);
+        // handleNotification(remoteMessage);
       }
     })
     .catch(reason => console.log('App::getInitialNotification', reason));
@@ -113,7 +137,7 @@ const Stack = () => {
   useEffect(() => {
     const unsubscribe = messaging().onMessage(remoteMessage => {
       console.log('unSubcribe  MESSAGE:   ', remoteMessage);
-      handleNotification(remoteMessage);
+      // handleNotification(remoteMessage);
     });
 
     return () => {
@@ -137,27 +161,19 @@ const Stack = () => {
       'number',
       false,
     );
-
-    // }
-    // else {
-    // NativeModules.RNCallKeep.displayIncomingCall(callUUID, remoteMessage.data.twi_from, 'number', remoteMessage.data.twi_from, false, remoteMessage.data.twi_from);
-    // NativeModules.RNCallKeep.displayIncomingCall(callUUID, callSid, 'app', "generic", false);
-    // RCT_EXPORT_METHOD(displayIncomingCall:(NSString *)uuidString
-    //                          handle:(NSString *)handle
-    //                      handleType:(NSString *)handleType
-    //                        hasVideo:(BOOL)hasVideo
-    //             localizedCallerName:(NSString * _Nullable)localizedCallerName
-    //                 supportsHolding:(BOOL)supportsHolding
-    //                    supportsDTMF:(BOOL)supportsDTMF
-    //                supportsGrouping:(BOOL)supportsGrouping
-    //              supportsUngrouping:(BOOL)supportsUngrouping)
-    // }
-
-    // NativeModules.RNCallKeep.displayIncomingCall(TwilioPhone.getCallUUID())
-    // NativeModules.RNCallKeep.displayIncomingCall(callUUID, remoteMessage.data.twi_from, remoteMessage.data.twi_from)
   });
 
   const AfterLoginAppContainer = () => {
+    useEffect(() => {
+      HitApi(`${GET_EXTERNAL_ID}/${userId}`, 'GET', '', token).then(res => {
+        if (res.status == 1) {
+          dispatch(ExternalId(res.data.external_user_id));
+        } else {
+          Toast.show(res.message);
+        }
+      });
+    }, []);
+
     return (
       <NavigationContainer>
         <RootStack.Navigator

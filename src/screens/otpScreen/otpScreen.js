@@ -277,5 +277,6 @@ const styles = StyleSheet.create({
     marginTop: hp(15),
     width: wp(80),
     alignSelf: 'center',
+    marginBottom: hp(5),
   },
 });

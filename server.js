@@ -1,5 +1,5 @@
 const accountSid = 'ACca3781441647b3284a342782306c7dd4';
-const authToken = 'a5f85e61bf02bc033f41e44b86f2f649';
+const authToken = '3a3195b27dde58fc3bc0a2e9c1925381';
 const client = require('twilio')(accountSid, authToken);
 
 // // client.messages
@@ -10,10 +10,17 @@ const client = require('twilio')(accountSid, authToken);
 // // const authToken = process.env.TWILIO_AUTH_TOKEN;
 // const client = require('twilio')(accountSid, authToken);
 
-client.calls
-  .create({
-    url: 'http://demo.twilio.com/docs/voice.xml',
-    to: '+923044041082',
-    from: '+17609653161',
-  })
-  .then(call => console.log(call.sid));
+// client.api.calls
+//   .create({
+//     url: 'http://demo.twilio.com/docs/voice.xml',
+//     to: '+17609653161',
+//     from: '+923174011082',
+//   })
+//   .then(call => console.log(call.sid))
+//   .catch(e => {
+//     console.log('error:  ', e);
+//   });
+
+// client.calls
+//   .list({limit: 20})
+//   .then(calls => calls.forEach(c => console.log(c.sid)));

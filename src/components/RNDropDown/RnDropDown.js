@@ -19,6 +19,7 @@ const RNDropDown = props => {
         marginHorizontal: wp(6),
         flexDirection: 'row',
         justifyContent: 'space-between',
+        marginBottom: props.marginBottom,
       }}>
       <DropDownPicker
         style={styles.dropdownStyle}

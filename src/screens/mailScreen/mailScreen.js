@@ -40,7 +40,13 @@ import {GetEmails} from '../../redux/Actions/commonAction';
 const MailScreen = props => {
   const dispatch = useDispatch();
   const token = useSelector(state => state.authReducer.token);
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState([
+    {
+      id: 0,
+      label: 'All Mails',
+      value: 'All Mails',
+    },
+  ]);
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [page, setPage] = useState(1);
@@ -60,16 +66,18 @@ const MailScreen = props => {
     return (
       <>
         <TouchableOpacity
+          activeOpacity={0.5}
           style={styles.item}
-          onPress={() =>
+          onPress={() => {
+            setOpen(false);
             props.navigation.navigate('MailIndox', {
               email: senderEmail,
               name: name[0],
               msg: item.email_body,
               first: senderEmail,
               second: receiverEmail,
-            })
-          }>
+            });
+          }}>
           <View style={{flex: 1, flexDirection: 'row'}}>
             <Email height={hp(5)} width={wp(10)} />
             <View style={{flex: 1}}>
@@ -115,13 +123,15 @@ const MailScreen = props => {
 
   useEffect(() => {
     setIsLoading(true);
-    GetEmailThreads('All');
+    setValue(null);
+    setOpen(false);
+    GetEmailThreads('All Mails');
   }, [isFocused]);
 
   const GetEmailThreads = pageVAl => {
     let params = {
       filters: {
-        emails: pageVAl === 'All' ? [] : [pageVAl],
+        emails: pageVAl === 'All Mails' ? [] : [pageVAl],
         date: {
           start_date: startDate,
           end_date: endDate,
@@ -160,14 +170,14 @@ const MailScreen = props => {
         <View
           style={{
             backgroundColor: '#7F5AFF',
-            marginTop: Platform.OS === 'ios' ? hp(-2.3) : hp(-3),
+            marginTop: Platform.OS === 'ios' ? hp(-2.13) : hp(-2.7),
             padding: hp(1.5),
             borderBottomRightRadius: hp(10),
             borderBottomLeftRadius: hp(10),
-            borderColor: 'white',
+            borderColor: 'transparent',
             borderWidth: 1,
             width: wp(97.9),
-            marginLeft: wp(-6),
+            marginLeft: Platform.OS === 'ios' ? wp(-5.6) : wp(-6),
           }}>
           <Text style={{color: 'white', alignSelf: 'center'}}>
             Select Range Date
@@ -207,7 +217,7 @@ const MailScreen = props => {
               setIsLoading(true);
               if (value == null) {
                 setIsVisible(false);
-                GetEmailThreads('All');
+                GetEmailThreads('All Mails');
               } else {
                 setIsVisible(false);
                 GetEmailThreads(value);
@@ -232,10 +242,16 @@ const MailScreen = props => {
         {/* ===========Header PArt=========== */}
 
         <AppHeader
-          leftonPress={() => props.navigation.navigate('Profile')}
-          rightonPress={() => props.navigation.navigate('Notification')}
+          leftonPress={() => {
+            setOpen(false);
+            props.navigation.navigate('Profile');
+          }}
+          rightonPress={() => {
+            setOpen(false);
+            props.navigation.navigate('Notification');
+          }}
           leftIcon={<Menu />}
-          rightIcon={<Bell />}
+          rightIcon={<Bell marginTop={hp(-0.5)} />}
         />
 
         {/* ==================================== */}
@@ -244,7 +260,7 @@ const MailScreen = props => {
 
         <RNDropDown
           open={open}
-          placeholder="Select an email"
+          placeholder="Select From Email"
           value={value}
           items={items}
           setOpen={setOpen}
@@ -255,7 +271,10 @@ const MailScreen = props => {
             setIsLoading(true);
             GetEmailThreads(value.value);
           }}
-          onPress2={() => setIsVisible(true)}
+          onPress2={() => {
+            setOpen(false);
+            setIsVisible(true);
+          }}
           svg={<Email />}
           svg2={<Email />}
         />
@@ -284,7 +303,7 @@ const MailScreen = props => {
                   data={emailData}
                   refreshing={isLoading}
                   showsVerticalScrollIndicator={false}
-                  onRefresh={() => GetEmailThreads('All')}
+                  onRefresh={() => GetEmailThreads('All Mails')}
                   renderItem={renderItem}
                   keyExtractor={(item, index) => item.latesttime + index}
                 />
@@ -302,9 +321,10 @@ const MailScreen = props => {
       </View> */}
       <TouchableOpacity
         activeOpacity={1}
-        onPress={() =>
-          props.navigation.navigate('NewMailScreen', {msg: '', subject: ''})
-        }
+        onPress={() => {
+          setOpen(false);
+          props.navigation.navigate('NewMailScreen', {msg: '', subject: ''});
+        }}
         style={styles.floatingActionStyle}>
         <LinearGradient
           colors={['#6FB3FF', '#7F5AFF']}

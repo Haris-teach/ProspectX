@@ -20,14 +20,7 @@ const AppHeader = props => {
         {props.leftIcon}
       </TouchableOpacity>
       <TouchableOpacity onPress={props.rightonPress}>
-        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-          {props.rightIcon}
-          {Notifi != 0 ? (
-            <View style={styles.circleStyle}>
-              {/* <Text style={styles.textStyle}>{Notifi}</Text> */}
-            </View>
-          ) : null}
-        </View>
+        {props.rightIcon}
       </TouchableOpacity>
     </View>
   );
@@ -54,3 +47,12 @@ const styles = {
   },
   textStyle: {color: 'white', alignSelf: 'center'},
 };
+
+//  {/* <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+//           {props.rightIcon}
+//           {Notifi != 0 ? (
+//             <View style={styles.circleStyle}>
+//               {/* <Text style={styles.textStyle}>{Notifi}</Text> */}
+//             </View>
+//           ) : null}
+//         </View> */}

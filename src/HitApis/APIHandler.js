@@ -25,7 +25,7 @@ const HitApi = async (url, apiMethod, params, token) => {
   try {
     try {
       const response = await axios(options);
-      console.log('Response:    ', response.data);
+      //console.log('Response:    ', JSON.stringify(response.data));
       return response.data;
     } catch (e) {
       if (e.response && e.response.data) {

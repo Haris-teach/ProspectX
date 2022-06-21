@@ -58,10 +58,10 @@ const NotificationScreen = props => {
 
   const styles = {
     headerContainer: {
-      height: hp(15),
-
+      height: hp(10),
       alignItems: 'center',
       flexDirection: 'row',
+      marginTop: hp(3),
     },
 
     backButton: {
@@ -127,8 +127,7 @@ const NotificationScreen = props => {
 
     flatListStyle: {
       flex: 1,
-      marginTop: hp(4),
-      marginBottom: hp(2),
+      marginBottom: hp(0.5),
       marginHorizontal: wp(6),
     },
   };
@@ -328,9 +327,8 @@ const NotificationScreen = props => {
           {data.length == 0 ? (
             <View
               style={{
-                justifyContent: 'center',
                 flex: 1,
-                marginBottom: hp(10),
+                marginTop: hp(5),
               }}>
               <Text style={{alignSelf: 'center', color: 'black'}}>
                 Record not found

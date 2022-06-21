@@ -2,7 +2,7 @@
 import React from 'react';
 import {useEffect, useState} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
-
+import BackgroundTimer from 'react-native-background-timer';
 import {
   ImageBackground,
   View,
@@ -27,7 +27,7 @@ import {
   RNTwilioPhone,
   twilioPhoneEmitter,
 } from 'react-native-twilio-phone';
-import {CALL_TOKEN_API} from '../../HitApis/Urls';
+import {CALL_DEDUCTION, CALL_TOKEN_API, CLOSE_ORDER} from '../../HitApis/Urls';
 import HitApi from '../../HitApis/APIHandler';
 import {useSelector} from 'react-redux';
 import {isInProgress} from 'react-native-document-picker';
@@ -53,38 +53,22 @@ const callKeepOptions = {
   },
 };
 
-// RNTwilioPhone options
-const options = {
-  requestPermissionsOnInit: true, // Default: true - Set to false if you want to request permissions manually
-};
-
-const identity = Platform.select({
-  ios: 'Steve',
-  android: 'Larry',
-});
-
-// const from = Platform.select({
-//   ios: 'client:Steve',
-//   android: 'client:Larry',
-// });
-
-// const from = Platform.select({
-//   ios: '+12058584164',
-//   android: '+12058584164',
-// });
+var myInterval;
 
 const CallStart = props => {
-  console.log('CallStart==> ', props);
-  const [mute, setMute] = useState(false);
-  const [isSpeaker, setIsSpeaker] = useState(false);
   var [timerState, setTimerState] = useState(0);
   const [callStatus, setCallStatus] = useState('Connecting');
 
-  const timer = () => {
+  const timer = sid => {
     let count = timerState;
-    setInterval(() => {
+    myInterval = setInterval(() => {
       count = count + 1;
       setTimerState(count);
+      if (0 == Math.floor(count % 60)) {
+        // Call_deduction(sid);
+
+        console.log('Listner is running');
+      }
     }, 1000);
   };
   let hours = Math.floor(timerState / 3600);
@@ -105,8 +89,6 @@ const CallStart = props => {
     return () => backHandler.remove();
   }, []);
 
-  useEffect(() => {}, []);
-
   const [to, setTo] = React.useState(props.route.params.name);
   const [callInProgress, setCallInProgress] = React.useState(false);
   const token = useSelector(state => state.authReducer.token);
@@ -118,44 +100,66 @@ const CallStart = props => {
   async function fetchAccessToken() {
     const accessToken = await HitApi(CALL_TOKEN_API, 'get', '', token);
 
-    // const accessToken = props.route.params.accessToken
-
-    console.log('fetchAccessToken999==> ', accessToken);
-
-    // return accessToken;
     return accessToken.data.token;
   }
 
-  React.useEffect(() => {
+  const externalId = useSelector(state => state.authReducer.externalId);
+
+  const Call_deduction = callSid => {
+    HitApi(`${CALL_DEDUCTION}/?call_sid=${callSid}`, 'Get', '', token)
+      .then(res => {
+        console.log('call deduction', res.message);
+        if (res.message != 'OK') {
+          hangup();
+          Close_Order();
+          BackgroundTimer.clearInterval(myInterval2);
+        }
+      })
+      .catch(e => {
+        Toast.show('Resquest is not successfull');
+      });
+  };
+
+  const Close_Order = () => {
+    HitApi(`${CLOSE_ORDER}/?user_id=${externalId}`, 'Get', '', token)
+      .then(res => {
+        console.log(res);
+        if (res.message == 'OK') {
+          hangup();
+        }
+      })
+      .catch(e => {
+        Toast.show('Resquest is not successfull');
+      });
+  };
+
+  useEffect(() => {
     const subscriptions = [
-      twilioPhoneEmitter.addListener(EventType.CallConnected, () => {
+      twilioPhoneEmitter.addListener(EventType.CallConnected, sid => {
+        console.log('Call is connected');
         setCallInProgress(true);
         setCallStatus('Connected');
-        timer();
+        timer(sid.callSid);
       }),
       twilioPhoneEmitter.addListener(EventType.CallDisconnected, () => {
+        console.log('Call is disconnected');
+        Close_Order();
         hangup();
         setCallInProgress(RNTwilioPhone.calls.length > 0);
         setCallStatus('Disconnected');
       }),
       twilioPhoneEmitter.addListener(EventType.CallDisconnectedError, data => {
-        console.log(data);
-        // setCallInProgress(RNTwilioPhone.calls.length > 0);
+        console.log('call disconnected error');
+
         hangup();
-        // setCallStatus("Error Occurred")
       }),
       twilioPhoneEmitter.addListener(EventType.CallConnectFailure, () => {
         console.log('CallConnectFailure');
         hangup();
-
-        // setCallInProgress(RNTwilioPhone.calls.length > 0);
-        // setCallStatus("CallConnectFailure")
       }),
       twilioPhoneEmitter.addListener(EventType.CancelledCallInvite, () => {
         console.log('CancelledCallInvite');
         hangup();
-        // setCallInProgress(RNTwilioPhone.calls.length > 0);
-        // setCallStatus("CallDecline")
       }),
     ];
 
@@ -168,7 +172,7 @@ const CallStart = props => {
 
   function hangup() {
     RNCallKeep.endAllCalls();
-
+    clearInterval(myInterval);
     props.navigation.dispatch(StackActions.replace('Home'));
   }
 

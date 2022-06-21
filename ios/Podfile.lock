@@ -102,9 +102,9 @@ PODS:
     - FlipperKit/FlipperKitNetworkPlugin
   - fmt (6.2.1)
   - glog (0.3.5)
-  - GoogleDataTransport (9.1.2):
-    - GoogleUtilities/Environment (~> 7.2)
-    - nanopb (~> 2.30908.0)
+  - GoogleDataTransport (9.1.4):
+    - GoogleUtilities/Environment (~> 7.7)
+    - nanopb (< 2.30910.0, >= 2.30908.0)
     - PromisesObjC (< 3.0, >= 1.2)
   - GoogleUtilities/AppDelegateSwizzler (7.7.0):
     - GoogleUtilities/Environment
@@ -329,10 +329,12 @@ PODS:
   - React-jsinspector (0.66.4)
   - React-logger (0.66.4):
     - glog
+  - react-native-background-timer (2.4.1):
+    - React-Core
   - react-native-document-picker (7.1.3):
     - React-Core
-  - react-native-notification-sounds (0.5.4):
-    - React
+  - react-native-restart (0.0.24):
+    - React-Core
   - react-native-safe-area-context (3.4.1):
     - React-Core
   - react-native-simple-toast (1.1.3):
@@ -427,7 +429,7 @@ PODS:
   - RNVoipPushNotification (3.3.0):
     - React-Core
   - Toast (4.0.0)
-  - TwilioVoice (6.3.1)
+  - TwilioVoice (6.4.0)
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
     - Yoga (~> 1.14)
@@ -474,8 +476,9 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
+  - react-native-background-timer (from `../node_modules/react-native-background-timer`)
   - react-native-document-picker (from `../node_modules/react-native-document-picker`)
-  - react-native-notification-sounds (from `../node_modules/react-native-notification-sounds`)
+  - react-native-restart (from `../node_modules/react-native-restart`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-simple-toast (from `../node_modules/react-native-simple-toast`)
   - react-native-twilio-phone (from `../node_modules/react-native-twilio-phone`)
@@ -567,10 +570,12 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   React-logger:
     :path: "../node_modules/react-native/ReactCommon/logger"
+  react-native-background-timer:
+    :path: "../node_modules/react-native-background-timer"
   react-native-document-picker:
     :path: "../node_modules/react-native-document-picker"
-  react-native-notification-sounds:
-    :path: "../node_modules/react-native-notification-sounds"
+  react-native-restart:
+    :path: "../node_modules/react-native-restart"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   react-native-simple-toast:
@@ -643,7 +648,7 @@ SPEC CHECKSUMS:
   FlipperKit: d8d346844eca5d9120c17d441a2f38596e8ed2b9
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
   glog: 5337263514dd6f09803962437687240c5dc39aa4
-  GoogleDataTransport: 629c20a4d363167143f30ea78320d5a7eb8bd940
+  GoogleDataTransport: 5fffe35792f8b96ec8d6775f5eccd83c998d5a3b
   GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
@@ -661,8 +666,9 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 94ce921e1d8ce7023366873ec371f3441383b396
   React-jsinspector: d0374f7509d407d2264168b6d0fad0b54e300b85
   React-logger: 933f80c97c633ee8965d609876848148e3fef438
+  react-native-background-timer: 17ea5e06803401a379ebf1f20505b793ac44d0fe
   react-native-document-picker: ec07866a30707f23660c0f3ae591d669d3e89096
-  react-native-notification-sounds: f7f54517cdeb53d67fa8ccf4c3e9cadac23a1628
+  react-native-restart: 45c8dca02491980f2958595333cbccd6877cb57e
   react-native-safe-area-context: 9e40fb181dac02619414ba1294d6c2a807056ab9
   react-native-simple-toast: bf002828cf816775a6809f7a9ec3907509bce11f
   react-native-twilio-phone: 80da6832c92cd6415bca8f31d2c24e34ea9bec20
@@ -687,7 +693,7 @@ SPEC CHECKSUMS:
   RNSVG: 302bfc9905bd8122f08966dc2ce2d07b7b52b9f8
   RNVoipPushNotification: 14bb5a389588ea1cbee4706a55df99950687fd6d
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
-  TwilioVoice: 098a959181d4607921f5822d3c9f13043ea4075b
+  TwilioVoice: a5e54e522af8ee24f3fb1797ac26ef9ac5ca5bb7
   Yoga: e7dc4e71caba6472ff48ad7d234389b91dadc280
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 

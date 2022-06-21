@@ -6,3 +6,5 @@ export const GET_ALL_EMAILS = 'GET_ALL_EMAILS';
 export const TWILIO_TOKEN = 'TWILIO_TOKEN';
 export const TAB_LOCATION = 'TAB_LOCATION';
 export const GET_NOTINUMBER = 'GET_NOTINUMBER';
+export const EXTERNAL_ID = 'EXTERNAL_ID';
+export const TWILIO_CALL_SID = 'TWILIO_CALL_SID';

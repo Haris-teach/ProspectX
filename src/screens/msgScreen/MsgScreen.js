@@ -76,12 +76,12 @@ const MsgScreen = props => {
   const [items, setItems] = useState([
     {
       id: 0,
-      label: 'All',
-      value: 'All',
+      label: 'All Numbers',
+      value: 'All Numbers',
     },
   ]);
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState([]);
+  const [value, setValue] = useState(null);
   const [msgData, setMsgData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(1);
@@ -113,8 +113,8 @@ const MsgScreen = props => {
 
     socket.on('receiveMessage', event => {
       setPage(1);
-      setValue('All');
-      MsgsThreads('All');
+
+      MsgsThreads('All Numbers');
       setIsCheck(false);
     });
   }, []);
@@ -126,7 +126,7 @@ const MsgScreen = props => {
   const MsgsThreads = pageVAl => {
     let params = {
       filters: {
-        numbers: pageVAl === 'All' ? [] : [pageVAl],
+        numbers: pageVAl === 'All Numbers' ? [] : [pageVAl],
         date: {
           start_date: startDate,
           end_date: endDate,
@@ -166,10 +166,11 @@ const MsgScreen = props => {
   };
 
   useEffect(() => {
-    setPage(1);
-    setValue('All');
-    MsgsThreads('All');
     setIsLoading(true);
+    setPage(1);
+    setValue(null);
+    MsgsThreads('All Numbers');
+    setOpen(false);
   }, [isFocused]);
 
   const LoadMoreData = () => {
@@ -192,8 +193,10 @@ const MsgScreen = props => {
     return (
       <>
         <TouchableOpacity
+          activeOpacity={0.5}
           style={styles.item}
           onPress={() => {
+            setOpen(false);
             props.navigation.navigate('Chat', {
               Number: PhoneNumbers.includes(item.first)
                 ? item.second
@@ -252,14 +255,14 @@ const MsgScreen = props => {
         <View
           style={{
             backgroundColor: '#7F5AFF',
-            marginTop: Platform.OS === 'ios' ? hp(-2.3) : hp(-3),
+            marginTop: Platform.OS === 'ios' ? hp(-2.13) : hp(-2.7),
             padding: hp(1.5),
             borderBottomRightRadius: hp(10),
             borderBottomLeftRadius: hp(10),
-            borderColor: 'white',
+            borderColor: 'transparent',
             borderWidth: 1,
             width: wp(97.9),
-            marginLeft: wp(-6),
+            marginLeft: Platform.OS === 'ios' ? wp(-5.6) : wp(-6),
           }}>
           <Text style={{color: 'white', alignSelf: 'center'}}>
             Select Range Date
@@ -299,7 +302,7 @@ const MsgScreen = props => {
               setIsLoading(true);
               if (value == null) {
                 setIsVisible(false);
-                MsgsThreads('All');
+                MsgsThreads('All Numbers');
               } else {
                 setIsVisible(false);
                 MsgsThreads(value);
@@ -322,10 +325,16 @@ const MsgScreen = props => {
         {/* ===========Header PArt=========== */}
 
         <AppHeader
-          leftonPress={() => props.navigation.navigate('Profile')}
-          rightonPress={() => props.navigation.navigate('Notification')}
+          leftonPress={() => {
+            setOpen(false);
+            props.navigation.navigate('Profile');
+          }}
+          rightonPress={() => {
+            setOpen(false);
+            props.navigation.navigate('Notification');
+          }}
           leftIcon={<Menu />}
-          rightIcon={<Bell />}
+          rightIcon={<Bell marginTop={hp(-0.5)} />}
         />
 
         {/* ==================================== */}
@@ -334,7 +343,7 @@ const MsgScreen = props => {
 
         <RNDropDown
           open={open}
-          placeholder="Select an number"
+          placeholder="Select From Number"
           value={value}
           items={PhoneNumbers}
           setOpen={setOpen}
@@ -343,10 +352,12 @@ const MsgScreen = props => {
           onPress={value => {
             setPage(1);
             setIsLoading(true);
-
             MsgsThreads(value.value);
           }}
-          onPress2={() => setIsVisible(true)}
+          onPress2={() => {
+            setOpen(false);
+            setIsVisible(true);
+          }}
           svg={<Contact />}
           svg2={<Contact2 />}
         />
@@ -375,7 +386,7 @@ const MsgScreen = props => {
                   data={msgData}
                   renderItem={renderItem}
                   refreshing={isLoading}
-                  onRefresh={() => MsgsThreads('All')}
+                  onRefresh={() => MsgsThreads('All Numbers')}
                   keyExtractor={(item, index) => item.latesttime + index}
                   onEndReachedThreshold={0}
                   onEndReached={() => LoadMoreData()}

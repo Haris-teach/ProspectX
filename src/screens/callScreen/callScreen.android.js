@@ -1,4 +1,6 @@
 import React, {useState, useRef, useEffect} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import BackgroundTimer from 'react-native-background-timer';
 import {
   View,
   Text,
@@ -6,6 +8,7 @@ import {
   ImageBackground,
   SectionList,
   Platform,
+  AppState,
   FlatList,
   ActivityIndicator,
   PermissionsAndroid,
@@ -39,9 +42,16 @@ import images from '../../assets/images/Images';
 import colors from '../../assets/colors/Colors';
 import fonts from '../../assets/fonts/Fonts';
 import HitApi from '../../HitApis/APIHandler';
-import {GETPHONENUM, CALLLOGS, CALL_TOKEN_API} from '../../HitApis/Urls';
+import {
+  GETPHONENUM,
+  CALLLOGS,
+  CALL_TOKEN_API,
+  CLOSE_ORDER,
+  CALL_DEDUCTION,
+} from '../../HitApis/Urls';
 import {GetNumbers} from '../../redux/Actions/commonAction';
 import AppHeader from '../../components/AppHeadercomponent/Appheader';
+import {logout} from '../../redux/Actions/authActions';
 
 // =============================================
 
@@ -58,8 +68,11 @@ import Dilar from '../../assets/svg/dilar';
 import Call from '../../assets/svg/call.svg';
 import Contact from '../../assets/svg/contact.svg';
 import Contact2 from '../../assets/svg/c1.svg';
-import uuid from 'uuid';
+import uuid from 'react-native-uuid';
+import analytics from '@react-native-firebase/analytics';
 // =========================================
+
+var myInterval2;
 
 // Options passed to CallKeep (https://github.com/react-native-webrtc/react-native-callkeep#usage)
 const callKeepOptions = {
@@ -87,27 +100,20 @@ const options = {
   requestPermissionsOnInit: true, // Default: true - Set to false if you want to request permissions manually
 };
 
-const identity = Platform.select({
-  ios: 'Steve',
-  android: 'Larry',
-});
-
 const CallScreen = props => {
-  const [to, setTo] = useState('');
-  const [callInProgress, setCallInProgress] = useState(false);
-
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
 
   const sizeSheet = useRef();
 
   const token = useSelector(state => state.authReducer.token);
+  const externalId = useSelector(state => state.authReducer.externalId);
 
   const [items, setItems] = useState([
     {
       id: 0,
-      label: 'All',
-      value: 'All',
+      label: 'All Numbers',
+      value: 'All Numbers',
     },
   ]);
   const [open, setOpen] = useState(false);
@@ -128,6 +134,7 @@ const CallScreen = props => {
         {title.to.split(':').length == 1 &&
         title.from.split(':').length == 1 ? (
           <TouchableOpacity
+            activeOpacity={0.5}
             onPress={() => {
               setOpen(false);
               setIsString(
@@ -187,22 +194,27 @@ const CallScreen = props => {
   // ============== GET all phone  numbers function ================
   const GetAllNumbers = () => {
     HitApi(GETPHONENUM, 'get', '', token).then(res => {
-      let allNumbers = [];
+      // let allNumbers = [];
       res.data.forEach(i => {
-        allNumbers.push({
+        items.push({
           id: i.id + 1,
           label: i.label.incoming_number,
           value: i.value.incoming_number,
         });
+        setItems(items);
       });
 
-      setItems(allNumbers);
-      dispatch(GetNumbers(allNumbers));
+      dispatch(GetNumbers(items));
     });
   };
   useEffect(() => {
     GetAllNumbers();
   }, []);
+
+  useEffect(() => {
+    setOpen(false);
+    setValue(null);
+  }, [isFocused]);
   // ============================== END  =================================
 
   // ============== Get all call logs =============================
@@ -211,7 +223,7 @@ const CallScreen = props => {
 
     let params = {
       filters: {
-        numbers: pageVal === 'All' ? [] : [pageVal],
+        numbers: pageVal === 'All Numbers' ? [] : [pageVal],
       },
       pagination: {
         page_number: 1,
@@ -221,20 +233,23 @@ const CallScreen = props => {
 
     HitApi(CALLLOGS, 'post', params, token).then(res => {
       setIsLoading(false);
+
       if (res.status == 1) {
         setCallLogs(res.data.call_logs);
         setIsCallLogs(res.data.call_logs);
       } else {
-        return null;
+        if (res.code == 401) {
+          dispatch(logout());
+        }
       }
     });
   };
   useEffect(() => {
     setIsLoading(true);
     setTimeout(() => {
-      GetCallLogs('All');
+      GetCallLogs('All Numbers');
     }, 3000);
-  }, [isFocused]);
+  }, []);
   // =================== END =====================================
 
   // ================ Concatinate string function ================
@@ -256,7 +271,13 @@ const CallScreen = props => {
   // ========================= END =========================
 
   const fetchAccessToken = async () => {
-    const accessToken = await HitApi(CALL_TOKEN_API, 'get', '', token);
+    let fcmToken = await AsyncStorage.getItem('fcmToken');
+    const accessToken = await HitApi(
+      `${CALL_TOKEN_API}&uuid=${fcmToken}`,
+      'get',
+      '',
+      token,
+    );
     return accessToken.data.token;
   };
   //==================== Call functions ==========================
@@ -265,16 +286,56 @@ const CallScreen = props => {
     RNTwilioPhone.initialize(callKeepOptions, fetchAccessToken, options);
   }, []);
 
+  const Call_deduction = callSid => {
+    HitApi(`${CALL_DEDUCTION}/?call_sid=${callSid}`, 'Get', '', token)
+      .then(res => {
+        console.log('call deduction', res.message);
+        if (res.message != 'OK') {
+          hangup();
+          //  Close_Order();
+          BackgroundTimer.clearInterval(myInterval2);
+        }
+      })
+      .catch(e => {
+        Toast.show('Resquest is not successfull');
+      });
+  };
+
+  const Close_Order = () => {
+    HitApi(`${CLOSE_ORDER}/?user_id=${externalId}`, 'Get', '', token)
+      .then(res => {
+        console.log(res);
+        if (res.message == 'OK') {
+          hangup();
+        }
+      })
+      .catch(e => {
+        Toast.show('Resquest is not successfull');
+      });
+  };
+
   useEffect(() => {
     const subscriptions = [
-      twilioPhoneEmitter.addListener(EventType.CallConnected, () => {
-        setCallInProgress(true);
+      twilioPhoneEmitter.addListener(EventType.CallConnected, async sid => {
+        console.log('Isconnected', sid.callSid);
+        // Call_deduction(sid.callSid);
+        myInterval2 = BackgroundTimer.setInterval(() => {
+          // Call_deduction(sid.callSid);
+          console.log('listner is running');
+        }, 20000);
       }),
       twilioPhoneEmitter.addListener(EventType.CallDisconnected, () => {
-        setCallInProgress(RNTwilioPhone.calls.length > 0);
+        // Close_Order();
+        hangup();
+
+        console.log('Disconnected');
       }),
       twilioPhoneEmitter.addListener(EventType.CallDisconnectedError, data => {
-        setCallInProgress(RNTwilioPhone.calls.length > 0);
+        hangup();
+      }),
+      twilioPhoneEmitter.addListener(EventType.CallConnectFailure, () => {
+        console.log('CallConnectFailure');
+        hangup();
       }),
     ];
 
@@ -285,8 +346,27 @@ const CallScreen = props => {
     };
   }, []);
 
+  useEffect(() => {
+    const RNCALL = [
+      RNCallKeep.addEventListener('answerCall', ({callUUID}) => {
+        console.log('Answer the call:  ,', callUUID);
+      }),
+      RNCallKeep.addEventListener('endCall', callUUID => {
+        console.log('End the call:  ,', callUUID);
+        //Close_Order();
+      }),
+    ];
+
+    return () => {
+      RNCALL.map(subscription => {
+        subscription.remove();
+      });
+    };
+  }, []);
+
   function hangup() {
     RNCallKeep.endAllCalls();
+    BackgroundTimer.clearInterval(myInterval2);
   }
 
   const getNewUuid = () => uuid.v4().toLowerCase();
@@ -295,19 +375,12 @@ const CallScreen = props => {
       return;
     }
 
-    setCallInProgress(true);
+    // setCallInProgress(true);
 
     try {
-      if (Platform.OS === 'android') {
-        RNTwilioPhone.startCall(isString, isString, fromNum);
-        setIsPopUp(false);
-      } else {
-        const callUUID = getNewUuid();
-        RNTwilioPhone.startCall(isString);
-      }
+      RNTwilioPhone.startCall(isString, isString, fromNum);
     } catch (e) {
       console.log(e);
-      setCallInProgress(false);
     }
   }
 
@@ -357,14 +430,14 @@ const CallScreen = props => {
         <View
           style={{
             backgroundColor: '#7F5AFF',
-            marginTop: Platform.OS === 'ios' ? hp(-2.3) : hp(-3),
+            marginTop: Platform.OS === 'ios' ? hp(-2.13) : hp(-2.7),
             padding: hp(1.5),
             borderBottomRightRadius: hp(10),
             borderBottomLeftRadius: hp(10),
-            borderColor: 'white',
+            borderColor: 'transparent',
             borderWidth: 1,
             width: wp(97.9),
-            marginLeft: wp(-6),
+            marginLeft: Platform.OS === 'ios' ? wp(-5.6) : wp(-6),
           }}>
           <Text style={{color: 'white', alignSelf: 'center'}}>
             Select Range Date
@@ -437,9 +510,7 @@ const CallScreen = props => {
         dialogStyle={styles.selectSim}
         onTouchOutside={() => setIsPopUp(false)}>
         <View>
-          <Text style={styles.selectSimTextStyle}>
-            Choose Number for this call
-          </Text>
+          <Text style={styles.selectSimTextStyle}>Select From Number</Text>
           <View style={{maxHeight: hp(25), marginTop: hp(2)}}>
             <FlatList
               showsVerticalScrollIndicator={false}
@@ -447,14 +518,21 @@ const CallScreen = props => {
               keyExtractor={(item, index) => item + index}
               renderItem={({item, index}) => {
                 return (
-                  <TouchableOpacity
-                    style={{flexDirection: 'row'}}
-                    onPress={() => {
-                      call(item.value);
-                    }}>
-                    <Call alignSelf="center" width={wp(5)} height={hp(5)} />
-                    <Text style={styles.renderNumberStyle}>{item.value}</Text>
-                  </TouchableOpacity>
+                  <>
+                    {index == 0 ? null : (
+                      <TouchableOpacity
+                        style={{flexDirection: 'row'}}
+                        onPress={() => {
+                          setIsPopUp(false);
+                          call(item.value);
+                        }}>
+                        <Call alignSelf="center" width={wp(5)} height={hp(5)} />
+                        <Text style={styles.renderNumberStyle}>
+                          {item.value}
+                        </Text>
+                      </TouchableOpacity>
+                    )}
+                  </>
                 );
               }}
               nestedScrollEnabled={true}
@@ -476,10 +554,16 @@ const CallScreen = props => {
         {/* =========== Header PArt=========== */}
 
         <AppHeader
-          leftonPress={() => props.navigation.navigate('Profile')}
-          rightonPress={() => props.navigation.navigate('Notification')}
+          leftonPress={() => {
+            setOpen(false);
+            props.navigation.navigate('Profile');
+          }}
+          rightonPress={() => {
+            setOpen(false);
+            props.navigation.navigate('Notification');
+          }}
           leftIcon={<Menu />}
-          rightIcon={<Bell />}
+          rightIcon={<Bell marginTop={hp(-0.5)} />}
         />
 
         {/* ==================================== */}
@@ -488,7 +572,7 @@ const CallScreen = props => {
 
         <RNDropDown
           open={open}
-          placeholder="Select number for call"
+          placeholder="Select From Number"
           value={value}
           items={items}
           setOpen={setOpen}
@@ -498,9 +582,13 @@ const CallScreen = props => {
             setIsLoading(true);
             GetCallLogs(value.value);
           }}
-          onPress2={() => setIsVisible(true)}
+          onPress2={() => {
+            setOpen(false);
+            setIsVisible(true);
+          }}
           svg={<Contact />}
           svg2={<Contact2 />}
+          marginBottom={hp(0.2)}
         />
 
         {/* ========================== END ========================== */}
@@ -526,7 +614,7 @@ const CallScreen = props => {
             ) : (
               <SectionList
                 refreshing={isLoading}
-                onRefresh={() => GetCallLogs('All')}
+                onRefresh={() => GetCallLogs('All Numbers')}
                 stickySectionHeadersEnabled={false}
                 showsVerticalScrollIndicator={false}
                 style={{
@@ -564,7 +652,11 @@ const CallScreen = props => {
 
         <TouchableOpacity
           activeOpacity={0.5}
-          onPress={() => sizeSheet.current.open()}
+          onPress={() => {
+            setIsString('');
+            setOpen(false);
+            sizeSheet.current.open();
+          }}
           style={styles.actionStyle}>
           <LinearGradient
             colors={['#6FB3FF', '#7F5AFF']}
@@ -710,7 +802,11 @@ const CallScreen = props => {
                 if (isString.length >= 10) {
                   sizeSheet.current.close();
                   setTimeout(() => {
-                    setIsPopUp(true);
+                    if (value == null || value == 'All Numbers') {
+                      setIsPopUp(true);
+                    } else {
+                      call(value);
+                    }
                   }, 200);
                 } else {
                   Toast.show('Number is not valid', Toast.SHORT, [
@@ -718,6 +814,7 @@ const CallScreen = props => {
                   ]);
                 }
               }}>
+              {/* onPress={() => sizeSheet.current.close()}> */}
               <PhoneBtn />
             </TouchableOpacity>
 
@@ -888,7 +985,7 @@ const styles = {
   },
   selectSim: {
     width: wp(80),
-    maxheight: hp(35),
+
     borderRadius: wp(4),
     alignSelf: 'center',
   },

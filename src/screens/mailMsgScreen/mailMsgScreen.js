@@ -55,6 +55,7 @@ const MailInbox = props => {
     let time = item.latesttime;
     return (
       <TouchableOpacity
+        activeOpacity={0.5}
         onPress={() => setSelect(index)}
         style={{
           backgroundColor: select == index ? 'rgba(255, 255, 255, 0.62)' : null,

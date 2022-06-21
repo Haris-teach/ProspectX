@@ -1,21 +1,15 @@
 //================================ React Native Import Files ============================
-import React, { useEffect } from 'react';
-import { ImageBackground, Text, View, Vibration } from 'react-native';
+import React, {useEffect} from 'react';
+import {ImageBackground, Text, View, Vibration} from 'react-native';
 import SwipeButton from 'rn-swipe-button';
-import NotificationSounds, {
-  playSampleSound,
-  stopSampleSound,
-} from 'react-native-notification-sounds';
+
 //================================ Local Import Files ==================================
 import images from '../../assets/images/Images';
 import AllStyles from '../../all_styles/All_Styles';
 import colors from '../../assets/colors/Colors';
-import {
-  INCOMING_STATUS,
-  SWIPEBTNTITLE,
-} from '../../constants/ConstStrings';
+import {INCOMING_STATUS, SWIPEBTNTITLE} from '../../constants/ConstStrings';
 // import TwilioVoice from 'react-native-twilio-programmable-voice'
-import {RNTwilioPhone, twilioPhoneEmitter } from 'react-native-twilio-phone';
+import {RNTwilioPhone, twilioPhoneEmitter} from 'react-native-twilio-phone';
 
 var timer = null;
 var setTime = null;
@@ -32,29 +26,29 @@ const IncomingCalls = props => {
   //   CallFunction();
   // }, []);
 
-  const CallFunction = () => {
-    NotificationSounds.getNotifications('ringtone').then(soundsList => {
-      // console.log('SOUNDS=?', soundsList);
+  // const CallFunction = () => {
+  // //  NotificationSounds.getNotifications('ringtone').then(soundsList => {
+  //     // console.log('SOUNDS=?', soundsList);
 
-      Vibration.vibrate(PATTERN, true);
-      /*
-        Play the notification sound.
-        pass the complete sound object.
-        This function can be used for playing the sample sound
-        */
+  //     Vibration.vibrate(PATTERN, true);
+  //     /*
+  //       Play the notification sound.
+  //       pass the complete sound object.
+  //       This function can be used for playing the sample sound
+  //       */
 
-      playSampleSound(soundsList[2]);
+  //     //playSampleSound(soundsList[2]);
 
-      setTime = setTimeout(() => {
-        stopSampleSound();
-        Vibration.cancel();
-        props.navigation.goBack();
-      }, 25000);
+  //     setTime = setTimeout(() => {
+  //       //stopSampleSound();
+  //       Vibration.cancel();
+  //       props.navigation.goBack();
+  //     }, 25000);
 
-      // if you want to stop any playing sound just call:
-      // stopSampleSound();
-    });
-  };
+  //     // if you want to stop any playing sound just call:
+  //     // stopSampleSound();
+  //   });
+  // };
 
   // const closeAll = () => {
   //   Vibration.cancel();
@@ -72,30 +66,29 @@ const IncomingCalls = props => {
   //   });
   // };
 
-  useEffect(()=>{
-    console.log("props==>", props.data);
+  useEffect(() => {
+    console.log('props==>', props.data);
 
     const subscriptions = [
-      twilioPhoneEmitter.addListener('CallConnected', (data) => {
+      twilioPhoneEmitter.addListener('CallConnected', data => {
         console.log(data);
       }),
-      twilioPhoneEmitter.addListener('CallDisconnected', (data) => {
+      twilioPhoneEmitter.addListener('CallDisconnected', data => {
         console.log(data);
       }),
-      twilioPhoneEmitter.addListener('CallDisconnectedError', (data) => {
+      twilioPhoneEmitter.addListener('CallDisconnectedError', data => {
         console.log(data);
       }),
     ];
-  
+
     return () => {
-      subscriptions.map((subscription) => {
+      subscriptions.map(subscription => {
         subscription.remove();
       });
     };
 
     // addTwilioListeners();
-  },[])
-
+  }, []);
 
   // const addTwilioListeners = async () => {
 
@@ -131,7 +124,6 @@ const IncomingCalls = props => {
   //     //     call_to: string,   // "client:bob"
   //     // }
 
-    
   //   })
   //   TwilioVoice.addEventListener('connectionDidDisconnect', (data) => {
   //     //   | null
@@ -167,9 +159,7 @@ const IncomingCalls = props => {
 
   //   // iOS Only
 
-
   //   TwilioVoice.addEventListener('callRejected', 'callRejected', () => { })
-
 
   //   TwilioVoice.addEventListener('deviceDidReceiveIncoming', (data) => {
   //     console.log("deviceDidReceiveIncoming111 callscreen",data)
@@ -178,7 +168,6 @@ const IncomingCalls = props => {
   //     //     call_from: string, // "+441234567890"
   //     //     call_to: string,   // "client:bob"
   //     // }
-
 
   //     // Alert.alert(
   //     //   //title
@@ -206,8 +195,6 @@ const IncomingCalls = props => {
 
   //     // props.navigation.navigate('InComming',data);
 
-      
-
   //   })
 
   //   // Android Only
@@ -225,10 +212,6 @@ const IncomingCalls = props => {
   //     //     deviceName: string
   //     // }
   //   })
-
-
-
-
 
   // };
 
@@ -254,10 +237,8 @@ const IncomingCalls = props => {
               //   name: props.route.params.name,
               // })
               // RNTwilioPhone.a
-            }
-            }
-
-            onSwipeFail={()=>{
+            }}
+            onSwipeFail={() => {
               // TwilioVoice.reject();
               props.navigation.goBack();
               RNTwilioPhone.cancel();

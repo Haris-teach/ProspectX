@@ -1,4 +1,8 @@
-import {LOGIN_REQUEST, LOGOUT_REQUEST} from '../Actions/actionType';
+import {
+  LOGIN_REQUEST,
+  LOGOUT_REQUEST,
+  EXTERNAL_ID,
+} from '../Actions/actionType';
 
 const INITIAL_STATE = {
   id: 1,
@@ -10,6 +14,7 @@ const INITIAL_STATE = {
   token: null,
   loading: false,
   isLogin: false,
+  externalId: 0,
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -26,6 +31,13 @@ export default (state = INITIAL_STATE, action) => {
         email: action.payload.email,
       };
       break;
+    case EXTERNAL_ID:
+      return {
+        ...state,
+        externalId: action.payload,
+      };
+      break;
+
     case LOGOUT_REQUEST:
       return {
         ...state,

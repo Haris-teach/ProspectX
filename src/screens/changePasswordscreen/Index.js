@@ -17,7 +17,7 @@ import {
 } from 'react-native-responsive-screen';
 import * as yup from 'yup';
 import {Formik} from 'formik';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import Toast from 'react-native-simple-toast';
 
 //======================================== Local Import Files ====================================
@@ -27,6 +27,7 @@ import colors from '../../assets/colors/Colors';
 import BackArrow from '../../assets/images/backarrow.svg';
 import ChangePasswordComponent from '../../components/ChangePasswordComponent/ChangePassword';
 import GradientButton from '../../components/gradientButton/Button';
+import {logout} from '../../redux/Actions/authActions';
 import {
   CHANGE_PASS_TITLE,
   CONFIRM_PASSWORD,
@@ -38,8 +39,10 @@ import AllStyles from '../../all_styles/All_Styles';
 import HitApi from '../../HitApis/APIHandler';
 import {CHANGEPASS} from '../../HitApis/Urls';
 import fonts from '../../assets/fonts/Fonts';
+import {oneOf} from 'prop-types';
 
 const ChangePassword = props => {
+  const dispatch = useDispatch();
   const token = useSelector(state => state.authReducer.token);
   const [loading, setLoading] = useState(false);
 
@@ -55,16 +58,18 @@ const ChangePassword = props => {
 
     HitApi(CHANGEPASS, 'PUT', params, token)
       .then(res => {
+        setLoading(false);
         if (res.status == 1) {
           Toast.showWithGravity(
             JSON.stringify(res.message),
             Toast.SHORT,
             Toast.BOTTOM,
           );
+          dispatch(logout());
         } else {
-          Toast.showWithGravity(res.errors, Toast.SHORT, Toast.BOTTOM);
+          //console.log('Errors:  ', res);
+          Toast.showWithGravity(res.errors[0], Toast.SHORT, Toast.BOTTOM);
         }
-        setLoading(true);
       })
       .catch(e => {
         Toast.show('Resquest is not successfull', Toast.SHORT, [
@@ -94,6 +99,10 @@ const ChangePassword = props => {
       .string()
       .label('password')
       .required('New password is required')
+      .notOneOf(
+        [yup.ref('oldPassword')],
+        'Current Password and New Password must not be same',
+      )
       .min(8, 'Password must be at least 8 characters')
       .matches(/^[^-\s]+$/, '* This field cannot contain only blankspaces'),
 
@@ -189,6 +198,7 @@ const ChangePassword = props => {
                         handleSubmit();
                       }}
                       title={'Save'}
+                      condition={loading}
                     />
                   </View>
                 </>

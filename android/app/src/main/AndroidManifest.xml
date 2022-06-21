@@ -1,32 +1,102 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.prospectx.app">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.prospectx">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
-    <uses-permission android:name="android.Manifest.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.Manifest.permission.RECORD_AUDIO" />
+    <!-- receive calls when the app is in the background-->
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <!--    <uses-permission android:name="android.Manifest.permission.BIND_TELECOM_CONNECTION_SERVICE"/>-->
+    <uses-permission android:name="android.permission.BIND_TELECOM_CONNECTION_SERVICE"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.READ_PHONE_NUMBERS" />
 
     <application
-      android:name=".MainApplication"
-      android:label="@string/app_name"
-     
-      android:icon="@mipmap/ic_launcher"
-      android:roundIcon="@mipmap/ic_launcher_round"
-      android:allowBackup="false"
-      android:usesCleartextTraffic="true"
-      android:theme="@style/AppTheme">
-      <activity
-        android:name=".MainActivity"
+        android:name=".MainApplication"
+        android:allowBackup="false"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode"
-        android:launchMode="singleTask"
-        android:windowSoftInputMode="adjustResize">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-      </activity>
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
+        tools:ignore="DataExtractionRules"
+        tools:targetApi="s">
+
+        <!-- Twilio Voice -->
+        <!-- [START fcm_listener] -->
+        <!--        <service-->
+        <!--            android:name="com.hoxfon.react.RNTwilioVoice.fcm.VoiceFirebaseMessagingService"-->
+        <!--            android:exported="false"-->
+        <!--            android:stopWithTask="false">-->
+        <!--            <intent-filter>-->
+        <!--                <action android:name="com.google.firebase.MESSAGING_EVENT" />-->
+        <!--            </intent-filter>-->
+        <!--        </service>-->
+        <!--        <service-->
+        <!--            android:name="com.hoxfon.react.RNTwilioVoice.IncomingCallNotificationService"-->
+        <!--            android:enabled="true"-->
+        <!--            android:exported="false"-->
+        <!--            android:foregroundServiceType="phoneCall">-->
+        <!--            <intent-filter>-->
+        <!--                <action android:name="com.hoxfon.react.RNTwilioVoice.ACTION_ACCEPT" />-->
+        <!--                <action android:name="com.hoxfon.react.RNTwilioVoice.ACTION_REJECT" />-->
+        <!--            </intent-filter>-->
+        <!--        </service>-->
+        <!-- [END fcm_listener] -->
+        <!-- Twilio Voice -->
+
+        <activity
+            android:name=".MainActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!--        <activity-->
+        <!--            android:name="com.hoxfon.react.RNTwilioVoice.VoiceActivity"-->
+        <!--            android:exported="true" />-->
+
+<!--        <service-->
+<!--            android:name="io.wazo.callkeep.VoiceConnectionService"-->
+<!--            android:exported="true"-->
+<!--            android:foregroundServiceType="microphone"-->
+<!--            android:label="@string/app_name"-->
+<!--            android:permission="android.permission.BIND_TELECOM_CONNECTION_SERVICE">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.telecom.ConnectionService" />-->
+<!--            </intent-filter>-->
+<!--        </service>-->
+
+        <service
+            android:name="io.wazo.callkeep.VoiceConnectionService"
+            android:exported="true"
+            android:foregroundServiceType="phoneCall|camera|microphone"
+            android:label="@string/app_name"
+            android:permission="android.permission.BIND_TELECOM_CONNECTION_SERVICE">
+
+            <intent-filter>
+                <action android:name="android.telecom.ConnectionService" />
+            </intent-filter>
+        </service>
+
+        <service android:name="io.wazo.callkeep.RNCallKeepBackgroundMessagingService" />
     </application>
 </manifest>
 
 
- <!-- android:networkSecurityConfig="@xml/network_security_config" -->
+    <!-- android:networkSecurityConfig="@xml/network_security_config" -->

@@ -9,6 +9,7 @@ import {
   ActivityIndicator,
   Keyboard,
   ScrollView,
+  Platform,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import AllStyles from '../../all_styles/All_Styles';
@@ -63,7 +64,7 @@ const ChatScreen = props => {
   useEffect(() => {
     // console.log('Date', new Date());
     PhoneNumbers.forEach(i => {
-      if (i.value == 'All') {
+      if (i.value == 'All Numbers') {
         setItems([]);
       } else {
         items.push({
@@ -371,7 +372,7 @@ const ChatScreen = props => {
                   justifyContent: 'center',
                   alignItems: 'center',
                   marginTop: hp(0.6),
-                  maxHeight: hp(6.6),
+                  maxHeight: hp(8),
                   //textAlign: 'center',
                 }}
               />
@@ -379,8 +380,8 @@ const ChatScreen = props => {
           }}
           messagesContainerStyle={{
             marginHorizontal: wp(3),
-            marginTop: hp(-7.8),
-            height: isKeyboardVisible ? hp(30) : hp(67),
+            marginTop: hp(-7.9),
+            height: isKeyboardVisible ? hp(32) : hp(70),
           }}
           renderAvatar={() => {
             return <View />;

@@ -53,7 +53,7 @@ const NewMailScreen = props => {
         type: [DocumentPicker.types.allFiles],
       });
 
-      console.log('RESPONSE:    ', res);
+      // console.log('RESPONSE:    ', JSON.stringify(res));
       if (files.length < 1) {
         setFiles([...files, ...res]);
       } else {
@@ -129,8 +129,19 @@ const NewMailScreen = props => {
   };
 
   useEffect(() => {
-    setItems(emails);
     setIsLoading(false);
+    emails.forEach(i => {
+      if (i.value == 'All Mails') {
+        setItems([]);
+      } else {
+        items.push({
+          id: i.id,
+          label: i.label,
+          value: i.value,
+        });
+      }
+      setItems(items);
+    });
   }, []);
 
   const DeleteFile = i => {
@@ -269,7 +280,7 @@ const NewMailScreen = props => {
                           subject == '' &&
                           content.length == '' &&
                           files.length < 1
-                            ? hp(55)
+                            ? hp(53.5)
                             : null,
                       },
                     ]}>

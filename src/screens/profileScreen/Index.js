@@ -1,19 +1,22 @@
 //============================= React Native Import Files =================================
 import React, {useState} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   ImageBackground,
   View,
   Image,
   TouchableOpacity,
   ActivityIndicator,
+  Platform,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+
 //import DocumentPicker from 'react-native-document-picker';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
+import RNRestart from 'react-native-restart';
 
 //============================= Local Import Files ========================================
 import AllStyles from '../../all_styles/All_Styles';
@@ -39,6 +42,8 @@ import {RNTwilioPhone} from 'react-native-twilio-phone';
 
 const ProfileScreen = props => {
   const token = useSelector(state => state.authReducer.token);
+  const twilioToken = useSelector(state => state.commonReducer.twilioToken);
+
   const dispatch = useDispatch();
 
   const [isLodaing, setIsLoading] = useState(false);
@@ -48,26 +53,28 @@ const ProfileScreen = props => {
 
     let fcmToken = await AsyncStorage.getItem('fcmToken');
     let params = {
-      fcm_token: fcmToken,
+      device_uuid: fcmToken,
     };
     HitApi(LOGOUT, 'post', params, token).then(async res => {
       if (res.status == 1) {
         try {
           await RNTwilioPhone.unregister();
         } catch (e) {
-          console.log(e);
+          console.log('Ungregister Error:    ', e);
         }
 
         await RNTwilioPhone.removeCall();
         await RNTwilioPhone.removeCallKeepListeners();
         await RNTwilioPhone.removeTwilioPhoneListeners();
+        if (Platform.OS == 'ios') {
+          RNRestart.Restart();
+        }
         dispatch(logout());
 
         setIsLoading(false);
       } else {
         setIsLoading(false);
       }
-      x;
     });
   };
 

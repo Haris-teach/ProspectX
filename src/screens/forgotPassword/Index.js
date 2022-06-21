@@ -101,6 +101,7 @@ const ForgotPassword = props => {
             handleChange,
             handleBlur,
             handleSubmit,
+            handleReset,
             values,
             touched,
             errors,
@@ -111,7 +112,10 @@ const ForgotPassword = props => {
                 <View style={{flex: 1}}>
                   <View style={styles.headerView}>
                     <TouchableOpacity
-                      onPress={() => props.navigation.goBack(null)}
+                      onPress={() => {
+                        handleReset();
+                        props.navigation.goBack();
+                      }}
                       style={styles.backArrowWidth}>
                       <BackArrow />
                     </TouchableOpacity>
