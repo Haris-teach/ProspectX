@@ -2,12 +2,9 @@ import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
-  SafeAreaView,
   TouchableOpacity,
   ImageBackground,
-  SectionList,
   Platform,
-  StatusBar,
   FlatList,
   ActivityIndicator,
 } from 'react-native';
@@ -29,8 +26,8 @@ import images from '../../assets/images/Images';
 import colors from '../../assets/colors/Colors';
 import RNDropDown from '../../components/RNDropDown/RnDropDown';
 import HitApi from '../../HitApis/APIHandler';
-import {MSGTHREADS, GETPHONENUM, BASE_URL} from '../../HitApis/Urls';
-import {GetNumbers, GetTabLocation} from '../../redux/Actions/commonAction';
+import {MSGTHREADS, BASE_URL} from '../../HitApis/Urls';
+
 import fonts from '../../assets/fonts/Fonts';
 import AppHeader from '../../components/AppHeadercomponent/Appheader';
 // =============================================
@@ -39,39 +36,15 @@ import AppHeader from '../../components/AppHeadercomponent/Appheader';
 
 import Menu from '../../assets/svg/menu.svg';
 import Bell from '../../assets/svg/bell.svg';
-import Pen from '../../assets/svg/pen.svg';
-import Dilar from '../../assets/svg/dilar';
+
 import Contact from '../../assets/svg/contact.svg';
 import Msg from '../../assets/svg/msgIcon.svg';
 import Contact2 from '../../assets/svg/c1.svg';
-import axios from 'axios';
 
 // =========================================
 
-const DATA = [
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    name: 'Haris',
-    msg: 'Thank oe. i’m pleased you to see the benifits.Thank you.',
-    time: '47 min ago',
-  },
-  {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-    name: 'Hassan',
-    msg: 'Thank oe. i’m pleased you to see the benifits.Thank you.',
-    time: '1  hours ago',
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d72',
-    name: 'Arfat',
-    msg: 'Thank oe. i’m pleased you to see the benifits.Thank you.',
-    time: '3 Days ago',
-  },
-];
-
 const MsgScreen = props => {
   const isFocused = useIsFocused();
-  const dispatch = useDispatch();
 
   const [items, setItems] = useState([
     {
@@ -113,7 +86,6 @@ const MsgScreen = props => {
 
     socket.on('receiveMessage', event => {
       setPage(1);
-
       MsgsThreads('All Numbers');
       setIsCheck(false);
     });
@@ -176,7 +148,7 @@ const MsgScreen = props => {
   const LoadMoreData = () => {
     if (msgData.length > 9) {
       setPage(page + 1);
-      // console.log('Trigger ho reha ha:', page, value);
+
       MsgsThreads(value);
     }
   };
@@ -185,8 +157,6 @@ const MsgScreen = props => {
 
   const renderItem = ({item, index}) => {
     let Split = moment(item.latesttime).format('DD/MM/YYYY');
-
-    let time = Split.split(':');
 
     let number = PhoneNumbers.includes(item.first) ? item.first : item.second;
 
@@ -220,21 +190,6 @@ const MsgScreen = props => {
           </View>
           <View>
             <Text style={styles.timeStyle}>{Split}</Text>
-            {/* <View
-              style={
-                index == 0 && isCheck == false
-                  ? {
-                      backgroundColor: 'red',
-                      width: wp(3),
-                      height: wp(3),
-                      borderRadius: wp(3),
-                      alignSelf: 'flex-end',
-                      marginTop: hp(2),
-                      marginRight: wp(2.6),
-                    }
-                  : null
-              }
-            /> */}
           </View>
         </TouchableOpacity>
         <View style={styles.viewStyle} />
@@ -271,8 +226,6 @@ const MsgScreen = props => {
         <View style={{height: hp(38.65)}}>
           <CalendarPicker
             width={wp(99)}
-            // resetSelections
-            // height={hp(60)}
             onDateChange={(date, param) => {
               if (param == 'START_DATE') {
                 setStartDate(moment(date).format('YYYY-MM-DD'));
@@ -397,24 +350,6 @@ const MsgScreen = props => {
           )}
         </View>
       </View>
-
-      {/* <TouchableOpacity
-        activeOpacity={1}
-        onPress={() =>
-          props.navigation.navigate('Chat', {
-            Number: null,
-            ThreadId: null,
-          })
-        }
-        style={styles.floatingActionStyle}>
-        <LinearGradient
-          colors={['#6FB3FF', '#7F5AFF']}
-          start={{y: 0.0, x: 0.0}}
-          style={styles.floatingBtnStyle}
-          end={{y: 0.0, x: 1.0}}>
-          <Pen />
-        </LinearGradient>
-      </TouchableOpacity> */}
     </ImageBackground>
   );
 };

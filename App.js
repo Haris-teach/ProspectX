@@ -3,7 +3,12 @@ import {Provider} from 'react-redux';
 import StackNavigation from './src/navigations/StackNavigation';
 import {PersistGate} from 'redux-persist/integration/react';
 import {persistor, store} from './src/redux/index';
-import {RNTwilioPhone} from 'react-native-twilio-phone';
+import {NativeModules, NativeEventEmitter} from 'react-native';
+import {
+  RNTwilioPhone,
+  twilioPhoneEmitter,
+  EventType,
+} from 'react-native-twilio-phone';
 import RNCallKeep from 'react-native-callkeep';
 
 const App = () => {
@@ -11,7 +16,6 @@ const App = () => {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <StackNavigation />
-        {/* <NotificationPopup ref={popup} /> */}
       </PersistGate>
     </Provider>
   );
@@ -28,7 +32,7 @@ const callKeepOptions = {
     cancelButton: 'Cancel',
     okButton: 'OK',
     additionalPermissions: [],
-    // Required to get audio in background when using Android 11
+
     foregroundService: {
       channelId: 'com.prospectx.app',
       channelName: 'Foreground service for my app',
@@ -43,6 +47,17 @@ RNCallKeep.setup(callKeepOptions).then(accepted => {
 RNTwilioPhone.handleBackgroundState(callKeepOptions);
 RNCallKeep.checkPhoneAccountEnabled().then(response => {
   console.log('RNCallKeep.checkPhoneAccountEnabled', 'response==> ' + response);
+
+  twilioPhoneEmitter.addListener(EventType.CallConnected, async sid => {
+    console.log('Isconnected', sid.callSid);
+  });
+  twilioPhoneEmitter.addListener(EventType.CallDisconnected, () => {
+    console.log('Disconnected');
+  });
+  twilioPhoneEmitter.addListener(EventType.CallDisconnectedError, data => {}),
+    twilioPhoneEmitter.addListener(EventType.CallConnectFailure, () => {
+      console.log('CallConnectFailure');
+    });
 });
 
 export default App;

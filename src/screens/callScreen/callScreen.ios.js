@@ -159,8 +159,6 @@ const CallScreen = props => {
               );
               sizeSheet.current.open();
             }}
-             
-        }
             style={{
               backgroundColor: 'rgba(255, 255, 255, 0.67)',
               marginHorizontal: wp(6),
@@ -230,6 +228,34 @@ const CallScreen = props => {
   };
   useEffect(() => {
     GetAllNumbers();
+    setIsLoading(true);
+    setTimeout(() => {
+      GetCallLogs('All Numbers');
+    }, 3000);
+
+    const RNCALL = [
+      RNCallKeep.addEventListener('answerCall', ({callUUID}) => {
+        console.log('Answer the call:  ,', callUUID);
+      }),
+
+      RNCallKeep.addEventListener('endCall', callUUID => {
+        console.log('End the call:  ,', callUUID);
+        Close_Order();
+      }),
+    ];
+
+    const unsubscribe = messaging().onMessage(remoteMessage => {
+      //dispatch(GetNotiNumber(1));
+
+      handleNotification(remoteMessage);
+    });
+
+    return () => {
+      unsubscribe();
+      RNCALL.map(subscription => {
+        subscription.remove();
+      });
+    };
   }, []);
 
   useEffect(() => {
@@ -263,12 +289,7 @@ const CallScreen = props => {
       }
     });
   };
-  useEffect(() => {
-    setIsLoading(true);
-    setTimeout(() => {
-      GetCallLogs('All Numbers');
-    }, 3000);
-  }, []);
+
   // =================== END =====================================
 
   // ================ Concatinate string function ================
@@ -311,12 +332,14 @@ const CallScreen = props => {
         console.log('call deduction', res);
         if (res.message != 'OK') {
           hangup();
-          // Close_Order();
+          Close_Order();
           BackgroundTimer.clearInterval(myInterval2);
         }
       })
       .catch(e => {
         Toast.show('Resquest is not successfull');
+        BackgroundTimer.clearInterval(myInterval2);
+        hangup();
       });
   };
 
@@ -330,6 +353,8 @@ const CallScreen = props => {
       })
       .catch(e => {
         Toast.show('Resquest is not successfull');
+        BackgroundTimer.clearInterval(myInterval2);
+        hangup();
       });
   };
 
@@ -345,15 +370,15 @@ const CallScreen = props => {
       const subscriptions = [
         twilioPhoneEmitter.addListener(EventType.CallConnected, async sid => {
           console.log('Isconnected', sid.callSid);
-          // Call_deduction(sid.callSid);
+          Call_deduction(sid.callSid);
           myInterval2 = BackgroundTimer.setInterval(() => {
-            // Call_deduction(sid.callSid);
+            Call_deduction(sid.callSid);
             console.log('listner is running');
           }, 20000);
         }),
         twilioPhoneEmitter.addListener(EventType.CallDisconnected, sid => {
           console.log('DisCounnected', sid.callSid);
-          //   Close_Order();
+          Close_Order();
           hangup();
         }),
         twilioPhoneEmitter.addListener(
@@ -377,24 +402,6 @@ const CallScreen = props => {
 
     // Return the function to unsubscribe from the event so it gets removed on unmount
     return unsubscribe;
-  }, []);
-  useEffect(() => {
-    const RNCALL = [
-      RNCallKeep.addEventListener('answerCall', ({callUUID}) => {
-        console.log('Answer the call:  ,', callUUID);
-      }),
-
-      RNCallKeep.addEventListener('endCall', callUUID => {
-        console.log('End the call:  ,', callUUID);
-        //Close_Order();
-      }),
-    ];
-
-    return () => {
-      RNCALL.map(subscription => {
-        subscription.remove();
-      });
-    };
   }, []);
 
   function hangup() {
@@ -431,18 +438,6 @@ const CallScreen = props => {
       console.log(e);
     }
   }
-
-  useEffect(() => {
-    const unsubscribe = messaging().onMessage(remoteMessage => {
-      //dispatch(GetNotiNumber(1));
-
-      handleNotification(remoteMessage);
-    });
-
-    return () => {
-      unsubscribe();
-    };
-  }, []);
 
   const handleNotification = remoteMessage => {
     if (remoteMessage.data) {

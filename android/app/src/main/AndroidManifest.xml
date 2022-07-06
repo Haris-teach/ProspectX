@@ -95,6 +95,7 @@
         </service>
 
         <service android:name="io.wazo.callkeep.RNCallKeepBackgroundMessagingService" />
+        
     </application>
 </manifest>
 

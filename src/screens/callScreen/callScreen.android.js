@@ -127,6 +127,8 @@ const CallScreen = props => {
   const [isString, setIsString] = useState('');
   const [isPopUp, setIsPopUp] = useState(false);
 
+  // console.log(token);
+
   // ================== Render Section list function ==============
   const Item = ({title, index, section}) => {
     return (
@@ -208,7 +210,42 @@ const CallScreen = props => {
     });
   };
   useEffect(() => {
+    RNTwilioPhone.initialize(callKeepOptions, fetchAccessToken, options);
     GetAllNumbers();
+    setIsLoading(true);
+    setTimeout(() => {
+      GetCallLogs('All Numbers');
+    }, 3000);
+
+    const subscriptions = [
+      twilioPhoneEmitter.addListener(EventType.CallConnected, async sid => {
+        console.log('Isconnected', sid.callSid);
+        Call_deduction(sid.callSid);
+        myInterval2 = BackgroundTimer.setInterval(() => {
+          Call_deduction(sid.callSid);
+          console.log('listner is running');
+        }, 30000);
+      }),
+      twilioPhoneEmitter.addListener(EventType.CallDisconnected, () => {
+        Close_Order();
+        hangup();
+
+        console.log('Disconnected');
+      }),
+      twilioPhoneEmitter.addListener(EventType.CallDisconnectedError, data => {
+        hangup();
+      }),
+      twilioPhoneEmitter.addListener(EventType.CallConnectFailure, () => {
+        console.log('CallConnectFailure');
+        hangup();
+      }),
+    ];
+
+    return () => {
+      subscriptions.map(subscription => {
+        subscription.remove();
+      });
+    };
   }, []);
 
   useEffect(() => {
@@ -244,12 +281,7 @@ const CallScreen = props => {
       }
     });
   };
-  useEffect(() => {
-    setIsLoading(true);
-    setTimeout(() => {
-      GetCallLogs('All Numbers');
-    }, 3000);
-  }, []);
+
   // =================== END =====================================
 
   // ================ Concatinate string function ================
@@ -281,10 +313,6 @@ const CallScreen = props => {
     return accessToken.data.token;
   };
   //==================== Call functions ==========================
-  const twilioToken = useSelector(state => state.commonReducer.twilioToken);
-  useEffect(() => {
-    RNTwilioPhone.initialize(callKeepOptions, fetchAccessToken, options);
-  }, []);
 
   const Call_deduction = callSid => {
     HitApi(`${CALL_DEDUCTION}/?call_sid=${callSid}`, 'Get', '', token)
@@ -292,7 +320,7 @@ const CallScreen = props => {
         console.log('call deduction', res.message);
         if (res.message != 'OK') {
           hangup();
-          //  Close_Order();
+          Close_Order();
           BackgroundTimer.clearInterval(myInterval2);
         }
       })
@@ -314,56 +342,6 @@ const CallScreen = props => {
       });
   };
 
-  useEffect(() => {
-    const subscriptions = [
-      twilioPhoneEmitter.addListener(EventType.CallConnected, async sid => {
-        console.log('Isconnected', sid.callSid);
-        // Call_deduction(sid.callSid);
-        myInterval2 = BackgroundTimer.setInterval(() => {
-          // Call_deduction(sid.callSid);
-          console.log('listner is running');
-        }, 20000);
-      }),
-      twilioPhoneEmitter.addListener(EventType.CallDisconnected, () => {
-        // Close_Order();
-        hangup();
-
-        console.log('Disconnected');
-      }),
-      twilioPhoneEmitter.addListener(EventType.CallDisconnectedError, data => {
-        hangup();
-      }),
-      twilioPhoneEmitter.addListener(EventType.CallConnectFailure, () => {
-        console.log('CallConnectFailure');
-        hangup();
-      }),
-    ];
-
-    return () => {
-      subscriptions.map(subscription => {
-        subscription.remove();
-      });
-    };
-  }, []);
-
-  useEffect(() => {
-    const RNCALL = [
-      RNCallKeep.addEventListener('answerCall', ({callUUID}) => {
-        console.log('Answer the call:  ,', callUUID);
-      }),
-      RNCallKeep.addEventListener('endCall', callUUID => {
-        console.log('End the call:  ,', callUUID);
-        //Close_Order();
-      }),
-    ];
-
-    return () => {
-      RNCALL.map(subscription => {
-        subscription.remove();
-      });
-    };
-  }, []);
-
   function hangup() {
     RNCallKeep.endAllCalls();
     BackgroundTimer.clearInterval(myInterval2);
@@ -383,16 +361,6 @@ const CallScreen = props => {
       console.log(e);
     }
   }
-
-  useEffect(() => {
-    const unsubscribe = messaging().onMessage(remoteMessage => {
-      handleNotification(remoteMessage);
-    });
-
-    return () => {
-      unsubscribe();
-    };
-  }, []);
 
   const handleNotification = remoteMessage => {
     if (remoteMessage.data) {

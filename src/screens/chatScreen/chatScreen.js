@@ -62,7 +62,6 @@ const ChatScreen = props => {
 
   // ================ Phone number filter =============
   useEffect(() => {
-    // console.log('Date', new Date());
     PhoneNumbers.forEach(i => {
       if (i.value == 'All Numbers') {
         setItems([]);
@@ -119,46 +118,6 @@ const ChatScreen = props => {
   }, []);
   // ================= END =======================
 
-  // ================ Get Message threads filter =========
-  // useEffect(() => {
-  //   HitApi(`${GETMSGS}/${ThreadId}`, 'GET', '', token)
-  //     .then(res => {
-  //       let msgs = [];
-  //       res.data.forEach((msg, index) => {
-  //         if (msg) {
-  //           let msgDate = moment(msg.timestamp)
-  //             .utc()
-  //             .format('YYYY-MM-DD HH:mm:ss');
-  //           const {message, timestamp, second, out} = msg;
-  //           let data = {
-  //             _id: index,
-  //             text: message,
-  //             createdAt: moment.utc(timestamp).local(),
-  //             user: {
-  //               _id: out == true ? CurrentUserId : 2,
-  //               name: second,
-  //               avatar: null,
-  //             },
-  //           };
-  //           msgs.push(data);
-  //         }
-  //       });
-  //       let Data = msgs.sort(function compare(a, b) {
-  //         var dateA = new Date(a.createdAt);
-  //         var dateB = new Date(b.createdAt);
-  //         return dateB - dateA;
-  //       });
-  //       setMessages(Data);
-  //     })
-  //     .catch(e => {
-  //       Toast.show('Resquest is not successfull', Toast.SHORT, [
-  //         'UIAlertController',
-  //       ]);
-  //       setIsLoading(false);
-  //     });
-  // }, []);
-  // ============= END =================
-
   // ============= Msg filter function =============
   const MSGFliterByNumber = value => {
     setIsLoading(true);
@@ -177,7 +136,7 @@ const ChatScreen = props => {
               let msgDate = moment(msg.timestamp)
                 .utc()
                 .format('YYYY-MM-DD HH:mm:ss');
-              // console.log('Time:', msgDate);
+
               const {message, timestamp, second, out} = msg;
               let data = {
                 _id: index,
@@ -271,7 +230,6 @@ const ChatScreen = props => {
     <ImageBackground
       source={images.splashBackground}
       style={AllStyles.mainContainer}>
-      {/* <ScrollView> */}
       {/* Header Code */}
       <View style={styles.headerContainer}>
         <TouchableOpacity
@@ -279,10 +237,9 @@ const ChatScreen = props => {
           style={styles.backButton}>
           <BackArrow height={15} width={15} />
         </TouchableOpacity>
-        {/* <Text style={styles.headerText}>Change Password</Text> */}
       </View>
       {/* -------------------------------------------------------------------------- */}
-      {/* <ScrollView style={{backgroundColor: 'red'}}> */}
+
       <DropDownPicker
         style={styles.dropdownStyle}
         props={{activeOpacity: 1}}
@@ -327,14 +284,11 @@ const ChatScreen = props => {
               <InputToolbar
                 {...props}
                 containerStyle={{
-                  //backgroundColor: 'red',
                   backgroundColor: 'rgba(255, 255, 255, 0.46)',
                   marginHorizontal: wp(8),
                   marginBottom: hp(1),
                   borderRadius: wp(10),
                   maxHeight: hp(10),
-                  // borderColor: 'white',
-                  // borderWidth: 1,
                 }}
                 renderSend={props => {
                   return (
@@ -365,7 +319,7 @@ const ChatScreen = props => {
                 }}
                 textInputStyle={{
                   color: 'black',
-                  //backgroundColor: 'red',
+
                   marginLeft: wp(8),
                   alignSelf: 'center',
                   fontSize: wp(4.5),
@@ -373,15 +327,14 @@ const ChatScreen = props => {
                   alignItems: 'center',
                   marginTop: hp(0.6),
                   maxHeight: hp(8),
-                  //textAlign: 'center',
                 }}
               />
             );
           }}
           messagesContainerStyle={{
             marginHorizontal: wp(3),
-            marginTop: hp(-7.9),
-            height: isKeyboardVisible ? hp(32) : hp(70),
+            marginTop: hp(-9),
+            height: isKeyboardVisible ? hp(38) : hp(70),
           }}
           renderAvatar={() => {
             return <View />;
@@ -426,21 +379,12 @@ const ChatScreen = props => {
               />
             );
           }}
-          // inverted={true}
-          // alignTop
           isTyping={true}
-          // infiniteScroll
           alwaysShowSend={true}
           showUserAvatar={false}
           showAvatarForEveryMessage={false}
-          //scrollToBottom
-          // isanimated={true}
-          //isKeyboardInternallyHandled={false}
-          //scrollToBottomOffset={1}
         />
       </>
-      {/* </ScrollView> */}
-      {/* </ScrollView> */}
     </ImageBackground>
   );
 };

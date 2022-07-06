@@ -16,44 +16,24 @@ import {
   ActivityIndicator,
   Platform,
 } from 'react-native';
-//======================================== Local Import Files ====================================
-import AllStyles from '../../all_styles/All_Styles';
-import images from '../../assets/images/Images';
-import CallDecline from '../../assets/images/calldecline.svg';
-import {StackActions} from '@react-navigation/native';
-import RNCallKeep from 'react-native-callkeep';
+import {isInProgress} from 'react-native-document-picker';
+import {useSelector} from 'react-redux';
 import {
   EventType,
   RNTwilioPhone,
   twilioPhoneEmitter,
 } from 'react-native-twilio-phone';
+import RNCallKeep from 'react-native-callkeep';
+//======================================== Local Import Files ====================================
+import AllStyles from '../../all_styles/All_Styles';
+import images from '../../assets/images/Images';
+import CallDecline from '../../assets/images/calldecline.svg';
+import {StackActions} from '@react-navigation/native';
 import {CALL_DEDUCTION, CALL_TOKEN_API, CLOSE_ORDER} from '../../HitApis/Urls';
 import HitApi from '../../HitApis/APIHandler';
-import {useSelector} from 'react-redux';
-import {isInProgress} from 'react-native-document-picker';
+import {callKeepOptions} from '../../constants/Config';
 
-// Options passed to CallKeep (https://github.com/react-native-webrtc/react-native-callkeep#usage)
-const callKeepOptions = {
-  ios: {
-    appName: 'ProspecX',
-    supportsVideo: false,
-  },
-  android: {
-    alertTitle: 'Permissions required',
-    alertDescription: 'This application needs to access your phone accounts',
-    cancelButton: 'Cancel',
-    okButton: 'OK',
-    additionalPermissions: [PermissionsAndroid.PERMISSIONS.READ_CONTACTS],
-    // Required to get audio in background when using Android 11
-    foregroundService: {
-      channelId: 'com.prospectx.app',
-      channelName: 'Foreground service for my app',
-      notificationTitle: 'My app is running on background',
-    },
-  },
-};
-
-var myInterval;
+var myInterval2;
 
 const CallStart = props => {
   var [timerState, setTimerState] = useState(0);
@@ -108,10 +88,10 @@ const CallStart = props => {
   const Call_deduction = callSid => {
     HitApi(`${CALL_DEDUCTION}/?call_sid=${callSid}`, 'Get', '', token)
       .then(res => {
-        console.log('call deduction', res.message);
+        console.log('call deduction', res);
         if (res.message != 'OK') {
           hangup();
-          Close_Order();
+
           BackgroundTimer.clearInterval(myInterval2);
         }
       })
@@ -126,6 +106,7 @@ const CallStart = props => {
         console.log(res);
         if (res.message == 'OK') {
           hangup();
+          BackgroundTimer.clearInterval(myInterval2);
         }
       })
       .catch(e => {
@@ -137,12 +118,18 @@ const CallStart = props => {
     const subscriptions = [
       twilioPhoneEmitter.addListener(EventType.CallConnected, sid => {
         console.log('Call is connected');
+        Call_deduction(sid.callSid);
+        myInterval2 = BackgroundTimer.setInterval(() => {
+          Call_deduction(sid.callSid);
+          console.log('listner is running');
+        }, 30000);
         setCallInProgress(true);
         setCallStatus('Connected');
         timer(sid.callSid);
       }),
       twilioPhoneEmitter.addListener(EventType.CallDisconnected, () => {
         console.log('Call is disconnected');
+        BackgroundTimer.clearInterval(myInterval2);
         Close_Order();
         hangup();
         setCallInProgress(RNTwilioPhone.calls.length > 0);
@@ -150,7 +137,6 @@ const CallStart = props => {
       }),
       twilioPhoneEmitter.addListener(EventType.CallDisconnectedError, data => {
         console.log('call disconnected error');
-
         hangup();
       }),
       twilioPhoneEmitter.addListener(EventType.CallConnectFailure, () => {
@@ -172,7 +158,8 @@ const CallStart = props => {
 
   function hangup() {
     RNCallKeep.endAllCalls();
-    clearInterval(myInterval);
+
+    BackgroundTimer.clearInterval(myInterval2);
     props.navigation.dispatch(StackActions.replace('Home'));
   }
 
@@ -231,7 +218,6 @@ const CallStart = props => {
     );
   }
   return (
-    //<SafeAreaView style={{flex: 1}}>
     <ImageBackground
       source={images.splashBackground}
       style={AllStyles.mainContainer}>
@@ -253,35 +239,7 @@ const CallStart = props => {
         </View>
       </View>
       <View style={AllStyles.callStartBottomView}>
-        <View style={AllStyles.callStartButtonRow}>
-          {/* <View style={AllStyles.startCallfirstColumn}>
-            <TouchableOpacity
-              onPress={() => setMute(!mute)}
-              style={[AllStyles.startCallMikeView, {backgroundColor: 'white'}]}>
-              {mute === true ? (
-                <MuteMike height={20} width={20} />
-              ) : (
-                <Mike height={20} width={20} />
-              )}
-            </TouchableOpacity>
-            <Text style={AllStyles.callStartMuteStyle}>{MUTE_TEXT}</Text>
-          </View> */}
-
-          {/* <View style={AllStyles.startCallfirstColumn}>
-            <TouchableOpacity
-              onPress={() => setIsSpeaker(!isSpeaker)}
-              style={[
-                AllStyles.startCallSpeakerView,
-                {
-                  backgroundColor:
-                    isSpeaker == false ? 'white' : 'rgba(255,255,255,0.4)',
-                },
-              ]}>
-              <Speaker height={20} width={20} />
-            </TouchableOpacity>
-            <Text style={AllStyles.callStartSpeakerStyle}>{SPEAKER_TEXT}</Text>
-          </View> */}
-        </View>
+        <View style={AllStyles.callStartButtonRow}></View>
       </View>
       <View style={AllStyles.startCallBottomView}>
         <LinearGradient
@@ -291,11 +249,6 @@ const CallStart = props => {
           end={{y: 1.0, x: 1.0}}>
           <TouchableOpacity
             onPress={() => {
-              // TwilioVoice.destroy();
-              // TwilioVoice.disconnect();
-              // props.navigation.navigate('Home');
-              // RNCallKeep.endCall(props.route.params.callUUID);
-
               if (isInProgress) hangup();
               else unregister();
             }}
@@ -303,13 +256,8 @@ const CallStart = props => {
             <CallDecline />
           </TouchableOpacity>
         </LinearGradient>
-
-        {/* {
-          content
-        } */}
       </View>
     </ImageBackground>
-    // </SafeAreaView>
   );
 };
 export default CallStart;

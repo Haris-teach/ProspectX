@@ -34,8 +34,6 @@ import {GetTwilioToken} from '../redux/Actions/commonAction';
 import {RNTwilioPhone} from 'react-native-twilio-phone';
 import uuid from 'react-native-uuid';
 
-import axios from 'axios';
-
 const RootStack = createNativeStackNavigator();
 const Stack = () => {
   const dispatch = useDispatch();
@@ -68,28 +66,18 @@ const Stack = () => {
     });
   };
 
-  useEffect(() => {
-    var config = {
-      method: 'get',
-      url: CALL_TOKEN_API,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
-
-    axios(config)
-      .then(function (res) {
-        dispatch(GetTwilioToken(res.data.data.token));
-      })
-      .catch(function (error) {
-        console.log('error::::::  ', error.response.status);
-        LogOut();
-      });
-  }, []);
-
   let popup = useRef(null);
   useEffect(() => {
     getToken();
+    requestUserPermission();
+    const unsubscribe = messaging().onMessage(remoteMessage => {
+      console.log('unSubcribe  MESSAGE:   ', remoteMessage);
+      // handleNotification(remoteMessage);
+    });
+
+    return () => {
+      unsubscribe();
+    };
   }, []);
 
   const getToken = () => {
@@ -104,10 +92,6 @@ const Stack = () => {
   const requestUserPermission = async () => {
     await messaging().requestPermission();
   };
-
-  useEffect(() => {
-    requestUserPermission();
-  }, []);
 
   messaging().onTokenRefresh(async token => {
     let fcmToken = await AsyncStorage.getItem('fcmToken');
@@ -134,44 +118,29 @@ const Stack = () => {
     })
     .catch(reason => console.log('App::getInitialNotification', reason));
 
-  useEffect(() => {
-    const unsubscribe = messaging().onMessage(remoteMessage => {
-      console.log('unSubcribe  MESSAGE:   ', remoteMessage);
-      // handleNotification(remoteMessage);
-    });
-
-    return () => {
-      unsubscribe();
-    };
-  }, []);
-
   const getNewUuid = () => uuid.v4().toLowerCase();
   messaging().setBackgroundMessageHandler(async remoteMessage => {
     console.log('Background notifications:    ', remoteMessage);
 
     const callUUID = getNewUuid();
-
-    // if (Platform.OS === 'android') {
-    // NativeModules.RNCallKeep.displayIncomingCall(callUUID, remoteMessage.data.twi_from, remoteMessage.data.twi_from, 'number', false);
-
-    RNCallKeep.displayIncomingCall(
-      callUUID,
-      remoteMessage.data.twi_from,
-      remoteMessage.data.twi_from,
-      'number',
-      false,
-    );
   });
 
   const AfterLoginAppContainer = () => {
     useEffect(() => {
-      HitApi(`${GET_EXTERNAL_ID}/${userId}`, 'GET', '', token).then(res => {
+      let params = {
+        where: ['id', 'eq', userId],
+      };
+      HitApi(GET_EXTERNAL_ID, 'POST', params, token).then(res => {
         if (res.status == 1) {
-          dispatch(ExternalId(res.data.external_user_id));
+          dispatch(ExternalId(res.data[0].external_user_id));
         } else {
           Toast.show(res.message);
         }
       });
+
+      return () => {
+        return null;
+      };
     }, []);
 
     return (

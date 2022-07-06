@@ -156,7 +156,7 @@ const MailScreen = props => {
       }
     });
   };
-  // console.log('start date:    ', startDate, 'end date:', endDate);
+
   const RenderModal = () => {
     return (
       <Dialog
@@ -211,7 +211,6 @@ const MailScreen = props => {
         <TouchableOpacity
           onPress={() => {
             if (endDate === '' || endDate == 'Invalid date') {
-              // console.log('EndDate:  ', endDate);
               Toast.show('Please select end date');
             } else {
               setIsLoading(true);
@@ -312,13 +311,7 @@ const MailScreen = props => {
           )}
         </View>
       </View>
-      {/* <View style={{marginBottom: hp(7)}}>
-        <FloatingAction
-          backgroundColor="red"
-          floatingIcon={<Pen />}
-          onPressMain={() => props.navigation.navigate('NewMailScreen')}
-        />
-      </View> */}
+
       <TouchableOpacity
         activeOpacity={1}
         onPress={() => {

@@ -53,7 +53,6 @@ const NewMailScreen = props => {
         type: [DocumentPicker.types.allFiles],
       });
 
-      // console.log('RESPONSE:    ', JSON.stringify(res));
       if (files.length < 1) {
         setFiles([...files, ...res]);
       } else {
@@ -73,9 +72,6 @@ const NewMailScreen = props => {
           );
         }
       }
-
-      // console.log('Response:  ', res[0].name);
-      //setFiles(res);
     } catch (err) {
       if (DocumentPicker.isCancel(err)) {
         // User cancelled the picker, exit any dialogs or menus and mo
@@ -221,7 +217,6 @@ const NewMailScreen = props => {
                       style={styles.backButton}>
                       <BackArrow height={15} width={15} />
                     </TouchableOpacity>
-                    {/* <Text style={styles.headerText}>Change Password</Text> */}
                   </View>
                   {/* -------------------------------------------------------------------------- */}
 
@@ -306,7 +301,6 @@ const NewMailScreen = props => {
                         {height: content.length < 350 ? hp(25) : null},
                       ]}
                       multiline={true}
-                      //numberOfLines={10}
                     />
 
                     {files.length != 0 ? (

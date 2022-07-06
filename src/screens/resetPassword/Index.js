@@ -48,7 +48,6 @@ const ResetPassword = props => {
       token: props.route.params.token,
     };
     HitApi(PASSWORDREST, 'post', params, token).then(res => {
-      //console.log('Response:   ', res.data);
       if (res.status == 1) {
         props.navigation.navigate('LoginScreen');
       } else {

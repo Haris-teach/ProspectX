@@ -120,7 +120,6 @@ const SettingsScreen = props => {
         }}>
         <Text style={AllStyles.settingsNotificationStyle}>Notifications</Text>
         <Switch
-          // style={AllStyles.settingsSwitchButtonStyle}
           trackColor={{false: 'green', true: colors.purpleColor}}
           thumbColor={isEmail ? colors.whiteColor : colors.purpleColor}
           ios_backgroundColor={colors.whiteColor}
@@ -128,26 +127,6 @@ const SettingsScreen = props => {
           value={isEmail}
         />
       </View>
-
-      {/* <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          marginHorizontal: wp(12),
-          marginTop: hp(3),
-        }}>
-        <Text style={AllStyles.settingsNotificationStyle}>
-          SMS Notification
-        </Text>
-        <Switch
-          //style={AllStyles.settingsSwitchButtonStyle}
-          trackColor={{false: 'green', true: colors.purpleColor}}
-          thumbColor={isSms ? colors.whiteColor : colors.purpleColor}
-          ios_backgroundColor={colors.whiteColor}
-          onValueChange={() => setIsSms(!isSms)}
-          value={isSms}
-        />
-      </View> */}
 
       <View style={AllStyles.settingsButtonView}>
         <GradientButton onPress={() => PutSettings()} title={SAVE} />

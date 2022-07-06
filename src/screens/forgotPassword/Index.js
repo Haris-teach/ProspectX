@@ -62,7 +62,6 @@ const ForgotPassword = props => {
     };
     HitApi(GETOTP, 'post', params, token)
       .then(res => {
-        //console.log('Response:   ', res.data);
         if (res.status == 1) {
           props.navigation.navigate('OtpScreen', {email: v.email});
         } else {
@@ -87,15 +86,11 @@ const ForgotPassword = props => {
       <ImageBackground
         source={images.splashBackground}
         style={styles.mainContainer}>
-        {/* <ScrollView
-            style={styles.mainContainer}
-            showsVerticalScrollIndicator={false}> */}
         <Formik
           initialValues={userInfo}
           validationSchema={validationSchema}
           onSubmit={values => {
             GetOtp(values);
-            //props.navigation.navigate('OtpScreen', {email: values.email});
           }}>
           {({
             handleChange,
@@ -144,25 +139,16 @@ const ForgotPassword = props => {
                     <View style={AllStyles.forgotGradientView}>
                       <GradientButton
                         title={SUBMIT}
-                        //onPress={() => props.navigation.navigate('OtpScreen')}
                         condition={isLoading}
                         onPress={handleSubmit}
                       />
                     </View>
-
-                    {/* <TouchableOpacity
-                onPress={() =>
-                  alert('New Code has been sent to your given email')
-                }>
-                <Text style={styles.resendCodeStyle}>{RESEND_CODE}</Text>
-              </TouchableOpacity> */}
                   </View>
                 </View>
               </>
             );
           }}
         </Formik>
-        {/* </ScrollView> */}
       </ImageBackground>
     </KeyboardAvoidingView>
   );

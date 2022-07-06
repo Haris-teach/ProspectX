@@ -1,4 +1,3 @@
-//export const BASE_URL = 'https://569d-182-185-221-160.ngrok.io/'; // Staging URL
 // export const BASE_URL = 'https://app.prospectx.com/'; //LIVE URL
 export const BASE_URL = 'https://px2b.prospectx.com/'; // Staging URL
 //export const PY_BASE_URL = 'https://app1.prospectx.com/'; // => live
@@ -29,4 +28,4 @@ export const CALL_TOKEN_API =
   BASE_URL + 'api/v1/commmunication/call/token?platform=' + Platform.OS;
 export const CALL_DEDUCTION = PY_BASE_URL + 'crm/deduction_call_api';
 export const CLOSE_ORDER = PY_BASE_URL + 'crm/close_order_api';
-export const GET_EXTERNAL_ID = BASE_URL + 'api/v1/users';
+export const GET_EXTERNAL_ID = BASE_URL + 'api/v1/users/search';

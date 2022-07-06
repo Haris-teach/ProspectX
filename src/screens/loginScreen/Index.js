@@ -87,10 +87,8 @@ const LoginScreen = props => {
       .then(async res => {
         if (res.status == 1) {
           setError(null);
-
           setLoading(false);
           let token = res.data.auth.access_token;
-
           let firstName = res.data.user.firstname;
           let lastName = res.data.user.lastname;
           let id = res.data.user.id;
@@ -120,7 +118,6 @@ const LoginScreen = props => {
   };
 
   const validationSchema = yup.object({
-    // email: yup.string().label('email').required('Email is required').email(),
     email: yup
       .string()
       .label('email')

@@ -7,21 +7,18 @@ import {
   Image,
   TouchableOpacity,
   ActivityIndicator,
-  Platform,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 
-//import DocumentPicker from 'react-native-document-picker';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
-import RNRestart from 'react-native-restart';
 
 //============================= Local Import Files ========================================
 import AllStyles from '../../all_styles/All_Styles';
 import images from '../../assets/images/Images';
-import AppHeader from '../../components/AppHeadercomponent/Appheader';
+
 import colors from '../../assets/colors/Colors';
 import BackArrow from '../../assets/images/backarrow.svg';
 import ProfileComponent from '../../components/ProfileComponent/ProfileRow';
@@ -30,14 +27,13 @@ import {LOGOUT} from '../../HitApis/Urls';
 import {
   PROFILE_CHANGE_PASS,
   PROFILE_LOGOUT,
-  PROFILE_SETTINGS,
 } from '../../constants/ConstStrings';
 
 import Settings from '../../assets/images/settings.svg';
 import ChangePassword from '../../assets/images/unlock.svg';
 import Logout from '../../assets/images/logout.svg';
 import {logout} from '../../redux/Actions/authActions';
-import ProfilePic from '../../assets/svg/Profile.svg';
+
 import {RNTwilioPhone} from 'react-native-twilio-phone';
 
 const ProfileScreen = props => {
@@ -66,9 +62,7 @@ const ProfileScreen = props => {
         await RNTwilioPhone.removeCall();
         await RNTwilioPhone.removeCallKeepListeners();
         await RNTwilioPhone.removeTwilioPhoneListeners();
-        if (Platform.OS == 'ios') {
-          RNRestart.Restart();
-        }
+
         dispatch(logout());
 
         setIsLoading(false);

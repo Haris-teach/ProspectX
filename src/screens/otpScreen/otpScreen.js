@@ -48,7 +48,6 @@ const OtpScreen = props => {
     };
     HitApi(GETOTP, 'post', params, token)
       .then(res => {
-        //console.log('Response:   ', res.data);
         if (res.status == 1) {
           Toast.show(res.message, Toast.SHORT, ['UIAlertController']);
         } else {
@@ -127,19 +126,16 @@ const OtpScreen = props => {
 
           <View style={styles.otpCodeFullView}>
             <OTPInputView
-              // ref={OTPRef}
               keyboardType="number-pad"
               style={styles.otpInsideStyle}
               pinCount={4}
               autoFocusOnLoad
               codeInputFieldStyle={styles.otpCodeFieldStyle}
               onCodeFilled={code => {
-                // setClearOTP(false);
                 console.log(`Code is ${code}, you are good to go!`);
                 setOtpCode(code);
               }}
               editable={true}
-              //clearInputs={true}
             />
           </View>
           <View style={styles.otpResendViewStyle}>
@@ -219,7 +215,7 @@ const styles = StyleSheet.create({
 
   otpCodeFullView: {
     height: hp(9),
-    //backgroundColor: 'red',
+
     marginTop: hp(3),
     marginHorizontal: wp(10),
   },

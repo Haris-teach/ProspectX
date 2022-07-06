@@ -71,9 +71,7 @@ const MailInbox = props => {
               {backgroundColor: select == index ? null : '#7681FF'},
             ]}
           />
-          {/* <Text style={styles.msgStyle}>
-            {select == index ? null : props.route.params.name}
-          </Text> */}
+
           {select != index ? (
             <Text
               style={select == index ? styles.msgStyle : styles.boldTextStyle}
@@ -116,11 +114,6 @@ const MailInbox = props => {
                   Forward this mail...
                 </Text>
               </TouchableOpacity>
-              {/* <TouchableOpacity style={[styles.buttonStyle, {width: wp(22)}]}>
-                <Text style={[styles.textStyle, {textAlign: 'center'}]}>
-                  Follow up
-                </Text>
-              </TouchableOpacity> */}
             </View>
           </>
         ) : null}
@@ -223,7 +216,7 @@ const styles = StyleSheet.create({
 
     flexDirection: 'row',
     height: hp(6),
-    //backgroundColor: 'rgba(255, 255, 255, 0.67)',
+
     borderRadius: wp(10),
     color: 'black',
     borderWidth: 0.5,
@@ -248,7 +241,6 @@ const styles = StyleSheet.create({
     marginHorizontal: wp(5),
   },
   msgBox: {
-    //backgroundColor: 'rgba(255, 255, 255, 0.67)',
     borderWidth: 1,
     borderColor: 'white',
 

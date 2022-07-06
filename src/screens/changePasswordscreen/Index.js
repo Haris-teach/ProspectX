@@ -39,7 +39,6 @@ import AllStyles from '../../all_styles/All_Styles';
 import HitApi from '../../HitApis/APIHandler';
 import {CHANGEPASS} from '../../HitApis/Urls';
 import fonts from '../../assets/fonts/Fonts';
-import {oneOf} from 'prop-types';
 
 const ChangePassword = props => {
   const dispatch = useDispatch();
@@ -67,7 +66,6 @@ const ChangePassword = props => {
           );
           dispatch(logout());
         } else {
-          //console.log('Errors:  ', res);
           Toast.showWithGravity(res.errors[0], Toast.SHORT, Toast.BOTTOM);
         }
       })
